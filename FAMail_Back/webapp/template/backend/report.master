@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/webapp/template/backend/backend.master" 
+AutoEventWireup="true" CodeFile="report.master.cs" Inherits="webapp_template_backend_SendMail" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<div id="content">
+	  <div class="page-full-width cf">
+	     <div class="side-menu fl">		    
+					<h3>Báo cáo</h3>	
+				    <ul>        
+                        <asp:Panel ID="ControlPanel" runat="server">
+                            <li>
+                            <asp:HyperLink ID="hplReport" href="mail-report.aspx" roleId="8"  runat="server">Thống kê</asp:HyperLink>
+                            </li>
+					        <li>
+					            <asp:HyperLink ID="hplReportMailSend" href="Mail-Send.aspx" roleId="16" runat="server">Thư đã gửi</asp:HyperLink>
+					        </li>
+					        <li>
+					            <asp:HyperLink ID="hplReportMailFail" href="Mail-Error.aspx" roleId="17" runat="server">Thư gửi lỗi</asp:HyperLink>					        
+					        </li>					        
+                        </asp:Panel>                        										
+				    </ul>				
+	     </div> <!-- end side-menu -->
+	     
+	      <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">     
+          </asp:ContentPlaceHolder>
+          
+	   </div>
+</div>	 
+    
+</asp:Content>
+

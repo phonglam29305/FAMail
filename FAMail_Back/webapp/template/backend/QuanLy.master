@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="QuanLy.master.cs" Inherits="webapp_template_backend_QuanLy" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Công ty cổ phần MARKET AMARICAN</title>
+    <link rel="stylesheet" href="../../resource/js/redmond/jquery-ui.css" />
+    <script src="../../resource/js/jquery-1.9.1.js"> </script>
+    <script src="../../resource/js/jquery-ui.js"> </script>
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
+</head>
+<body style="margin: 0px auto;">
+
+    <div style="margin: 0px auto; width: auto;">
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Người dùng</a></li>
+                <li><a href="#tabs-2">Email</a></li>
+                <li><a href="#tabs-3">Quản lý</a></li>
+                <li><a href="#tabs-4">Sự kiện</a></li>
+            </ul>
+            <div id="tabs-1">
+                <p>
+                    <a href="#">Thông tin</a> |  
+         <a href="#">Đổi mật khẩu</a> |
+         <a href="#">Đăng xuất</a>
+                </p>
+            </div>
+            <div id="tabs-2">
+                <p>
+                    <a href="#">Soạn thư </a>|
+        <a href="#">Thư đã gửi</a> |
+        <a href="#">Thư đã gửi thành công</a> |
+        <a href="#">Thư chờ gửi</a>
+                </p>
+            </div>
+            <div id="tabs-3">
+                <p>
+                    <a href="#">Thêm mail quản trị</a>|
+        <a href="#">Thông kê</a> |
+        <a href="#">Xem tất cả các mail</a>|
+        <a href="#">Thông kê</a>
+                </p>
+
+            </div>
+            <div id="tabs-4">
+                <p>
+                    <a href="#">Thêm sự kiện</a>|
+       <a href="#">Quản lý sự kiện</a>
+                </p>
+
+            </div>
+        </div>
+        <div id="content" style="float: left; width: 100%;">
+
+            <div id="left_navi" style="height: 700px; float: left; width: 20%; max-width: 200px; border-top-right-radius: 5px; border-top-left-radius: 5px;">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolderNavi" runat="server">
+                    <h2>Nội dung mail</h2>
+                </asp:ContentPlaceHolder>
+            </div>
+
+            <div id="right_content" style="margin-bottom: 0px; height: auto; width: 80%; float: left; border-top-right-radius: 5px; border-top-left-radius: 5px; margin-left: 1px;">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolderNoiDung" runat="server">
+                    <h1>Soạn thư</h1>
+
+                </asp:ContentPlaceHolder>
+            </div>
+
+        </div>
+        <div id="footer">
+            <p>© 2012 - Công ty cổ phần MARKET AMARICAN </p>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "D:\Working\web\FAMail\FAmail_Back\", "{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "D:\Working\web\FAMail\FAMail_Back\", "{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		Debug.AspNetCompiler.VirtualPath = "/FAMail_Back"

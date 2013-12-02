@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "project-05082013", "E:\Workspace-VS2008\project-05082013\", "{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		Debug.AspNetCompiler.VirtualPath = "/project-05082013"
+		Debug.AspNetCompiler.PhysicalPath = "E:\Workspace-VS2008\project-05082013\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\project-05082013\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/project-05082013"
+		Release.AspNetCompiler.PhysicalPath = "E:\Workspace-VS2008\project-05082013\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\project-05082013\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "56493"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|.NET.ActiveCfg = Debug|.NET
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|.NET.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+EndGlobal
