@@ -8,7 +8,7 @@
         <div class="page-full-width cf">
             <div class="side-menu fl">
                 <h3>
-                    Quản lý</h3>
+                    Quản lý chức năng</h3>
                 <ul>
                     <asp:Panel ID="ControlPanel" runat="server">
                         <li>
