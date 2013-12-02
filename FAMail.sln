@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "D:\Working\web\FAEmail\FAmail_Back\", "{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
+		Debug.AspNetCompiler.VirtualPath = "/FAEmail_Back"
+		Debug.AspNetCompiler.PhysicalPath = "..\FAEmail_Back\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\FAEmail_Back\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/FAEmail_Back"
+		Release.AspNetCompiler.PhysicalPath = "..\FAEmail_Back\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\FAEmail_Back\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "56493"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Front", "FAMail_Front\", "{5E44C0DF-5609-4515-836A-06F886C07CA2}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
+		Debug.AspNetCompiler.VirtualPath = "/FAMail_Front"
+		Debug.AspNetCompiler.PhysicalPath = "FAMail_Front\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Front\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/FAMail_Front"
+		Release.AspNetCompiler.PhysicalPath = "FAMail_Front\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Front\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1356"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+EndGlobal
