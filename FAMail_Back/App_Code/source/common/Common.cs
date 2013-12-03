@@ -372,5 +372,17 @@ public class Common
     {
         return 0;
     }
-    
+
+    enum userType : int
+    {
+        Admin=0,Client=1,subClient=2
+    }
+    enum clientStatus : int
+    {
+        Online=0, Expire=1, Suppend=2
+    }
+    enum registerType : int
+    {
+        New=0, Extension=1, Upgrade=2, addFunction=3
+    }
 }
