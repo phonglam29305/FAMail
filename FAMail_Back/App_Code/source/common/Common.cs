@@ -372,7 +372,9 @@ public class Common
     {
         return 0;
     }
-
+    /// <summary>
+    /// Loại người dùng
+    /// </summary>
     enum userType : int
     {
         Admin=0,Client=1,subClient=2
