@@ -44,6 +44,9 @@
                           <li>
                             <asp:HyperLink ID="hptPackageLimit" href=" PackageLimit.aspx" roleId="22" runat="server">Chức năng giới hạn gởi mail</asp:HyperLink>
                         </li>
+                        <li>
+                            <asp:HyperLink ID="htpackage" href=" Package.aspx" roleId="22" runat="server">Chức năng gói dịch vụ</asp:HyperLink>
+                        </li>
                        
                     </asp:Panel>
                 </ul>
