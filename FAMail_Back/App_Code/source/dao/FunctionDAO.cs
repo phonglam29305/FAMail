@@ -22,7 +22,7 @@ public class FunctionDAO
 	{
 		
 	}
-    public void tblFunction_insert(FunctionDTO dt)
+    public void tblFunction_insert(FunctionDTO dt )
     {
         string sql = "INSERT INTO tblFunction (functionName, cost,isDefault,diengiai) " +
                      "VALUES( @functionName, @cost,@isDefault,@diengiai) ";

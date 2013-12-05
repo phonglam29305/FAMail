@@ -78,8 +78,8 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        //try
-        //{
+        try
+        {
             string message = checkInput();
             int status = 0;
             if (message == "")
@@ -118,14 +118,14 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
 
             }
 
-        //}
-        //catch (Exception)
-        //{
+        }
+        catch (Exception)
+        {
 
-        //    pnSuccess.Visible = false;
-        //    pnError.Visible = true;
-        //    lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
-        //}
+            pnSuccess.Visible = false;
+            pnError.Visible = true;
+            lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+        }
         LoadData();
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
@@ -205,6 +205,10 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
 
 
     protected void txtdiengiai_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txtfunctionName_TextChanged(object sender, EventArgs e)
     {
 
     }
