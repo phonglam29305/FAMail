@@ -28,7 +28,7 @@
 					    <fieldset>  
 						        <p>
 								    <label for="full-width-input">Tên gói dịch vụ</label>
-						         	<asp:TextBox ID="txtEmailConfig" CssClass="round default-width-input" 
+						         	<asp:TextBox ID="txt" CssClass="round default-width-input" 
                                         runat="server"></asp:TextBox>
 								  
 							    <p>
@@ -74,12 +74,13 @@
 				         <br />
                        <fieldset>
         							
-                            <asp:Button ID="btnSave" runat="server" Text="Lưu cấu hình" 
+                            <asp:Button ID="btnSave" runat="server" Text="Lưu" 
                                 CssClass="button round blue image-right ic-add text-upper" 
                                   />	
-                            <asp:Button ID="btnTest" runat="server" Text="Kiểm tra" 
-                                CssClass="button round blue image-right ic-refresh text-upper" 
-                                  Visible="False" />                            
+                               <asp:Button ID="btnupdate" runat="server" Text="" 
+                                CssClass="button round blue image-right ic-add text-upper" 
+                                  />	
+                                                   
 				        </fieldset>	
 				    </div> 
 				    
