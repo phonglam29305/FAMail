@@ -23,7 +23,10 @@
         Email.ConnectionData._ConnectionString = strConnect;
         Email.ConnectionData.AddNewConnection();
         //processEmail = new Email.ProcessSendEmail();
-        //StartMailChecker();        
+        //StartMailChecker();  
+
+
+        log4net.Config.DOMConfigurator.Configure();      
     }
     void timScheduledTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {

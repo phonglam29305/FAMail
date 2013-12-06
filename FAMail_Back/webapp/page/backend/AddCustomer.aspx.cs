@@ -16,6 +16,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Collections.Specialized;
 using System.Text;
+using log4net;
 
 public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 {
@@ -30,6 +31,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     DetailGroupBUS dgBUS = new DetailGroupBUS();
     static string fileName;
     EmailVerifier verify;
+    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -43,17 +45,24 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             {
                 pnError.Visible = true;
                 lblError.Text = "Hệ thống đang chờ quá lâu, vui lòng tải lại trang !";
-            }            
+            }
         }
-      
+
     }
 
     private void loadData()
     {
-        InitBUS();
-        LoadMailGroupLists();
-        pnSelectGroup.Visible = false;
-        LoadCustomer();
+        try
+        {
+            InitBUS();
+            LoadMailGroupLists();
+            pnSelectGroup.Visible = false;
+            LoadCustomer();
+        }
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - loadData", ex);
+        }
     }
     private UserLoginDTO getUserLogin()
     {
@@ -77,7 +86,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     this.txtAddress.Text = ctBUS.GetByID(ID).Rows[0]["Address"].ToString();
                     this.txtHomePhone.Text = ctBUS.GetByID(ID).Rows[0]["SecondPhone"].ToString();
                     this.txtPhone.Text = ctBUS.GetByID(ID).Rows[0]["Phone"].ToString();
-                    this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }" ,  DateTime.Parse(ctBUS.GetByID(ID).Rows[0]["BirthDay"].ToString()));
+                    this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }", DateTime.Parse(ctBUS.GetByID(ID).Rows[0]["BirthDay"].ToString()));
                     this.txtEmail.Text = ctBUS.GetByID(ID).Rows[0]["Email"].ToString();
                     this.txtName.Text = ctBUS.GetByID(ID).Rows[0]["Name"].ToString();
                     this.drlGroup.SelectedValue = ctBUS.GetByID(ID).Rows[0]["GroupId"].ToString();
@@ -85,9 +94,9 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 }
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
         }
     }
     private void LoadMailGroupLists()
@@ -102,7 +111,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
         }
-        
+
         if (dtMailGroup.Rows.Count > 0)
         {
             drlMailGroup.Items.Clear();
@@ -121,25 +130,26 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             pnSelectGroup.Visible = false;
         }
-    }    
+    }
     private void InitBUS()
     {
-       ctBUS = new CustomerBUS();
-       mailGroupBus = new MailGroupBUS();
-       dgBUS = new DetailGroupBUS();
+        ctBUS = new CustomerBUS();
+        mailGroupBus = new MailGroupBUS();
+        dgBUS = new DetailGroupBUS();
     }
     protected void btnReadExcel_Click(object sender, EventArgs e)
     {
-        Visible(false);
-        Common cm = new Common();
-        InitBUS();
-        table = new DataTable();
-        string excelContent = "application/vnd.ms-excel";
-        string excelContent2010 = "application/openxmlformats-officedocument-spreadsheetml.sheet";
-        if (fileExcel.HasFile)
+        try
         {
-            try
+            Visible(false);
+            Common cm = new Common();
+            InitBUS();
+            table = new DataTable();
+            string excelContent = "application/vnd.ms-excel";
+            string excelContent2010 = "application/openxmlformats-officedocument-spreadsheetml.sheet";
+            if (fileExcel.HasFile)
             {
+
                 if (fileExcel.PostedFile.ContentType != excelContent && fileExcel.PostedFile.ContentType != excelContent2010)
                 {
                     Visible(false);
@@ -148,8 +158,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 }
                 else
                 {
-                    fileName = "~/database/" + DateTime.Now.Hour.ToString()+DateTime.Now.Minute.ToString()+DateTime.Now.Second.ToString()+ fileExcel.FileName;
-                    string path= string.Concat(Server.MapPath(fileName));
+                    fileName = "~/database/" + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + fileExcel.FileName;
+                    string path = string.Concat(Server.MapPath(fileName));
                     fileExcel.SaveAs(path);
                     table = cm.ReadExcelContents(path);
                     if (table.Rows.Count < 1000)
@@ -166,7 +176,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                             Visible(false);
                             pnError.Visible = true;
                             lblError.Text = message;
-                        }                        
+                        }
                     }
                     else
                     {
@@ -174,23 +184,25 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         pnError.Visible = true;
                         lblError.Text = "Số lương dữ liệu quá lớn ! Vui lòng chọn file bé hơn < 1000 khách hàng";
                     }
-             
-                }
-            }
-            catch (Exception ex)
-            {
 
+                }
+
+            }
+            else
+            {
                 Visible(false);
                 pnError.Visible = true;
-                lblError.Text = "Vui lòng kiểm tra lại định dạng file, hoặc file của bạn đang được sử dụng <br/>" + ex.ToString();
+                lblError.Text = "Vui lòng chọn file";
             }
         }
-        else
+        catch (Exception ex)
         {
+
             Visible(false);
             pnError.Visible = true;
-            lblError.Text = "Vui lòng chọn file";
-        }       
+            lblError.Text = "Vui lòng kiểm tra lại định dạng file, hoặc file của bạn đang được sử dụng <br/>" + ex.ToString();
+            logMgr.Error(Session["us-login"] + " - btnReadExcel_Click", ex);
+        }
     }
     private void Visible(bool p)
     {
@@ -232,7 +244,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         ctDTO.Company = "";
                         ctDTO.Country = "";
                         ctDTO.Province = "";
-                        ctDTO.Fax = "";                        
+                        ctDTO.Fax = "";
                         ctDTO.SecondPhone = "";
                         ctDTO.Type = "";
                         ctDTO.UserID = getUserLogin().UserId;
@@ -241,11 +253,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         DataTable checkExistsMail = ctBUS.GetByEmail(lblEmail.Text, getUserLogin().UserId);
                         if (checkExistsMail.Rows.Count > 0)
                         {
-                            CustomerID = int.Parse(checkExistsMail.Rows[0]["Id"].ToString());                           
+                            CustomerID = int.Parse(checkExistsMail.Rows[0]["Id"].ToString());
                         }
                         else
                         {
-                            CustomerID= ctBUS.tblCustomer_insert(ctDTO);
+                            CustomerID = ctBUS.tblCustomer_insert(ctDTO);
                         }
 
                         if (dgBUS.GetByID(groupID, CustomerID).Rows.Count > 0)
@@ -279,9 +291,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             updateLimitSendAndCreate(count, 0);
         }
         catch (Exception ex)
-        {    
+        {
+            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
         }
-        
+
     }
     protected void chkAll_CheckedChanged(object sender, EventArgs e)
     {
@@ -310,7 +323,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 return true;
             }
             return false;
-        }      
+        }
     }
 
 
@@ -319,7 +332,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         //verify = new EmailVerifier(true);
         string message = "";
         if (txtName.Text == "")
-        {          
+        {
             message = "Bạn chưa nhập tên khách hàng!";
             this.txtName.Focus();
         }
@@ -380,15 +393,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         ulBus.tblUserLogin_Update(userLogin);
 
     }
-    
+
     protected void btnAdd_Click(object sender, EventArgs e)
     {
         try
         {
             InitBUS();
             Visible(false);
-            int GroupID=int.Parse(drlGroup.SelectedValue.ToString());
-            int CustomerID = 0;            
+            int GroupID = int.Parse(drlGroup.SelectedValue.ToString());
+            int CustomerID = 0;
             string message = checkInputCustomer();
             if (message != "")
             {
@@ -491,7 +504,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             pnError.Visible = true;
             lblError.Text = "Lỗi trong quá trình thêm khách hàng!" + ex.Message.ToString();
         }
-        
+
     }
     protected DateTime convertStringToDate(string strDate)
     {
@@ -523,7 +536,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         this.txtHomePhone.Text = "";
         this.txtAddress.Text = "";
         this.txtBirthday.Text = "";
-        
+
     }
     protected void btnRefesh_Click(object sender, EventArgs e)
     {
