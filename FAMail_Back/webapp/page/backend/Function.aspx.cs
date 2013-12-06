@@ -17,6 +17,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             try
             {
                 LoadData();
+                hdfId.Value = null;
             }
             catch (Exception)
             {
@@ -25,6 +26,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             }
         }
     }
+
     private string checkInput()
     {
         string masseng = "";
@@ -57,7 +59,25 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin != null)
         {
+            //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.functionId = userLogin.UserId;
+            sign.functionName = txtfunctionName.Text;
+            sign.diengiai = txtdiengiai.Text;
+            sign.cost = float.Parse(txtcode.Text);
+
+        }
+        return sign;
+
+
+    }
+    private FunctionDTO getfunctionupdateDTO()
+    {
+        FunctionDTO sign = new FunctionDTO();
+        UserLoginDTO userLogin = getUserLogin();
+        if (userLogin != null)
+        {
+            sign.functionId = Convert.ToInt32(hdfId.Value);
+            //sign.functionId = userLogin.UserId;
             sign.functionName = txtfunctionName.Text;
             sign.diengiai = txtdiengiai.Text;
             sign.cost = float.Parse(txtcode.Text);
@@ -69,10 +89,10 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     }
     private void LoadData()
     {
-       
-     
-       dtfunction.DataSource=functionBus.GetAll().DefaultView;
-       dtfunction.DataBind();
+
+
+        dtfunction.DataSource = functionBus.GetAll().DefaultView;
+        dtfunction.DataBind();
     }
 
 
@@ -84,8 +104,9 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             int status = 0;
             if (message == "")
             {
-
+                //cho nay co van de ne
                 FunctionDTO funDto = getfunctionDTO();
+
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
@@ -94,8 +115,9 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
                 }
                 else
                 {
-                    functionBus.tblSignature_Update(funDto);
-                        status=2;
+                    FunctionDTO funDtoup = getfunctionupdateDTO();
+                    functionBus.tblSignature_Update(funDtoup);
+                    status = 2;
                 }
                 ConnectionData.CloseMyConnection();
                 pnSuccess.Visible = true;
@@ -126,37 +148,42 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
         }
+        txtcode.Text = "";
+        txtdiengiai.Text = "";
+        txtfunctionName.Text = "";
         LoadData();
+
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
-        
+
     }
     protected void btnDelete_Click1(object sender, ImageClickEventArgs e)
     {
-       
+
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            int functionId=int.Parse((((ImageButton)sender).CommandArgument.ToString()));
+            int functionId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
             DataTable table = functionBus.GetByUserId(functionId);
             if (table.Rows.Count > 0)
             {
-               
+
                 txtfunctionName.Text = table.Rows[0]["functionName"].ToString();
                 txtdiengiai.Text = table.Rows[0]["diengiai"].ToString();
                 txtcode.Text = table.Rows[0]["cost"].ToString();
-
+                this.hdfId.Value = functionId + "";
 
             }
 
-          
+
         }
         catch (Exception)
         {
-            
+            pnError.Visible = false;
+            pnSuccess.Visible = false;
             throw;
         }
     }
@@ -165,18 +192,20 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         try
         {
             int functionId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-            functionBus.tblFunction_Delete(functionId);
-            LoadData();
-            pnError.Visible = false;
-            pnSuccess.Visible = true;
-            lblSuccess.Text = "Bạn vừa xóa chữ ký thành công !";
+            if (functionBus.tblFunction_Delete(functionId))
+            {
+                LoadData();
+                pnError.Visible = false;
+                pnSuccess.Visible = true;
+                lblSuccess.Text = "Bạn vừa xóa chữ ký thành công !";
+            }
         }
         catch (Exception ex)
         {
-
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
         }
+
     }
     protected void dtfunction_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -184,16 +213,16 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     }
     protected void btnCreateNew_Click(object sender, EventArgs e)
     {
-        
-           
-                //FunctionDTO funDto = getfunctionDTO();
-                //ConnectionData.OpenMyConnection();
-                //functionBus.tblSignature_Update(funDto);
-                //    LoadData();
+
+
+        //FunctionDTO funDto = getfunctionDTO();
+        //ConnectionData.OpenMyConnection();
+        //functionBus.tblSignature_Update(funDto);
+        //    LoadData();
         FunctionDTO functionDto = new FunctionDTO();
 
         functionDto.functionName = txtfunctionName.Text;
-        functionDto.cost =float.Parse( txtcode.Text);
+        functionDto.cost = float.Parse(txtcode.Text);
         if (functionBus.tblFunction_GetByID(txtfunctionName.Text).Rows.Count > 0)
         {
             functionBus.tblSignature_Update(functionDto);
@@ -201,7 +230,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
 
 
         LoadData();
-        }
+    }
 
 
     protected void txtdiengiai_TextChanged(object sender, EventArgs e)

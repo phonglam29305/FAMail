@@ -35,7 +35,7 @@
 							    </p>	
                           <p>
 							    <label for="simple-input">Diễn giải</label>								
-                                <asp:TextBox ID="txtdiengiai" CssClass="round default-width-input"  Width="95%"  TextMode="MultiLine" 
+                                <asp:TextBox ID="txtdiengiai" CssClass="round default-width-input"  Width="92%"  TextMode="MultiLine" 
                                     runat="server" OnTextChanged="txtdiengiai_TextChanged"></asp:TextBox>
                                 <em>Giải thích về những thông tin của phòng ban </em>
 						    </p>	
@@ -52,9 +52,7 @@
 						 </fieldset>	
     				
 				    </div> <!-- end half-size-column -->
-				    <div class="half-size-column fr" style="height:auto;">
-				       		             
-				    </div>
+
 				   
 				    <div class="full-width-editor" style="float: left; margin-top: 30px;">     		       
                        <fieldset>
@@ -62,9 +60,6 @@
                             <asp:Button ID="btnSave" runat="server" Text="Lưu chức năng" 
                                 CssClass="button round blue image-right ic-add text-upper" OnClick="btnSave_Click" 
                                 />	
-                           <asp:Button ID="btnCreateNew" runat="server" Text="Cập nhật chức năng" 
-                                 CssClass="button round blue image-right ic-add text-upper" OnClick="btnCreateNew_Click" 
-                          />	
                                                         
 				        </fieldset>	
 				    </div> 

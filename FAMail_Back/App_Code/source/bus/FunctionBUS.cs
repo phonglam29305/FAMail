@@ -23,9 +23,9 @@ public class FunctionBUS
     {
         sign.tblFunction_insert(dt);
     }
-    public void tblFunction_Delete(int functionId )
+    public bool tblFunction_Delete(int functionId )
     {
-        sign.tblFunction_Delete(functionId);
+        return sign.tblFunction_Delete(functionId);
     }
     public System.Data.DataTable GetAll()
     {

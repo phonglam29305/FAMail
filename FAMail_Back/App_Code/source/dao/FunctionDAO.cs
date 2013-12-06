@@ -17,17 +17,17 @@ using System.Data.SqlClient;
 /// </summary>
 public class FunctionDAO
 {
-   
-	public FunctionDAO()
-	{
-		
-	}
-    public void tblFunction_insert(FunctionDTO dt )
+
+    public FunctionDAO()
+    {
+
+    }
+    public void tblFunction_insert(FunctionDTO dt)
     {
         string sql = "INSERT INTO tblFunction (functionName, cost,isDefault,diengiai) " +
                      "VALUES( @functionName, @cost,@isDefault,@diengiai) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;     
+        cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@functionName", SqlDbType.NVarChar).Value = dt.functionName;
         cmd.Parameters.Add("@diengiai", SqlDbType.NVarChar).Value = dt.diengiai;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
@@ -75,14 +75,31 @@ public class FunctionDAO
         adapter.Dispose();
         return table;
     }
-    public void tblFunction_Delete(int functionId)
+    public bool tblFunction_Delete(int functionId)
     {
-        SqlCommand cmd = new SqlCommand("DELETE FROM tblFunction WHERE functionId = @functionId",
-            ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
-        cmd.ExecuteNonQuery();
-        cmd.Dispose();
+        int i = 0;
+        try
+        {
+            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+            {
+                ConnectionData._MyConnection.Open();
+            }
+            SqlCommand cmd = new SqlCommand("DELETE FROM tblFunction WHERE functionId = @functionId",
+                ConnectionData._MyConnection);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
+            i = cmd.ExecuteNonQuery();
+            cmd.Dispose();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            ConnectionData._MyConnection.Close();
+        }
+        return i > 0;
     }
     public void tblFunction_Update(FunctionDTO dt)
     {
@@ -90,13 +107,14 @@ public class FunctionDAO
                     "functionName = @functionName, " +
                     "cost = @cost, " +
                     "isDefault= @isDefault " +
-                    " WHERE functionName = @functionName";
+                    " WHERE functionid = @functionid";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-       
+
         cmd.Parameters.Add("@functionName", SqlDbType.NVarChar).Value = dt.functionName;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
         cmd.Parameters.Add("@isDefault", SqlDbType.Bit).Value = dt.isDefault;
+        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = dt.functionId;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }

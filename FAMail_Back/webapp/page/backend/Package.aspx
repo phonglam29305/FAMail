@@ -24,22 +24,23 @@
                 </div>
               </asp:Panel>
 			  <div class="content-module-main cf">
-				    <div class="half-size-column fl">					
+				    <div class="half-size-column fl">
+                        <asp:HiddenField ID="hdfId" runat="server" /> 					
 					    <fieldset>  
 						        <p>
 								    <label for="full-width-input">Tên gói dịch vụ</label>
-						         	<asp:TextBox ID="txt" CssClass="round default-width-input" 
+						         	<asp:TextBox ID="txtname" CssClass="round default-width-input" 
                                         runat="server"></asp:TextBox>
 								  
 							    <p>
 								    <label for="full-width-input">Diễn giải</label>
-								     <asp:TextBox ID="txtPassword"  CssClass="round default-width-input"   TextMode="MultiLine" 
+								     <asp:TextBox ID="txtdiengiai"  CssClass="round default-width-input"   TextMode="MultiLine" 
                                         runat="server"></asp:TextBox>
 								    							
 							    </p>
 							    <p>
 								    <label for="full-width-input">Số tài khoản con </label>
-								     <asp:TextBox ID="txtConfilmPassword"  CssClass="round default-width-input" 
+								     <asp:TextBox ID="txtsubaccount"  CssClass="round default-width-input" 
                                         runat="server"></asp:TextBox>
 								    							
 							    </p>
@@ -75,11 +76,10 @@
                        <fieldset>
         							
                             <asp:Button ID="btnSave" runat="server" Text="Lưu" 
-                                CssClass="button round blue image-right ic-add text-upper" 
+                                CssClass="button round blue image-right ic-add text-upper"                              
+                                OnClick="btnSave_Click" 
                                   />	
-                               <asp:Button ID="btnupdate" runat="server" Text="" 
-                                CssClass="button round blue image-right ic-add text-upper" 
-                                  />	
+                               	
                                                    
 				        </fieldset>	
 				    </div> 
@@ -109,10 +109,11 @@
                                             <thead>
                                                 <tr>
                                                     
-                                                    <th>  Tên chức năng </th>
-                                                    <th>  Đơn Giá  </th>
-                                                    <th>  Mặc định </th>
-                                                     <th> Điều chỉnh </th>
+                                                    <th>  Tên gói dịch vụ </th>
+                                                    <th>  Số lượng tk con  </th>
+                                                    <th>  Giới hạn mail </th>
+                                                     <th> Hiệu lực </th>
+                                                    <th> Diều chỉnh </th>
                                                 </tr>
                                             </thead>
                                         </HeaderTemplate>
@@ -129,13 +130,16 @@
                                     <tr>
                                       
                                         <td style="text-align: left; padding-left: 10px;">
-                                            <asp:Label ID="lblAttr" runat="server" Text='<%# Eval("functionName") %>' ></asp:Label>
+                                            <asp:Label ID="lblAttr" runat="server" Text='<%# Eval("packageName") %>' ></asp:Label>
                                         </td>
                                         <td>
-                                            <asp:Label ID="lblGmail" runat="server" Text='<%# Eval("cost") %>'></asp:Label>
+                                            <asp:Label ID="lblGmail" runat="server" Text='<%# Eval("subAccontCount") %>'></asp:Label>
                                         </td>
                                         <td>
-                                            <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("isDefault") %>'></asp:Label>
+                                            <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("limitId") %>'></asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="Label1" runat="server" Text='<%# Eval("isActive") %>'></asp:Label>
                                         </td>
                                        
                                       
@@ -143,10 +147,11 @@
                                           <td>
                                              
                                               <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"
-                                              CommandArgument='<%# Eval("functionId") %>'  />
+                                              CommandArgument='<%# Eval("packageId") %>' OnClick="btnEdit_Click"  />
                                                 <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/webapp/resource/images/Delete-icon.png"
-                                                    CommandArgument='<%# Eval("functionId") %>'
+                                                    CommandArgument='<%# Eval("packageId") %>'
                                                      OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa thuộc tính này không ?')" 
+                                                     OnClick="btnDelete_Click" 
                                                      /> 
                                                  
                                                  
