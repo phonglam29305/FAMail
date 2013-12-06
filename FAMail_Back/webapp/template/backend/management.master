@@ -42,6 +42,16 @@
                         <li>
                             <asp:HyperLink ID="hplManageHTML" href="ManageHTMLRule.aspx" roleId="26" runat="server">Quản lý HTML tiêu chuẩn mail</asp:HyperLink>
                         </li>
+
+                         <li>
+                            <asp:HyperLink ID="HyperLink1" href="Function.aspx" roleId="22" runat="server">Quan ly chuc nang</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="HyperLink2" href="PackageLimit.aspx" roleId="25" runat="server">Quản ly gioi goi tin</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="HyperLink3" href="Package.aspx" roleId="26" runat="server">Chuc nang goi mail</asp:HyperLink>
+                        </li>
                     </asp:Panel>
                 </ul>
             </div>

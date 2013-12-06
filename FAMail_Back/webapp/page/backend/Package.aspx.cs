@@ -124,9 +124,8 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        PackageDTO packupdate = getpackge_update();
-        ConnectionData.OpenMyConnection();
-        packageBus.tblPackage_Update(packupdate);
+       
+        
        try
         {
             string message = checkInput();
@@ -135,7 +134,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             {
                 //cho nay co van de ne
                 PackageDTO packDto = getpackge_insert();
-               
+                ConnectionData.OpenMyConnection();
                
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
@@ -144,7 +143,8 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 }
                 else
                 {
-                    
+                    PackageDTO packupdate = getpackge_update();
+                    packageBus.tblPackage_Update(packupdate);
                     status = 2;
                 }
                 ConnectionData.CloseMyConnection();
