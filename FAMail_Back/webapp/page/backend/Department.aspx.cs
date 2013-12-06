@@ -26,15 +26,35 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         }
     }
 
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
+    }
+
     private void LoadDepartmentList()
     {
         try
         {
-            DataTable tblDepart = dpBUS.GetAll();
+            DataTable tblDepart = null;
+            if (getUserLogin().DepartmentId == 1)
+            {
+                tblDepart = dpBUS.GetAll();
+            }
+            else {
+                tblDepart = dpBUS.GetByUserID(getUserLogin().UserId);
+            }            
+            
             dlDepartment.DataSource = tblDepart;
             dlDepartment.DataBind();
             for (int i = 0; i < tblDepart.Rows.Count; i++)
             {
+                Label lblNo = (Label)(Label)dlDepartment.Items[i].FindControl("No");
+                lblNo.Text = (i + 1).ToString();
+
                 ImageButton btnDelete = (ImageButton)dlDepartment.Items[i].FindControl("btnDelete");
                 HyperLink hplSettingRole = (HyperLink)dlDepartment.Items[i].FindControl("hplSettingRole");
                 if (int.Parse(tblDepart.Rows[i]["ID"].ToString()) == 1)
@@ -99,18 +119,18 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
     {
         try
         {
-         InitBUS();
-        DepartmentDTO dpDTO = new DepartmentDTO();
-        dpDTO.Name = this.txtDepartment.Text;
-        dpDTO.Description = this.txtDescription.Text;
-        dpDTO.Role = 1; // Mac dinh la 1, khong quan ly
-        ConnectionData.OpenMyConnection();
-        dpBUS.tblDepartment_insert(dpDTO);
-        Visible(false);
-        pnSuccess.Visible = true;
-        lblSuccess.Text = "Bạn đã thêm thành công một phòng ban!";
-        LoadDepartmentList();
-        ConnectionData.CloseMyConnection();
+            InitBUS();
+            DepartmentDTO dpDTO = new DepartmentDTO();
+            dpDTO.Name = this.txtDepartment.Text;
+            dpDTO.Description = this.txtDescription.Text;
+            dpDTO.UserId = getUserLogin().UserId; // Mac dinh la 1, khong quan ly
+            ConnectionData.OpenMyConnection();
+            dpBUS.tblDepartment_insert(dpDTO);
+            Visible(false);
+            pnSuccess.Visible = true;
+            lblSuccess.Text = "Bạn đã thêm thành công phòng ban!";
+            LoadDepartmentList();
+            ConnectionData.CloseMyConnection();
         }
         catch (Exception)
         {

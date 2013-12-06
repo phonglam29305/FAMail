@@ -53,7 +53,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         }
         else
         {
-            tblSendDetail = srdBus.GetByStatus(status, userLogin.UserId);
+            tblSendDetail = srdBus.GetByStatus(status);
         }
         if (tblSendDetail.Rows.Count > 0)
         {

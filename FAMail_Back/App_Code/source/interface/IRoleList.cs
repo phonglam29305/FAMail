@@ -19,4 +19,5 @@ public interface IRoleList
     void tblRoleList_Delete(int roleId);
     DataTable GetAll();
     DataTable GetByRoleId(int roleId);
+    DataTable GetRoleByDepartmentId(int departmentId);
 }

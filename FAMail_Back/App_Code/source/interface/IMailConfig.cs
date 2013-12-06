@@ -22,4 +22,5 @@ public interface IMailConfig
     DataTable GetByID(int Id);
     DataTable GetByEmailAndPass(string email,string pass);
     DataTable GetAll(int DepartmentID);
+    DataTable GetByUserId(int UserId);
 }

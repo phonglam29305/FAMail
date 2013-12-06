@@ -182,4 +182,14 @@ public class SendRegisterBUS : ISendRegister
     }
 
     #endregion
+
+    #region ISendRegister Members
+
+
+    public DataTable GetByStatusUser(int status, int AccountId)
+    {
+       return srDao.GetByStatusUser(status, AccountId);
+    }
+
+    #endregion
 }

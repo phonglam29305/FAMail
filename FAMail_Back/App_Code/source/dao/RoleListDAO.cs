@@ -64,5 +64,24 @@ public class RoleListDAO
         adapter.Dispose();
         return table;
     }
+
+    public DataTable GetRoleByDepartmentId(int departmentId)
+    {
+        string sql = "";
+        sql += "SELECT rl.roleId, rl.roleName ";
+        sql += "FROM   tblRoleDetail AS rd INNER JOIN ";
+        sql += "tblRoleList AS rl ON rd.roleId = rl.roleId ";
+        sql += "WHERE     (rd.departmentId = @departmentId) ";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@departmentId", SqlDbType.Int).Value = departmentId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     
 }

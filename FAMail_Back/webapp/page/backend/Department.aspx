@@ -80,7 +80,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
                          <HeaderTemplate>
                                <thead>            					
 		                            <tr>
-			                            <th>ID</th>
+			                            <th>NO.</th>
 			                            <th>Tên phòng ban</th>
 			                            <th>Giải thích</th>				                            		                            
 			                            <th>Option</th>
@@ -91,7 +91,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 						            <tbody>
 							            <tr>
 								            <td style="text-align:left; padding-left: 10px;">								            
-                                                <asp:Label ID="Id" runat="server" Text='<%# Eval("ID") %>' ></asp:Label>
+                                                <asp:Label ID="No" runat="server" ></asp:Label>
 								            </td>
                                             <td>								            
                                                 <asp:Label ID="Name" runat="server" Text='<%# Eval("Name") %>'></asp:Label>

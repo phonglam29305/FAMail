@@ -56,13 +56,13 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
         sendContentBus = new SendContentBUS();
         DataTable tblSendList = new DataTable();
 
-        if (getSessionDepartmentId() == 1)
+        if (getUserLogin().DepartmentId==1)
         {
             tblSendList = srBUS.GetByStatus(status);
         }
         else
         {
-            tblSendList = srBUS.GetByStatus(status, getSessionId());
+            tblSendList = srBUS.GetByStatusUser(status, getUserLogin().UserId);
         }
 
         if (tblSendList.Rows.Count > 0)
@@ -89,6 +89,8 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
         else
         {
             drlCampaign.Items.Add(new ListItem("Không có chiến dịch nào !", "1"));
+            pnReport.Visible = false;
+            
         }
 
     }
@@ -102,6 +104,14 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
         {
             return 0;
         }
+    }
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
     }
     private int getSessionDepartmentId()
     {

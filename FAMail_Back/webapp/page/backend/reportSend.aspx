@@ -43,6 +43,7 @@
                 </div>
              
                         <div class="content-module-main cf">
+                            <asp:Panel ID="pnReport" runat="server">
                             <div class="half-size-column fl">
                                 <fieldset>
                                     <table>
@@ -113,6 +114,7 @@
                                     </table>
                                 </fieldset>
                             </div>
+                          
                             <!-- end half-size-column -->
                             <div class="half-size-column fr">
                                 <!--
@@ -120,6 +122,7 @@
 				        	-->
                                 <asp:Label ID="lblChart" runat="server" Text="Không có dữ liệu"></asp:Label>
                             </div>
+                              </asp:Panel> 
                         </div>
       
             </div>

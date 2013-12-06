@@ -14,10 +14,10 @@ using Email;
 
 public partial class webapp_page_backend_Customer : System.Web.UI.Page
 {
-    CustomerBUS ctBUS;
-    MailGroupBUS mgBUS;
-    SendRegisterBUS srBUS;
-    DetailGroupBUS dtgBUS;
+    CustomerBUS ctBUS = new CustomerBUS();
+    MailGroupBUS mgBUS = new MailGroupBUS();
+    SendRegisterBUS srBUS = new SendRegisterBUS();
+    DetailGroupBUS dtgBUS = new DetailGroupBUS();
     DataTable customer;
     DataTable group = null;
     DataTable customerBySelect;
@@ -28,46 +28,66 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            InitBUS();
-            customer = new DataTable();
-            customerBySelect = new DataTable();
-            customer = ctBUS.GetAll();
-            customerBySelect = customer;
-            createTable();
-            row = customer.Select(expresion);
-            LoadCustomer();
-            DataTable MailGroup = new DataTable();
-            if (Session["us-login"] != null)
+            try
             {
+                loadData();
+            }
+            catch (Exception)
+            {
+            }
+        }
+        
+    }
+
+    private void loadData(){
+        customer = new DataTable();
+        customerBySelect = new DataTable();
+        if (getUserLogin().DepartmentId == 1)
+        {
+            customer = ctBUS.GetAll();
+        }
+        else
+        {
+            customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+        }
+        customerBySelect = customer;
+        createTable();
+        row = customer.Select(expresion);
+        LoadCustomer();
+        DataTable MailGroup = new DataTable();
+        if (Session["us-login"] != null)
+        {
+            if (getUserLogin().DepartmentId == 1)
+            {
+                MailGroup = mgBUS.GetAllNew();
+            }
+            else
+            {
+                MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
+            }
+            if (MailGroup.Rows.Count > 0)
+            {
+                createTableMail();
+                DataRow rowE = null;
                 if (getUserLogin().DepartmentId == 1)
                 {
-                    MailGroup = mgBUS.GetAllNew();
-                }
-                else
-                {
-                    MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
-                }
-                if (MailGroup.Rows.Count > 0)
-                {
-                    createTableMail();
-                    DataRow rowE = group.NewRow();
+                    rowE = group.NewRow();
                     rowE["Id"] = 0;
                     rowE["Name"] = "Tất cả";
                     group.Rows.Add(rowE);
-                    foreach (DataRow rowItem in MailGroup.Rows)
-                    {
-                        rowE = group.NewRow();
-                        rowE["Id"] = rowItem["Id"];
-                        rowE["Name"] = rowItem["Name"];
-                        group.Rows.Add(rowE);
-                    }
                 }
-
-                this.drlNhomMail.DataSource = group;
-                this.drlNhomMail.DataTextField = "Name";
-                this.drlNhomMail.DataValueField = "Id";
-                this.drlNhomMail.DataBind();
+                foreach (DataRow rowItem in MailGroup.Rows)
+                {
+                    rowE = group.NewRow();
+                    rowE["Id"] = rowItem["Id"];
+                    rowE["Name"] = rowItem["Name"];
+                    group.Rows.Add(rowE);
+                }
             }
+            this.drlNhomMail.DataSource = group;
+            this.drlNhomMail.DataTextField = "Name";
+            this.drlNhomMail.DataValueField = "Id";
+            this.drlNhomMail.DataBind();
         }
         pnSearch.Visible = true;
         btnSearch.Visible = false;
@@ -181,11 +201,19 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     private void LoadCustomer()
     {
         ctBUS = new CustomerBUS();
+        if (getUserLogin().DepartmentId == 1)
+        {
+            customerBySelect = ctBUS.GetAll();
+        }
+        else
+        {
+            customerBySelect = ctBUS.GetAllByUser(getUserLogin().UserId);
+        }
         try
         {
             dlPager.MaxPages = 1000;
             dlPager.PageSize = 50;
-            dlPager.DataSource =  ctBUS.GetAll().DefaultView;
+            dlPager.DataSource = customerBySelect.DefaultView;
             dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind(); 
@@ -247,8 +275,6 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             }
             else
             {
-
-
             }
 
         }
@@ -346,9 +372,9 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             dtgBUS.tblDetailGroup_DeleteByCustomerID(CustomerID);
             pnError.Visible = false;
             pnSuccess.Visible = true;
-            lblSuccess.Text = "Xóa thành công một khách hàng ID: "+ CustomerID.ToString();
-            ConnectionData.CloseMyConnection();
+            lblSuccess.Text = "Xóa thành công một khách hàng ID: "+ CustomerID.ToString();     
             LoadCustomer();
+            ConnectionData.CloseMyConnection();
         }
         catch (Exception ex)
         {

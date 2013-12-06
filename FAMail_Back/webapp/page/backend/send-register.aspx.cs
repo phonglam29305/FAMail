@@ -28,6 +28,8 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         Common common = null;
         PartSendBUS psBus = null;
         DataTable group = null;
+        DataTable Content = null;
+        DataTable SignIn = null;
         SpamRuleBUS spamBUS = null;
    
     #endregion
@@ -60,9 +62,21 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             signBus = new SignatureBUS();
             UserLoginDTO userLogin = getUserLogin();
             DataTable tblSignList = signBus.GetByUserId(userLogin.UserId);
+            createTableSign();
             if (tblSignList.Rows.Count > 0)
             {
-                drlSign.DataSource = tblSignList;
+                DataRow rowE = SignIn.NewRow();
+                rowE["Id"] = 0;
+                rowE["SignatureName"] = "Chọn nội chữ ký";
+                SignIn.Rows.Add(rowE);
+                foreach (DataRow RowItem in tblSignList.Rows)
+                {
+                    rowE = SignIn.NewRow();
+                    rowE["Id"] = RowItem["id"];
+                    rowE["SignatureName"] = RowItem["SignatureName"];
+                    SignIn.Rows.Add(rowE);
+                }
+                drlSign.DataSource = SignIn;
                 drlSign.DataTextField = "SignatureName";
                 drlSign.DataValueField = "id";
                 drlSign.DataBind();
@@ -95,7 +109,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             }
             else
             {
-                dtMailConfig = mailConfigBus.GetByID(userLogin.UserId);
+                dtMailConfig = mailConfigBus.GetByUserId(userLogin.UserId);
             }
         }
         else
@@ -111,6 +125,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     protected void LoadMailContentList()
     {
         InitialBUS();
+        createTableContent();
         UserLoginDTO userLogin = getUserLogin();
         DataTable tblSendContent = new DataTable();
         if (userLogin.DepartmentId == 1)
@@ -121,10 +136,22 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         {
             tblSendContent = scBUS.GetAll(userLogin.UserId);
         }
+
         if (tblSendContent.Rows.Count > 0)
         {
+            DataRow rowE = Content.NewRow();
+            rowE["Id"] = 0;
+            rowE["Subject"] = "Chọn nội dung";
+            Content.Rows.Add(rowE);
+            foreach (DataRow rowItem in tblSendContent.Rows)
+            {
+                rowE = Content.NewRow();
+                rowE["Id"] = rowItem["Id"];
+                rowE["Subject"] = rowItem["Subject"];
+                Content.Rows.Add(rowE);
+            }
             drlContent.Items.Clear();
-            drlContent.DataSource = tblSendContent.DefaultView;
+            drlContent.DataSource = Content.DefaultView;
             drlContent.DataTextField = "Subject";
             drlContent.DataValueField = "Id";
             drlContent.DataBind();
@@ -144,13 +171,18 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         {
             dtMailGroup =  mailGroupBus.GetAll(userLogin.UserId);
         }
-        DataRow rowE = group.NewRow();
-        rowE["Id"] = -3;
-        rowE["Name"] = "Tất cả khách hàng";
-        group.Rows.Add(rowE);   
+        
         if (dtMailGroup.Rows.Count > 0)
         {
-           
+            DataRow rowE = group.NewRow(); 
+            if (userLogin.DepartmentId == 1)
+            {
+                
+                rowE["Id"] = -3;
+                rowE["Name"] = "Tất cả khách hàng";
+                group.Rows.Add(rowE); 
+ 
+            }
             foreach (DataRow rowItem in dtMailGroup.Rows)
             {
                 rowE = group.NewRow();
@@ -175,6 +207,28 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         group.Columns.Add(Id);
         group.Columns.Add(Name);
         group.PrimaryKey = key;
+    }
+    private void createTableSign()
+    {
+        SignIn = new DataTable("SignIn");
+        DataColumn Id = new DataColumn("Id");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn SignatureName = new DataColumn("SignatureName");
+        DataColumn[] key = { Id };
+        SignIn.Columns.Add(Id);
+        SignIn.Columns.Add(SignatureName);
+        SignIn.PrimaryKey = key;
+    }
+    private void createTableContent()
+    {
+        Content = new DataTable("Content");
+        DataColumn Id = new DataColumn("Id");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn Subject = new DataColumn("Subject");
+        DataColumn[] key = { Id };
+        Content.Columns.Add(Id);
+        Content.Columns.Add(Subject);
+        Content.PrimaryKey = key;
     }
     #endregion
     #region Gửi từng phần
@@ -305,10 +359,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                 infoUpdate();    
 
                 //checkAndInsertPartSend();
-                Insert(timeStart);
-
-                           
-        
+                Insert(timeStart);        
             }
         }
         catch (Exception)
@@ -525,6 +576,10 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         else if (txtBody.Text == "")
         {
             err = "Bạn chưa nhập nội dung Email";
+        }
+        if (drlMailConfig.Text == "")
+        {
+            err = "Bạn chưa có Mail gửi";
         }
         return err;
     }

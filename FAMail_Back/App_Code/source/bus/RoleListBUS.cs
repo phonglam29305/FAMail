@@ -43,5 +43,12 @@ public class RoleListBUS:IRoleList
         return rlDao.GetByRoleId(roleId);
     }
 
+    public DataTable GetRoleByDepartmentId(int departmentId)
+    {
+        return rlDao.GetRoleByDepartmentId(departmentId);
+    }
     #endregion
+
+
+    
 }

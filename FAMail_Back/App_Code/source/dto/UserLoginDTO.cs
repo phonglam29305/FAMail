@@ -23,5 +23,5 @@ public class UserLoginDTO
     public string Password { get; set; }
     public int DepartmentId { get; set; }
     public int hasSendMail { get; set; }
-
+    public int hasCreatedCustomer { get; set; }
 }

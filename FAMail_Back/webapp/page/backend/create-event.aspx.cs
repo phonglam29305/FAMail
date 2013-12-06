@@ -31,8 +31,6 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 LoadMailGroupList();
                 LoadMailConfigList();
                 LoadEventList();
-                //LoadSignatureList();
-
                 // Khoi tao session for store contentSendEvent
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);
@@ -204,7 +202,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         else
         {
-            dtMailConfig = mailConfigBus.GetByID(userLogin.UserId);
+            dtMailConfig = mailConfigBus.GetByUserId(userLogin.UserId);
         }
         drlMailConfig.Items.Clear();
         drlMailConfig.DataSource = dtMailConfig.DefaultView;

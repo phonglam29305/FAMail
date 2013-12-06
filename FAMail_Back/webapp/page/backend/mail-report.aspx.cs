@@ -72,7 +72,7 @@ public partial class webapp_page_backend_mail_report : System.Web.UI.Page
         }
         else
         {
-            tblSendList = srBUS.GetByStatus(status, userLogin.UserId);
+            tblSendList = srBUS.GetByStatus(status);
         }
         
         if (tblSendList.Rows.Count > 0)

@@ -87,7 +87,9 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
 
     protected void getRegisterSendList()
     {
-        cateBUs= new CategoryBUS();
+        try
+        {
+                cateBUs= new CategoryBUS();
         srBUS = new SendRegisterBUS();
         srdBus = new SendRegisterDetailBUS();
         mailConfigBus = new MailConfigBUS();
@@ -229,6 +231,12 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
             }
         }
         
+        }
+        catch (Exception)
+        {
+            
+         
+        }
     }
     
     protected void lbtExecute_Click(object sender, EventArgs e)

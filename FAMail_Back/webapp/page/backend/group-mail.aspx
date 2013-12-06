@@ -53,7 +53,7 @@
                                         <HeaderTemplate>
                                             <thead>
                                                 <tr>
-                                                    <th>ID </th>
+                                                    <th> NO. </th>
                                                     <th>  Tên nhóm </th>
                                                     <th>  Chú thích </th>
                                                     <th>  Chức năng </th>
@@ -63,7 +63,7 @@
                                         <ItemTemplate>
                                             <tbody>
                                                 <tr>
-                                                    <td> <asp:Label ID="lblID" runat="server" Text='<%# Eval("Id") %>'></asp:Label> </td>
+                                                    <td> <asp:Label ID="lblNO" runat="server"></asp:Label> </td>
                                                     <td> <asp:Label ID="lblName" runat="server" Text='<%# Eval("Name") %>'></asp:Label></td>
                                                     <td>  <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("Description") %>'></asp:Label>  </td>
                                                     <td>

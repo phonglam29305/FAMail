@@ -2,9 +2,15 @@
  CodeFile="create-role.aspx.cs" Inherits="webapp_page_backend_create_role" Title="Create role" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-	        
-	  <div class="side-content fr">
-				         
+	 <script>
+	      function checkAll() {
+	          var checked = !$(this).data('checked');
+	          $('input:checkbox').prop('checked', checked);
+	          $(this).data('checked', checked);
+	      }
+    </script>
+          
+	  <div class="side-content fr">				         
 	  <!--start content 01-->
 		<div class="content-module">
 		    <div class="content-module-heading cf">				
@@ -44,7 +50,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Mã quyền
+                                            <input type="checkbox" onclick="checkAll()" value = "All"  />
                                         </th>
                                         <th style="text-align: left; padding-left: 10px;">
                                             Tên quyền
@@ -60,8 +66,7 @@
                                             <asp:HiddenField ID="hdfRoleId" runat="server" />
                                         </td>
                                         <td style="text-align: left; padding-left: 10px;">
-                                            <asp:Label ID="lblRoleName" runat="server"></asp:Label>
-                                            
+                                            <asp:Label ID="lblRoleName" runat="server"></asp:Label>                                            
                                         </td>                                       
                                     </tr>
                                 </tbody>
@@ -79,7 +84,7 @@
 					    </fieldset>
 					</div>
 					
-					
+                  <asp:Panel ID="PanelAdvanceRole" runat="server">                  
 					<div class="half-size-column fr">
 					 
 					<div style="background-color: #5d6677;height:13px;
@@ -123,6 +128,7 @@
                              </asp:LinkButton> 	
 					    </fieldset>
 					</div>
+                  </asp:Panel>
 			  </div>
 	        </div>
 	     </div>
@@ -130,7 +136,7 @@
 
 <script type="text/javascript">	
 	$(function(){
-		 $('#ctl00_ContentPlaceHolder1_txtToDate').datetimepicker({
+	    $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtToDate').datetimepicker({
 	            timeFormat: "", dateFormat: "dd/mm/yy"
             });			 		
 	});	

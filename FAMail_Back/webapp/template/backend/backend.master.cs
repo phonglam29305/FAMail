@@ -23,6 +23,7 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
             {
                 checkRole();
                 LoadCurrentDate();
+                loadLimitWithUser();
                 UserLoginDTO userLogin = getUserLogin();
                 if (userLogin != null)
                 {
@@ -38,6 +39,25 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
                 Response.Redirect("login.aspx");
             }
 
+        }
+        
+    }
+
+    private void loadLimitWithUser()
+    {
+        
+        if (getUserLogin().DepartmentId == 1)
+        {
+            hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
+        }
+        else if (getLimitWithUser() != null)
+        {
+            hplLimit.Text = "Gửi: " + getUserLogin().hasSendMail + "/" + getLimitWithUser().limitSendMail
+                + ", Tạo KH: " + getUserLogin().hasCreatedCustomer + "/" + getLimitWithUser().limitCreateCustomer;
+        }
+        else
+        {
+            hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
         }
         
     }
@@ -88,6 +108,22 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        return null;
+    }
+
+    private RoleDetailDTO getLimitWithUser()
+    {
+        try
+        {
+            if (Session["limitWithUser"] != null)
+            {
+                return (RoleDetailDTO)Session["limitWithUser"];
+            }
+        }
+        catch (Exception)
+        {
+            return null;
+        }        
         return null;
     }
   

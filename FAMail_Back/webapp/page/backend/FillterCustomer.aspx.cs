@@ -27,17 +27,31 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            InitBUS();           
-            customer = new DataTable();
-            customerBySelect = new DataTable();
-            customer = ctBUS.GetAll();
-            customerBySelect = customer;
-            LoadCustomer();
-            createTable();
-            row = customer.Select(expresion);
-            chkAgeAll.Checked = true;
-            this.txtAge.Visible = false;
+            try
+            {
+                    InitBUS();           
+                    customer = new DataTable();
+                    customerBySelect = new DataTable();
+                    if (getUserLogin().DepartmentId == 1)
+                    {
+                        customer = ctBUS.GetAll();
+                    }
+                    else
+                    {
+                        customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+                    }
+                    customerBySelect = customer;
+                    LoadCustomer();
+                    createTable();
+                    row = customer.Select(expresion);
+                    chkAgeAll.Checked = true;
+                    this.txtAge.Visible = false;
 
+            }
+            catch (Exception)
+            {
+              
+            }
         }
     }
 
@@ -172,7 +186,15 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         GetExpresion();
         createTable();
         ctBUS = new CustomerBUS();
-        customer = ctBUS.GetAll();
+        if (getUserLogin().DepartmentId == 1)
+        {
+            customer = ctBUS.GetAll();
+        }
+        else
+        {
+            customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+        }
+       
         row = customer.Select(expresion);
         foreach (DataRow rowItem in row)
         {

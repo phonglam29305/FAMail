@@ -8,11 +8,14 @@
         <div class="page-full-width cf">
             <div class="side-menu fl">
                 <h3>
-                    Quản lý chức năng</h3>
+                    Quản lý</h3>
                 <ul>
                     <asp:Panel ID="ControlPanel" runat="server">
                         <li>
                             <asp:HyperLink ID="hplDepartmentManager" href="Department.aspx" roleId="9" runat="server">Quản lý phòng ban</asp:HyperLink>
+                        </li>
+                         <li>
+                            <asp:HyperLink ID="hplVerifyEmail" href="AmazonManage.aspx" roleId="24" runat="server">Xác thực email</asp:HyperLink>
                         </li>
                         <li>
                             <asp:HyperLink ID="hplConfigSendMail" href="Config-Email-Send.aspx" roleId="10" runat="server">Cấu hình mail gửi</asp:HyperLink>
@@ -20,6 +23,7 @@
                         <li>
                             <asp:HyperLink ID="hplGroupManager" href="group-mail.aspx" roleId="12" runat="server">Quản lý nhóm mail</asp:HyperLink>
                         </li>
+                       
                         <li>
                             <asp:HyperLink ID="hplCustomerManager" href="Customer.aspx" roleId="13" runat="server">Xem khách hàng</asp:HyperLink>
                         </li>
@@ -33,21 +37,11 @@
                             <asp:HyperLink ID="hplUserManager" href="user-manage.aspx" roleId="22" runat="server">Quản lý tài khoản</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="hplManageSpam" href="ManageSpamKeyword.aspx" roleId="22" runat="server">Quản lý từ khóa Spam</asp:HyperLink>
+                            <asp:HyperLink ID="hplManageSpam" href="ManageSpamKeyword.aspx" roleId="25" runat="server">Quản lý từ khóa Spam</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="hplManageHTML" href="ManageHTMLRule.aspx" roleId="22" runat="server">Quản lý HTML tiêu chuẩn mail</asp:HyperLink>
+                            <asp:HyperLink ID="hplManageHTML" href="ManageHTMLRule.aspx" roleId="26" runat="server">Quản lý HTML tiêu chuẩn mail</asp:HyperLink>
                         </li>
-                         <li>
-                            <asp:HyperLink ID="hplFunction" href="Function.aspx" roleId="22" runat="server">Chuc nang Function</asp:HyperLink>
-                        </li>
-                          <li>
-                            <asp:HyperLink ID="hptPackageLimit" href=" PackageLimit.aspx" roleId="22" runat="server">Chức năng giới hạn gởi mail</asp:HyperLink>
-                        </li>
-                        <li>
-                            <asp:HyperLink ID="htpackage" href=" Package.aspx" roleId="22" runat="server">Chức năng gói dịch vụ</asp:HyperLink>
-                        </li>
-                       
                     </asp:Panel>
                 </ul>
             </div>

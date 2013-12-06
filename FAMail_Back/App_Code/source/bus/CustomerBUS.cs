@@ -26,54 +26,41 @@ public class CustomerBUS:ICustomer
     {
        return ctDao.tblCustomer_insert(dt);
     }
-
     public void tblCustomer_Update(CustomerDTO dt)
     {
         ctDao.tblCustomer_Update(dt);
     }
-
     public void tblCustomer_Delete(int Id)
     {
         ctDao.tblCustomer_Delete(Id);
     }
-
     public DataTable GetAll()
     {
         return ctDao.GetAll();
     }
-
     public DataTable GetByID(int Id)
     {
         return ctDao.GetByID(Id);
     }
-
-    #endregion
-
-
-
     public DataTable GetByEmail(string Email)
     {
         return ctDao.GetByEmail(Email);
     }
-
- 
-    #region ICustomer Members
-
-
-
-    #endregion
-
-    #region ICustomer Members
-
-
     public void tblCustomer_UpdateCountBuy(int CustomerID)
     {
         ctDao.tblCustomer_UpdateCountBuy(CustomerID);
     }
-
     public void tblCustomer_UpdateRecive(int CustomerID, bool recivedEmail)
     {
         ctDao.tblCustomer_UpdateRecive(CustomerID, recivedEmail);
+    }
+    public DataTable GetByCountBuy(int countBuy)
+    {
+        return ctDao.GetByCountBuy(countBuy);
+    }
+    public DataTable GetAllByUser(int UserID)
+    {
+        return ctDao.GetAllByUser(UserID);
     }
 
     #endregion
@@ -81,9 +68,9 @@ public class CustomerBUS:ICustomer
     #region ICustomer Members
 
 
-    public DataTable GetByCountBuy(int countBuy)
+    public DataTable GetByEmail(string Email, int UserID)
     {
-        return ctDao.GetByCountBuy(countBuy);
+        return ctDao.GetByEmail(Email,UserID);
     }
 
     #endregion

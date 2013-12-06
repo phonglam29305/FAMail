@@ -20,4 +20,5 @@ public interface IDepartment
     void tblDepartment_Delete(int ID);
     DataTable GetAll();
     DataTable GetByID(int ID);
+    DataTable GetByUserID(int UserId);
 }

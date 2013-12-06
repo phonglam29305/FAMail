@@ -43,6 +43,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@Country", SqlDbType.NVarChar).Value = dt.Country;
         cmd.Parameters.Add("@recivedEmail", SqlDbType.Bit).Value = true;
         cmd.Parameters.Add("@countBuy", SqlDbType.Int).Value = 0;
+        //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = dt.UserID;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
@@ -50,8 +51,6 @@ public class CustomerDAO
         var CustomerID = cmd.ExecuteScalar();
         cmd.Dispose();
         return int.Parse(CustomerID.ToString());
-
-     
     }
     public void tblCustomer_Update(CustomerDTO dt)
     {
@@ -119,8 +118,33 @@ public class CustomerDAO
         adapter.Dispose();
         return table;
     }
+    public DataTable GetAllByUser(int UserID)
+    {
+        string sql = "";
+        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        sql += "FROM   tblMailGroup AS mg INNER JOIN ";
+        sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
+        sql += "WHERE     (mg.UserId = @userId) AND ct.recivedEmail='True'";
+        
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
     public DataTable GetByID(int Id)
     {
+
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Id = @Id ", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
@@ -184,6 +208,23 @@ public class CustomerDAO
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Email = @Email", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByEmail(string Email, int UserID)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Email = @Email and UserID= @UserID", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)

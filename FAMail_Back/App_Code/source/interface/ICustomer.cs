@@ -21,8 +21,10 @@ public interface ICustomer
     DataTable GetAll();
     DataTable GetByID(int Id);
     DataTable GetByEmail(string Email);
+    DataTable GetByEmail(string Email, int UserID);
     void tblCustomer_UpdateCountBuy(int CustomerID);
     void tblCustomer_UpdateRecive(int CustomerID, bool recivedEmail);
     DataTable GetByCountBuy(int countBuy);
+    DataTable GetAllByUser(int UserID);
     
 }

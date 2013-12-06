@@ -56,7 +56,7 @@ public class MailConfigDAO
                     "username = @username, " +
                     "isSSL = @isSSL, " +
 	                "Password = @Password, "+
-                    "UserId = @UserId, " +
+                    "UserId = @UserId " +
                     " WHERE Id = @Id";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -65,7 +65,7 @@ public class MailConfigDAO
         cmd.Parameters.Add("@Port", SqlDbType.Int).Value = dt.Port;
         cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = dt.Email;
         cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = dt.Password;
-        cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = dt.Name;
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = dt.DepartmentID;
         cmd.Parameters.Add("@parentId", SqlDbType.Int).Value = dt.parentId;
         cmd.Parameters.Add("@levelId", SqlDbType.Int).Value = dt.levelId;

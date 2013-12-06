@@ -35,7 +35,6 @@ public class CustomerDTO
     public string Type { get; set; }
     public int countBuy { get; set; }
     public bool recivedEmail { get; set; }
-    public int createBy { get; set; }
-    public int assignTo { get; set; }
+    public int UserID { get; set; }
   
 }

@@ -49,6 +49,10 @@ public class DepartmentBUS:IDepartment
     {
         return dpmDAO.GetByID(ID);
     }
+    public DataTable GetByUserID(int UserId)
+    {
+        return dpmDAO.GetByUserID(UserId);
+    }
 
     #endregion
 }

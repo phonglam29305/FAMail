@@ -37,4 +37,5 @@ public interface ISendRegister
     DataTable GetByStatus(int status, int MailConfigID);
     DataTable GetAll(int MailConfigID);
     int GetByGroupID(int GroupID, int status);
+    DataTable GetByStatusUser(int status, int AccountId);
 }

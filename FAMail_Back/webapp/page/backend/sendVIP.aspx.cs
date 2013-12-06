@@ -94,7 +94,7 @@ public partial class webapp_page_backend_sendVIP : System.Web.UI.Page
             }
             else
             {
-                dtMailConfig = mailConfigBus.GetByID(userLogin.UserId);
+                dtMailConfig = mailConfigBus.GetByUserId(userLogin.UserId);
             }
         }
         else

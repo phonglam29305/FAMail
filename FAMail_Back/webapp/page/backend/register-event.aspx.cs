@@ -26,7 +26,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
         {
             string eventId, name, email, company, phone, secondPhone, address1,
                 address2, city, province, country, zipcode, fax, groupId,
-                visibleField, gender, requireTime;
+                visibleField, gender, requireTime, UserID;
 
              eventId = Request.Params["eventId"];
              name = Request.Params["Name"];
@@ -101,6 +101,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             requireTime = Request.Params["requireTime"];
 
             groupId = Request.Params["groupId"];
+            UserID = Request.Params["UserID"];
             //startDate = Request.Params["startDate"];
             //endDate = Request.Params["endDate"];
             visibleField = Request.Params["visibleField"];
@@ -176,7 +177,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                 {
                     // Them khach hang vao danh sach khach hang
                     customerBus = new CustomerBUS();
-                    DataTable tblCustomer = customerBus.GetByEmail(email);
+                    DataTable tblCustomer = customerBus.GetByEmail(email,int.Parse(UserID));
                     int customerId = 0;
                     if (tblCustomer.Rows.Count == 0)
                     {
@@ -194,6 +195,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                         customerDto.Province = province;
                         customerDto.Country = country;
                         customerDto.Type = "0";
+                        customerDto.UserID = int.Parse(UserID);
                         
                         customerId = customerBus.tblCustomer_insert(customerDto);
                     } else {

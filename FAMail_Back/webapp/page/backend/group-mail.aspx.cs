@@ -53,12 +53,15 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             }
             dlGroupMail.DataSource = tblGroupMail;
             dlGroupMail.DataBind();
+            for (int i = 0; i < tblGroupMail.Rows.Count; i++ )
+            {
+                Label lblNo = (Label)dlGroupMail.Items[i].FindControl("lblNO");
+                lblNo.Text = (i + 1).ToString();
+            }
 
         }
         catch (Exception ex)
         {
-            
-            
         }
     }
     
@@ -85,13 +88,11 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             InitBUS();
             int status = 1;
             if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null )
-            {
-           
-                    mgBUS.tblMailGroup_insert(mgDTO);
-                    this.txtGroupName.Text = "";
-                    this.txtDescription.Text = "";
-                    this.txtGroupName.Focus();
-
+            {           
+                mgBUS.tblMailGroup_insert(mgDTO);
+                this.txtGroupName.Text = "";
+                this.txtDescription.Text = "";
+                this.txtGroupName.Focus();
             }
             else
             {

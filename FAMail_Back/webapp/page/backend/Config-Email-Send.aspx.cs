@@ -49,22 +49,22 @@ public partial class webapp_page_backend_Config_Email_Send : System.Web.UI.Page
 
     private void InitBUS()
     {
-        //mcBUS = new MailConfigBUS();
-        //dpBUS = new DepartmentBUS();
-        //if (getUserLogin().DepartmentId == 1)
-        //{
-        //    drlDepartmen.Items.Clear();
-        //    drlDepartmen.DataSource = dpBUS.GetAll();
-        //    drlDepartmen.DataTextField = "Name";
-        //    drlDepartmen.DataValueField = "ID";
-        //    drlDepartmen.DataBind();
-        //    dlMailConfig.DataSource = mcBUS.GetAll();
-        //    dlMailConfig.DataBind();
-        //}
-        //else
-        //{
-        //    this.btnSave.Enabled = false;
-        //}
+        mcBUS = new MailConfigBUS();
+        dpBUS = new DepartmentBUS();
+        if (getUserLogin().DepartmentId == 1)
+        {
+            drlDepartmen.Items.Clear();
+            drlDepartmen.DataSource = dpBUS.GetAll();
+            drlDepartmen.DataTextField = "Name";
+            drlDepartmen.DataValueField = "ID";
+            drlDepartmen.DataBind();
+            dlMailConfig.DataSource = mcBUS.GetAll();
+            dlMailConfig.DataBind();
+        }
+        else
+        {
+            this.btnSave.Enabled = false;
+        }
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
@@ -308,9 +308,5 @@ public partial class webapp_page_backend_Config_Email_Send : System.Web.UI.Page
     {
         pnError.Visible = vis;
         pnSuccess.Visible = vis;
-    }
-    protected void drlDepartmen_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
     }
 }

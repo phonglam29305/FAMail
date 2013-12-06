@@ -19,32 +19,41 @@ using System.Text;
 
 public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 {
-    DataTable table= null;
-    CustomerBUS ctBUS;
-    MailGroupBUS mailGroupBus = null;
-    DetailGroupBUS dgBUS = null;
+
+
+    private int limitCreateCustomer;
+    private int hasCreate;
+
+    DataTable table = null;
+    CustomerBUS ctBUS = new CustomerBUS();
+    MailGroupBUS mailGroupBus = new MailGroupBUS();
+    DetailGroupBUS dgBUS = new DetailGroupBUS();
     static string fileName;
     EmailVerifier verify;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (!IsPostBack)
         {
             try
             {
-                InitBUS();
-                LoadMailGroupLists();
-                pnSelectGroup.Visible = false;
-                LoadCustomer();
+                loadData();
             }
             catch (Exception ex)
             {
                 pnError.Visible = true;
                 lblError.Text = "Hệ thống đang chờ quá lâu, vui lòng tải lại trang !";
-            }
-            
+            }            
         }
       
+    }
+
+    private void loadData()
+    {
+        InitBUS();
+        LoadMailGroupLists();
+        pnSelectGroup.Visible = false;
+        LoadCustomer();
     }
     private UserLoginDTO getUserLogin()
     {
@@ -145,9 +154,19 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     table = cm.ReadExcelContents(path);
                     if (table.Rows.Count < 1000)
                     {
-                        this.dtlCustomer.DataSource = table;
-                        this.dtlCustomer.DataBind();
-                        LoadMailGroupLists();
+                        string message = checkCreateCustomer(table.Rows.Count);
+                        if (message != "")
+                        {
+                            this.dtlCustomer.DataSource = table;
+                            this.dtlCustomer.DataBind();
+                            LoadMailGroupLists();
+                        }
+                        else
+                        {
+                            Visible(false);
+                            pnError.Visible = true;
+                            lblError.Text = message;
+                        }                        
                     }
                     else
                     {
@@ -171,10 +190,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             Visible(false);
             pnError.Visible = true;
             lblError.Text = "Vui lòng chọn file";
-        }
-        
-        
-       
+        }       
     }
     private void Visible(bool p)
     {
@@ -219,15 +235,19 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         ctDTO.Fax = "";                        
                         ctDTO.SecondPhone = "";
                         ctDTO.Type = "";
+                        ctDTO.UserID = getUserLogin().UserId;
                         count++;
-                        if (ctBUS.GetByEmail(lblEmail.Text).Rows.Count > 0)
+
+                        DataTable checkExistsMail = ctBUS.GetByEmail(lblEmail.Text, getUserLogin().UserId);
+                        if (checkExistsMail.Rows.Count > 0)
                         {
-                            CustomerID = int.Parse(ctBUS.GetByEmail(lblEmail.Text).Rows[0]["Id"].ToString());                           
+                            CustomerID = int.Parse(checkExistsMail.Rows[0]["Id"].ToString());                           
                         }
                         else
                         {
-                          CustomerID= ctBUS.tblCustomer_insert(ctDTO);
+                            CustomerID= ctBUS.tblCustomer_insert(ctDTO);
                         }
+
                         if (dgBUS.GetByID(groupID, CustomerID).Rows.Count > 0)
                         {
                             count--;
@@ -255,10 +275,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             pnSuccess.Visible = true;
             lblSuccess.Text = "- Bạn đã thêm thành công " + count + " khách hàng vào nhóm: " + drlMailGroup.SelectedItem.ToString() + " </br> - Trùng :" + err.ToString() + " khách hàng.";
 
+            // Update limit send and create customer.
+            updateLimitSendAndCreate(count, 0);
         }
         catch (Exception ex)
-        {
-            
+        {    
         }
         
     }
@@ -292,8 +313,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }      
     }
 
+
     private string checkInputCustomer()
     {
+        //verify = new EmailVerifier(true);
         string message = "";
         if (txtName.Text == "")
         {          
@@ -310,7 +333,6 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             message = "Bạn nhập không đúng định dạng Email!";
             this.txtEmail.Focus();
         }
-
         //else if (verify.CheckExists(txtEmail.Text) == false)
         //{
         //    message = "Địa chỉ mail không tồn tại";
@@ -318,37 +340,55 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         //}
         else
         {
-            // Kiem tra hang ngach cho phep tao khach hang.
-            if (getUserLogin().DepartmentId != 1) // Khong kiem tra voi tai khoan admin.
-            {
-                RoleDetailBUS rdBus = new RoleDetailBUS();
-                DataTable dtRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, getUserLogin().DepartmentId);
-                if (dtRoleDetail.Rows.Count > 0)
-                {
-                    int limitCreateCustomer = int.Parse(dtRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
-                    int hasCreate = Common.countHasCreateMailByUserId(getUserLogin().UserId);
-                    if (hasCreate + 1 > limitCreateCustomer)
-                    {
-                        message = "Vượt quá hạng ngạch tạo khách hàng.";
-                        message += "<br/>- Đã tạo: " + hasCreate;
-                        message += "<br/>- Giới hạn: " + limitCreateCustomer;
-                    }
-                }
-            }
-            
+            message = checkCreateCustomer(1);
         }
         return message;
     }
 
+    protected string checkCreateCustomer(int create)
+    {
+        string resultMessage = "";
+        // Kiem tra hang ngach cho phep tao khach hang.
+        if (getUserLogin().DepartmentId != 1) // Khong kiem tra voi tai khoan admin.
+        {
+            RoleDetailBUS rdBus = new RoleDetailBUS();
+            DataTable dtRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, getUserLogin().DepartmentId);
+            if (dtRoleDetail.Rows.Count > 0)
+            {
+                limitCreateCustomer = int.Parse(dtRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
+                hasCreate = Common.countHasCreateMailByUserId(getUserLogin().UserId);
+                if (hasCreate + create > limitCreateCustomer)
+                {
+                    resultMessage = "Vượt quá hạng ngạch tạo khách hàng.";
+                    resultMessage += "<br/>- Đã tạo: " + hasCreate;
+                    resultMessage += "<br/>- Giới hạn: " + limitCreateCustomer;
+                }
+            }
+        }
+        return resultMessage;
+    }
+
+    protected void updateLimitSendAndCreate(int hasCreatedCustomer, int countSend)
+    {
+        UserLoginDTO userLogin = getUserLogin();
+        userLogin.hasCreatedCustomer = userLogin.hasCreatedCustomer + hasCreatedCustomer;
+        userLogin.hasSendMail = userLogin.hasSendMail + countSend;
+        Session["us-login"] = userLogin;
+
+        // Update to DB
+        UserLoginBUS ulBus = new UserLoginBUS();
+        ulBus.tblUserLogin_Update(userLogin);
+
+    }
     
     protected void btnAdd_Click(object sender, EventArgs e)
     {
         try
         {
+            InitBUS();
             Visible(false);
             int GroupID=int.Parse(drlGroup.SelectedValue.ToString());
-            int CustomerID = 0;
-            InitBUS();
+            int CustomerID = 0;            
             string message = checkInputCustomer();
             if (message != "")
             {
@@ -357,7 +397,6 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             }
             else
             {
-
                 ConnectionData.OpenMyConnection();
                 CustomerDTO ctDTO = new CustomerDTO();
                 ctDTO.Address = this.txtAddress.Text;
@@ -368,28 +407,29 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.Email = txtEmail.Text;
                 ctDTO.Fax = "";
                 ctDTO.Gender = drlGender.SelectedItem.ToString();
-
                 ctDTO.Name = txtName.Text;
                 ctDTO.Phone = this.txtPhone.Text;
                 ctDTO.Province = "";
                 ctDTO.SecondPhone = txtHomePhone.Text;
                 ctDTO.Type = "";
+                ctDTO.UserID = getUserLogin().UserId;
                 if (this.CustomerID.Value.ToString() == "")
                 {
-                    if (ctBUS.GetByEmail(txtEmail.Text).Rows.Count > 0)
+                    DataTable tblCheckByEmail = ctBUS.GetByEmail(txtEmail.Text);
+                    if (tblCheckByEmail.Rows.Count > 0)
                     {
-                        CustomerID = int.Parse(ctBUS.GetByEmail(txtEmail.Text).Rows[0]["Id"].ToString());
+                        CustomerID = int.Parse(tblCheckByEmail.Rows[0]["Id"].ToString());
                         ctDTO.Id = CustomerID;
                         ctBUS.tblCustomer_Update(ctDTO);
                         pnError.Visible = false;
                         pnSuccess.Visible = true;
-                        lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
+                        //lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
                     }
                     else
                     {
-
                         CustomerID = ctBUS.tblCustomer_insert(ctDTO);
                     }
+
                     if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
                     {
                         pnSuccess.Visible = false;
@@ -406,7 +446,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         dgBUS.tblDetailGroup_insert(dgDTO);
                         pnError.Visible = false;
                         pnSuccess.Visible = true;
-                        lblSuccess.Text += "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+                        lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+
+                        // Update limit send and create.
+                        updateLimitSendAndCreate(1, 0);
                     }
                 }
                 else
@@ -419,7 +462,6 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     pnError.Visible = false;
                     pnSuccess.Visible = true;
                     lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
-
                     if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
                     {
                         pnSuccess.Visible = false;
@@ -434,7 +476,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         dgBUS.tblDetailGroup_insert(dgDTO);
                         pnError.Visible = false;
                         pnSuccess.Visible = true;
-                        lblSuccess.Text += "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+                        lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+
+                        // Update limit send and create.
+                        updateLimitSendAndCreate(1, 0);
                     }
                 }
                 ConnectionData.CloseMyConnection();
@@ -443,7 +488,6 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
             pnError.Visible = true;
             lblError.Text = "Lỗi trong quá trình thêm khách hàng!" + ex.Message.ToString();
         }

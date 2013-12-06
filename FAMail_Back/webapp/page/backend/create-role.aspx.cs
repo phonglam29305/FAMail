@@ -40,15 +40,31 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
     {
         rdBus = new RoleDetailBUS();
         String departmentId = Request.QueryString["departmentId"];
-        DataTable dtAdvanceRole = rdBus.GetByDepartmentIdAndRole(-1, int.Parse(departmentId));
-        if (dtAdvanceRole.Rows.Count > 0)
+
+        // Kiểm tra user đang login có được cấp quyền nâng cao.
+        DataTable dtAdvanceRoleWithAdmin = rdBus.GetByDepartmentIdAndRole(-1, getUserLogin().DepartmentId);
+        if (dtAdvanceRoleWithAdmin.Rows.Count > 0)
         {
-            chkAdvance.Checked = true;
-            txtLimitMailSend.Text = dtAdvanceRole.Rows[0]["limitSendMail"].ToString();
-            txtLimitCreateCustomer.Text = dtAdvanceRole.Rows[0]["limitCreateCustomer"].ToString();
-            DateTime toDate = DateTime.Parse(dtAdvanceRole.Rows[0]["toDate"].ToString());
-            txtToDate.Text = toDate.Day + "/" + toDate.Month + "/" + toDate.Year;
+            // Hiển thị quyền nâng cao với user đang chọn.
+            PanelAdvanceRole.Visible = true;
+            DataTable dtAdvanceRole = rdBus.GetByDepartmentIdAndRole(-1, int.Parse(departmentId));
+            if (dtAdvanceRole.Rows.Count > 0)
+            {
+                chkAdvance.Checked = true;
+                txtLimitMailSend.Text = dtAdvanceRole.Rows[0]["limitSendMail"].ToString();
+                txtLimitCreateCustomer.Text = dtAdvanceRole.Rows[0]["limitCreateCustomer"].ToString();
+                DateTime toDate = DateTime.Parse(dtAdvanceRole.Rows[0]["toDate"].ToString());
+                txtToDate.Text = toDate.Day + "/" + toDate.Month + "/" + toDate.Year;
+            }
+
         }
+        else
+        {
+            // Ẩn module phân quyền nâng cao.
+            PanelAdvanceRole.Visible = false;
+        }
+
+        
     }
     private UserLoginDTO getUserLogin()
     {
@@ -72,19 +88,50 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         }
 
         //load role list
-        DataTable dtRoleList = rlBus.GetAll();
-        DataTable dtRoleDetail = rdBus.GetByDepartmentId(int.Parse(departmentId));
-        
-        //selected role with department
-        dlRoleList.DataSource = dtRoleList;
-        dlRoleList.DataBind();
-        for (int i = 0; i < dtRoleList.Rows.Count; i++)
+        DataTable dtRoleList = null;
+        if (getUserLogin().DepartmentId == 1)
         {
-            DataRow row = dtRoleList.Rows[i];
-            String roleId = row["roleId"].ToString();
+            dtRoleList = rlBus.GetAll();
+        }
+        else
+        {
+            // load role list by role admin level 2.
+            dtRoleList = rlBus.GetRoleByDepartmentId(getUserLogin().DepartmentId);
+        }
+
+        // Lấy danh sách quyền của phòng ban được chọn.
+        DataTable dtRoleDetail = rdBus.GetByDepartmentId(int.Parse(departmentId));     
+  
+        // Không hiển thị với phân quyền tạo phòng ban & tạo user với admin cấp 2
+        DataTable dtNewRoleList = dtRoleList.Clone();
+        foreach (DataRow row in dtRoleList.Rows)
+        {
+            // Không hiển thị chức năng cấp quyền tạo phòng ban & tạo user
+            // Với user thuộc phòng ban tấp 2
+            if (getUserLogin().DepartmentId != 1
+                && (int.Parse(row["roleId"].ToString()) == 9
+                || int.Parse(row["roleId"].ToString()) == 22))
+            {
+                continue;
+            }
+            else
+            {
+
+                dtNewRoleList.ImportRow(row);
+            }
+        }
+
+        dlRoleList.DataSource = dtNewRoleList;
+        dlRoleList.DataBind();
+        for (int i = 0; i < dtNewRoleList.Rows.Count; i++)
+        {
+            DataRow row = dtNewRoleList.Rows[i];
+            string roleId = row["roleId"].ToString();            
+            
             HiddenField hdfRoleId = (HiddenField)dlRoleList.Items[i].FindControl("hdfRoleId");
             hdfRoleId.Value = roleId;
 
+            //selected role with department
             CheckBox chkCheck = (CheckBox)dlRoleList.Items[i].FindControl("chkCheck");
             for (int j = 0; j < dtRoleDetail.Rows.Count; j++)
             {
@@ -102,7 +149,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
             {
                 lblRoleName.ForeColor = Color.Red;
             }
-            
+                    
         }
         hdfDepartmentId.Value = departmentId;
     }
@@ -144,7 +191,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
     {        
         try
         {
-            //get role list by departmentId
+            // Get role list by departmentId
             int departId = int.Parse(hdfDepartmentId.Value.ToString());
             rdBus = new RoleDetailBUS();
             DataTable dtOldRole = rdBus.GetByDepartmentId(departId);
@@ -222,23 +269,29 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
                 rdDto.limitSendMail = limitSendMail;
                 rdDto.limitCreateCustomer = limitCreateCustomer;
                 rdDto.toDate = convertStringToDate(toDate);
-                rdBus.tblRoleDetail_Update(rdDto);
+                ConnectionData.OpenMyConnection();
                 int rsUpdate = rdBus.tblRoleDetail_Update(rdDto);
+                ConnectionData.CloseMyConnection();
                 if (rsUpdate <= 0)
                 {
                     // Them voi hang ngach gui mail, tao khach hang.
+                    ConnectionData.OpenMyConnection();
                     rdBus.tblRoleDetail_insert(rdDto);
+                    ConnectionData.CloseMyConnection();
                 } 
 
                 // Reset thong tin so luong da gui mail cua tat ca user trong group.
                 UserLoginBUS ulBus = new UserLoginBUS();
+                ConnectionData.OpenMyConnection();
                 ulBus.tblUserLogin_UpdateByDepartmentId(departmentId, 0);
-
+                ConnectionData.CloseMyConnection();
             }
             else
             {
                 // Xóa phân quyền nâng cao.
+                ConnectionData.OpenMyConnection();
                 rdBus.tblRoleDetail_Delete(-1, departmentId);
+                ConnectionData.CloseMyConnection();
             }
 
             PanelAdvanceSuccess.Visible = true;

@@ -92,7 +92,7 @@ p {
 
 .half-size-column {
 	width: 48%;
-    height: 224px;
+	/*height: 330px;*/
 }
 
 div.stripe-separator {
@@ -206,7 +206,6 @@ width: 360px;}
 }
 .full-width-editor {
 	width: 100%;
-   
 }
 
 /* Page Container Style */

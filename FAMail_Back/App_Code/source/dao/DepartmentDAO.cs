@@ -23,13 +23,13 @@ public class DepartmentDAO
 	}
     public void tblDepartment_insert(DepartmentDTO dt)
     {
-        string sql = "INSERT INTO tblDepartment(Name, Description, Role) "+
-	                 "VALUES(@Name, @Description, @Role)";
+        string sql = "INSERT INTO tblDepartment(Name, Description, UserId) "+
+                     "VALUES(@Name, @Description, @UserId)";
         SqlCommand   cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
-        cmd.Parameters.Add("@Role", SqlDbType.Int).Value = dt.Role;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -38,13 +38,13 @@ public class DepartmentDAO
         string sql = "UPDATE tblDepartment SET "+
 	            "Name = @Name, " +
 	            "Description = @Description, "+
-                "Role = @Role WHERE ID = @ID";
+                "UserId = @UserId WHERE ID = @ID";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@ID", SqlDbType.Int).Value = dt.ID;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
-        cmd.Parameters.Add("@Role", SqlDbType.Int).Value = dt.Role;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -72,6 +72,19 @@ public class DepartmentDAO
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByUserID(int UserId)
+    {
+        string sql = "SELECT * FROM tblDepartment WHERE UserId = @UserId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);

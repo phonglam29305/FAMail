@@ -113,11 +113,6 @@
 		
 		<!--end content 01-->
 	  </div>
-
-
-
-
-
 	    <div class="content-module">
 				<div class="content-module-heading cf">				
 				    <h3 class="fl">Danh sách cấu hình</h3>

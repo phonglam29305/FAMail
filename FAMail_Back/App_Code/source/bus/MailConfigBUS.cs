@@ -63,4 +63,14 @@ public class MailConfigBUS:IMailConfig
     }
 
     #endregion
+
+    #region IMailConfig Members
+
+
+    public DataTable GetByUserId(int UserId)
+    {
+        return mcDao.GetByUserId(UserId);
+    }
+
+    #endregion
 }

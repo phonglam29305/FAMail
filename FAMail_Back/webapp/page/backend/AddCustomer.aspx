@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/webapp/template/backend/management.master" 
 AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_backend_AddCustomer" Title="FASTAUTOMATICMAIL" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<script>
+    <script>
     $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dtlCustomer_ctl00_chkAll:checkbox').change(function() {
         if ($(this).attr("checked")) $('input:checkbox').attr('checked', 'checked');
         else $('input:checkbox').removeAttr('checked');
@@ -104,13 +104,6 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                 </div>
                 <!-- end content-module-main -->
             </div>
-           <%-- <div>
-               <input type="button" class="check" value="Tất cả" />
-               <input type="checkbox" class="cb-element" /> Checkbox  1
-               <input type="checkbox" class="cb-element" /> Checkbox  2
-               <input type="checkbox" class="cb-element" /> Checkbox  3
-                <input type="checkbox" class="czxcxzc" /> Checkbox  3
-            </div>--%>
  
         </div>
  <div class="side-content fr">

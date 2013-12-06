@@ -31,10 +31,28 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         }
     }
 
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
+    }
+
+
     protected void loadListDepartment()
     {
         deBus = new DepartmentBUS();
-        DataTable tblDepartment = deBus.GetAll();
+        DataTable tblDepartment = null;
+        if (getUserLogin().DepartmentId == 1)
+        {
+            tblDepartment = deBus.GetAll();
+        }
+        else
+        {
+            tblDepartment = deBus.GetByUserID(getUserLogin().UserId);
+        }
         if(tblDepartment.Rows.Count>0)
         {
             drlDepartment.Items.Clear();
@@ -52,44 +70,40 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         ulBus = new UserLoginBUS();
         deBus = new DepartmentBUS();
         DataTable dtLogin = ulBus.GetByDepartmentId(departId);
-        if (dtLogin.Rows.Count > 0)
-        {
-            dlMember.DataSource = dtLogin;
-            dlMember.DataBind();
-            for (int i = 0; i < dtLogin.Rows.Count; i++)
-            {                
-                DataRow row = dtLogin.Rows[i];
+        
+        dlMember.DataSource = dtLogin;
+        dlMember.DataBind();
+        for (int i = 0; i < dtLogin.Rows.Count; i++)
+        {                
+            DataRow row = dtLogin.Rows[i];               
                
-               
-                    Label lblUsername = (Label)dlMember.Items[i].FindControl("lblUsername");
-                    lblUsername.Text = row["Username"].ToString();
+            Label lblUsername = (Label)dlMember.Items[i].FindControl("lblUsername");
+            lblUsername.Text = row["Username"].ToString();
                    
-                    Label lblDepartment = (Label)dlMember.Items[i].FindControl("lblDepartment");
-                    DataTable dtDepartment = deBus.GetByID(int.Parse(row["DepartmentId"].ToString()));
-                    if (dtDepartment.Rows.Count > 0)
-                    {
-                        lblDepartment.Text = dtDepartment.Rows[0]["Name"].ToString();
-                    }
-
-                    LinkButton lbtEdit = (LinkButton)dlMember.Items[i].FindControl("lbtEdit");
-                    lbtEdit.CommandArgument = row["UserId"].ToString();
-
-                    LinkButton lbtDelete = (LinkButton)dlMember.Items[i].FindControl("lbtDelete");
-                    lbtDelete.CommandArgument = row["UserId"].ToString();
-
-                    LinkButton lbtViewDetail = (LinkButton)dlMember.Items[i].FindControl("lbtViewDetail");
-                    lbtViewDetail.CommandArgument = row["UserId"].ToString();
-                    lbtViewDetail.PostBackUrl = "user-detail.aspx?uid=" + row["UserId"].ToString();
-                    if (row["Username"].Equals("administrator"))
-                    {
-                        lbtDelete.Visible = false;
-                        lbtEdit.Visible = false;
-                        lbtViewDetail.Visible = false;
-                    }                  
-                            
+            Label lblDepartment = (Label)dlMember.Items[i].FindControl("lblDepartment");
+            DataTable dtDepartment = deBus.GetByID(int.Parse(row["DepartmentId"].ToString()));
+            if (dtDepartment.Rows.Count > 0)
+            {
+                lblDepartment.Text = dtDepartment.Rows[0]["Name"].ToString();
             }
-            
-        }
+
+            LinkButton lbtEdit = (LinkButton)dlMember.Items[i].FindControl("lbtEdit");
+            lbtEdit.CommandArgument = row["UserId"].ToString();
+
+            LinkButton lbtDelete = (LinkButton)dlMember.Items[i].FindControl("lbtDelete");
+            lbtDelete.CommandArgument = row["UserId"].ToString();
+
+            LinkButton lbtViewDetail = (LinkButton)dlMember.Items[i].FindControl("lbtViewDetail");
+            lbtViewDetail.CommandArgument = row["UserId"].ToString();
+            lbtViewDetail.PostBackUrl = "user-detail.aspx?uid=" + row["UserId"].ToString();
+            if (row["Username"].Equals("administrator"))
+            {
+                lbtDelete.Visible = false;
+                lbtEdit.Visible = false;
+                lbtViewDetail.Visible = false;
+            }                  
+                            
+        }     
         
     }
     protected void drlDepartment_SelectedIndexChanged(object sender, EventArgs e)

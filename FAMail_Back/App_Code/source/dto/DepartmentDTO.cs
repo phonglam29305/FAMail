@@ -24,6 +24,6 @@ public class DepartmentDTO
     public int ID { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Role { get; set; }
+    public int UserId { get; set; }
 
 }

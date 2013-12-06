@@ -53,7 +53,7 @@ public partial class webapp_page_backend_Mail_Error : System.Web.UI.Page
         }
         else
         {
-            tblSendDetail = srdBus.GetByStatus(status, Session["us-login"].ToString());
+            tblSendDetail = srdBus.GetByStatus(status);
         }
         
         if (tblSendDetail.Rows.Count > 0)

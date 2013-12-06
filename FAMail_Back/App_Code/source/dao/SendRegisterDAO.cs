@@ -67,7 +67,7 @@ public class SendRegisterDAO
         cmd.Parameters.Add("@SendType", SqlDbType.Int).Value = dt.SendType;
         cmd.Parameters.Add("@Status", SqlDbType.Int).Value = dt.Status;
         cmd.Parameters.Add("@ErrorType", SqlDbType.Int).Value = dt.ErrorType;
-        cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = dt.ErrorType;
+        cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = dt.MailConfigID;
         cmd.Parameters.Add("@GroupTo", SqlDbType.Int).Value = dt.GroupTo;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
@@ -90,7 +90,7 @@ public class SendRegisterDAO
     }
     public DataTable GetAll(int MailConfigID)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegister WHERE  MailConfigID = @MailConfigID", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegister WHERE  AccountId = @MailConfigID", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = MailConfigID;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -158,6 +158,23 @@ public class SendRegisterDAO
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Status", SqlDbType.Int).Value = status;
         cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = MailConfigID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByStatusUser(int status, int AccountId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegister WHERE Status = @Status and AccountId = @AccountId ", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Status", SqlDbType.Int).Value = status;
+        cmd.Parameters.Add("@AccountId", SqlDbType.Int).Value = AccountId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
