@@ -49,6 +49,15 @@ public class PackageBUS
     {
         return sign.GetByUserId(packageId);
     }
-    
 
+
+    public bool deletePackageFuntion(int packageID)
+    {
+        return sign.deletePackageFuntion(packageID);
+    }
+
+    public bool addFunction(int packageID, int functionId)
+    {
+        return sign.addFunction(packageID,  functionId);
+    }
 }

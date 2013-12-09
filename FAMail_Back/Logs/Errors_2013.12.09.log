@@ -1,0 +1,56 @@
+2013-12-09 23:47:20,538 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 57
+2013-12-09 23:47:29,287 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 57
+2013-12-09 23:50:52,407 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 67
+2013-12-09 23:51:53,401 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 67
+2013-12-09 23:52:39,103 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 67
+2013-12-09 23:52:57,354 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 67
+2013-12-09 23:58:32,026 - PackageFunction - Save
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at webapp_page_backend_Default.btnSave_Click(Object sender, EventArgs e) in d:\Working\web\FAMail\FAMail_Back\webapp\page\backend\PackageFunction.aspx.cs:line 69

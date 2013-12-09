@@ -119,4 +119,29 @@ public class PackageDAO
         cmd.Dispose();
     }
 
+
+    internal bool deletePackageFuntion(int packageID)
+    {
+        string sql = "delete tblPackageFunction where packageid=@packageId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+
+        cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = packageID;
+        int i= cmd.ExecuteNonQuery();
+        cmd.Dispose();
+        return i > 0;
+    }
+
+    internal bool addFunction(int packageID, int functionId)
+    {
+        string sql = "insert into tblPackageFunction values( @packageId,@functionid)";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+
+        cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = packageID;
+        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
+        int i = cmd.ExecuteNonQuery();
+        cmd.Dispose();
+        return i > 0;
+    }
 }

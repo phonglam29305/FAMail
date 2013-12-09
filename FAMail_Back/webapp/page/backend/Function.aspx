@@ -37,7 +37,7 @@
 							    <label for="simple-input">Diễn giải</label>								
                                 <asp:TextBox ID="txtdiengiai" CssClass="round default-width-input"  Width="92%"  TextMode="MultiLine" 
                                     runat="server" OnTextChanged="txtdiengiai_TextChanged"></asp:TextBox>
-                                <em>Giải thích về những thông tin của phòng ban </em>
+                                <em>Giải thích về chức năng gói dịch vụ </em>
 						    </p>	
                              <p>
 								    <label for="full-width-input">Giá </label>

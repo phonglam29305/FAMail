@@ -59,4 +59,9 @@ public class FunctionBUS
         return sign.tblFunction_GetByID(functionName);
     }
 
+
+    public DataTable GetbyPackage(int packageId)
+    {
+        return sign.GetbyPackage(packageId);
+    }
 }

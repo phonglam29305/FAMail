@@ -16,5 +16,6 @@ public class PackageDTO
     public string diengiai { get; set; }
     public int limitId { get; set; }
     public int subAccontCount { get; set; }
+    public long emailCount { get; set; }
     public bool isActive { get; set; }
 }

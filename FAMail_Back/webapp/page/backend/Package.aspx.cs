@@ -48,12 +48,17 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin != null)
         {
+            int temp = 0;
             //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.packageId = userLogin.UserId;
             sign.packageName=txtname.Text;
             sign.diengiai = txtdiengiai.Text;
-            sign.subAccontCount = int.Parse(txtsubaccount.Text);
-            sign.limitId = int.Parse(drlDepartmen.Text);
+            int.TryParse(txtsubaccount.Text, out temp);
+            sign.subAccontCount = temp;
+            int.TryParse(drlDepartmen.Text, out temp);
+            sign.limitId = int.Parse(drlDepartmen.SelectedValue);
+            int.TryParse(txtEmailCount.Text, out temp);
+            sign.emailCount = temp;
 
         }
         return sign;
@@ -71,8 +76,13 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             //sign.packageId = userLogin.UserId;
             sign.packageName = txtname.Text;
             sign.diengiai = txtdiengiai.Text;
-            sign.subAccontCount = int.Parse(txtsubaccount.Text);
-            sign.limitId = int.Parse(drlDepartmen.Text);
+            int temp = 0;
+            int.TryParse(txtsubaccount.Text, out temp);
+            sign.subAccontCount = temp;
+            int.TryParse(drlDepartmen.Text, out temp);
+            sign.limitId = int.Parse(drlDepartmen.SelectedValue);
+            int.TryParse(txtEmailCount.Text, out temp);
+            sign.emailCount = temp;
 
         }
         return sign;
@@ -114,6 +124,10 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             masseng = "Nhập số tài khoản con không đúng định dạng";
         }
+        else if (kiemtraso(txtEmailCount.Text) == false)
+        {
+            masseng = "Nhập số email quản lý không đúng định dạng";
+        }
         
         return masseng;
     }
@@ -151,12 +165,12 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 pnSuccess.Visible = true;
                 if (status == 1)
                 {
-                    lblSuccess.Text = "Bạn vừa thêm thành công chức năng !";
+                    lblSuccess.Text = "Bạn vừa thêm thành công gói dịch vụ !";
                 }
                 else
                     if (status == 2)
                     {
-                        lblSuccess.Text = "Bạn vừa cập nhật thành công chức năng !";
+                        lblSuccess.Text = "Bạn vừa cập nhật thành công gói dịch vụ !";
                     }
             }
             else
@@ -169,7 +183,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             pnSuccess.Visible = false;
@@ -213,6 +227,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 txtdiengiai.Text = table.Rows[0]["diengiai"].ToString();
                 txtsubaccount.Text = table.Rows[0]["subAccontCount"].ToString();
                 drlDepartmen.Text = table.Rows[0]["limitId"].ToString();
+                txtEmailCount.Text = table.Rows[0]["emailCount"].ToString();
                 this.hdfId.Value = packageId + "";
 
             }
