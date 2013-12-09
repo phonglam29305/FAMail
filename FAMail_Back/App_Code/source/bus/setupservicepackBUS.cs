@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for setupservicepack
+/// Summary description for setupservicepackBUS
 /// </summary>
-public class setupservicepack
+public class setupservicepackBUS
 {
-	public setupservicepack()
+	public setupservicepackBUS()
 	{
 		//
 		// TODO: Add constructor logic here
