@@ -373,15 +373,15 @@ public class Common
         return 0;
     }
 
-    enum userType : int
+    public enum userType : int
     {
         Admin = 0, Client = 1, subClient = 2
     }
-    enum clientStatus : int
+    public enum clientStatus : int
     {
-        Online = 0, Expire = 1, Suppend = 2
+        Normal = 0, Expire = 1, Lock = 2
     }
-    enum registerType : int
+    public enum registerType : int
     {
         New = 0, Extension = 1, Upgrade = 2, addFunction = 3
     }
