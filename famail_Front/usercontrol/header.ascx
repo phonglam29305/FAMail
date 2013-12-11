@@ -67,10 +67,9 @@
 			<li><a href="../Default.aspx">Email Marketing</a></li>
             <li><a href="#">Hệ thống Famail</a></li>
             <li><a href="#">Hướng dẫn đăng ký</a></li>
-            <li><a href="../tinh-nang-he-thong/Bang-gia.aspx">Bảng giá</a></li>
+            <li><a href="tinh-nang-he-thong/Bang-gia.aspx">Bảng giá</a></li>
             <li><a href="#">Blog</a></li>
-            <li><a href="../dieu-khoan/gioi-thieu-fa-mail.aspx"> Về chúng tôi</a></li>					
+            <li><a href="dieu-khoan/gioi-thieu-fa-mail.aspx"> Về chúng tôi</a></li>					
         </ul>
-
 <%-- <div id="divche"></div>
  <div id="divpopup"></div>--%>

@@ -5,20 +5,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "FAMail_Back\
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		Debug.AspNetCompiler.VirtualPath = "/FAMail_Back"
-		Debug.AspNetCompiler.PhysicalPath = "..\FAMail_Back\"
+		Debug.AspNetCompiler.PhysicalPath = "FAMail_Back\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Back\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/FAMail_Back"
-		Release.AspNetCompiler.PhysicalPath = "..\FAMail_Back\"
+		Release.AspNetCompiler.PhysicalPath = "FAMail_Back\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Back\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "56493"
+		VWDPort = "14815"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -39,7 +39,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Front", "FAMail_Fron
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "1356"
+		VWDPort = "14806"
 	EndProjectSection
 EndProject
 Global
