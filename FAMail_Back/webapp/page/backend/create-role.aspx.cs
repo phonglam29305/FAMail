@@ -31,9 +31,9 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
             {
                 pnError.Visible = true;
                 lblError.Text = "Vui lòng chọn phòng ban cần phân quyền !";
-            }            
+            }
         }
-        
+
     }
 
     private void loadAdvanceRole()
@@ -46,7 +46,8 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         if (dtAdvanceRoleWithAdmin.Rows.Count > 0)
         {
             // Hiển thị quyền nâng cao với user đang chọn.
-            PanelAdvanceRole.Visible = true;
+            // tam edit PanelAdvanceRole.Visible = true;
+            PanelAdvanceRole.Visible = false;
             DataTable dtAdvanceRole = rdBus.GetByDepartmentIdAndRole(-1, int.Parse(departmentId));
             if (dtAdvanceRole.Rows.Count > 0)
             {
@@ -64,7 +65,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
             PanelAdvanceRole.Visible = false;
         }
 
-        
+
     }
     private UserLoginDTO getUserLogin()
     {
@@ -84,7 +85,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         if (tblDepartment.Rows.Count > 0)
         {
             string info = tblDepartment.Rows[0]["Name"].ToString();
-                    lblDepartmentName.Text = info;
+            lblDepartmentName.Text = info;
         }
 
         //load role list
@@ -100,8 +101,8 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         }
 
         // Lấy danh sách quyền của phòng ban được chọn.
-        DataTable dtRoleDetail = rdBus.GetByDepartmentId(int.Parse(departmentId));     
-  
+        DataTable dtRoleDetail = rdBus.GetByDepartmentId(int.Parse(departmentId));
+
         // Không hiển thị với phân quyền tạo phòng ban & tạo user với admin cấp 2
         DataTable dtNewRoleList = dtRoleList.Clone();
         foreach (DataRow row in dtRoleList.Rows)
@@ -126,8 +127,8 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         for (int i = 0; i < dtNewRoleList.Rows.Count; i++)
         {
             DataRow row = dtNewRoleList.Rows[i];
-            string roleId = row["roleId"].ToString();            
-            
+            string roleId = row["roleId"].ToString();
+
             HiddenField hdfRoleId = (HiddenField)dlRoleList.Items[i].FindControl("hdfRoleId");
             hdfRoleId.Value = roleId;
 
@@ -141,21 +142,21 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
                     chkCheck.Checked = true;
                     break;
                 }
-            }          
+            }
 
             Label lblRoleName = (Label)dlRoleList.Items[i].FindControl("lblRoleName");
-            lblRoleName.Text = row["roleName"]!=null?row["roleName"].ToString():"";
+            lblRoleName.Text = row["roleName"] != null ? row["roleName"].ToString() : "";
             if (int.Parse(roleId) >= 100) // Là những tùy chọn chức năng chính.
             {
                 lblRoleName.ForeColor = Color.Red;
             }
-                    
+
         }
         hdfDepartmentId.Value = departmentId;
     }
-    
+
     protected bool checkExistRole(int roleId, int departmentId)
-    {        
+    {
         rdBus = new RoleDetailBUS();
         DataTable dtRoleDetail = rdBus.GetByDepartmentIdAndRole(roleId, departmentId);
         //check exists role in role_detail
@@ -175,7 +176,8 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         for (int i = 0; i < oldRole.Rows.Count; i++)
         {
             row = oldRole.Rows[i];
-            if(int.Parse(row["roleId"].ToString())==currentRole){
+            if (int.Parse(row["roleId"].ToString()) == currentRole)
+            {
                 find = true;
                 oldRole.Rows.Remove(row);
                 break;
@@ -188,7 +190,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
         }
     }
     protected void lbtChangeRole_Click(object sender, EventArgs e)
-    {        
+    {
         try
         {
             // Get role list by departmentId
@@ -201,7 +203,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
 
             //iterator to check new_role with old_role
             for (int i = 0; i < dlRoleList.Items.Count; i++)
-            {                
+            {
                 CheckBox chkCheck = (CheckBox)dlRoleList.Items[i].FindControl("chkCheck");
                 HiddenField hdfRoleId = (HiddenField)dlRoleList.Items[i].FindControl("hdfRoleId");
                 if (chkCheck.Checked)
@@ -216,7 +218,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
                 {
                     int roleId = int.Parse(dtOldRole.Rows[j]["roleId"].ToString());
                     ConnectionData.OpenMyConnection();
-                    rdBus.tblRoleDetail_Delete(roleId,departId);
+                    rdBus.tblRoleDetail_Delete(roleId, departId);
                     ConnectionData.CloseMyConnection();
                 }
             }
@@ -245,7 +247,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
             lblSuccess.Text = "Đã thay đổi quyền thành công !";
         }
         catch (Exception)
-        {            
+        {
             throw;
         }
     }
@@ -278,7 +280,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
                     ConnectionData.OpenMyConnection();
                     rdBus.tblRoleDetail_insert(rdDto);
                     ConnectionData.CloseMyConnection();
-                } 
+                }
 
                 // Reset thong tin so luong da gui mail cua tat ca user trong group.
                 UserLoginBUS ulBus = new UserLoginBUS();
@@ -296,7 +298,7 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
 
             PanelAdvanceSuccess.Visible = true;
             lblAdvanceSuccess.Text = "Cập nhập thành công !";
-  
+
         }
         catch (Exception)
         {
@@ -309,9 +311,9 @@ public partial class webapp_page_backend_create_role : System.Web.UI.Page
     {
         int day = int.Parse(strDate.Substring(0, 2));
         int month = int.Parse(strDate.Substring(3, 2));
-        int year = int.Parse(strDate.Substring(6, 4));        
+        int year = int.Parse(strDate.Substring(6, 4));
         DateTime dDate = new DateTime(year, month, day);
         return dDate;
     }
-    
+
 }

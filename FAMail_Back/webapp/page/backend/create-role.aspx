@@ -3,11 +3,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 	 <script>
-	      function checkAll() {
-	          var checked = !$(this).data('checked');
-	          $('input:checkbox').prop('checked', checked);
-	          $(this).data('checked', checked);
-	      }
+	     function checkAll() {
+	         var checked = !$(this).data('checked');
+	         $('input:checkbox').prop('checked', checked);
+	         $(this).data('checked', checked);
+	     }
     </script>
           
 	  <div class="side-content fr">				         
@@ -83,7 +83,7 @@
 				        </p>
 					    </fieldset>
 					</div>
-					
+				  
                   <asp:Panel ID="PanelAdvanceRole" runat="server">                  
 					<div class="half-size-column fr">
 					 
@@ -129,17 +129,18 @@
 					    </fieldset>
 					</div>
                   </asp:Panel>
+                 
 			  </div>
 	        </div>
 	     </div>
 	  </div>
 
-<script type="text/javascript">	
-	$(function(){
-	    $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtToDate').datetimepicker({
-	            timeFormat: "", dateFormat: "dd/mm/yy"
-            });			 		
-	});	
+<script type="text/javascript">
+    $(function () {
+        $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtToDate').datetimepicker({
+            timeFormat: "", dateFormat: "dd/mm/yy"
+        });
+    });
 </script> 	    
 </asp:Content>
 

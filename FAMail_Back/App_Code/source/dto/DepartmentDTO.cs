@@ -15,15 +15,15 @@ using System.Xml.Linq;
 /// </summary>
 public class DepartmentDTO
 {
-	public DepartmentDTO()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public DepartmentDTO()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
     public int ID { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public int UserId { get; set; }
-
+    public int UserType { get; set; }
 }

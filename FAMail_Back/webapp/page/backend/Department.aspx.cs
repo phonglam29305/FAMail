@@ -44,10 +44,11 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             {
                 tblDepart = dpBUS.GetAll();
             }
-            else {
+            else
+            {
                 tblDepart = dpBUS.GetByUserID(getUserLogin().UserId);
-            }            
-            
+            }
+
             dlDepartment.DataSource = tblDepart;
             dlDepartment.DataBind();
             for (int i = 0; i < tblDepart.Rows.Count; i++)
@@ -68,7 +69,7 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         catch (Exception)
         {
         }
-       
+
     }
 
     private void InitBUS()
@@ -96,7 +97,7 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
                 dpBUS.tblDepartment_Delete(Id);
                 Visible(false);
                 pnSuccess.Visible = true;
-                lblSuccess.Text = "Bạn vừa xóa thành công phong ban ID: "+ Id.ToString();
+                lblSuccess.Text = "Bạn vừa xóa thành công phong ban ID: " + Id.ToString();
                 LoadDepartmentList();
             }
             ConnectionData.CloseMyConnection();
@@ -104,8 +105,8 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            
-           
+
+
         }
     }
 
@@ -124,6 +125,7 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             dpDTO.Name = this.txtDepartment.Text;
             dpDTO.Description = this.txtDescription.Text;
             dpDTO.UserId = getUserLogin().UserId; // Mac dinh la 1, khong quan ly
+            dpDTO.UserType = int.Parse(this.dropTypeUser.SelectedItem.Value.ToString());
             ConnectionData.OpenMyConnection();
             dpBUS.tblDepartment_insert(dpDTO);
             Visible(false);
@@ -135,6 +137,6 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         catch (Exception)
         {
         }
-        
+
     }
 }

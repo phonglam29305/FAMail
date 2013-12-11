@@ -34,6 +34,19 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 								    <em>Tên của bộ phận! </em>								
 							    </p>							    					
 						 </fieldset>	
+                         <fieldset>  
+						                <p>
+								            <label for="full-width-input">Nhóm người dùng</label>
+						         	        <asp:DropDownList ID="dropTypeUser" runat="server" Height="30px" Width="100px">
+                                            <asp:ListItem Value="0">Admin</asp:ListItem>
+                                            <asp:ListItem Value="1">Client</asp:ListItem>
+                                            <asp:ListItem Value="2">SubClient</asp:ListItem>
+                                            </asp:DropDownList>
+								            <em>Loại nhóm người dùng! </em>								
+							            </p>							    					
+						 </fieldset>	
+    				
+                         
     				
 				    </div> <!-- end half-size-column -->
 				    <div class="half-size-column fr" style="height:auto;">
@@ -82,6 +95,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 		                            <tr>
 			                            <th>NO.</th>
 			                            <th>Tên phòng ban</th>
+                                         <th>Nhóm người dùng</th>
 			                            <th>Giải thích</th>				                            		                            
 			                            <th>Option</th>
 		                            </tr>            						
@@ -95,7 +109,10 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 								            </td>
                                             <td>								            
                                                 <asp:Label ID="Name" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
-								            </td>								            
+								            </td>	
+                                            <td>								            
+                                                <asp:Label ID="lblUserType" runat="server" Text='<%# Eval("UserType") %>'></asp:Label>
+								            </td>							            
 								            <td>
 								                <asp:Label ID="Description" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
 								            </td>

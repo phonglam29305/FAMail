@@ -17,27 +17,28 @@ using Email;
 /// </summary>
 public class DepartmentDAO
 {
-	public DepartmentDAO()
-	{
+    public DepartmentDAO()
+    {
 
-	}
+    }
     public void tblDepartment_insert(DepartmentDTO dt)
     {
-        string sql = "INSERT INTO tblDepartment(Name, Description, UserId) "+
-                     "VALUES(@Name, @Description, @UserId)";
-        SqlCommand   cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        string sql = "INSERT INTO tblDepartment(Name, Description, UserId,UserType) " +
+                     "VALUES(@Name, @Description, @UserId,@UserType)";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
+        cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = dt.UserType;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
     public void tblDepartment_Update(DepartmentDTO dt)
     {
-        string sql = "UPDATE tblDepartment SET "+
-	            "Name = @Name, " +
-	            "Description = @Description, "+
+        string sql = "UPDATE tblDepartment SET " +
+                "Name = @Name, " +
+                "Description = @Description, " +
                 "UserId = @UserId WHERE ID = @ID";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -57,15 +58,26 @@ public class DepartmentDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
+
     public DataTable GetAll()
     {
-        string sql = "SELECT * FROM tblDepartment";
+        string sql = "SELECT * FROM vw_tblDepartment";
         SqlDataAdapter adapter = new SqlDataAdapter(sql, ConnectionData._MyConnection);
         DataTable table = new DataTable();
         adapter.Fill(table);
         adapter.Dispose();
         return table;
     }
+
+    //public DataTable GetAll()
+    //{
+    //    string sql = "SELECT * FROM tblDepartment";
+    //    SqlDataAdapter adapter = new SqlDataAdapter(sql, ConnectionData._MyConnection);
+    //    DataTable table = new DataTable();
+    //    adapter.Fill(table);
+    //    adapter.Dispose();
+    //    return table;
+    //}
     public DataTable GetByID(int ID)
     {
         string sql = "SELECT * FROM tblDepartment WHERE ID = @ID";
@@ -93,4 +105,18 @@ public class DepartmentDAO
         return table;
     }
 
+
+    public DataTable GetUserType(int departId)
+    {
+        string sql = "SELECT * FROM tblDepartment WHERE ID = @departId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@departId", SqlDbType.Int).Value = departId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 }
