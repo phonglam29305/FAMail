@@ -24,12 +24,12 @@ public class FunctionDAO
     }
     public void tblFunction_insert(FunctionDTO dt)
     {
-        string sql = "INSERT INTO tblFunction (functionName, cost,isDefault,diengiai) " +
-                     "VALUES( @functionName, @cost,@isDefault,@diengiai) ";
+        string sql = "INSERT INTO tblFunction (functionName, cost,isDefault,description) " +
+                     "VALUES( @functionName, @cost,@isDefault,@description) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@functionName", SqlDbType.NVarChar).Value = dt.functionName;
-        cmd.Parameters.Add("@diengiai", SqlDbType.NVarChar).Value = dt.diengiai;
+        cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = dt.description;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
         cmd.Parameters.Add("@isDefault", SqlDbType.Bit).Value = dt.isDefault;
         cmd.ExecuteNonQuery();

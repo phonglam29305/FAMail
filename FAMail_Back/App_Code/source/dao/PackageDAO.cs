@@ -58,12 +58,12 @@ public class PackageDAO
 
     public void tblPackage_insert(PackageDTO dt)
     {
-        string sql = "INSERT INTO tblPackage (packageName, diengiai,limitId,subAccontCount,isActive) " +
-                     "VALUES( @packageName, @diengiai,@limitId,@subAccontCount,@isActive) ";
+        string sql = "INSERT INTO tblPackage (packageName, description,limitId,subAccontCount,isActive) " +
+                     "VALUES( @packageName, @description,@limitId,@subAccontCount,@isActive) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = dt.packageName;
-        cmd.Parameters.Add("@diengiai", SqlDbType.NVarChar).Value = dt.diengiai;
+        cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = dt.description;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = dt.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = dt.subAccontCount;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
@@ -103,7 +103,7 @@ public class PackageDAO
                     "packageName = @packageName, " +
                     "limitId= @limitId, " +
                     "subAccontCount= @subAccontCount, " +
-                     "diengiai= @diengiai, " +
+                     "description= @description, " +
                      "isActive= @isActive " +
                     " WHERE packageId = @packageId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
@@ -112,7 +112,7 @@ public class PackageDAO
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = dt.packageName;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = dt.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = dt.subAccontCount;
-        cmd.Parameters.Add("@diengiai", SqlDbType.NVarChar).Value = dt.diengiai;
+        cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = dt.description;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = dt.packageId;
         cmd.ExecuteNonQuery();

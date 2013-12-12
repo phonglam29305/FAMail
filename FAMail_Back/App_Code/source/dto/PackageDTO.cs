@@ -13,9 +13,10 @@ public class PackageDTO
 	}
     public int packageId { get; set; }
     public string packageName { get; set; }
-    public string diengiai { get; set; }
+    public string description { get; set; }
     public int limitId { get; set; }
     public int subAccontCount { get; set; }
+    public bool isUnlimit { get; set; }
     public long emailCount { get; set; }
     public bool isActive { get; set; }
 }

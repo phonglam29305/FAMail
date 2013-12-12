@@ -21,7 +21,7 @@ public class FunctionDTO
 	}
     public int functionId { get; set; }
     public string functionName { get; set; }
-    public string diengiai { get; set; }
+    public string description { get; set; }
     public float cost { get; set; }
     public bool isDefault { get; set; }
 }
