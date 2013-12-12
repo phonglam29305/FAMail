@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="clientRegister.aspx.cs" Inherits="webapp_page_backend_clientRegister" %>
-
+<%@ Register Assembly="CollectionPager" Namespace="SiteUtils" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="side-content fr">
 
@@ -89,7 +89,7 @@
                         <fieldset>
 
                             <asp:Button ID="btnSave" runat="server" Text="Tìm kiếm"
-                                CssClass="button round blue image-right ic-add text-upper" 
+                                CssClass="button round blue image-right ic-add text-upper" OnClick="btnSave_Click" 
                                  />
 
 
@@ -111,17 +111,18 @@
             <div class="full-width-editor">
                 <!-- end content-module-heading -->
                 <%--<table>	                --%>
-                <%--  <table>--%>
+                  <table>
                 <asp:DataList ID="dtregister" runat="server" RepeatColumns="1" Width="100%">
                     <HeaderTemplate>
                         <thead>
                             <tr>
 
-                                <th>Tên gói dịch vụ </th>
-                                <th>Số lượng tk con  </th>
-                                <th>Giới hạn mail </th>
-                                <th>Hiệu lực </th>
-                                <th>Diều chỉnh </th>
+                                <th>Khách hàng </th>
+                                <th>Gói mail  </th>
+                                <th>Ngày đăng ký </th>
+                                <th>Ngày hết hạng </th>
+                                <th>Giá </th>
+                                <th>Loại giao dịch </th>
                             </tr>
                         </thead>
                     </HeaderTemplate>
@@ -137,16 +138,19 @@
                             <tr>
 
                                 <td style="text-align: left; padding-left: 10px;">
-                                    <asp:Label ID="lblAttr" runat="server" Text='<%# Eval("packageName") %>'></asp:Label>
+                                    <asp:Label ID="lblAttr" runat="server" Text='<%# Eval("clientName") %>'></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:Label ID="lblGmail" runat="server" Text='<%# Eval("subAccontCount") %>'></asp:Label>
+                                    <asp:Label ID="lblGmail" runat="server" Text='<%# Eval("namepackagelimit") %>'></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("limitId") %>'></asp:Label>
+                                    <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("registerDate") %>'></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("isActive") %>'></asp:Label>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("expireDate") %>'></asp:Label>
+                                </td>
+                                   <td>
+                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("cost") %>'></asp:Label>
                                 </td>
 
 
@@ -167,6 +171,11 @@
                         </tbody>
                     </ItemTemplate>
                 </asp:DataList>
+                 <cc1:CollectionPager ID="dlPager" runat="server"
+                        ControlCssClass="hung" BackNextDisplay="HyperLinks" BackText="« Trước"
+                        LabelText="Trang:" NextText="Sau »"
+                        ResultsFormat="Hiện thị kết quả {0}-{1} ({2})" ResultsLocation="None">
+                    </cc1:CollectionPager>
                 <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [diengiai], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
                                 </table>
                   

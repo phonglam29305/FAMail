@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="slideimage.ascx.cs" Inherits="usercontrol_slideimage" %>
 		
       
-        <script src="../js/jquery.min.js"></script>
-        <link href="../colorbox.css" rel="stylesheet" />
+        <script src="js/jquery.min.js"></script>
+        <link href="colorbox.css" rel="stylesheet" />
         <script src="js/jquery.colorbox.js"></script>
 		<script>
 		    $(document).ready(function () {
@@ -11,7 +11,7 @@
 		    //Example of preserving a JavaScript event for inline calls.		    
 		</script>
         
-        <link href="../css/cssform.css" rel="stylesheet" /> <%--CSS form --%>
+        <link href="css/cssform.css" rel="stylesheet" /> <%--CSS form --%>
 
 
 
@@ -28,7 +28,7 @@
     	</div>
 		<div class="sectionBtns">
             
-    	<a href="../tinh-nang-he-thong/Bang-gia.aspx">
+    	<a href="tinh-nang-he-thong/Bang-gia.aspx">
             <asp:Image ID="Image1" title="Bảng giá & Đăng ký" runat="server" ImageUrl="~/css/images/banggiavadangky.png" />
     	</a>
     	         
