@@ -35,8 +35,8 @@
 							    </p>	
                           <p>
 							    <label for="simple-input">Diễn giải</label>								
-                                <asp:TextBox ID="txtdiengiai" CssClass="round default-width-input"  Width="92%"  TextMode="MultiLine" 
-                                    runat="server" OnTextChanged="txtdiengiai_TextChanged"></asp:TextBox>
+                                <asp:TextBox ID="txtdescription" CssClass="round default-width-input"  Width="92%"  TextMode="MultiLine" 
+                                    runat="server" OnTextChanged="txtdescription_TextChanged"></asp:TextBox>
                                 <em>Giải thích về chức năng gói dịch vụ </em>
 						    </p>	
                              <p>
@@ -132,7 +132,7 @@
                                 </tbody>        
                                         </ItemTemplate>
                                     </asp:DataList>
-                              <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [diengiai], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
+                              <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [description], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
                                 </table>
                   
 				  </div>

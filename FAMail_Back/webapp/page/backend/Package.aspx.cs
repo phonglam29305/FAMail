@@ -29,7 +29,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     public void xoatextbok()
     {
-        txtdiengiai.Text="";
+        txtdescription.Text="";
         txtsubaccount.Text = "";
         txtname.Text = "";
     }
@@ -52,7 +52,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.packageId = userLogin.UserId;
             sign.packageName=txtname.Text;
-            sign.diengiai = txtdiengiai.Text;
+            sign.description = txtdescription.Text;
             int.TryParse(txtsubaccount.Text, out temp);
             sign.subAccontCount = temp;
             int.TryParse(drlDepartmen.Text, out temp);
@@ -75,7 +75,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.packageId = Convert.ToInt32(hdfId.Value);
             //sign.packageId = userLogin.UserId;
             sign.packageName = txtname.Text;
-            sign.diengiai = txtdiengiai.Text;
+            sign.description = txtdescription.Text;
             int temp = 0;
             int.TryParse(txtsubaccount.Text, out temp);
             sign.subAccontCount = temp;
@@ -224,7 +224,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             if (table.Rows.Count > 0)
             {
                 txtname.Text = table.Rows[0]["packageName"].ToString();
-                txtdiengiai.Text = table.Rows[0]["diengiai"].ToString();
+                txtdescription.Text = table.Rows[0]["description"].ToString();
                 txtsubaccount.Text = table.Rows[0]["subAccontCount"].ToString();
                 drlDepartmen.Text = table.Rows[0]["limitId"].ToString();
                 txtEmailCount.Text = table.Rows[0]["emailCount"].ToString();

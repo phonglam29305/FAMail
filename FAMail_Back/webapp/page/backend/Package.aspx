@@ -36,7 +36,7 @@
                             </p>
                             <p>
                                 <label for="full-width-input">Diễn giải</label>
-                                <asp:TextBox ID="txtdiengiai" CssClass="round default-width-input" TextMode="MultiLine"
+                                <asp:TextBox ID="txtdescription" CssClass="round default-width-input" TextMode="MultiLine"
                                     runat="server"></asp:TextBox>
 
                                 <br />
@@ -173,7 +173,7 @@
                         </tbody>
                     </ItemTemplate>
                 </asp:DataList>
-                <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [diengiai], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
+                <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [description], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
                                 </table>
                   
             </div>

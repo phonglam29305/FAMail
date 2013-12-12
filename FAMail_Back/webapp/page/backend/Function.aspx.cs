@@ -39,7 +39,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập giá vào";
         }
-        else if (txtdiengiai.Text == "")
+        else if (txtdescription.Text == "")
         {
             masseng = "Vui lòng nhập diễn giải";
         }
@@ -62,7 +62,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.functionId = userLogin.UserId;
             sign.functionName = txtfunctionName.Text;
-            sign.diengiai = txtdiengiai.Text;
+            sign.description = txtdescription.Text;
             sign.cost = float.Parse(txtcode.Text);
 
         }
@@ -79,7 +79,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             sign.functionId = Convert.ToInt32(hdfId.Value);
             //sign.functionId = userLogin.UserId;
             sign.functionName = txtfunctionName.Text;
-            sign.diengiai = txtdiengiai.Text;
+            sign.description = txtdescription.Text;
             sign.cost = float.Parse(txtcode.Text);
 
         }
@@ -149,7 +149,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
         }
         txtcode.Text = "";
-        txtdiengiai.Text = "";
+        txtdescription.Text = "";
         txtfunctionName.Text = "";
         LoadData();
 
@@ -172,7 +172,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             {
 
                 txtfunctionName.Text = table.Rows[0]["functionName"].ToString();
-                txtdiengiai.Text = table.Rows[0]["diengiai"].ToString();
+                txtdescription.Text = table.Rows[0]["description"].ToString();
                 txtcode.Text = table.Rows[0]["cost"].ToString();
                 this.hdfId.Value = functionId + "";
 
@@ -233,7 +233,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     }
 
 
-    protected void txtdiengiai_TextChanged(object sender, EventArgs e)
+    protected void txtdescription_TextChanged(object sender, EventArgs e)
     {
 
     }
