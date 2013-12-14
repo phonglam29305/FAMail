@@ -1,9 +1,226 @@
-body {
+﻿@charset "utf-8";
+
+/*Css form: dùng thử*/
+#inline_dungthu h3 {
+    padding: 20px 30px 20px 30px;
+    background-color: #FFFFFF;
+    color: #0066FF;
+    font-size: 25px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+#inline_dungthu .btnyes {
+    float:left;
+    padding: 20px 35px 0px 100px;
+    margin-left:20px;
+}
+#inline_dungthu .btnno {
+    float:left;
+    padding: 20px 60px 0px 20px;
+    margin-left:20px;
+}
+/*END css form: dùng thử*/
+
+/*Css form: đăng ký*/
+#inline_dangky h2 {
+    text-align: left;
+    padding: 30px 30px 10px 30px;
+    background-color: #FFFFFF;
+    color: #0066FF;
+    font-size: 25px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+#inline_dangky .formcontentdangky .fcdk1 {
+    float:left;
+    width: 485px;
+    padding: 20px 0px 0px 30px;
+}
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk{
+    width: 485px;
+    padding: 0px 0px 9px 0px;
+    float: left;
+    text-align: left;
+}
+#inline_dangky .formcontentdangky .fcdk1 .box-btndangky{
+    width: 500px;
+    padding: 10px 0px 0px 220px;
+    float: left;
+    text-align: left;
+}
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .labelfcdk {
+    padding: 5px 0px 0px 0px;
+    text-align: left;
+    float: left;
+    width: 210px;
+    display: block;
+    font-family: 'Times New Roman' , Times, serif;
+    color: #000000;
+    font-size: 16px;
+}
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox {
+    float: left;
+	margin: 0px 0px 0px 15px;
+}
+
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox .txtbox{
+	border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+}
+
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox .txtmxn {
+    border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:16px;
+	width:100px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
 
 }
 
-.center {
-	text-align: center;
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox .txtbox:focus {
+    background: #DAE9FA;
+}
+#inline_dangky .formcontentdangky .fcdk2 {
+    float:left;
+    padding: 10px 0px 20px 0px;
+   
+    
+}
+/*END css form: đăng ký*/
+
+#inline_dangnhap h3 {
+    padding: 20px 30px 20px 30px;
+    background-color: #FFFFFF;
+    color: #0066FF;
+    font-size: 25px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+#inline_dangnhap .divdangnhap {
+    width:500px;
+}
+#inline_dangnhap .divdangnhap .box-fcdn{
+    width: 490px;
+    padding: 0px 0px 9px 10px;
+    float: left;
+    text-align: left;
+}
+#inline_dangnhap .divdangnhap .box-fcdn .labelfcdn {
+    padding: 5px 0px 0px 0px;
+    text-align: left;
+    float: left;
+    width: 210px;
+    display: block;
+    font-family: 'Times New Roman' , Times, serif;
+    color: #000000;
+    font-size: 16px;
+}
+#inline_dangnhap .divdangnhap .box-fcdn .divbox {
+    float: left;
+	margin: 0px 0px 0px 15px;
 }
 
+#inline_dangnhap .divdangnhap .box-fcdn .divbox .txtbox{
+	border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+}
 
+#inline_dangnhap .divdangnhap .box-fcdn .divbox .txtmxn {
+    border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:16px;
+	width:100px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+}
+#inline_dangnhap .divdangnhap .box-fcdn .divbox .txtbox:focus {
+    background: #DAE9FA;
+}
+#inline_dangnhap .divdangnhap .box-btndangnhap{
+    width: 320px;
+    padding: 10px 0px 0px 170px;
+    float: left;
+    text-align: left;
+}

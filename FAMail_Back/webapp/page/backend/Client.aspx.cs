@@ -85,4 +85,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         clientBUS = new ClientBUS();
     }
 
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+
+    }
 }

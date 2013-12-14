@@ -18,6 +18,7 @@
     public static System.Data.DataTable listMailConfig = new System.Data.DataTable();
     public static int sendRegisterId;
     public static bool find;
+    // chuoi ket noi 
     void Application_Start(object sender, EventArgs e)   {
         string strConnect = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
         Email.ConnectionData._ConnectionString = strConnect;
@@ -26,7 +27,7 @@
         //StartMailChecker();  
 
 
-        log4net.Config.DOMConfigurator.Configure();      
+        //log4net.Config.DOMConfigurator.Configure();      
     }
     void timScheduledTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {

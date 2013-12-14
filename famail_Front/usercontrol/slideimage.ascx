@@ -1,6 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="slideimage.ascx.cs" Inherits="usercontrol_slideimage" %>
-		
-      
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="slideimage.ascx.cs" Inherits="usercontrol_slideimage" %>     
         <script src="js/jquery.min.js"></script>
         <link href="colorbox.css" rel="stylesheet" />
         <script src="js/jquery.colorbox.js"></script>
@@ -10,9 +8,9 @@
 		    });
 		    //Example of preserving a JavaScript event for inline calls.		    
 		</script>
-        
-        <link href="css/cssform.css" rel="stylesheet" /> <%--CSS form --%>
-
+      <%--  
+        <link href="css/cssform.css" rel="stylesheet" /> --%><%--CSS form --%>
+<link href="css/cssform.css" rel="stylesheet" />
 
 
 <div class="sectionTop">
