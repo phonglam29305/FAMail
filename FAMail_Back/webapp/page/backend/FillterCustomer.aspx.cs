@@ -128,31 +128,31 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     protected void drlGender_SelectedIndexChanged(object sender, EventArgs e)
     {
        
-        string gender = "";
-        gender = drlGender.SelectedValue.ToString();
-        if (expresion == "")
-        {
-            if (gender == "*")
-            {
+        //string gender = "";
+       // gender = drlGender.SelectedValue.ToString();
+        //if (expresion == "")
+        //{
+        //    if (gender == "*")
+        //    {
                
-            }
-            else
-            {
-                expresion += "Gender = '" + gender + "'";
-            }
-        }
-        else
-        {
-            if (gender == "*")
-            {
+        //    }
+        //    else
+        //    {
+        //        expresion += "Gender = '" + gender + "'";
+        //    }
+        //}
+        //else
+        //{
+        //    if (gender == "*")
+        //    {
                
-            }
-            else
-            {
-                expresion += "and Gender = '" + gender + "'";
+        //    }
+        //    else
+        //    {
+        //        expresion += "and Gender = '" + gender + "'";
                
-            }
-        }
+        //    }
+        //}
     }
 
     private void createTable()
@@ -215,31 +215,31 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     private void GetExpresion()
     {
         string gender = "";
-        gender = drlGender.SelectedValue.ToString();
-        if (expresion == "")
-        {
-            if (gender == "*")
-            {
+       //// gender = drlGender.SelectedValue.ToString();
+       // if (expresion == "")
+       // {
+       //     if (gender == "*")
+       //     {
 
-            }
-            else
-            {
-                expresion += "Gender = '" + gender + "'";
+       //     }
+       //     else
+       //     {
+       //         expresion += "Gender = '" + gender + "'";
 
-            }
-        }
-        else
-        {
-            if (gender == "*")
-            {
+       //     }
+       // }
+       // else
+       // {
+       //     if (gender == "*")
+       //     {
 
-            }
-            else
-            {
-                expresion += "and Gender = '" + gender + "'";
+       //     }
+       //     else
+       //     {
+       //         expresion += "and Gender = '" + gender + "'";
 
-            }
-        }
+       //     }
+       // }
         string addr = this.txtAddress.Text;
 
         if (expresion == "")

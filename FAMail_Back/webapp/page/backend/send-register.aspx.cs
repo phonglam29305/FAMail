@@ -373,7 +373,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         int currentSend = int.Parse(hdfCountCustomer.Value);
         int hasSend = getUserLogin().hasSendMail;
         int currentHasSend = currentSend + hasSend;
-        ulBus.tblUserLogin_Update(getUserLogin().UserId, currentHasSend);
+        ulBus.tblUpdateSendMail(getUserLogin().UserId, currentHasSend);
 
         // Cap nhat session 
         UserLoginDTO ulDto = getUserLogin();

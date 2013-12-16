@@ -24,8 +24,8 @@ public class CustomerDAO
 
     public int tblCustomer_insert(CustomerDTO dt)
     {
-        string sql = "INSERT INTO tblCustomer(Name, Gender, BirthDay, Email, Phone, Address, Type ,SecondPhone ,Fax ,Company ,City ,Province ,Country ,recivedEmail , countBuy) " +
-                     "VALUES(@Name, @Gender, @BirthDay, @Email, @Phone, @Address, @Type, @SecondPhone, @Fax ,@Company ,@City ,@Province ,@Country ,@recivedEmail, @countBuy)  SELECT SCOPE_IDENTITY()";
+        string sql = "INSERT INTO tblCustomer(Name, Gender, BirthDay, Email, Phone, Address, Type ,SecondPhone ,Fax ,Company ,City ,Province ,Country ,recivedEmail , countBuy,createBy,assignTo) " +
+                     "VALUES(@Name, @Gender, @BirthDay, @Email, @Phone, @Address, @Type, @SecondPhone, @Fax ,@Company ,@City ,@Province ,@Country ,@recivedEmail, @countBuy,@createBy,@assignTo)  SELECT SCOPE_IDENTITY()";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
@@ -43,6 +43,9 @@ public class CustomerDAO
         cmd.Parameters.Add("@Country", SqlDbType.NVarChar).Value = dt.Country;
         cmd.Parameters.Add("@recivedEmail", SqlDbType.Bit).Value = true;
         cmd.Parameters.Add("@countBuy", SqlDbType.Int).Value = 0;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = dt.AssignTo;
+        cmd.Parameters.Add("@createBy", SqlDbType.Int).Value = dt.createBy;
+      
         //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = dt.UserID;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
@@ -68,6 +71,7 @@ public class CustomerDAO
                     "Province = @Province, " +
                     "Country = @Country, " +
                     "recivedEmail = @recivedEmail, " +
+                     "assignTo = @assignTo, " +
 	                "Type = @Type	WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -85,6 +89,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@City", SqlDbType.NVarChar).Value = dt.City;
         cmd.Parameters.Add("@Province", SqlDbType.NVarChar).Value = dt.Province;
         cmd.Parameters.Add("@Country", SqlDbType.NVarChar).Value = dt.Country;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = dt.AssignTo;
         cmd.Parameters.Add("@recivedEmail", SqlDbType.Bit).Value = true;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {

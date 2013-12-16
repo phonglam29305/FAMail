@@ -125,9 +125,9 @@ public class UserLoginBUS:IUserLogin
         return ulDao.GetByDepartmentId(departmentId);
     }
 
-    public void tblUserLogin_Update(int userId, int hasSendMail)
+    public void tblUpdateSendMail(int userId, int hasSendMail)
     {
-        ulDao.tblUserLogin_Update(userId, hasSendMail);
+        ulDao.tblUserLogin_UpdateSendMail(userId, hasSendMail);
     }
     public void tblUserLogin_UpdateByDepartmentId(int departmentId, int hasSendMail)
     {

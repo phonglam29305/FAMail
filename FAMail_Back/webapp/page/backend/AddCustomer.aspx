@@ -8,6 +8,7 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
     });
 </script>
  <div class="side-content fr">
+          <asp:HiddenField ID="hdfCustomerId" runat="server" /> 
          <asp:Panel Visible="false" ID="pnError" runat="server">
             <div class="error-box round">
                 <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
@@ -58,7 +59,7 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                 <asp:TextBox ID="txtEmail" CssClass="round default-width-input" runat="server"> </asp:TextBox>
                                 <em>Email của khách hàng! </em>
                             </p>
-                            <asp:Button ID="btnAdd" runat="server" Text="Thêm khách hàng" CssClass="button round blue image-right ic-add text-upper"
+                            <asp:Button ID="btnAdd" runat="server" Text="Lưu" CssClass="button round blue image-right ic-add text-upper"
                                 OnClick="btnAdd_Click" />
                             <asp:Button ID="btnRefesh" runat="server" Text="Nhập lại" CssClass="button round blue image-right ic-refresh text-upper"
                                 OnClick="btnRefesh_Click" />

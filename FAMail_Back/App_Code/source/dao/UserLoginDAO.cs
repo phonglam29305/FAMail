@@ -110,7 +110,7 @@ public class UserLoginDAO
         cmd.Dispose();
     }
 
-    public void tblUserLogin_Update(int userId, int hasSendMail)
+    public void tblUserLogin_UpdateSendMail(int userId, int hasSendMail)
     {
         string sql = "UPDATE tblUserLogin SET " +
                 " hasSendMail = @hasSendMail " +

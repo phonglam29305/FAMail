@@ -116,22 +116,34 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         else
         {
-            if (dtgBUS.GetByID(GroupID).Rows.Count > 0)
+            DataTable dt = dtgBUS.GetByID(GroupID);
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow rowItem in dtgBUS.GetByID(GroupID).Rows)
+                foreach (DataRow rowItem in dt.Rows)
                 {
-                    if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
-                    {
+                   //tam edit if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
+                   
                         DataRow rowFilter = customer.NewRow();
-                        rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
-                        rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
-                        rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
-                        rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
-                        rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
-                        rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
-                        rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
+
+                        //tam edit
+                      //  rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
+                       // rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
+                        //rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
+                       // rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
+                        //rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
+                        //rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
+                       // rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
+
+                         rowFilter["Id"] = dt.Rows[0]["Id"].ToString();
+                         rowFilter["Name"] = dt.Rows[0]["Name"].ToString(); 
+                         rowFilter["Gender"] = dt.Rows[0]["Gender"].ToString();
+                         rowFilter["Birthday"] = dt.Rows[0]["Birthday"].ToString();
+                         rowFilter["Email"] = dt.Rows[0]["Email"].ToString();
+                         rowFilter["Phone"] = dt.Rows[0]["Phone"].ToString();
+                         rowFilter["Address"] = dt.Rows[0]["Address"].ToString(); 
+
                         customer.Rows.Add(rowFilter);
-                    }
+                    //}
                 }
             }
         }

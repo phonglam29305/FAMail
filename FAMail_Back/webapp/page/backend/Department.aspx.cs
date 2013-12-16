@@ -86,20 +86,20 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             ConnectionData.OpenMyConnection();
             int Id = int.Parse(((ImageButton)sender).CommandArgument.ToString());
             InitBUS();
-            //if (mcBUS.GetAll(Id).Rows.Count > 0)
-            //{
-            //    Visible(false);
-            //    pnError.Visible = true;
-            //    lblError.Text = "Bạn không thể xóa phòng ban này được! Bạn có những cấu hình mail gửi trong phòng ban này";
-            //}
-            //else
-            //{
+            if (mcBUS.GetAll(Id).Rows.Count > 0)
+            {
+                Visible(false);
+                pnError.Visible = true;
+               lblError.Text = "Bạn không thể xóa nhóm người dùng này được! Bạn có những cấu hình mail gửi trong nhóm người dùng này";
+            }
+            else
+            {
                 dpBUS.tblDepartment_Delete(Id);
                 Visible(false);
                 pnSuccess.Visible = true;
                 lblSuccess.Text = "Bạn vừa xóa thành công ID: " + Id.ToString();
                 LoadDepartmentList();
-            //}
+            }
             ConnectionData.CloseMyConnection();
 
         }

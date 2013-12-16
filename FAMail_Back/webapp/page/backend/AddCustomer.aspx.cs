@@ -77,20 +77,33 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         try
         {
             string CustomerId = Request.QueryString["CustomerId"].ToString();
+            this.hdfCustomerId.Value = CustomerId + "";
             if (CustomerId != null)
             {
                 int ID = int.Parse(CustomerId);
                 this.CustomerID.Value = ID.ToString();
-                if (ctBUS.GetByID(ID).Rows.Count > 0)
+                DataTable dt = ctBUS.GetByID(ID);
+                if (dt.Rows.Count > 0)
                 {
-                    this.txtAddress.Text = ctBUS.GetByID(ID).Rows[0]["Address"].ToString();
-                    this.txtHomePhone.Text = ctBUS.GetByID(ID).Rows[0]["SecondPhone"].ToString();
-                    this.txtPhone.Text = ctBUS.GetByID(ID).Rows[0]["Phone"].ToString();
-                    this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }", DateTime.Parse(ctBUS.GetByID(ID).Rows[0]["BirthDay"].ToString()));
-                    this.txtEmail.Text = ctBUS.GetByID(ID).Rows[0]["Email"].ToString();
-                    this.txtName.Text = ctBUS.GetByID(ID).Rows[0]["Name"].ToString();
-                    this.drlGroup.SelectedValue = ctBUS.GetByID(ID).Rows[0]["GroupId"].ToString();
-                    this.drlGender.SelectedValue = ctBUS.GetByID(ID).Rows[0]["Gender"].ToString();
+                    //tamhm edit lai
+                    //tam eiditthis.txtAddress.Text = ctBUS.GetByID(ID).Rows[0]["Address"].ToString();
+                   // this.txtHomePhone.Text = ctBUS.GetByID(ID).Rows[0]["SecondPhone"].ToString();
+                   // this.txtPhone.Text = ctBUS.GetByID(ID).Rows[0]["Phone"].ToString();
+                   // this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }", DateTime.Parse(ctBUS.GetByID(ID).Rows[0]["BirthDay"].ToString()));
+                   // this.txtEmail.Text = ctBUS.GetByID(ID).Rows[0]["Email"].ToString();
+                  //  this.txtName.Text = ctBUS.GetByID(ID).Rows[0]["Name"].ToString();
+                  //  this.drlGroup.SelectedValue = ctBUS.GetByID(ID).Rows[0]["GroupId"].ToString();
+                  //  this.drlGender.SelectedValue = ctBUS.GetByID(ID).Rows[0]["Gender"].ToString();
+
+                    this.txtAddress.Text = dt.Rows[0]["Address"].ToString();
+                    this.txtHomePhone.Text = dt.Rows[0]["SecondPhone"].ToString();
+                    this.txtPhone.Text = dt.Rows[0]["Phone"].ToString();
+                    this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }", DateTime.Parse(dt.Rows[0]["BirthDay"].ToString()));
+                    this.txtEmail.Text = dt.Rows[0]["Email"].ToString();
+                    this.txtName.Text = dt.Rows[0]["Name"].ToString();
+                    this.drlGroup.SelectedValue = dt.Rows[0]["assignTo"].ToString();
+                    this.drlGender.SelectedValue = dt.Rows[0]["Gender"].ToString();
+                
                 }
             }
         }
@@ -390,7 +403,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 
         // Update to DB
         UserLoginBUS ulBus = new UserLoginBUS();
-        ulBus.tblUserLogin_Update(userLogin);
+        ulBus.tblUpdateSendMail(userLogin.UserId, userLogin.hasSendMail);
 
     }
 
@@ -426,22 +439,12 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.SecondPhone = txtHomePhone.Text;
                 ctDTO.Type = "";
                 ctDTO.UserID = getUserLogin().UserId;
-                if (this.CustomerID.Value.ToString() == "")
+                ctDTO.createBy = getUserLogin().UserId;
+                ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
+                //them moi
+                if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
-                    DataTable tblCheckByEmail = ctBUS.GetByEmail(txtEmail.Text);
-                    if (tblCheckByEmail.Rows.Count > 0)
-                    {
-                        CustomerID = int.Parse(tblCheckByEmail.Rows[0]["Id"].ToString());
-                        ctDTO.Id = CustomerID;
-                        ctBUS.tblCustomer_Update(ctDTO);
-                        pnError.Visible = false;
-                        pnSuccess.Visible = true;
-                        //lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
-                    }
-                    else
-                    {
-                        CustomerID = ctBUS.tblCustomer_insert(ctDTO);
-                    }
+                    CustomerID = ctBUS.tblCustomer_insert(ctDTO);
 
                     if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
                     {
@@ -465,16 +468,17 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         updateLimitSendAndCreate(1, 0);
                     }
                 }
+                //update
                 else
                 {
                     CustomerID = int.Parse(this.CustomerID.Value.ToString());
                     GroupID = int.Parse(drlGroup.SelectedValue.ToString());
                     ctDTO.Id = int.Parse(this.CustomerID.Value.ToString());
-                    CustomerID = int.Parse(ctBUS.GetByEmail(txtEmail.Text).Rows[0]["Id"].ToString());
+                   // CustomerID = int.Parse(ctBUS.GetByEmail(txtEmail.Text).Rows[0]["Id"].ToString());
                     ctBUS.tblCustomer_Update(ctDTO);
                     pnError.Visible = false;
                     pnSuccess.Visible = true;
-                    lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
+                    //   lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
                     if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
                     {
                         pnSuccess.Visible = false;
@@ -486,15 +490,93 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         DetailGroupDTO dgDTO = new DetailGroupDTO();
                         dgDTO.GroupID = GroupID;
                         dgDTO.CustomerID = CustomerID;
+                        dgDTO.LastReceivedMail = DateTime.Now;
                         dgBUS.tblDetailGroup_insert(dgDTO);
                         pnError.Visible = false;
                         pnSuccess.Visible = true;
-                        lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+                        lblSuccess.Text = "Bạn đã cập nhật thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
 
                         // Update limit send and create.
                         updateLimitSendAndCreate(1, 0);
                     }
                 }
+
+               
+
+
+
+                //tam edit
+              //  if (this.CustomerID.Value.ToString() == "")
+               // {
+                ///    DataTable tblCheckByEmail = ctBUS.GetByEmail(txtEmail.Text);
+                //    if (tblCheckByEmail.Rows.Count > 0)
+                //    {
+                  //      CustomerID = int.Parse(tblCheckByEmail.Rows[0]["Id"].ToString());
+                    //    ctDTO.Id = CustomerID;
+                   //     ctBUS.tblCustomer_Update(ctDTO);
+                     //   pnError.Visible = false;
+                     //   pnSuccess.Visible = true;
+                        //lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
+                 //   }
+
+                    //tamhm edit
+                    //else
+                    //{
+                    //    CustomerID = ctBUS.tblCustomer_insert(ctDTO);
+                    //}
+
+                    //if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    //{
+                    //    pnSuccess.Visible = false;
+                    //    pnError.Visible = true;
+                    //    lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
+                    //}
+                    //else
+                    //{
+                    //    DetailGroupDTO dgDTO = new DetailGroupDTO();
+                    //    dgDTO.GroupID = GroupID;
+                    //    dgDTO.CustomerID = CustomerID;
+                    //    dgDTO.CountReceivedMail = 0;
+                    //    dgDTO.LastReceivedMail = DateTime.Now;
+                    //    dgBUS.tblDetailGroup_insert(dgDTO);
+                    //    pnError.Visible = false;
+                    //    pnSuccess.Visible = true;
+                    //    lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+
+                    //    // Update limit send and create.
+                    //    updateLimitSendAndCreate(1, 0);
+                    //}
+               // }
+               // else
+              //  {
+                 //   CustomerID = int.Parse(this.CustomerID.Value.ToString());
+                 //   GroupID = int.Parse(drlGroup.SelectedValue.ToString());
+                 //   ctDTO.Id = int.Parse(this.CustomerID.Value.ToString());
+                 //   CustomerID = int.Parse(ctBUS.GetByEmail(txtEmail.Text).Rows[0]["Id"].ToString());
+                 //   ctBUS.tblCustomer_Update(ctDTO);
+                 //   pnError.Visible = false;
+                 //   pnSuccess.Visible = true;
+                 ////   lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
+                 //   if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                 //   {
+                 //       pnSuccess.Visible = false;
+                 //       pnError.Visible = true;
+                 //       lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
+                 //   }
+                 //   else
+                 //   {
+                 //       DetailGroupDTO dgDTO = new DetailGroupDTO();
+                 //       dgDTO.GroupID = GroupID;
+                 //       dgDTO.CustomerID = CustomerID;
+                 //       dgBUS.tblDetailGroup_insert(dgDTO);
+                 //       pnError.Visible = false;
+                 //       pnSuccess.Visible = true;
+                 //       lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+
+                 //       // Update limit send and create.
+                 //       updateLimitSendAndCreate(1, 0);
+                 //   }
+                //}
                 ConnectionData.CloseMyConnection();
                 setTextDefault();
             }
@@ -536,6 +618,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         this.txtHomePhone.Text = "";
         this.txtAddress.Text = "";
         this.txtBirthday.Text = "";
+        this.hdfCustomerId.Value = "";
 
     }
     protected void btnRefesh_Click(object sender, EventArgs e)

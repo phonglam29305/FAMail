@@ -23,6 +23,6 @@ public interface IUserLogin
     DataTable GetByUsername(string username);
     DataTable GetByUsernameAndPass(string username,string password);
     DataTable GetByDepartmentId(int departmentId);
-    void tblUserLogin_Update(int userId, int hasSendMail);
+    void tblUpdateSendMail(int userId, int hasSendMail);
     void tblUserLogin_UpdateByDepartmentId(int departmentId, int hasSendMail);
 }
