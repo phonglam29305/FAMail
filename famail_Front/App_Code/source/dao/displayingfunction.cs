@@ -37,7 +37,7 @@ public class displayingfunction
     }
     public DataTable GetAllpakeg()
     {
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblPackage",
+        SqlDataAdapter adapter = new SqlDataAdapter("SP_Package_GetALL",
             ConnectionData._MyConnection);
  
         DataTable table = new DataTable();

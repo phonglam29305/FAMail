@@ -26,7 +26,7 @@
         <div class="subtitle">Hệ thống FA Mail</div>
         <div id="month_auto">
           <div class="pricing">
-       		 <span><sup>$</sup>9</span>Tháng
+       		 <span><sup>$</sup></span>Tháng
           </div>
       
           </div>
@@ -243,7 +243,7 @@
         <div class="subtitle">Hệ thống FA Mail</div>
         <div id="Div1">
           <div class="pricing">
-       		 <span><sup>$</sup>9</span>Tháng
+       		 <span><sup>$</sup><%#Eval("totalFee") %></span>Tháng
           </div>
       
           </div></td>

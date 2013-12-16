@@ -95,6 +95,9 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 int.TryParse(txtEmailCount.Text, out temp);
                 sign.emailCount = temp;
             }
+            sign.isUnLimit = ceIsUnlimit.Checked;
+            sign.isActive = ceIsActive.Checked;
+
         }
         return sign;
 
