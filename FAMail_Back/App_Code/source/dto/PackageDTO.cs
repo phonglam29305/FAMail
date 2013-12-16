@@ -16,7 +16,7 @@ public class PackageDTO
     public string description { get; set; }
     public int limitId { get; set; }
     public int subAccontCount { get; set; }
-    public bool isUnlimit { get; set; }
+    public bool isUnLimit { get; set; }
     public long emailCount { get; set; }
     public bool isActive { get; set; }
 }

@@ -65,7 +65,12 @@
 
                                 <br />
                             </p>
+                            
+                            <p>
+                                <label for="simple-input">Không giới hạn số email quản lý</label>
+                                <asp:CheckBox ID="ceIsUnlimit" runat="server" />
 
+                            </p>
                             <p>
 
                                 <label for="full-width-input">Số Email quản lý </label>
@@ -77,7 +82,7 @@
                             </p>
                             <p>
                                 <label for="simple-input">Kích hoạt</label>
-                                <asp:CheckBox ID="chkIsSSL" runat="server" />
+                                <asp:CheckBox ID="ceIsDefault" runat="server" />
 
                             </p>
 

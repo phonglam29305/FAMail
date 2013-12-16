@@ -59,12 +59,14 @@ public class PackageDAO
     public void tblPackage_insert(PackageDTO dt)
     {
         string sql = "INSERT INTO tblPackage (packageName, description,limitId,subAccontCount,isActive) " +
-                     "VALUES( @packageName, @description,@limitId,@subAccontCount,@isActive) ";
+                     "VALUES( @packageName, @description,@limitId,@subAccontCount,@isActive, @emailCount, @isUnlimit) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = dt.packageName;
         cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = dt.description;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = dt.limitId;
+        cmd.Parameters.Add("@emailcount", SqlDbType.BigInt).Value = dt.emailCount;
+        cmd.Parameters.Add("@isUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = dt.subAccontCount;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
         cmd.ExecuteNonQuery();
@@ -104,7 +106,9 @@ public class PackageDAO
                     "limitId= @limitId, " +
                     "subAccontCount= @subAccontCount, " +
                      "description= @description, " +
-                     "isActive= @isActive " +
+                     "isActive= @isActive, " +
+                     "emailcount= @emailCount, " +
+                     "isunlimit= @isUnlimit " +
                     " WHERE packageId = @packageId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -113,6 +117,8 @@ public class PackageDAO
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = dt.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = dt.subAccontCount;
         cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = dt.description;
+        cmd.Parameters.Add("@emailcount", SqlDbType.BigInt).Value = dt.emailCount;
+        cmd.Parameters.Add("@isUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = dt.packageId;
         cmd.ExecuteNonQuery();

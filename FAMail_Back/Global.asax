@@ -27,7 +27,7 @@
         //StartMailChecker();  
 
 
-        //log4net.Config.DOMConfigurator.Configure();      
+        log4net.Config.XmlConfigurator.Configure();
     }
     void timScheduledTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {

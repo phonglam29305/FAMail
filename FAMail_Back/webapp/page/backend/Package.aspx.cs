@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 public partial class webapp_page_backend_Package : System.Web.UI.Page
 {
     PackageBUS packageBus = new PackageBUS();
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {      
         if (!IsPostBack)
@@ -57,8 +58,13 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.subAccontCount = temp;
             int.TryParse(drlDepartmen.Text, out temp);
             sign.limitId = int.Parse(drlDepartmen.SelectedValue);
-            int.TryParse(txtEmailCount.Text, out temp);
-            sign.emailCount = temp;
+            sign.isUnLimit = ceIsUnlimit.Checked;
+            sign.isActive = ceIsDefault.Checked;
+            if (!ceIsUnlimit.Checked)
+            {
+                int.TryParse(txtEmailCount.Text, out temp);
+                sign.emailCount = temp;
+            }
 
         }
         return sign;
@@ -160,6 +166,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                     PackageDTO packupdate = getpackge_update();
                     packageBus.tblPackage_Update(packupdate);
                     status = 2;
+                    hdfId.Value = null;
                 }
                 ConnectionData.CloseMyConnection();
                 pnSuccess.Visible = true;
@@ -189,6 +196,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+            logs.Error("Package - Update", ex);
         }
         LoadData();
         xoatextbok();
