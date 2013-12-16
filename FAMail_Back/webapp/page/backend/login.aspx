@@ -16,7 +16,7 @@
 </head>
 <body>
 
-    <!-- TOP BAR -->
+    <%--<!-- TOP BAR -->
 	<div id="top-bar">
 		
 		<div class="page-full-width">
@@ -25,7 +25,7 @@
 
 		</div> <!-- end full-width -->	
 	
-	</div> <!-- end top-bar -->
+	</div> <!-- end top-bar -->--%>
 	
 	
 	

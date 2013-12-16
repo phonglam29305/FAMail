@@ -45,6 +45,7 @@ public partial class webapp_template_backend_SendMail : System.Web.UI.MasterPage
     {
         if (Session["us-login"] != null)
         {
+            //string name = Session["us-login"].ToString();
             return (UserLoginDTO)Session["us-login"];
         }
         return null;

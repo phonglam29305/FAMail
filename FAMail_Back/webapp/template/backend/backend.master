@@ -45,15 +45,15 @@
 
 			<ul id="nav" class="fl">
 	
-				<li class="v-sep"><a href="http://fastautomaticmail.com/" class="round button dark ic-left-arrow image-left">FASTAUTOMATICMAIL.COM</a></li>
+				<%--<li class="v-sep"><a href="http://fastautomaticmail.com/" class="round button dark ic-left-arrow image-left">FASTAUTOMATICMAIL.COM</a></li>--%>
 				<li class="v-sep"><a href="#" class="round button dark menu-user image-left">Chào: <strong> 
                   <asp:Label ID="lblInfo" runat="server" Text=""></asp:Label></strong></a>
-					<ul>			
+					<%--<ul>			
 						<li><a href="../../page/backend/change-pass.aspx">Đổi mật khẩu</a></li>						
 						<li>						
                           <asp:LinkButton ID="lbtLogout" runat="server" onclick="lbtLogout_Click">Đăng xuất</asp:LinkButton>
 						</li>                        
-					</ul> 
+					</ul> --%>
 				</li>	
                 		
 				<%--<li><a href="#" class="round button dark menu-email-special image-left">0 thư mới</a></li>--%>
@@ -84,7 +84,7 @@
                     <li> <asp:HyperLink ID="hplManager" NavigateUrl="~/webapp/page/backend/AmazonManage.aspx" roleId="300" class="active-tab dashboard-tab"  runat="server">Quản lý</asp:HyperLink></li>
                     <li> <asp:HyperLink ID="hplEvent" NavigateUrl="~/webapp/page/backend/create-event.aspx" roleId="400" class="active-tab dashboard-tab"  runat="server">Sự kiện</asp:HyperLink></li>
                     <li> <asp:HyperLink ID="hplCustomerCare" NavigateUrl="~/webapp/page/backend/ListOrder.aspx" roleId="500" class="active-tab dashboard-tab"  runat="server">Chăm sóc khách hàng</asp:HyperLink></li>
-                    <li> <asp:HyperLink ID="hplLimit" class="dashboard-tab"  runat="server">Hạng ngạch gửi</asp:HyperLink></li>
+                   <%-- <li> <asp:HyperLink ID="hplLimit" class="dashboard-tab"  runat="server">Hạng ngạch gửi</asp:HyperLink></li>--%>
                 </asp:Panel>
 
 			</ul> <!-- end tabs -->

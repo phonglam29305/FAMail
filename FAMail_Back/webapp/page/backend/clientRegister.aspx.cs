@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 {
-    clientRegisterBUS clientregisterBus = new clientRegisterBUS();
+    ClientRegisterBUS clientregisterBus = new ClientRegisterBUS();
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {

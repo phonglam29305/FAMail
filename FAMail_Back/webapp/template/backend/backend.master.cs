@@ -46,19 +46,19 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
     private void loadLimitWithUser()
     {
         
-        if (getUserLogin().DepartmentId == 1)
-        {
-            hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
-        }
-        else if (getLimitWithUser() != null)
-        {
-            hplLimit.Text = "Gửi: " + getUserLogin().hasSendMail + "/" + getLimitWithUser().limitSendMail
-                + ", Tạo KH: " + getUserLogin().hasCreatedCustomer + "/" + getLimitWithUser().limitCreateCustomer;
-        }
-        else
-        {
-            hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
-        }
+        //if (getUserLogin().DepartmentId == 1)
+        //{
+        //    hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
+        //}
+        //else if (getLimitWithUser() != null)
+        //{
+        //    hplLimit.Text = "Gửi: " + getUserLogin().hasSendMail + "/" + getLimitWithUser().limitSendMail
+        //        + ", Tạo KH: " + getUserLogin().hasCreatedCustomer + "/" + getLimitWithUser().limitCreateCustomer;
+        //}
+        //else
+        //{
+        //    hplLimit.Text = "Gửi & Tạo KH: Không giới hạn";
+        //}
         
     }
     private void checkRole()
