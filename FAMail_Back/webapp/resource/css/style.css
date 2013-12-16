@@ -613,7 +613,7 @@ ol, .regular-ul, .custom-ul { margin-bottom: 1.25em; /* 20/16 */ }
 div#content {
 	background: #f8f9fa url('../images/artwork-pattern.png') repeat-x left bottom;
 	border: 1px solid #eeefef;
-	padding: 1.875em 0; /* 30/16 */
+	/*padding: 1.875em 0;  30/16 */
 }
 
 form#ctl01 {
