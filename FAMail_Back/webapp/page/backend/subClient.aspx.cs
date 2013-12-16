@@ -12,7 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
 
-public partial class webapp_page_backend_user_manage : System.Web.UI.Page
+public partial class webapp_page_backend_subClient : System.Web.UI.Page
 {
     UserLoginBUS ulBus = null;
     DepartmentBUS deBus = null;
@@ -22,10 +22,9 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         {
             try
             {
-                InitBUS();        
+                InitBUS();
                 LoadData();
-                //  loadListDepartment();
-                //  drlDepartment_SelectedIndexChanged(sender, e);
+
             }
             catch (Exception)
             {
@@ -36,9 +35,9 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
 
     private void InitBUS()
     {
-     
-           
-       
+
+
+
 
     }
 
@@ -60,27 +59,9 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         {
             DataTable dtLogin = null;
             ulBus = new UserLoginBUS();
-            if (getUserLogin().DepartmentId == 1)
-            {
-                dtLogin = ulBus.GetAll();
-            }
-            else
-            {
-                dtLogin = ulBus.GetAllByUserId(getUserLogin().UserId);
-
-            }
+            dtLogin = ulBus.GetSubClient();
             dlMember.DataSource = dtLogin;
             dlMember.DataBind();
-
-            DataTable dtUserType = ulBus.GetByUserId(getUserLogin().UserId);
-            int UserType = int.Parse(dtUserType.Rows[0]["UserType"].ToString());
-            deBus = new DepartmentBUS();
-            dropTypeUser.Items.Clear();
-
-            dropTypeUser.DataSource = deBus.GetByUserType(UserType);
-            dropTypeUser.DataTextField = "Name";
-            dropTypeUser.DataValueField = "ID";
-            dropTypeUser.DataBind();
 
             for (int i = 0; i < dtLogin.Rows.Count; i++)
             {
@@ -95,31 +76,6 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
 
     }
 
-
-
-    protected void loadListDepartment()
-    {
-        //deBus = new DepartmentBUS();
-        //DataTable tblDepartment = null;
-       // if (getUserLogin().DepartmentId == 1)
-        //{
-        //   tblDepartment = deBus.GetAll();
-        //}
-        //else
-        //{
-        //    tblDepartment = deBus.GetByUserID(getUserLogin().UserId);
-        //}
-        //if(tblDepartment.Rows.Count>0)
-        //{
-        //    drlDepartment.Items.Clear();
-        //    drlDepartment.DataSource = tblDepartment;
-        //    drlDepartment.DataTextField = "Name";
-        //    drlDepartment.DataValueField = "ID";
-        //    drlDepartment.DataBind();
-
-        //}
-
-    }
 
 
 
@@ -198,23 +154,38 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
                 UserLoginDTO ulDto = new UserLoginDTO();
                 ulDto.Username = txtUsername.Text;
                 ulDto.Password = Common.GetMd5Hash(txtPassword.Text);
-                ulDto.DepartmentId = int.Parse(this.dropTypeUser.SelectedItem.Value.ToString());
-                DataTable dtLogin = ulBus.GetByUserType(ulDto.DepartmentId);
-                ulDto.UserType =int.Parse(dtLogin.Rows[0]["UserType"].ToString());
+                ulDto.Email = txtEmail.Text;
                 ulDto.Is_Block = this.chkBlock.Checked;
+                ulDto.UserType = 2;
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
-                    ulBus.tblUserLogin_insert(ulDto);
+                    ulBus.tblUserLoginSubClient_insert(ulDto);
+
+                   //lay UserID
+                   DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
+                    int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
+                    ulDto.UserId = userID;
+
+                    //lay clientID
+                    DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+                    int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                    ulDto.ClientID = clienID;
+                    ulBus.tblSubClient_insert(ulDto);
                     status = 1;
                 }
                 else
                 {
 
-                        ulDto.UserId = int.Parse(hdfId.Value);
-                        ulBus.tblUserLogin_Update(ulDto);
-                        status = 2;
-                 
+                    ulDto.SubId = int.Parse(hdfId.Value);
+                    ulBus.tblSubClient_Update(ulDto);
+                    DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
+                    int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                    bool Is_Block_check = chkBlock.Checked;
+
+                    ulBus.tblUserLoginSub_Update(userID, Is_Block_check);
+                    status = 2;
+
                 }
 
                 ConnectionData.CloseMyConnection();
@@ -253,11 +224,15 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         string message = "";
         if (txtUsername.Text == "")
         {
-            message = "Nhập vào tên người dùng !";
+            message = "Nhập vào tên tài khoản con !";
+        }
+        else if (txtEmail.Text == "")
+        {
+            message = "Nhập vào Email !";
         }
         else if (checkExistUsername(txtUsername.Text))
         {
-            message = "Tên người dùng đã tồn tại !";
+            message = "Tên tài khoản con đã tồn tại !";
         }
         else
         {
@@ -279,23 +254,27 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
 
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
     {
-        pnError.Visible = false;
-        pnSuccess.Visible = false;
         try
         {
-            int UserId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
+            pnSuccess.Visible = false;
+            pnError.Visible = false;
+            int subId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
             ulBus = new UserLoginBUS();
-            DataTable table = ulBus.GetByUserId(UserId);
+            DataTable table = ulBus.GetBySubId(subId);
+            DataTable table1 = ulBus.GetUserIdBySubID(subId);
+            int UserId = int.Parse(table.Rows[0]["UserId"].ToString());
+            DataTable dtIsBlock = ulBus.GetIsBlockByUserId(UserId);
             if (table.Rows.Count > 0)
             {
-                txtUsername.Text = table.Rows[0]["Username"].ToString();
+                txtUsername.Text = table.Rows[0]["subName"].ToString();
                 txtUsername.Enabled = false;
-                dropTypeUser.SelectedValue = table.Rows[0]["DepartmentId"].ToString();
-                bool checkBlock =bool.Parse(table.Rows[0]["Is_Block"].ToString());
+                txtEmail.Text = table.Rows[0]["subEmail"].ToString();
+                txtEmail.Enabled = false;
+                bool checkBlock = bool.Parse(dtIsBlock.Rows[0]["Is_Block"].ToString());
 
                 chkBlock.Checked = checkBlock;
-               
-                this.hdfId.Value = UserId + "";
+
+                this.hdfId.Value = subId + "";
 
             }
 
@@ -313,10 +292,18 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
     {
         try
         {
-            int UserId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
+            int subId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
             ulBus = new UserLoginBUS();
             ConnectionData.OpenMyConnection();
+
+            DataTable table = ulBus.GetUserIdBySubID(subId);
+            int UserId = int.Parse(table.Rows[0]["UserId"].ToString());
             ulBus.tblUserLogin_Delete(UserId);
+
+            ulBus.tblSubClient_Delete(subId);
+
+            //lay UserID
+          
             ConnectionData.CloseMyConnection();
             pnError.Visible = false;
             pnSuccess.Visible = true;
@@ -434,7 +421,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         txtUsername.Enabled = true;
         txtPassword.Text = "";
         txtRePassword.Text = "";
-        dropTypeUser.SelectedIndex = 0;
+        txtEmail.Text = "";
         this.hdfId.Value = "";
     }
 

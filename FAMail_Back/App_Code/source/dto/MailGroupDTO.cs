@@ -23,5 +23,7 @@ public class MailGroupDTO
     public string Name { get; set; }
     public string Description { get; set; }
     public int UserId { get; set; }
-
+    public int AssignToUserID { get; set; }
+    public string CreatedBy { get; set; }
+    public string AssignTo { get; set; }
 }

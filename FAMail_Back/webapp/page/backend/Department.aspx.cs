@@ -41,13 +41,13 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         {
             DataTable tblDepart = null;
             if (getUserLogin().DepartmentId == 1)
-            {
+           {
                 tblDepart = dpBUS.GetAll();
-            }
-            else
+           }
+           else
             {
-                tblDepart = dpBUS.GetByUserID(getUserLogin().UserId);
-            }
+               tblDepart = dpBUS.GetByUserID(getUserLogin().UserId);
+           }
 
             dlDepartment.DataSource = tblDepart;
             dlDepartment.DataBind();
@@ -86,20 +86,20 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             ConnectionData.OpenMyConnection();
             int Id = int.Parse(((ImageButton)sender).CommandArgument.ToString());
             InitBUS();
-            if (mcBUS.GetAll(Id).Rows.Count > 0)
-            {
-                Visible(false);
-                pnError.Visible = true;
-                lblError.Text = "Bạn không thể xóa phòng ban này được! Bạn có những cấu hình mail gửi trong phòng ban này";
-            }
-            else
-            {
+            //if (mcBUS.GetAll(Id).Rows.Count > 0)
+            //{
+            //    Visible(false);
+            //    pnError.Visible = true;
+            //    lblError.Text = "Bạn không thể xóa phòng ban này được! Bạn có những cấu hình mail gửi trong phòng ban này";
+            //}
+            //else
+            //{
                 dpBUS.tblDepartment_Delete(Id);
                 Visible(false);
                 pnSuccess.Visible = true;
-                lblSuccess.Text = "Bạn vừa xóa thành công phong ban ID: " + Id.ToString();
+                lblSuccess.Text = "Bạn vừa xóa thành công ID: " + Id.ToString();
                 LoadDepartmentList();
-            }
+            //}
             ConnectionData.CloseMyConnection();
 
         }
@@ -116,11 +116,42 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         this.pnSuccess.Visible = p;
     }
 
+
+    protected string checkInput()
+    {
+        string message = "";
+        if (txtDepartment.Text == "")
+        {
+            message = "Nhập vào tên nhóm người dùng !";
+        }
+        else if (checkExistUsername(txtDepartment.Text))
+        {
+            message = "Tên nhóm người dùng đã tồn tại !";
+        }
+      
+        return message;
+    }
+    protected bool checkExistUsername(string username)
+    {
+        dpBUS = new DepartmentBUS();
+        DataTable tblUser = dpBUS.GetByUsername(username);
+        if (tblUser.Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
         {
             InitBUS();
+            string message = checkInput();
+          
+            if (message == "")
+            {
+
             DepartmentDTO dpDTO = new DepartmentDTO();
             dpDTO.Name = this.txtDepartment.Text;
             dpDTO.Description = this.txtDescription.Text;
@@ -130,9 +161,16 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             dpBUS.tblDepartment_insert(dpDTO);
             Visible(false);
             pnSuccess.Visible = true;
-            lblSuccess.Text = "Bạn đã thêm thành công phòng ban!";
+            lblSuccess.Text = "Bạn đã thêm thành công!";
             LoadDepartmentList();
             ConnectionData.CloseMyConnection();
+            }
+            else
+            {
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = message;
+            }
         }
         catch (Exception)
         {

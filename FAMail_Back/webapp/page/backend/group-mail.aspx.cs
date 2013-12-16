@@ -18,12 +18,15 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     SendRegisterBUS srBUS = null;
     CustomerBUS ctBUS = null;
     DetailGroupBUS dgBUS= null;
+    UserLoginBUS ulBus = null;
     protected void Page_Load(object sender, EventArgs e)
     {
         
         if (!IsPostBack)
-        {           
-            LoadGroup();            
+        {
+            LoadSubClient();
+            LoadGroup();
+           
         }
     }
 
@@ -34,6 +37,29 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             return (UserLoginDTO)Session["us-login"];
         }
         return null;
+    }
+
+
+    private void LoadSubClient()
+    {
+         try
+        {
+            InitBUS();
+            dropSubClient.Items.Clear();
+            
+            DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+            if (table.Rows.Count > 0)
+            {
+                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+                dropSubClient.DataTextField = "subEmail";
+                dropSubClient.DataValueField = "subId";
+                dropSubClient.DataBind();
+            }
+        }
+         catch (Exception ex)
+         {
+         }
     }
 
     private void LoadGroup()
@@ -68,6 +94,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 
     private void InitBUS()
     {
+        ulBus = new UserLoginBUS();
         mgBUS = new MailGroupBUS();
         srBUS = new SendRegisterBUS();
         ctBUS = new CustomerBUS();
@@ -77,6 +104,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        InitBUS();
         UserLoginDTO userLogin = getUserLogin();
         if (checkValid() == true)
         {
@@ -85,7 +113,10 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             mgDTO.Name = txtGroupName.Text;
             mgDTO.Description = txtDescription.Text;
             mgDTO.UserId = userLogin.UserId;
-            InitBUS();
+            mgDTO.CreatedBy = userLogin.Username;
+            DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
+            mgDTO.AssignToUserID =int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
+            mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
             int status = 1;
             if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null )
             {           
@@ -142,9 +173,16 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             DataTable dtGroup = mgBUS.GetByID(Id);
             if (dtGroup.Rows.Count > 0)
             {
+                if (dtGroup.Rows[0]["AssignTo"].ToString() != null || dtGroup.Rows[0]["AssignTo"].ToString() != "")
+                {
+                    int AssignToUserID = int.Parse(dtGroup.Rows[0]["AssignToUserID"].ToString());
+                    DataTable dt = mgBUS.GetSubClientByAssignUserID(AssignToUserID);
+                    dropSubClient.SelectedValue = dt.Rows[0]["subId"].ToString();
+                }
                 DataRow row = dtGroup.Rows[0];
                 GroupId.Value = Id.ToString();
                 txtGroupName.Text = row["Name"].ToString();
+               
                 txtDescription.Text = row["Description"].ToString();
             }
             

@@ -30,6 +30,10 @@
                                         <label for="simple-input"> Tên Nhóm email</label>
                                         <asp:TextBox ID="txtGroupName" CssClass="round default-width-input" Width="98%" runat="server"></asp:TextBox>
                                         <em>Tên nhóm email, Ví dụ: Chomy.com, Người trẻ..</em>
+                                         <label for="simple-input"> Tài khoản con</label>
+                                         <asp:DropDownList ID="dropSubClient" runat="server" CssClass="round default-width-input" style="height: 35px; border: 1px solid #bbbdbe; width:360px;">
+                                         </asp:DropDownList>
+                                        <em>Tài khoản con</em>
                                         <label for="simple-input"> chú thích</label>
                                         <asp:TextBox ID="txtDescription" CssClass="round default-width-input" Width="98%"
                                             runat="server"></asp:TextBox>
@@ -38,7 +42,7 @@
                                     <div class="stripe-separator">
                                         <!--  -->
                                     </div>
-                                    <asp:Button ID="btnSave" runat="server" Text="Thêm nhóm Email" CssClass="button round blue image-right ic-add text-upper"
+                                    <asp:Button ID="btnSave" runat="server" Text="Lưu nhóm Email" CssClass="button round blue image-right ic-add text-upper"
                                         OnClick="btnSave_Click" />
                                     <%--<asp:Button ID="btnTestEvent" runat="server" Text="Test" 
                                 CssClass="round blue ic-right-arrow"/>--%>
@@ -54,7 +58,8 @@
                                             <thead>
                                                 <tr>
                                                     <th> NO. </th>
-                                                    <th>  Tên nhóm </th>
+                                                    <th>  Nhóm Mail </th>
+                                                     <th>  Tài khoản con </th>
                                                     <th>  Chú thích </th>
                                                     <th>  Chức năng </th>
                                                 </tr>
@@ -65,6 +70,7 @@
                                                 <tr>
                                                     <td> <asp:Label ID="lblNO" runat="server"></asp:Label> </td>
                                                     <td> <asp:Label ID="lblName" runat="server" Text='<%# Eval("Name") %>'></asp:Label></td>
+                                                     <td> <asp:Label ID="lblSub" runat="server" Text='<%# Eval("AssignTo") %>'></asp:Label></td>
                                                     <td>  <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("Description") %>'></asp:Label>  </td>
                                                     <td>
                                                         <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"

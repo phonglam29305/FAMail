@@ -47,6 +47,12 @@ public class MailGroupBUS : IMailGroup
         return mgDao.GetByID(Id);
     }
 
+    public DataTable GetSubClientByAssignUserID(int Id)
+    {
+        return mgDao.GetSubClientByAssignUserID(Id);
+    }
+
+    
     public DataTable GetAll(int MailConfigID)
     {
         return mgDao.GetAll(MailConfigID);
@@ -56,9 +62,20 @@ public class MailGroupBUS : IMailGroup
         return mgDao.GetAllNew(userId);
     }
 
+    public DataTable GetSubClientBySubID(int subId)
+    {
+        return mgDao.GetSubClientBySubID(subId);
+    }
+
+
     public DataTable GetAllNew()
     {
         return mgDao.GetAllNew();
+    }
+
+    public DataTable GetSubClient(int clientId)
+    {
+        return mgDao.GetSubClient(clientId);
     }
 
     #endregion

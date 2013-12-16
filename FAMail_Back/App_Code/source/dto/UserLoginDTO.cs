@@ -16,12 +16,17 @@ using System.Xml.Linq;
 public class UserLoginDTO
 {
     public UserLoginDTO()
-	{
-	}
+    {
+    }
     public int UserId { get; set; }
+    public int SubId { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
     public int DepartmentId { get; set; }
     public int hasSendMail { get; set; }
     public int hasCreatedCustomer { get; set; }
+    public int UserType { get; set; }
+    public string Email { get; set; }
+    public bool Is_Block { get; set; }
+    public int ClientID { get; set; }
 }

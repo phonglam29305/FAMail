@@ -69,6 +69,20 @@ public class DepartmentDAO
         return table;
     }
 
+    public DataTable GetByUserType(int UserType)
+    {
+        string sql = "SELECT * FROM tblDepartment WHERE UserType = @UserType";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = UserType;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     //public DataTable GetAll()
     //{
     //    string sql = "SELECT * FROM tblDepartment";
@@ -104,6 +118,22 @@ public class DepartmentDAO
         adapter.Dispose();
         return table;
     }
+
+
+    public DataTable GetByUsername(string Name)
+    {
+        string sql = "SELECT * FROM tblDepartment WHERE Name = @Name";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value =Name ;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
 
 
     public DataTable GetUserType(int departId)

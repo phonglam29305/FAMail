@@ -7,7 +7,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 	  <!--start content 01-->
 		<div class="content-module">
 		    <div class="content-module-heading cf">				
-				<h3 class="fl">Quản lý phân quyền</h3>
+				<h3 class="fl">Quản lý người dùng</h3>
 				<span class="fr expand-collapse-text">Thu vào</span>
 				<span class="fr expand-collapse-text initial-expand">Mở ra</span>			
 			</div> <!-- end content-module-heading -->			
@@ -28,23 +28,13 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 				    <div class="half-size-column fl" style="height:auto">					
 					    <fieldset>  
 						        <p>
-								    <label for="full-width-input">Tên bộ phận</label>
+								    <label for="full-width-input">Tên nhóm người dùng</label>
 						         	<asp:TextBox ID="txtDepartment" CssClass="round default-width-input" 
                                         runat="server"></asp:TextBox>
-								    <em>Tên của bộ phận! </em>								
+								    <em>Tên nhóm người dùng! </em>								
 							    </p>							    					
 						 </fieldset>	
-                         <fieldset>  
-						                <p>
-								            <label for="full-width-input">Nhóm người dùng</label>
-						         	        <asp:DropDownList ID="dropTypeUser" runat="server" Height="30px" Width="100px">
-                                            <asp:ListItem Value="0">Admin</asp:ListItem>
-                                            <asp:ListItem Value="1">Client</asp:ListItem>
-                                            <asp:ListItem Value="2">SubClient</asp:ListItem>
-                                            </asp:DropDownList>
-								            <em>Loại nhóm người dùng! </em>								
-							            </p>							    					
-						 </fieldset>	
+                        
     				
                          
     				
@@ -56,16 +46,27 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 				    <div class="full-width-editor" style="float: left; margin-top: 30px;">     
 				       <fieldset>
 				          <p>
-							    <label for="simple-input">Giải thích</label>								
+							    <label for="simple-input">Diễn giải</label>								
                                 <asp:TextBox ID="txtDescription" CssClass="round default-width-input"  Width="95%"  TextMode="MultiLine" 
                                     runat="server"></asp:TextBox>
-                                <em>Giải thích về những thông tin của phòng ban </em>
+                                <em>Giải thích về những thông tin nhóm người dùng</em>
 						    </p>						
 							
 				       </fieldset>
+                         <fieldset>  
+						                <p>
+								            <label for="full-width-input">Nhóm người dùng</label>
+						         	        <asp:DropDownList ID="dropTypeUser" runat="server" Height="30px" Width="140px">
+                                            <asp:ListItem Value="0">Quản trị</asp:ListItem>
+                                            <asp:ListItem Value="1">Khách hàng</asp:ListItem>
+                                            <asp:ListItem Value="2">Tài khoản con</asp:ListItem>
+                                            </asp:DropDownList>
+								            <em>Loại nhóm người dùng! </em>								
+							            </p>							    					
+						 </fieldset>	
                        <fieldset>
         							
-                            <asp:Button ID="btnSave" runat="server" Text="Lưu phòng ban" 
+                            <asp:Button ID="btnSave" runat="server" Text="Lưu" 
                                 CssClass="button round blue image-right ic-add text-upper" 
                                 onclick="btnSave_Click"  />	
                                                         
@@ -83,7 +84,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 	    	   
 				  <div class="full-width-editor">
 				        <div class="content-module-heading cf">				
-				    <h3 class="fl">Danh sách phòng ban</h3>
+				    <h3 class="fl">Danh sách nhóm người dùng</h3>
 				    <span class="fr expand-collapse-text">Thu vào</span>
 				    <span class="fr expand-collapse-text initial-expand">Mở ra</span>			
 			    </div> <!-- end content-module-heading -->	
@@ -94,10 +95,10 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
                                <thead>            					
 		                            <tr>
 			                            <th>NO.</th>
-			                            <th>Tên phòng ban</th>
-                                         <th>Nhóm người dùng</th>
-			                            <th>Giải thích</th>				                            		                            
-			                            <th>Option</th>
+			                            <th>Nhóm người dùng</th>
+                                         <th>Loại nhóm người dùng</th>
+			                            <th>Diễn giải</th>				                            		                            
+			                            <th>Điều chỉnh</th>
 		                            </tr>            						
 	                            </thead>
                          </HeaderTemplate>                      
@@ -111,7 +112,7 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
                                                 <asp:Label ID="Name" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
 								            </td>	
                                             <td>								            
-                                                <asp:Label ID="lblUserType" runat="server" Text='<%# Eval("UserType") %>'></asp:Label>
+                                                <asp:Label ID="lblUserType" runat="server" Text='<%# Eval("UserTypeText") %>'></asp:Label>
 								            </td>							            
 								            <td>
 								                <asp:Label ID="Description" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
@@ -120,10 +121,11 @@ CodeFile="Department.aspx.cs" Inherits="webapp_page_backend_Department" Title="F
 								            <td>								           
 								        	        <asp:ImageButton ID="btnDelete" runat="server" 
                                                   ImageUrl="~/webapp/resource/images/Delete-icon.png" 
-                                                CommandArgument='<%# Eval("ID") %>' ToolTip="Xóa phòng ban này"                                                         
-                                                        OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa phòng ban này không ?')" 
+                                                CommandArgument='<%# Eval("ID") %>' ToolTip="Xóa Nhóm người dùng"                                                         
+                                                        OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa nhóm người dùng này không ?')" 
                                                         onclick="btnDelete_Click"   />
-                                                        
+
+                                                          
                                                 <asp:HyperLink ID="hplSettingRole" runat="server"                                                      
                                                      ImageUrl="~/webapp/resource/images/settings.png" 
                                                      ToolTip="Thay đổi quyền" 
