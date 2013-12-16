@@ -58,8 +58,8 @@ public class PackageDAO
 
     public void tblPackage_insert(PackageDTO dt)
     {
-        string sql = "INSERT INTO tblPackage (packageName, description,limitId,subAccontCount,isActive) " +
-                     "VALUES( @packageName, @description,@limitId,@subAccontCount,@isActive, @emailCount, @isUnlimit) ";
+        string sql = "INSERT INTO tblPackage (packageName, description,limitId, emailCount, isUnlimit,subAccontCount,isActive) " +
+                     "VALUES( @packageName, @description,@limitId, @emailCount, @isUnlimit,@subAccontCount,@isActive) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = dt.packageName;
