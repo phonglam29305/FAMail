@@ -12,7 +12,9 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     PackageBUS packageBus = new PackageBUS();
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
-    {      
+    {
+        UserLoginDTO userLogin = getUserLogin();
+        
         if (!IsPostBack)
         {
             try
@@ -40,6 +42,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
     private PackageDTO getpackge_insert()
@@ -56,10 +59,10 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.description = txtdescription.Text;
             int.TryParse(txtsubaccount.Text, out temp);
             sign.subAccontCount = temp;
-            int.TryParse(drlDepartmen.Text, out temp);
-            sign.limitId = int.Parse(drlDepartmen.SelectedValue);
+            int.TryParse(drlPackageLimit.Text, out temp);
+            sign.limitId = int.Parse(drlPackageLimit.SelectedValue);
             sign.isUnLimit = ceIsUnlimit.Checked;
-            sign.isActive = ceIsDefault.Checked;
+            sign.isActive = ceIsActive.Checked;
             if (!ceIsUnlimit.Checked)
             {
                 int.TryParse(txtEmailCount.Text, out temp);
@@ -85,11 +88,13 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             int temp = 0;
             int.TryParse(txtsubaccount.Text, out temp);
             sign.subAccontCount = temp;
-            int.TryParse(drlDepartmen.Text, out temp);
-            sign.limitId = int.Parse(drlDepartmen.SelectedValue);
-            int.TryParse(txtEmailCount.Text, out temp);
-            sign.emailCount = temp;
-
+            int.TryParse(drlPackageLimit.Text, out temp);
+            sign.limitId = int.Parse(drlPackageLimit.SelectedValue);
+            if (ceIsUnlimit.Checked)
+            {
+                int.TryParse(txtEmailCount.Text, out temp);
+                sign.emailCount = temp;
+            }
         }
         return sign;
 
@@ -97,11 +102,11 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     private void package()
     {           
-            drlDepartmen.Items.Clear();
-            drlDepartmen.DataSource = packageBus.GetAllPackage();
-            drlDepartmen.DataTextField = "namepackagelimit";
-            drlDepartmen.DataValueField = "limitId";
-            drlDepartmen.DataBind();
+            drlPackageLimit.Items.Clear();
+            drlPackageLimit.DataSource = packageBus.GetAllPackage();
+            drlPackageLimit.DataTextField = "namepackagelimit";
+            drlPackageLimit.DataValueField = "limitId";
+            drlPackageLimit.DataBind();
               
     }
     private bool kiemtraso(string chuoi)
@@ -241,10 +246,11 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 txtname.Text = table.Rows[0]["packageName"].ToString();
                 txtdescription.Text = table.Rows[0]["description"].ToString();
                 txtsubaccount.Text = table.Rows[0]["subAccontCount"].ToString();
-                drlDepartmen.Text = table.Rows[0]["limitId"].ToString();
+                drlPackageLimit.Text = table.Rows[0]["limitId"].ToString();
                 txtEmailCount.Text = table.Rows[0]["emailCount"].ToString();
                 this.hdfId.Value = packageId + "";
-
+                ceIsUnlimit.Checked = Convert.ToBoolean(table.Rows[0]["isunlimit"]);
+                ceIsActive.Checked = Convert.ToBoolean(table.Rows[0]["isactive"]);
             }
 
 

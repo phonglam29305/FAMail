@@ -81,6 +81,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
 }

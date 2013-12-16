@@ -44,7 +44,7 @@
                                 <br />
 
                                 <label for="simple-input">Giới hạn mail</label>
-                                <asp:DropDownList ID="drlDepartmen" runat="server" CssClass="round default-width-input" Style="height: 35px; border: 1px solid #bbbdbe; width: 360px;">
+                                <asp:DropDownList ID="drlPackageLimit" runat="server" CssClass="round default-width-input" Style="height: 35px; border: 1px solid #bbbdbe; width: 360px;">
                                 </asp:DropDownList>
                             </p>
 
@@ -82,7 +82,7 @@
                             </p>
                             <p>
                                 <label for="simple-input">Kích hoạt</label>
-                                <asp:CheckBox ID="ceIsDefault" runat="server" />
+                                <asp:CheckBox ID="ceIsActive" runat="server" />
 
                             </p>
 
@@ -121,8 +121,7 @@
                     <span class="fr expand-collapse-text initial-expand">Mở ra</span>
                 </div>
                 <!-- end content-module-heading -->
-                <%--<table>	                --%>
-                <%--  <table>--%>
+                <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [description], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>                <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [description], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
                 <asp:DataList ID="dtfunction" runat="server" RepeatColumns="1" Width="100%">
                     <HeaderTemplate>
                         <thead>
