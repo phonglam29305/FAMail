@@ -130,11 +130,17 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             masseng = "Nhập số tài khoản con không đúng định dạng";
         }
-        else if (kiemtraso(txtEmailCount.Text) == false)
+        else if (!ceIsUnlimit.Checked && kiemtraso(txtEmailCount.Text) == false)
         {
             masseng = "Nhập số email quản lý không đúng định dạng";
         }
-        
+        else
+        {
+            int i = 0;
+            int.TryParse(txtEmailCount.Text + "", out i);
+            if (!ceIsUnlimit.Checked && i <= 0)
+                masseng = "Giới hạn mail quản lý phải lớn hơn 0";
+        }
         return masseng;
     }
     private void LoadData()
@@ -221,6 +227,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
+            logs.Error("Package - Delete", ex);
         }
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
@@ -242,11 +249,12 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
 
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             pnError.Visible = false;
             pnSuccess.Visible = false;
-            throw;
+
+            logs.Error("Package - Edit", ex);
         }
     }
 }
