@@ -16,8 +16,10 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
 {
     ClientBUS clientBUS = null;
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -53,7 +55,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             this.dtlCustomer.DataBind();
         }
         catch (Exception ex)
-        { logs.Error(getUserLogin().Username+"-Client - LoadData", ex); }
+        { logs.Error(userLogin.Username+"-Client - LoadData", ex); }
     }
 
     protected void btnFilter_Click(object sender, EventArgs e)
@@ -71,7 +73,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         this.dtlCustomer.DataBind();
         }
         catch (Exception ex)
-        { logs.Error(getUserLogin().Username+"-Client - Filter", ex); }
+        { logs.Error(userLogin.Username+"-Client - Filter", ex); }
     }
     protected void btn_Click(object sender, CommandEventArgs e)
     {
@@ -86,7 +88,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             btnFilter_Click(null, EventArgs.Empty);
         }
         catch (Exception ex)
-        { logs.Error(getUserLogin().Username+"-Client - Lock-UnLock", ex); }
+        { logs.Error(userLogin.Username+"-Client - Lock-UnLock", ex); }
     }
     private void InitBUS()
     {

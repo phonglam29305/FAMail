@@ -12,8 +12,10 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     FunctionBUS functionBus = new FunctionBUS();
     PackageBUS packageBus = new PackageBUS();
     public string TenGoiDichVu = "";
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -71,7 +73,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(getUserLogin().Username+"-PackageFunction - Save", ex);
+            logs.Error(userLogin.Username+"-PackageFunction - Save", ex);
         }
 
     }

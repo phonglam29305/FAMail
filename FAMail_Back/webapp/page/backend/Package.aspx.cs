@@ -11,10 +11,10 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
 {
     PackageBUS packageBus = new PackageBUS();
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        UserLoginDTO userLogin = getUserLogin();
-        
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -32,7 +32,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     public void xoatextbok()
     {
-        txtdescription.Text="";
+        txtdescription.Text = "";
         txtsubaccount.Text = "";
         txtname.Text = "";
     }
@@ -47,7 +47,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     private PackageDTO getpackge_insert()
     {
-    
+
         PackageDTO sign = new PackageDTO();
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin != null)
@@ -55,7 +55,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             int temp = 0;
             //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.packageId = userLogin.UserId;
-            sign.packageName=txtname.Text;
+            sign.packageName = txtname.Text;
             sign.description = txtdescription.Text;
             int.TryParse(txtsubaccount.Text, out temp);
             sign.subAccontCount = temp;
@@ -104,13 +104,13 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
 
     }
     private void package()
-    {           
-            drlPackageLimit.Items.Clear();
-            drlPackageLimit.DataSource = packageBus.GetAllPackage();
-            drlPackageLimit.DataTextField = "namepackagelimit";
-            drlPackageLimit.DataValueField = "limitId";
-            drlPackageLimit.DataBind();
-              
+    {
+        drlPackageLimit.Items.Clear();
+        drlPackageLimit.DataSource = packageBus.GetAllPackage();
+        drlPackageLimit.DataTextField = "namepackagelimit";
+        drlPackageLimit.DataValueField = "limitId";
+        drlPackageLimit.DataBind();
+
     }
     private bool kiemtraso(string chuoi)
     {
@@ -126,11 +126,11 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     {
         string masseng = "";
 
-        if (txtname.Text== "")
+        if (txtname.Text == "")
         {
             masseng = "Vui lòng nhập tên gói dịch vụ";
         }
-        else if (txtsubaccount.Text=="")
+        else if (txtsubaccount.Text == "")
         {
             masseng = "Vui lòng nhập vào số tài khoản con";
         }
@@ -158,9 +158,9 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-       
-        
-       try
+
+
+        try
         {
             string message = checkInput();
             int status = 0;
@@ -169,7 +169,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 //cho nay co van de ne
                 PackageDTO packDto = getpackge_insert();
                 ConnectionData.OpenMyConnection();
-               
+
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
                     packageBus.tblPackage_insert(packDto);
@@ -210,7 +210,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
-            logs.Error(getUserLogin().Username+"-Package - Update", ex);
+            logs.Error(userLogin.Username + "-Package - Update", ex);
         }
         LoadData();
         xoatextbok();
@@ -220,7 +220,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     {
         try
         {
- 
+
             int packageId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
             if (packageBus.tblPackage_delete(packageId))
             {
@@ -229,13 +229,13 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 pnSuccess.Visible = true;
                 lblSuccess.Text = "Bạn vừa xóa thành công gói dịch vụ!";
             }
-          
+
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
-            logs.Error(getUserLogin().Username+"-Package - Delete", ex);
+            logs.Error(userLogin.Username + "-Package - Delete", ex);
         }
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
@@ -263,7 +263,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             pnError.Visible = false;
             pnSuccess.Visible = false;
 
-            logs.Error(getUserLogin().Username+"-Package - Edit", ex);
+            logs.Error(userLogin.Username + "-Package - Edit", ex);
         }
     }
 }

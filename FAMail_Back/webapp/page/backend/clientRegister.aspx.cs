@@ -10,8 +10,10 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 {
     ClientRegisterBUS clientregisterBus = new ClientRegisterBUS();
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -59,7 +61,7 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 
         }
         catch (Exception ex)
-        { logs.Error(getUserLogin().Username+"-Client - LoadData", ex); }
+        { logs.Error(userLogin.Username+"-Client - LoadData", ex); }
     }
     private UserLoginDTO getUserLogin()
     {
@@ -88,6 +90,6 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 
         }
         catch (Exception ex)
-        { logs.Error(getUserLogin().Username+"-Client - Filter", ex); }
+        { logs.Error(userLogin.Username+"-Client - Filter", ex); }
     }
 }
