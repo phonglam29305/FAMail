@@ -21,8 +21,26 @@ public class displayingfunctionBUS
     {
         return display.GetAllfunction();
     }
+    //public DataTable GetAllpackeg()
+    //{
+    //    return display.GetAllpakeg();
+    //}
     public DataTable LoadFunctionPackage(int id)
     {
       return  sign.dispalyfunctionpackage(id);
+    }
+
+    public DataTable GetAllpackeg()
+    {
+        return display.GetAllpakeg();
+    }
+
+    public DataTable GetAllpackeg1(string ten)
+    {
+        return display.GetAllpakeg();
+    }
+    public DataTable GetbyPackage(int packageId)
+    {
+        return display.GetbyPackage(packageId);
     }
 }

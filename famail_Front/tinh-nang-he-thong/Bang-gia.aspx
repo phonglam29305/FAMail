@@ -20,17 +20,23 @@
         <asp:Image ID="Image1" runat="server" ImageUrl="~/images/satisfaction-guaranteed.png" />        
     </th>
     <th style="width: 193px;" colspan="1" rowspan="1" class="column-2 sorting_disabled">
-    	<div class="majortitle">Basic</div>
+    	<div class="majortitle">
+            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        </div>
         <div class="subtitle">Hệ thống FA Mail</div>
         <div id="month_auto">
           <div class="pricing">
        		 <span><sup>$</sup>9</span>Tháng
           </div>
       
-          </div></th>
+          </div>
+
+    </th>
           
      <th style="width: 193px;" colspan="1" rowspan="1" class="column-3 sorting_disabled">
-       <div class="majortitle">Starter</div>
+       <div class="majortitle">
+           <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
+         </div>
        <div class="subtitle">Hệ thống FA Mail</div>
        <div id="month_start">
           <div class="pricing">
@@ -40,7 +46,9 @@
        </div></th>
        
      <th style="width: 193px;" colspan="1" rowspan="1" class="column-4 sorting_disabled">
-       <div class="majortitle">business</div>
+       <div class="majortitle">
+           <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
+         </div>
        <div class="subtitle">Hệ thống FA Mail</div>
        <div id="month_basic">
          <div class="pricing">
@@ -92,7 +100,7 @@
 
         </asp:DataList>
         <asp:HyperLink ID="autobtm" runat="server">
-                                <a class="ajax" href="dangky.aspx?type="<%#Eval("functionId") %>">
+                                <a class="ajax" href="dangky.aspx?type="6">
                                 <asp:Image ID="Image2" runat="server"  ImageUrl="~/images/signupbtn.png" />
                                 </a>
                            </asp:HyperLink>
@@ -220,5 +228,59 @@
 
 
 </div>
+    <table style="width:100%; background-color: lightblue">
+        <tr>
+            <td>
+                
+        <asp:Image ID="Image6" runat="server" ImageUrl="~/images/satisfaction-guaranteed.png" />   
+            </td>
+             <td>
+               <asp:DataList ID="dlGoiDichVu" runat="server" RepeatDirection="Horizontal">
+
+            <ItemTemplate>  <div class="majortitle">
+            <asp:Label ID="Label4" runat="server" Text="Label"><%#Eval("PackageName") %></asp:Label>
+        </div>
+        <div class="subtitle">Hệ thống FA Mail</div>
+        <div id="Div1">
+          <div class="pricing">
+       		 <span><sup>$</sup>9</span>Tháng
+          </div>
+      
+          </div></td>
+                </ItemTemplate>
+                   </asp:DataList>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:DataList ID="dlTenChucNang" runat="server">
+
+            <ItemTemplate>   
+                            <asp:Label ID="all" runat="server" Text='<%#Eval("functionName") %>'></asp:Label>                        
+                        
+            </ItemTemplate>
+
+        </asp:DataList>
+            </td>
+             <td>
+                 <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal">
+
+            <ItemTemplate> 
+                         
+               <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%#display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
+
+            <ItemTemplate>   
+                   <%-- thay thanh image   --%>     <asp:Label ID="all" runat="server" Visible='<%#Eval("isuse")+""=="no"?true:false %>'><%#Eval("isuse") %></asp:Label>  
+            <%-- thay thanh image   --%>       <asp:Label ID="Label5" runat="server" Visible='<%#Eval("isuse")+""=="yes"?true:false %>'><%#Eval("isuse") %></asp:Label>                        
+                <asp:Label ID="Label6" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="NO")?true:false %>'><%#Eval("isuse") %></asp:Label>         
+            </ItemTemplate>
+
+        </asp:DataList>
+                </ItemTemplate></asp:DataList>
+            </td>
+        </tr>
+
+    </table>
 </asp:Content>
 
