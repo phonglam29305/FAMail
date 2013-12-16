@@ -1,27 +1,37 @@
-﻿using System;
+﻿using Email;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using Email;
-using System.Data.SqlClient;
 
 /// <summary>
-/// Summary description for clientRegisterDAO
+/// Summary description for ClientRegisterDAO
 /// </summary>
-public class clientRegisterDAO
+public class ClientRegisterDAO
 {
-	public clientRegisterDAO()
+	public ClientRegisterDAO()
 	{
-		
+	
 	}
-    public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
+    public DataTable GetByID(int Id)
+    {
+        SqlCommand cmd = new SqlCommand("Select * from tblClientRegister where registerId=@registerId", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@registerId", SqlDbType.NVarChar).Value = Id;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
     {
         SqlCommand cmd = new SqlCommand("Client_Search_register", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.StoredProcedure;

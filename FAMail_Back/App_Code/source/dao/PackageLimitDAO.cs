@@ -86,4 +86,17 @@ public class PackageLimitDAO
         cmd.Dispose();
         ConnectionData.CloseMyConnection();
     }
+    public DataTable GetAvailablePackage(int limitId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblPackageLimit except Select * From tblPackageLimit Where limitId = @limitId",
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = limitId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 }

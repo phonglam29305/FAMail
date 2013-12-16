@@ -1,35 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Configuration;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using Email;
-using System.Data.SqlClient;
+
 /// <summary>
-/// Summary description for clientRegisterBUS
+/// Summary description for ClientRegisterBUS
 /// </summary>
-public class clientRegisterBUS
+public class ClientRegisterBUS
 {
-    clientRegisterDAO sign = new clientRegisterDAO();
-	public clientRegisterBUS()
+	public ClientRegisterBUS()
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+		
 	}
-    public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
+    ClientRegisterDAO clientdao = new ClientRegisterDAO();
+    public DataTable GetbyID(int id)
     {
-        return sign.Search_client_register(clientName, namepackagelimit, registerTime_from, registerTime_to, expireDate_from, expireDate_to);
+        return clientdao.GetByID(id);
+    }
+public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
+    {
+        return clientdao.Search_client_register(clientName, namepackagelimit, registerTime_from, registerTime_to, expireDate_from, expireDate_to);
     }
 
     public DataTable GetAllPackage()
     {
-        return sign.GetAllPackage();
+        return clientdao.GetAllPackage();
     }
 }

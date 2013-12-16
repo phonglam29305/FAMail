@@ -40,4 +40,12 @@ public class ClientBUS : IClient
     {
         return ctDao.GetByEmail(Email);
     }
+    public void UpdateInfomation(int clientid, string name, string adddress, DateTime dateofbirth, string phone)
+    {
+        ctDao.UpdateInfomation(clientid, name, adddress, dateofbirth, phone);
+    }
+    public void UpdateExtendLicense(string clientid, DateTime activeday, DateTime expireday)
+    {
+        ctDao.UpdateExtendLicense(clientid, activeday, expireday);
+    }
 }

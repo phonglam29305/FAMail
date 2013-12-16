@@ -31,6 +31,10 @@ public class FunctionBUS
     {
         return sign.GetAll();
     }
+    public System.Data.DataTable GetByFunctionId(int functionId)
+    {
+        return sign.GetByUserId(functionId);
+    }
     //public System.Data.DataTable GetByUserId(int functionId)
     //{
     //    return sign.GetByUserId(functionId);

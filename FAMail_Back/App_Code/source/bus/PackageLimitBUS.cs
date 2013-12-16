@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -34,5 +35,9 @@ public class PackageLimitBUS
     {
         
         sign.tblPackageLimit_Update(dt);
+    }
+    public DataTable GetAvailablePackage(int limitId)
+    {
+        return sign.GetAvailablePackage(limitId);
     }
 }

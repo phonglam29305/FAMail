@@ -95,4 +95,26 @@ public class ClientDAO
         adapter.Dispose();
         return table;
     }
+    public void UpdateInfomation(int clientid, string name, string adddress, DateTime dateofbirth, string phone)
+    {
+        string sql = "Update tblClient set clientName=@clientName,address=@address,phone=@phone,dateofbirth=@dateofbirth where clientId=@clientId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientid;
+        cmd.Parameters.Add("@clientName", SqlDbType.NVarChar).Value = name;
+        cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = adddress;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        cmd.Parameters.Add("@dateofbirth", SqlDbType.DateTime).Value = dateofbirth;
+        cmd.ExecuteNonQuery();
+    }
+    public void UpdateExtendLicense(string clientid, DateTime activeday, DateTime expireday)
+    {
+        string sql = "Update tblClient set activeDate=@activeDate,expireDate=@expireDate where clientId=@clientId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientid;
+        cmd.Parameters.Add("@activeDate", SqlDbType.DateTime).Value = activeday;
+        cmd.Parameters.Add("@expireDate", SqlDbType.DateTime).Value = expireday;
+        cmd.ExecuteNonQuery();
+    }
 }
