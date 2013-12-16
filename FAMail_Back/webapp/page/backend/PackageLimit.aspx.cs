@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
 {
-    PackageLimitBUS packageBus = new PackageLimitBUS();   
+    PackageLimitBUS packageBus = new PackageLimitBUS();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -25,16 +25,16 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
             }
         }
     }
-   
+
     private string checkInput()
     {
         string masseng = "";
-
+        int i = 0;
         if (txtnamepackagelimit.Text == "")
         {
             masseng = "Vui lòng nhập tên gói giới hạn";
         }
-        else if (kiemtraso(txtcode.Text )== false)
+        else if (kiemtraso(txtcode.Text) == false)
         {
             masseng = "Vui lòng nhập giá đúng định dạng";
         }
@@ -42,13 +42,19 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập giá vào ";
         }
-        else if (kiemtraso(txtunder.Text) ==false)
+        else if (kiemtraso(txtunder.Text) == false)
         {
             masseng = "Vui lòng nhập số giới hạn mail đúng định dạng";
         }
-        else if (txtunder.Text == "")
+        else if (!ceUnLimit.Checked && (txtunder.Text == "" || !int.TryParse(txtunder.Text + "", out i)))
         {
             masseng = "Vui lòng nhập số giới hạn mail";
+        }
+        else
+        {
+            int.TryParse(txtunder.Text + "", out i);
+            if (!ceUnLimit.Checked && i <= 0)
+                masseng = "Giới hạn mail phải lớn hơn 0";
         }
         return masseng;
     }
@@ -73,16 +79,17 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
     }
     private PackageLimitDTO getpackageDTO()
     {
-        PackageLimitDTO sign = new  PackageLimitDTO();
-        UserLoginDTO userLogin = getUserLogin();
-        if (userLogin != null)
-        {
-            sign.limitId = userLogin.UserId;
-            sign.namepackagelimit = txtnamepackagelimit.Text;
+        PackageLimitDTO sign = new PackageLimitDTO();
+        int id = 0;
+        Int32.TryParse(hdfId.Value + "", out id);
+        sign.limitId = id;
+        sign.namepackagelimit = txtnamepackagelimit.Text;
+        if (!ceUnLimit.Checked)
             sign.under = Int64.Parse(txtunder.Text);
-            sign.cost = float.Parse(txtcode.Text);
+        sign.cost = float.Parse(txtcode.Text);
+        sign.isUnLimit = ceUnLimit.Checked;
+        sign.isActive = ceIsActive.Checked;
 
-        }
         return sign;
 
 
@@ -106,7 +113,6 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
             {
 
                 PackageLimitDTO packageDto = getpackageDTO();
-                ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
                     packageBus.tblPackageLimit_insert(packageDto);
@@ -116,8 +122,8 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
                 {
                     packageBus.tblPackageLimit_Update(packageDto);
                     status = 2;
+                    hdfId.Value = null;
                 }
-                ConnectionData.CloseMyConnection();
                 pnSuccess.Visible = true;
                 if (status == 1)
                 {
@@ -153,7 +159,7 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         try
         {
             int limitId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-           
+
             packageBus.tblPackageLimit_Delete(limitId);
             LoadData();
             pnError.Visible = false;
@@ -171,7 +177,10 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
     {
         try
         {
-            int limitId =int.Parse( (((ImageButton)sender).CommandArgument.ToString()));
+            pnSuccess.Visible = false;
+            pnError.Visible = false;
+
+            int limitId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
             DataTable table = packageBus.GetByUserIdPackageLimit(limitId);
             if (table.Rows.Count > 0)
             {
@@ -179,8 +188,8 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
                 txtnamepackagelimit.Text = table.Rows[0]["namepackagelimit"].ToString();
                 txtunder.Text = table.Rows[0]["under"].ToString();
                 txtcode.Text = table.Rows[0]["cost"].ToString();
-
-
+                ceUnLimit.Checked = Convert.ToBoolean(table.Rows[0]["IsUnlimit"]);
+                ceIsActive.Checked = Convert.ToBoolean(table.Rows[0]["IsActive"]);
             }
 
 
@@ -190,26 +199,5 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
 
             throw;
         }
-    }
-    protected void btnCreateNew_Click(object sender, EventArgs e)
-    {
-
-
-
-
-               PackageLimitDTO ulDto = new PackageLimitDTO();
-               //ulDto.limitId = int.Parse(hdfId.Value);
-               ulDto.namepackagelimit = txtnamepackagelimit.Text;
-               ulDto.under = Int64.Parse(txtunder.Text);
-               ulDto.cost = float.Parse(txtcode.Text);
-                
-                ConnectionData.OpenMyConnection();
-             
-                packageBus.tblPackageLimit_Update(ulDto);
-                ConnectionData.CloseMyConnection();
-                pnSuccess.Visible = true;
-                pnError.Visible = false;
-                
-           
     }
 }

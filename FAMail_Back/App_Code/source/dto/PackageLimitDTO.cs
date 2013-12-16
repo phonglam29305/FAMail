@@ -14,6 +14,7 @@ public class PackageLimitDTO
 	}
     public int limitId { get; set; }
     public string namepackagelimit { get; set; }
+    public bool isUnLimit { get; set; }
     public Int64 under { get; set; }
     public float cost { get; set; }
     public bool isActive { get; set; }

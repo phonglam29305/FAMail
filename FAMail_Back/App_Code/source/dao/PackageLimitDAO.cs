@@ -31,14 +31,15 @@ public class PackageLimitDAO
     }
     public void tblPackageLimit_insert(PackageLimitDTO dt)
     {
-        string sql = "INSERT INTO tblPackageLimit (namepackagelimit,under,cost,isActive) " +
-                     "VALUES( @namepackagelimit, @under,@cost,@isActive) ";
+        string sql = "INSERT INTO tblPackageLimit (namepackagelimit,under,cost,isActive, IsUnLimit) " +
+                     "VALUES( @namepackagelimit, @under,@cost,@isActive, @IsUnLimit) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar).Value = dt.namepackagelimit;
         cmd.Parameters.Add("@under", SqlDbType.BigInt).Value = dt.under;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
+        cmd.Parameters.Add("@IsUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -69,14 +70,20 @@ public class PackageLimitDAO
         string sql = "UPDATE tblPackageLimit SET " +
                 "namepackagelimit= @namepackagelimit, " +
                 "under = @under, " +
-                "cost = @cost " +
+                "cost = @cost, " +
+                "isActive = @isActive, " +
+                "isUnlimit = @IsUnLimit " +
                 " WHERE limitId = @limitId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar).Value = dt.namepackagelimit;
         cmd.Parameters.Add("@under", SqlDbType.BigInt).Value = dt.under;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
+        cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
+        cmd.Parameters.Add("@IsUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
+        ConnectionData.OpenMyConnection();
         cmd.ExecuteNonQuery();
         cmd.Dispose();
+        ConnectionData.CloseMyConnection();
     }
 }
