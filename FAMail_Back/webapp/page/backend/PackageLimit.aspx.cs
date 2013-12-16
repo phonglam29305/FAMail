@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
 {
     PackageLimitBUS packageBus = new PackageLimitBUS();
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -145,12 +146,13 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+            logs.Error(getUserLogin().Username + "- PLimit - Update", ex);
         }
         LoadData();
     }
@@ -194,10 +196,10 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
 
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
-            throw;
+            logs.Error(getUserLogin().Username + "- edit - Edit", ex);
         }
     }
 }

@@ -30,7 +30,14 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
 
     }
-
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
+    }
     private void loadData()
     {
         try
@@ -45,7 +52,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             this.dtlCustomer.DataBind();
         }
         catch (Exception ex)
-        { logs.Error("Client - LoadData", ex); }
+        { logs.Error(getUserLogin().Username+"-Client - LoadData", ex); }
     }
 
     protected void btnFilter_Click(object sender, EventArgs e)
@@ -63,7 +70,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         this.dtlCustomer.DataBind();
         }
         catch (Exception ex)
-        { logs.Error("Client - Filter", ex); }
+        { logs.Error(getUserLogin().Username+"-Client - Filter", ex); }
     }
     protected void btn_Click(object sender, CommandEventArgs e)
     {
@@ -78,7 +85,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             btnFilter_Click(null, EventArgs.Empty);
         }
         catch (Exception ex)
-        { logs.Error("Client - Lock-UnLock", ex); }
+        { logs.Error(getUserLogin().Username+"-Client - Lock-UnLock", ex); }
     }
     private void InitBUS()
     {

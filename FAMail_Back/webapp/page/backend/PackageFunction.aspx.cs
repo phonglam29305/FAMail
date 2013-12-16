@@ -71,8 +71,16 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error("PackageFunction - Save", ex);
+            logs.Error(getUserLogin().Username+"-PackageFunction - Save", ex);
         }
 
+    }
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
     }
 }

@@ -59,7 +59,15 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 
         }
         catch (Exception ex)
-        { logs.Error("Client - LoadData", ex); }
+        { logs.Error(getUserLogin().Username+"-Client - LoadData", ex); }
+    }
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        return null;
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
@@ -80,6 +88,6 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
 
         }
         catch (Exception ex)
-        { logs.Error("Client - Filter", ex); }
+        { logs.Error(getUserLogin().Username+"-Client - Filter", ex); }
     }
 }

@@ -202,7 +202,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
-            logs.Error("Package - Update", ex);
+            logs.Error(getUserLogin().Username+"-Package - Update", ex);
         }
         LoadData();
         xoatextbok();
@@ -227,7 +227,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
-            logs.Error("Package - Delete", ex);
+            logs.Error(getUserLogin().Username+"-Package - Delete", ex);
         }
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
@@ -254,7 +254,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             pnError.Visible = false;
             pnSuccess.Visible = false;
 
-            logs.Error("Package - Edit", ex);
+            logs.Error(getUserLogin().Username+"-Package - Edit", ex);
         }
     }
 }
