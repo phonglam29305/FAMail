@@ -76,7 +76,7 @@ public class SendContentDAO
     }
     public DataTable GetAll()
     {
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblSendContent", 
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT id, createdate, subject, userid FROM tblSendContent", 
             ConnectionData._MyConnection);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
@@ -89,7 +89,7 @@ public class SendContentDAO
     }
     public DataTable GetByID(int Id)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendContent WHERE Id = @Id", 
+        SqlCommand cmd = new SqlCommand("SELECT id, createdate, subject, userid FROM tblSendContent WHERE Id = @Id", 
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
