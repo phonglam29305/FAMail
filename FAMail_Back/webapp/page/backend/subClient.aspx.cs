@@ -36,9 +36,6 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
     private void InitBUS()
     {
 
-
-
-
     }
 
     private UserLoginDTO getUserLogin()
@@ -160,7 +157,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
-                    ulBus.tblUserLoginSubClient_insert(ulDto);
+                   ulBus.tblUserLoginSubClient_insert(ulDto);
 
                    //lay UserID
                    DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);

@@ -40,7 +40,7 @@ public class UserLoginDAO
     public void tblUserLoginSubClient_insert(UserLoginDTO dt)
     {
         string sql = "INSERT INTO tblUserLogin(Username, Password, UserType,Is_Block) " +
-                     "VALUES(@Email, @Password, @UserType,@Is_Block)";
+                     "VALUES(@Email, @Password, @UserType,@Is_Block) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = dt.Email;
@@ -49,6 +49,8 @@ public class UserLoginDAO
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = dt.Is_Block;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
+    
+
     }
 
     public void tblSubClient_insert(UserLoginDTO dt)
@@ -64,6 +66,35 @@ public class UserLoginDAO
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = dt.Is_Block;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
+
+
+        //SqlCommand cmd = new SqlCommand();
+        //cmd.CommandType = CommandType.StoredProcedure;
+        //cmd.CommandText = "pro_add_tblsubclient";
+        //cmd.Parameters.Add("@subName", SqlDbType.NVarChar).Value = dt.Username;
+        //cmd.Parameters.Add("@subEmail", SqlDbType.NVarChar).Value = dt.Email;
+        //cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = dt.ClientID;
+        //cmd.Parameters.Add("@userId", SqlDbType.Int).Value = dt.UserId;
+        //cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = dt.Is_Block;
+        //cmd.Parameters.Add("@subId", SqlDbType.Int).Direction = ParameterDirection.Output;
+        //cmd.Connection = ConnectionData._MyConnection;
+        //try
+        //{
+        //    ConnectionData._MyConnection.Open();
+        //    cmd.ExecuteNonQuery();
+        //    string subId = cmd.Parameters["@subId"].Value.ToString();
+         
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw ex;
+        //}
+        //finally
+        //{
+        //    ConnectionData._MyConnection.Close();
+        //    ConnectionData._MyConnection.Dispose();
+        //}
+
     }
     public void tblUserLogin_Update(UserLoginDTO dt)
     {

@@ -23,16 +23,42 @@ public class DepartmentDAO
     }
     public void tblDepartment_insert(DepartmentDTO dt)
     {
-        string sql = "INSERT INTO tblDepartment(Name, Description, UserId,UserType) " +
-                     "VALUES(@Name, @Description, @UserId,@UserType)";
-        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        //string sql = "INSERT INTO tblDepartment(Name, Description, UserId,UserType) " +
+        //             "VALUES(@Name, @Description, @UserId,@UserType)";
+        //SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        //cmd.CommandType = CommandType.Text;
+        //cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
+        //cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
+        //cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
+        //cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = dt.UserType;
+        //cmd.ExecuteNonQuery();
+        //cmd.Dispose();
+
+
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_add_tblDeparment";
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = dt.UserType;
-        cmd.ExecuteNonQuery();
-        cmd.Dispose();
+        cmd.Connection = ConnectionData._MyConnection;
+        try
+        {
+        
+            cmd.ExecuteNonQuery();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+           
+            //ConnectionData._MyConnection.Dispose();
+        }
     }
     public void tblDepartment_Update(DepartmentDTO dt)
     {
