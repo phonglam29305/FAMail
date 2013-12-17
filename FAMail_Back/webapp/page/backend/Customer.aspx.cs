@@ -30,7 +30,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         {
             try
             {
-                loadData();
+               // loadData();
             }
             catch (Exception)
             {

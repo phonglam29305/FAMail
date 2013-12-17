@@ -58,10 +58,10 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
 
                 ImageButton btnDelete = (ImageButton)dlDepartment.Items[i].FindControl("btnDelete");
                 HyperLink hplSettingRole = (HyperLink)dlDepartment.Items[i].FindControl("hplSettingRole");
-                if (int.Parse(tblDepart.Rows[i]["ID"].ToString()) == 1)
+                if (int.Parse(tblDepart.Rows[i]["ID"].ToString()) == 1 || int.Parse(tblDepart.Rows[i]["ID"].ToString()) == 2 || int.Parse(tblDepart.Rows[i]["ID"].ToString()) == 3)
                 {
                     btnDelete.Visible = false;
-                    hplSettingRole.Visible = false;
+                    hplSettingRole.Visible = true;
                 }
             }
 

@@ -154,6 +154,8 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 ulDto.Email = txtEmail.Text;
                 ulDto.Is_Block = this.chkBlock.Checked;
                 ulDto.UserType = 2;
+                //tai khoan con ID =3
+                ulDto.UserId = 3;
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {

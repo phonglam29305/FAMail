@@ -39,14 +39,15 @@ public class UserLoginDAO
 
     public void tblUserLoginSubClient_insert(UserLoginDTO dt)
     {
-        string sql = "INSERT INTO tblUserLogin(Username, Password, UserType,Is_Block) " +
-                     "VALUES(@Email, @Password, @UserType,@Is_Block) ";
+        string sql = "INSERT INTO tblUserLogin(Username, Password, UserType,Is_Block,DepartmentId) " +
+                     "VALUES(@Email, @Password, @UserType,@Is_Block,@UserId) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = dt.Email;
         cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = dt.Password;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = dt.UserType;
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = dt.Is_Block;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     
