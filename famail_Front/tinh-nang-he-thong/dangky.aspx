@@ -12,9 +12,11 @@
     <form id="ss" runat="server">
         
 		    <div id='inline_dangky'>
-                <h2>Đăng ký tài khoản FA Mail dùng thử 2$ <asp:Label ID="Label4" runat="server" Text="Label"></asp:Label></h2>
-                <div style="float:left; padding-left:30px;"><span style="font-size:13px; text-align: left;"><i>(Phiên bản đầy đủ tính năng, danh sách 50 khách hàng, gởi không giới hạn. Thời gian 1 tháng)</i></span></div>
-                
+                <h2>Đăng ký tài khoản FA Mail dùng thử 2$ <asp:Label ID="lbgoimail" runat="server" Text="Label"></asp:Label></h2>
+                <%--<div style="float:left; padding-left:30px;"><span style="font-size:13px; text-align: left;"><i>(Phiên bản đầy đủ tính năng, danh sách 50 khách hàng, gởi không giới hạn. Thời gian 1 tháng)<asp:Label ID="Label15" runat="server" Text="Label"></asp:Label>
+                    </i></span></div>--%>
+                <div style="float:left; padding-left:30px;">
+                    <asp:Label ID="lbdiengiai" runat="server" Text=""></asp:Label></div>
                 <div class="formcontentdangky">
                     <div class="fcdk1">
 

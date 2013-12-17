@@ -11,8 +11,9 @@ public partial class tinh_nang_he_thong_Bang_gia : System.Web.UI.Page
  
     protected void Page_Load(object sender, EventArgs e)
     {
-        loadfunction();
+        
         loadData();
+        
     }
     private void loadfunction()
     {
@@ -22,7 +23,8 @@ public partial class tinh_nang_he_thong_Bang_gia : System.Web.UI.Page
     {
         try
         {
-            DataTable pakage=display.GetAllpackeg();
+
+            DataTable pakage = display.GetAllpackeg();
             dlGoiDichVu.DataSource = dlSDCN.DataSource = pakage;
             dlGoiDichVu.DataBind();
             dlSDCN.DataBind();
@@ -33,10 +35,10 @@ public partial class tinh_nang_he_thong_Bang_gia : System.Web.UI.Page
             dlTenChucNang.DataSource = t.DefaultView;
             dlTenChucNang.DataBind();
 
-       
 
         }
         catch (Exception ex)
-        {  }
+        { }
     }
+    
 }
