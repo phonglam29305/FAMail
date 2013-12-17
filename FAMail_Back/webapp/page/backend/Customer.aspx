@@ -48,7 +48,7 @@
                                     <td>
                                         <asp:Label ID="Label4" runat="server" Text="<b>Nhóm mail :</b>"></asp:Label>
                                         <asp:DropDownList ID="drlNhomMail" runat="server" Height="30px">
-                                            <asp:ListItem Value="*">Tất cả</asp:ListItem>
+                                            <asp:ListItem Value="0">Tất cả</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
                                     <td>

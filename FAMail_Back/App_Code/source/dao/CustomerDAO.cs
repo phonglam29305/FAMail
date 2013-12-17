@@ -111,17 +111,56 @@ public class CustomerDAO
         cmd.Dispose();
     }
 
-    public DataTable GetAll()
+    public DataTable GetAll(string Name,string phone,string email,int assignTo)
     {
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblCustomer where recivedEmail='True'", ConnectionData._MyConnection);
+        //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblCustomer where Name =@Name recivedEmail='True'", ConnectionData._MyConnection);
+        //DataTable table = new DataTable();
+        //if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        //{
+        //    ConnectionData._MyConnection.Open();
+        //}
+        //adapter.Fill(table);
+        //adapter.Dispose();
+        //return table;
+
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_search_tblCustomer";
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
         }
         adapter.Fill(table);
+        cmd.Dispose();
         adapter.Dispose();
         return table;
+        
+        //string sql = "";
+        //sql += "SELECT * FROM tblCustomer ";
+        //sql += "WHERE (Name like '%" + @Name + "%') and Phone like '%" + @phone + "%' and Email like '%" + @email + "%' AND recivedEmail='True'";
+        //SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        //cmd.CommandType = CommandType.Text;
+        //cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
+        //cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        //cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
+        //SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //DataTable table = new DataTable();
+        //if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        //{
+        //    ConnectionData._MyConnection.Open();
+        //}
+        //adapter.Fill(table);
+        //cmd.Dispose();
+        //adapter.Dispose();
+        //return table;
     }
     public DataTable GetAllByUser(int UserID)
     {

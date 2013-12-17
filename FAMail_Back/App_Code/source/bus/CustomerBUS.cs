@@ -34,9 +34,9 @@ public class CustomerBUS:ICustomer
     {
         ctDao.tblCustomer_Delete(Id);
     }
-    public DataTable GetAll()
+    public DataTable GetAll(string Name,string phone,string email,int assignTo)
     {
-        return ctDao.GetAll();
+        return ctDao.GetAll(Name, phone, email, assignTo);
     }
     public DataTable GetByID(int Id)
     {
@@ -74,4 +74,10 @@ public class CustomerBUS:ICustomer
     }
 
     #endregion
+
+
+    public DataTable GetAll()
+    {
+        throw new NotImplementedException();
+    }
 }
