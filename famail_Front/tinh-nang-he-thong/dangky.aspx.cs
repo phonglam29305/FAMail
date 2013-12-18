@@ -10,7 +10,7 @@ using System.Net.Mail;
 
 public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
 {
-    dangkyBUS dk;
+    RegisterBUS dk;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -19,23 +19,23 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         }
     }
     private void LoadData()
-    {       
-        if (Request.QueryString["packageId"].ToString() != null)
+    {
+        if (Request.QueryString["packageId"] != null)
         {
-            dk = new dangkyBUS();
+            dk = new RegisterBUS();
             string idpackage = Request.QueryString["packageId"].ToString();
             int id = Convert.ToInt32(idpackage);
-            DataTable table = dk.GetByUserId(id);           
+            DataTable table = dk.GetByUserId(id);
             lbgoimail.Text = table.Rows[0]["packageName"].ToString();
             lbdiengiai.Text = table.Rows[0]["Description"].ToString();
             lbtotalfree.Text = table.Rows[0]["totalFee"].ToString();
 
 
-        }
         Drpacketime.DataTextField = "monthCount";
         Drpacketime.DataValueField = "packageTimeId";
         Drpacketime.DataSource = dk.Getpackagetime();
         Drpacketime.DataBind();
+        }
 
     }
     protected void LinkButton2_Click(object sender, EventArgs e)
@@ -43,25 +43,25 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
 
     }
 
-    private dangkydto getclient()
+    private clientdto getclient()
     {
-      dangkydto client=new dangkydto();
+        clientdto client = new clientdto();
 
-      client.clientName = txtclientname.Text;
-      client.address = txtaddress.Text;
-      client.email = txtemail.Text;
-      client.phone = txtphone.Text;
-     
+        client.clientName = txtclientname.Text;
+        client.address = txtaddress.Text;
+        client.email = txtemail.Text;
+        client.phone = txtphone.Text;
+
         return client;
 
 
     }
     private void tinhtien()
     {
-       double a = Convert.ToDouble(Drpacketime.SelectedValue.ToString());
-       double b=Convert.ToDouble(lbtotalfree.Text);
-       double c =  b*(a)/100;
-       lbtongphi.Text = c.ToString() ;
+        double a = Convert.ToDouble(Drpacketime.SelectedItem.Text.ToString());
+        double b = Convert.ToDouble(lbtotalfree.Text);
+        double c = b * (a) / 100;
+        lbtongphi.Text = c.ToString();
 
     }
     protected void Drpacketime_SelectedIndexChanged(object sender, EventArgs e)
@@ -70,10 +70,26 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     }
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
-        dangkydto cliendto = getclient();
+        clientdto cliendto = getclient();
         ConnectionData.OpenMyConnection();
-        dk = new dangkyBUS();
-        dk.Insert_clien(cliendto);
+        dk = new RegisterBUS();
+        clientRegisterdto clientRegister = new clientRegisterdto();
+        clientRegister.from = DateTime.Now;
+        clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text) * 30);
+
+        string idpackage = Request.QueryString["packageId"].ToString();
+        int id = 0;
+        Int32.TryParse(idpackage, out id);
+        clientRegister.packageId = id;
+
+        DataTable T = new LoadFunctionPackageDAO().dispalyfunctionpackage(id);
+        if (T != null && T.Rows.Count > 0)
+            clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["TotalFee"]);
+
+        Int32.TryParse(Drpacketime.SelectedValue, out id);
+        clientRegister.packageTimeId = id;
+
+        dk.Insert_client(cliendto,clientRegister);
 
 
         SmtpClient SmtpServer = new SmtpClient();
@@ -96,7 +112,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
         mail.ReplyTo = new MailAddress(txtemail.Text);
         SmtpServer.Send(mail);
-        
+
 
     }
 }

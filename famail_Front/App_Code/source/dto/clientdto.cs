@@ -6,9 +6,9 @@ using System.Web;
 /// <summary>
 /// Summary description for dangkydto
 /// </summary>
-public class dangkydto
+public class clientdto
 {
-	public dangkydto()
+	public clientdto()
 	{
 	}
     public int packageTimeId { get; set; }

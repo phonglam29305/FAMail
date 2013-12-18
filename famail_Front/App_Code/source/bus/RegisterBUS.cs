@@ -7,10 +7,10 @@ using System.Data;
 /// <summary>
 /// Summary description for dangkyBUS
 /// </summary>
-public class dangkyBUS
+public class RegisterBUS
 {
-    dangkyDAO dangky = new dangkyDAO();
-	public dangkyBUS()
+    RegisterDAO dangky = new RegisterDAO();
+	public RegisterBUS()
 	{
 		
 	}
@@ -23,9 +23,9 @@ public class dangkyBUS
     {
         return dangky.GetAllPackagetime();
     }
-    public void Insert_clien(dangkydto dt)
+    public void Insert_client(clientdto client, clientRegisterdto clientRegister)
     {
-        dangky.Insert_Client(dt);
+        dangky.Insert_Client(client, clientRegister);
     }
     
 }
