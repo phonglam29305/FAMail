@@ -82,10 +82,11 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         Int32.TryParse(idpackage, out id);
         clientRegister.packageId = id;
 
-        DataTable T = new LoadFunctionPackageDAO().dispalyfunctionpackage(id);
+        DataTable T =dk.GetPackageById(id);
         if (T != null && T.Rows.Count > 0)
-            clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["TotalFee"]);
-
+        {clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
+        clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
+        }
         Int32.TryParse(Drpacketime.SelectedValue, out id);
         clientRegister.packageTimeId = id;
 

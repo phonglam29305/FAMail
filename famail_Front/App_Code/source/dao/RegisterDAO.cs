@@ -46,6 +46,17 @@ public class RegisterDAO
         return table;
 
     }
+    public DataTable GetPackageById(int id)
+    {
+        SqlCommand cmd = new SqlCommand("SP_Package_GetById "+id, ConnectionData._MyConnection);
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+
+    }
     public void Insert_Client(clientdto client, clientRegisterdto clientRegister)
     {
         string sql = "insert into tblClient (clientName,address,email,phone)" +

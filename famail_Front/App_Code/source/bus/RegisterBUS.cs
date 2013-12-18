@@ -23,6 +23,10 @@ public class RegisterBUS
     {
         return dangky.GetAllPackagetime();
     }
+    public DataTable GetPackageById(int id)
+    {
+        return dangky.GetPackageById(id);
+    }
     public void Insert_client(clientdto client, clientRegisterdto clientRegister)
     {
         dangky.Insert_Client(client, clientRegister);
