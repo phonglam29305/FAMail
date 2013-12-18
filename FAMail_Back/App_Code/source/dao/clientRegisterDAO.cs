@@ -61,4 +61,28 @@ public DataTable Search_client_register(string clientName, string namepackagelim
         adapter.Dispose();
         return table;
     }
+public int UpdateUpgrade(int clientId, int packageId, int limitId, int SubAccount, float totalFee, int registerType, int packagetimeid, string From, string To, string LastRegisterFrom, string LastRegisterTo, int LastRegisterFee, int LastRegisterFeeRemain)
+    {
+        string sql = "set dateformat dmy Insert Into tblClientRegister (clientId,packageId,limitId,subAccontCount,totalFee,registerType,packageTimeId,[from],[to],lastRegisterFrom,lastRegisterTo,lastRegisterFee,lastRegisterFeeRemain,registerTime,registerDate) values (@clientId,@packageId,@limitId,@subAccontCount,@totalFee,@registerType,@packageTimeId,@from,@to,@lastRegisterFrom,@lastRegisterTo,@lastRegisterFee,@lastRegisterFeeRemain,getdate(),'" + DateTime.Now.ToString("dd/MM/yyyy") + "') Select @@identity";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = packageId;
+        cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = limitId;
+        cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = SubAccount;
+        cmd.Parameters.Add("@totalFee", SqlDbType.Float).Value = totalFee;
+        cmd.Parameters.Add("@registerType", SqlDbType.Int).Value = registerType;
+        cmd.Parameters.Add("@packageTimeId", SqlDbType.Int).Value = packagetimeid;
+        cmd.Parameters.Add("@from", SqlDbType.VarChar).Value = From;
+        cmd.Parameters.Add("@to", SqlDbType.VarChar).Value = To;
+        cmd.Parameters.Add("@lastRegisterFrom", SqlDbType.VarChar).Value = LastRegisterFrom;
+        cmd.Parameters.Add("@lastRegisterTo", SqlDbType.VarChar).Value = LastRegisterTo;
+        cmd.Parameters.Add("@lastRegisterFee", SqlDbType.Float).Value = LastRegisterFee;
+        cmd.Parameters.Add("@lastRegisterFeeRemain", SqlDbType.Float).Value = LastRegisterFeeRemain;
+        //cmd.Parameters.Add("@registerTime", SqlDbType.VarChar).Value = registerTime;
+        //cmd.Parameters.Add("@registerDate", SqlDbType.VarChar).Value = registerDate;
+        object id =cmd.ExecuteScalar();
+        cmd.Dispose();
+        return Int32.Parse(id+"");
+    }
 }

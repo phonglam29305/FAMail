@@ -48,4 +48,8 @@ public class ClientBUS : IClient
     {
         ctDao.UpdateExtendLicense(clientid, activeday, expireday);
     }
+    public void UpdateRegiterId(int clientId, string activeDay, string expireDay, int lastRegisterId, int registerId)
+    {
+        ctDao.UpdateRegiterId(clientId, activeDay, expireDay, lastRegisterId, registerId);
+    }
 }

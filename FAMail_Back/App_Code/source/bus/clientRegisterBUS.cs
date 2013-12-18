@@ -27,4 +27,8 @@ public DataTable Search_client_register(string clientName, string namepackagelim
     {
         return clientdao.GetAllPackage();
     }
+    public int UpdateUpgrade(int clientId, int packageId, int limitId, int SubAccount, float totalFee, int registerType, int packagetimeid, string From, string To, string LastRegisterFrom, string LastRegisterTo, int LastRegisterFee, int LastRegisterFeeRemain)
+    {
+        return clientdao.UpdateUpgrade(clientId, packageId, limitId, SubAccount, totalFee, registerType, packagetimeid,From,To,LastRegisterFrom,LastRegisterTo,LastRegisterFee,LastRegisterFeeRemain);
+    }
 }

@@ -117,4 +117,16 @@ public class ClientDAO
         cmd.Parameters.Add("@expireDate", SqlDbType.DateTime).Value = expireday;
         cmd.ExecuteNonQuery();
     }
+    public void UpdateRegiterId(int clientId,string activeDay,string expireDay,int lastRegisterId, int registerId)
+    {
+        string sql = "set dateformat dmy Update tblClient set activeDate=@activeDate,expireDate=@expireDate,lastRegisterId=@lastRegisterId, registerId=@registerId where clientId=@clientId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        cmd.Parameters.Add("@activeDate", SqlDbType.VarChar).Value = activeDay;
+        cmd.Parameters.Add("@expireDate", SqlDbType.VarChar).Value = expireDay;
+        cmd.Parameters.Add("@lastRegisterId", SqlDbType.Int).Value = lastRegisterId;
+        cmd.Parameters.Add("@registerId", SqlDbType.Int).Value = registerId;
+        cmd.ExecuteNonQuery();
+    }
 }

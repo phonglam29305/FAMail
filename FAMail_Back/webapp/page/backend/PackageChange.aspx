@@ -15,13 +15,14 @@
                                 <tr>
                                     <td>Thời gian:</td>
                                     <td>
-                                        <asp:DropDownList ID="ddlExtend" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlExtend_SelectedIndexChanged">
-                                            <asp:ListItem>-------------Chọn thời hạn-------------</asp:ListItem>
-                                            <asp:ListItem Value="30">1 tháng</asp:ListItem>
+                                        <asp:DropDownList ID="ddlExtend" runat="server" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlExtend_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">-------------Chọn thời hạn-------------</asp:ListItem>
+                                           <%-- <asp:ListItem Value="30">1 tháng</asp:ListItem>
                                             <asp:ListItem Value="90">3 tháng</asp:ListItem>
                                             <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>
                                         </asp:DropDownList>
+                                        
                                     </td>
                                 </tr>
                                 <tr>
@@ -41,16 +42,73 @@
                             <table class="full-width-editor">
                                 <tr>
                                     <td>Gói dịch vụ hiện tại:</td>
-                                    <td>
+                                    <td style="text-align:left !important;">
                                         <asp:Label ID="lblTenGoi" runat="server" Text=""></asp:Label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Gói dịch vụ có thể nâng cấp</td>
-                                    <td>
+                                    <td>Gói dịch vụ có thể nâng cấp:</td>
+                                    <td style="text-align:left !important;">
                                         <asp:DropDownList ID="ddlUpgradeServices" runat="server">
                                         </asp:DropDownList>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:DropDownList ID="ddlUpgradeTime" runat="server" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlUpgradeTime_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">-------------Chọn thời hạn-------------</asp:ListItem>
+                                            <%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
+                                            <asp:ListItem Value="90">3 tháng</asp:ListItem>
+                                            <asp:ListItem Value="180">6 tháng</asp:ListItem>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian còn lại của gói cũ:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Label ID="lblTimeLeft" runat="server" Text=""></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian hết hạn:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Label ID="lblUpgradeExpireTime" runat="server" Text=""></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <asp:Button ID="btnUpgrade" runat="server" Text="Nâng cấp dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnUpgrade_Click" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div id="changeoptionbox" class="full-width-editor" runat="server" visible="false">
+
+                            <table class="full-width-editor">
+                                <tr>
+                                    <td>Chức năng:</td>
+                                    <td rowspan="3">
+                                        <asp:Repeater ID="rptListOptions" runat="server">
+                                            <ItemTemplate>
+                                                <div>
+                                                    <asp:CheckBox ID="chkOptions" runat="server" Text="gg" />
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                 </tr>
                             </table>
 
