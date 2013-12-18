@@ -489,7 +489,7 @@ a#company-branding-small img { height: 30px; }
 
 
 /* ---------- TABS ---------- */
-ul#tabs { list-style-type: none; }
+ul#tabs { list-style-type: none;margin-bottom:0px; }
 
 	ul#tabs li { float: left; }
 	
