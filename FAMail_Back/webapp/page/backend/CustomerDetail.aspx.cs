@@ -50,7 +50,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             DataTable dtlimit = new DataTable();
             pkglimitBus = new PackageLimitBUS();
             dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitid);
-            lblTenGoi.Text = dtlimit.Rows[0]["namepackagelimit"].ToString();
+            lblTenGoi.Text = dtpackage.Rows[0]["packageName"].ToString();
             lblNgayKichHoat.Text = dtClient.Rows[0]["activeDate"].ToString();
             lblNgayDenHan.Text = dtClient.Rows[0]["expireDate"].ToString();
             lblSoTaiKhoanCon.Text = dtClientRegister.Rows[0]["subAccontCount"].ToString();
