@@ -60,4 +60,8 @@ public class PackageBUS
     {
         return sign.addFunction(packageID,  functionId);
     }
+    public DataTable GetAvailablePackage(int packageId)
+    {
+        return sign.GetAvailablePackage(packageId);
+    }
 }

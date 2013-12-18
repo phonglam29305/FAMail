@@ -1,6 +1,27 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="PackageChange.aspx.cs" Inherits="webapp_page_backend_PackageChange" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#<%=ddlLimitPackage.ClientID%>").change(function () {
+                var myparam = $("#<%=ddlLimitPackage.ClientID%>").val();
+                $.ajax({
+                    type: "POST",
+                    url: "PackageChange.aspx/CalculateCost",
+                    data: '{param:"' + myparam + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        alert(data.d)
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                alert("ready");
+            });
+    </script>
     <div class="side-content fr">
                 <!--start content 01-->
                 <div class="content-module">
@@ -66,6 +87,18 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Đơn giá gói:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Label ID="lblFee" runat="server" Text=""></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tiền thừa gói cũ(đơn giá gói/ngày sử dụng còn lại):</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Label ID="lblFeeRemain" runat="server" Text=""></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Thời gian còn lại của gói cũ:</td>
                                     <td style="text-align:left !important;">
                                         <asp:Label ID="lblTimeLeft" runat="server" Text=""></asp:Label>
@@ -90,20 +123,25 @@
                             <table class="full-width-editor">
                                 <tr>
                                     <td>Chức năng:</td>
-                                    <td rowspan="3">
+                                    <td style="max-width:800px;">
                                         <asp:Repeater ID="rptListOptions" runat="server">
                                             <ItemTemplate>
-                                                <div>
-                                                    <asp:CheckBox ID="chkOptions" runat="server" Text="gg" />
+                                                <div class="confirmation-box" style="float:left;border:none !important">
+                                                    <asp:CheckBox ID="chkOptions" runat="server"/><%#Eval("functionName") %>
                                                 </div>
                                             </ItemTemplate>
                                         </asp:Repeater>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>&nbsp;</td>
+                                    <td>Gói giới hạn</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:DropDownList ID="ddlLimitPackage" runat="server">
+                                        </asp:DropDownList>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>

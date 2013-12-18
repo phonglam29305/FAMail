@@ -150,4 +150,17 @@ public class PackageDAO
         cmd.Dispose();
         return i > 0;
     }
+    public DataTable GetAvailablePackage(int packageId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblPackage except Select * From tblPackage Where packageId = @packageId",
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = packageId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 }

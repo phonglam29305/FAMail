@@ -29,6 +29,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
     }
     private void LoadData()
     {
+        #region LoadData
         if (Request.QueryString["user"] != null)
         {
             int user = Convert.ToInt32(Request.QueryString["user"].ToString());
@@ -112,9 +113,10 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             }
         }
         else
-        { 
-                    
+        {
+
         }
+        #endregion
     }
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
