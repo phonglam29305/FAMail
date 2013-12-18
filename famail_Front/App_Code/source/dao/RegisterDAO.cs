@@ -19,7 +19,7 @@ public class RegisterDAO
 
     public DataTable GetByUserId( int id)
     {
-        SqlCommand cmd = new SqlCommand("Package_GetALL ",
+        SqlCommand cmd = new SqlCommand("Package_GetALL",
            ConnectionData._MyConnection);
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -57,7 +57,7 @@ public class RegisterDAO
         return table;
 
     }
-    public void Insert_Client(clientdto client, clientRegisterdto clientRegister)
+    public int Insert_Client(clientdto client, clientRegisterdto clientRegister, UserLoginDTO ulDto)
     {
         string sql = "insert into tblClient (clientName,address,email,phone)" +
             "values(@clientName,@address,@email,@phone) select @@identity";
@@ -110,6 +110,22 @@ public class RegisterDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
 
+
+        sql = "INSERT INTO tblUserLogin(Username, Password, UserType,Is_Block,DepartmentId) " +
+                     "VALUES(@Email, @Password, @UserType,@Is_Block,@UserType) select @identity";
+        cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = ulDto.Email;
+        cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = ulDto.Password;
+        cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = ulDto.UserType;
+        cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = ulDto.Is_Block;
+         id = cmd.ExecuteScalar();
+
+        sql = "update tblClient set userid = @userid ";
+        cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@userid", SqlDbType.Int).Value = id;
+        return cmd.ExecuteNonQuery();
     }
 
 }

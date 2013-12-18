@@ -22,8 +22,8 @@
         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
             <ContentTemplate>
                 <div id='inline_dangky'>
-                    <h2>Đăng ký tài khoản FA Mail dùng thử 2$
-                        <asp:Label ID="lbgoimail" runat="server" Text="Label"></asp:Label></h2>
+                    <h2>Đăng ký tài khoản FA Mail:<asp:Label ID="lblTenGoiMail" runat="server" Text=""></asp:Label>
+                    </h2>
                     <%--<div style="float:left; padding-left:30px;"><span style="font-size:13px; text-align: left;"><i>(Phiên bản đầy đủ tính năng, danh sách 50 khách hàng, gởi không giới hạn. Thời gian 1 tháng)<asp:Label ID="Label15" runat="server" Text="Label"></asp:Label>
                     </i></span></div>--%>
                     <div style="float: left; padding-left: 30px; width: 600px; height: 60px; background-color: #e5f5f9; border-radius: 30px; margin-left: 50px;">
@@ -76,6 +76,26 @@
                                     <asp:TextBox ID="txtemail" CssClass="txtbox" runat="server" Width="221px"></asp:TextBox>
                                 </div>
                             </div>
+                            <div class="box-fcdk">
+                                <div class="labelfcdk">
+                                    <span style="font-size: 16px; color: #FF0000;">*</span>
+                                    <asp:Label ID="Label5" runat="server" Text="Mật khẩu:" BorderStyle="None"></asp:Label>
+                                </div>
+                                <div class="divbox">
+                                    <asp:TextBox ID="txtPass" CssClass="txtbox" runat="server" Width="220px"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="box-fcdk">
+                                <div class="labelfcdk">
+                                    <span style="font-size: 16px; color: #FF0000;">*</span>
+                                    <asp:Label ID="Label6" runat="server" Text="Nhập lại mật khẩu:" BorderStyle="None"></asp:Label>
+                                </div>
+                                <div class="divbox">
+                                    <asp:TextBox ID="txtpassAgain" CssClass="txtbox" runat="server" Width="220px"></asp:TextBox>
+                                </div>
+                            </div>
+
 
                             <div class="box-fcdk">
                                 <div class="labelfcdk">

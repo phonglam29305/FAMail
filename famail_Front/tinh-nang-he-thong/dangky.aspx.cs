@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 using Email;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 
 public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
 {
@@ -26,13 +28,13 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
             string idpackage = Request.QueryString["packageId"].ToString();
             int id = Convert.ToInt32(idpackage);
             DataTable table = dk.GetByUserId(id);
-            lbgoimail.Text = table.Rows[0]["packageName"].ToString();
+            lblTenGoiMail.Text = table.Rows[0]["packageName"].ToString();
             lbdiengiai.Text = table.Rows[0]["Description"].ToString();
             lbtotalfree.Text = table.Rows[0]["totalFee"].ToString();
 
 
         Drpacketime.DataTextField = "monthCount";
-        Drpacketime.DataValueField = "packageTimeId";
+        Drpacketime.DataValueField = "discount";
         Drpacketime.DataSource = dk.Getpackagetime();
         Drpacketime.DataBind();
         }
@@ -58,7 +60,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     }
     private void tinhtien()
     {
-        double a = Convert.ToDouble(Drpacketime.SelectedItem.Text.ToString());
+        double a = Convert.ToDouble(Drpacketime.SelectedValue.ToString());
         double b = Convert.ToDouble(lbtotalfree.Text);
         double c = b * (a) / 100;
         lbtongphi.Text = c.ToString();
@@ -87,33 +89,62 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         {clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
         clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
         }
-        Int32.TryParse(Drpacketime.SelectedValue, out id);
+        object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
+        Int32.TryParse(temp+"", out id);
         clientRegister.packageTimeId = id;
 
-        dk.Insert_client(cliendto,clientRegister);
+        UserLoginDTO ulDto = new UserLoginDTO();
+        ulDto.Username = txtclientname.Text;
+        ulDto.Password = GetMd5Hash(txtPass.Text);
+        ulDto.Email = txtemail.Text;
+        ulDto.Is_Block = false;
+        ulDto.UserType = 2;
+        if (dk.Insert_client(cliendto, clientRegister, ulDto)>0)
+        {
+
+            SmtpClient SmtpServer = new SmtpClient();
+            SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+
+            SmtpServer.Port = 25;
+            SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+            SmtpServer.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+            String[] addr = txtemail.Text.Split(' ');
 
 
-        SmtpClient SmtpServer = new SmtpClient();
-        SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+            mail.From = new MailAddress("admin@fastautomaticmail.com",
+            "Xác Nhận Từ Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+            Byte i;
+            for (i = 0; i < addr.Length; i++)
+                mail.To.Add(addr[i]);
+            mail.Subject = "chao mung bao";
+            mail.Body = "Dear";
+            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            mail.ReplyTo = new MailAddress(txtemail.Text);
+            SmtpServer.Send(mail);
 
-        SmtpServer.Port = 25;
-        SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
-        SmtpServer.EnableSsl = true;
-        MailMessage mail = new MailMessage();
-        String[] addr = txtemail.Text.Split(' ');
+            Response.Redirect("~");
+        }
 
+    }
+    public static string GetMd5Hash(string input)
+    {
+        MD5 md5Hash = MD5.Create();
+        // Convert the input string to a byte array and compute the hash. 
+        byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-        mail.From = new MailAddress("admin@fastautomaticmail.com",
-        "Xác Nhận Từ Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
-        Byte i;
-        for (i = 0; i < addr.Length; i++)
-            mail.To.Add(addr[i]);
-        mail.Subject = "chao mung bao";
-        mail.Body = "Dear";
-        mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-        mail.ReplyTo = new MailAddress(txtemail.Text);
-        SmtpServer.Send(mail);
+        // Create a new Stringbuilder to collect the bytes 
+        // and create a string.
+        StringBuilder sBuilder = new StringBuilder();
 
+        // Loop through each byte of the hashed data  
+        // and format each one as a hexadecimal string. 
+        for (int i = 0; i < data.Length; i++)
+        {
+            sBuilder.Append(data[i].ToString("x2"));
+        }
 
+        // Return the hexadecimal string. 
+        return sBuilder.ToString();
     }
 }

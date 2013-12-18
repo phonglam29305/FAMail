@@ -27,9 +27,10 @@ public class RegisterBUS
     {
         return dangky.GetPackageById(id);
     }
-    public void Insert_client(clientdto client, clientRegisterdto clientRegister)
+    public int Insert_client(clientdto client, clientRegisterdto clientRegister, UserLoginDTO ulDto)
     {
-        dangky.Insert_Client(client, clientRegister);
+        return dangky.Insert_Client(client, clientRegister,  ulDto);
     }
-    
+
+
 }
