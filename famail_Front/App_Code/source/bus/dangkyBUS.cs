@@ -15,10 +15,17 @@ public class dangkyBUS
 		
 	}
 
-    public DataTable GetByUserId(int packageId)
+    public DataTable GetByUserId(int id)
     {
-        return dangky.GetByUserId(packageId);
+        return dangky.GetByUserId(id);
     }
-
+    public DataTable Getpackagetime()
+    {
+        return dangky.GetAllPackagetime();
+    }
+    public void Insert_clien(dangkydto dt)
+    {
+        dangky.Insert_Client(dt);
+    }
     
 }

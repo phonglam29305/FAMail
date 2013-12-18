@@ -7,15 +7,23 @@
     <title></title>
     <link href="../css/cssform.css" rel="stylesheet" />
     <link href="../colorbox.css" rel="stylesheet" />
+    <style>
+        .box-fcdk1 {
+            margin-top:-10px;
+        }     
+        .txtbox {}
+    </style>
 </head>
 <body>
     <form id="ss" runat="server">
-        
-		    <div id='inline_dangky'>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+           <ContentTemplate>
+                <div id='inline_dangky'>
                 <h2>Đăng ký tài khoản FA Mail dùng thử 2$ <asp:Label ID="lbgoimail" runat="server" Text="Label"></asp:Label></h2>
                 <%--<div style="float:left; padding-left:30px;"><span style="font-size:13px; text-align: left;"><i>(Phiên bản đầy đủ tính năng, danh sách 50 khách hàng, gởi không giới hạn. Thời gian 1 tháng)<asp:Label ID="Label15" runat="server" Text="Label"></asp:Label>
                     </i></span></div>--%>
-                <div style="float:left; padding-left:30px;">
+                <div style="float:left; padding-left:30px; width:600px; height:60px;background-color:#e5f5f9; border-radius:30px; margin-left:50px;">
                     <asp:Label ID="lbdiengiai" runat="server" Text=""></asp:Label></div>
                 <div class="formcontentdangky">
                     <div class="fcdk1">
@@ -26,16 +34,22 @@
                               <asp:Label ID="Label1" runat="server" Text="Gói thời gian:" BorderStyle="None"></asp:Label>
                           </div>
                           <div class="divbox">  
-                              <asp:DropDownList ID="Drpacketime" runat="server" CssClass="txtbox"></asp:DropDownList>
+                              <asp:DropDownList ID="Drpacketime" runat="server" CssClass="txtbox" OnSelectedIndexChanged="Drpacketime_SelectedIndexChanged" Width="48px" AutoPostBack="True"></asp:DropDownList>
                           </div>
+                        &nbsp;
+                            <asp:Label ID="Label15" runat="server" Text="Phí"></asp:Label>
+&nbsp;
+                            <asp:Label ID="lbtongphi" runat="server"></asp:Label>
                         </div>
+                    
                         <div class="box-fcdk">
                           <div class="labelfcdk"> 
                               <span style="font-size:16px ; color:#FF0000;" >*</span>
-                              <asp:Label ID="Label5" runat="server" Text="Tên của bạn:" BorderStyle="None"></asp:Label>
+                              <asp:Label ID="Label4" runat="server" Text="Tên của bạn:" BorderStyle="None"></asp:Label>
+                              <asp:Label ID="lbtotalfree" runat="server" Text="0" Visible="False"></asp:Label>
                           </div>
                           <div class="divbox">  
-                            <asp:TextBox ID="txtten" CssClass="txtbox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtclientname" CssClass="txtbox" runat="server" Width="222px"></asp:TextBox>
                           </div>
                         </div>
                         <div class="box-fcdk">
@@ -44,7 +58,7 @@
                               <asp:Label ID="Label2" runat="server" Text="Tên doanh nghiệp / Cửa hàng:" BorderStyle="None"></asp:Label>
                           </div>
                           <div class="divbox">  
-                            <asp:TextBox ID="txttendoanhnghiep" CssClass="txtbox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtcompanyname" CssClass="txtbox" runat="server" Width="221px"></asp:TextBox>
                           </div>
                         </div>
 
@@ -55,27 +69,27 @@
                               <asp:Label ID="Label3" runat="server" Text="(Là tên đăng nhập của bạn)" BorderStyle="None" Font-Size="13px" Font-Italic="True"></asp:Label>
                           </div>
                           <div class="divbox">  
-                            <asp:TextBox ID="txtemail" CssClass="txtbox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtemail" CssClass="txtbox" runat="server" Width="221px"></asp:TextBox>
                           </div>
                         </div>
 
                         <div class="box-fcdk">
                           <div class="labelfcdk">  
                               <span style="font-size:16px ; color:#FF0000;" >*</span>
-                              <asp:Label ID="Label7" runat="server" Text="Mật khẩu:" BorderStyle="None"></asp:Label>
+                              <asp:Label ID="Label7" runat="server" Text="Số điện thoại:" BorderStyle="None"></asp:Label>
                           </div>
                           <div class="divbox">  
-                            <asp:TextBox ID="txtmatkhau" CssClass="txtbox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtphone" CssClass="txtbox" runat="server" Width="220px"></asp:TextBox>
                           </div>
                         </div>
 
                         <div class="box-fcdk">
                           <div class="labelfcdk"> 
                               <span style="font-size:16px ; color:#FF0000;" >*</span> 
-                              <asp:Label ID="Label12" runat="server" Text="Nhập lại mật khẩu:" BorderStyle="None"></asp:Label>
+                              <asp:Label ID="Label12" runat="server" Text="Địa chỉ:" BorderStyle="None"></asp:Label>
                           </div>
                           <div class="divbox">  
-                            <asp:TextBox ID="txtnhaplaimatkhau" CssClass="txtbox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtaddress" CssClass="txtbox" runat="server" Width="221px"></asp:TextBox>
                           </div>
                         </div>
 
@@ -85,11 +99,9 @@
                               <asp:Label ID="Label14" runat="server" Text="Mã xác nhận:" BorderStyle="None"></asp:Label>
                           </div>
                           <div class="divbox">  
-                              <asp:TextBox ID="txtmaxacnhan" CssClass="txtmxn" runat="server"></asp:TextBox>                              
+                              <asp:TextBox ID="txtbody" CssClass="txtmxn" runat="server"></asp:TextBox>                              
                           </div>
-                          <div class="divbox">  
-                               <asp:Image ID="ImgCaptcha"  runat="server" ImageUrl="~/captcha.ashx" Width="100px" />                             
-                          </div>
+                        
                         </div>
 
                         <div class="box-fcdk">
@@ -100,9 +112,7 @@
                         </div>
 
                         <div class="box-btndangky">
-                            <asp:LinkButton ID="LinkButton2" runat="server" CssClass="inline" href="#inline_dangnhap" OnClick="LinkButton2_Click">
-                                <asp:Image ID="Image2" runat="server" ImageUrl="~/images/imagesfrom/taotaikhoang.png" Width="200px" />
-                            </asp:LinkButton>
+                            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/imagesfrom/taotaikhoang.png" OnClick="ImageButton1_Click" />
                         </div>
 
                     </div>
@@ -113,7 +123,12 @@
 	
 			</div>
 
-	 
+           </ContentTemplate>
+        </asp:UpdatePanel>
+        
+		   
+	       
+
         </form>
 </body>
 </html>
