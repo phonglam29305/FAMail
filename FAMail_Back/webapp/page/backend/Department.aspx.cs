@@ -11,12 +11,13 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using log4net;
 
 public partial class webapp_page_backend_Department : System.Web.UI.Page
 {
     DepartmentBUS dpBUS = null;
     MailConfigBUS mcBUS = null;
-
+    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -32,6 +33,7 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");//test confict
         return null;
     }
 
@@ -66,10 +68,11 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-        }
+            logMgr.Error(Session["us-login"] + " - LoadDepartmentList", ex);
 
+        }
     }
 
     private void InitBUS()
@@ -102,10 +105,11 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
             }
             ConnectionData.CloseMyConnection();
 
+
         }
         catch (Exception ex)
         {
-
+            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
 
         }
     }
@@ -172,8 +176,10 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
                 lblError.Text = message;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
+
         }
 
     }

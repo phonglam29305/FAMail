@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using log4net;
 
 public partial class webapp_page_backend_Customer : System.Web.UI.Page
 {
@@ -24,6 +25,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     DataTable result = null;
     string expresion = "";
     DataRow[] row = null;
+    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -41,61 +43,69 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
 
     private void loadData()
     {
-        // customer = new DataTable();
-        //  customerBySelect = new DataTable();
-        //  if (getUserLogin().DepartmentId == 1)
-        //  {
-        //      customer = ctBUS.GetAll();
-        //  }
-        //  else
-        //  {
-        // customer = ctBUS.GetAllByUser(getUserLogin().UserId);
-        //   }
-        //customerBySelect = customer;
-        // createTable();
-        // row = customer.Select(expresion);
-        // LoadCustomer();
-        DataTable MailGroup = new DataTable();
-        if (Session["us-login"] != null)
+        try
         {
-            if (getUserLogin().DepartmentId == 1)
+            // customer = new DataTable();
+            //  customerBySelect = new DataTable();
+            //  if (getUserLogin().DepartmentId == 1)
+            //  {
+            //      customer = ctBUS.GetAll();
+            //  }
+            //  else
+            //  {
+            // customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+            //   }
+            //customerBySelect = customer;
+            // createTable();
+            // row = customer.Select(expresion);
+            // LoadCustomer();
+            DataTable MailGroup = new DataTable();
+            if (Session["us-login"] != null)
             {
-                MailGroup = mgBUS.GetAllNew();
-            }
-            if (getUserLogin().DepartmentId == 3)
-            {
-                MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
-            }
-            if (getUserLogin().DepartmentId == 2)
-            {
-                MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
-            }
-            if (MailGroup.Rows.Count > 0)
-            {
-                createTableMail();
-                DataRow rowE = null;
                 if (getUserLogin().DepartmentId == 1)
                 {
-                    rowE = group.NewRow();
-                    rowE["Id"] = 0;
-                    rowE["Name"] = "Tất cả";
-                    group.Rows.Add(rowE);
+                    MailGroup = mgBUS.GetAllNew();
                 }
-                foreach (DataRow rowItem in MailGroup.Rows)
+                if (getUserLogin().DepartmentId == 3)
                 {
-                    rowE = group.NewRow();
-                    rowE["Id"] = rowItem["Id"];
-                    rowE["Name"] = rowItem["Name"];
-                    group.Rows.Add(rowE);
+                    MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
                 }
+                if (getUserLogin().DepartmentId == 2)
+                {
+                    MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
+                }
+                if (MailGroup.Rows.Count > 0)
+                {
+                    createTableMail();
+                    DataRow rowE = null;
+                    if (getUserLogin().DepartmentId == 1)
+                    {
+                        rowE = group.NewRow();
+                        rowE["Id"] = 0;
+                        rowE["Name"] = "Tất cả";
+                        group.Rows.Add(rowE);
+                    }
+                    foreach (DataRow rowItem in MailGroup.Rows)
+                    {
+                        rowE = group.NewRow();
+                        rowE["Id"] = rowItem["Id"];
+                        rowE["Name"] = rowItem["Name"];
+                        group.Rows.Add(rowE);
+                    }
+                }
+                this.drlNhomMail.DataSource = group;
+                this.drlNhomMail.DataTextField = "Name";
+                this.drlNhomMail.DataValueField = "Id";
+                this.drlNhomMail.DataBind();
             }
-            this.drlNhomMail.DataSource = group;
-            this.drlNhomMail.DataTextField = "Name";
-            this.drlNhomMail.DataValueField = "Id";
-            this.drlNhomMail.DataBind();
+            pnSearch.Visible = true;
+            btnSearch.Visible = false;
         }
-        pnSearch.Visible = true;
-        btnSearch.Visible = false;
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - loadData", ex);
+
+        }
     }
 
     private UserLoginDTO getUserLogin()
@@ -104,93 +114,102 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");//test confict
         return null;
     }
 
     protected void btnFilter_Click(object sender, EventArgs e)
     {
-        // GetExpresion();
-        //createTable();
-        //createTableCustomer();
-        InitBUS();
-        int GroupID = 0;
-        GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
-        //  if (GroupID == 0)
-        // {
-
-        if (getUserLogin().DepartmentId == 1)
+        try
         {
-            // customerBySelect = ctBUS.GetAll();
+            // GetExpresion();
+            //createTable();
+            //createTableCustomer();
+            InitBUS();
+            int GroupID = 0;
+            GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
+            //  if (GroupID == 0)
+            // {
 
-            customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            if (getUserLogin().DepartmentId == 1)
+            {
+                // customerBySelect = ctBUS.GetAll();
+
+                customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            }
+            if (getUserLogin().DepartmentId == 3)
+            {
+                customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+            }
+
+            //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            //  }
+            //  else
+            //  {
+
+            //  customer = ctBUS.GetByID(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            //     DataTable dt = dtgBUS.GetByID(GroupID);
+            //if (dt.Rows.Count > 0)
+            //{
+            //    foreach (DataRow rowItem in dt.Rows)
+            //    {
+            //       //tam edit if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
+
+            //            DataRow rowFilter = customer.NewRow();
+
+            //            //tam edit
+            //          //  rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
+            //           // rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
+            //            //rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
+            //           // rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
+            //            //rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
+            //            //rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
+            //           // rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
+
+            //             rowFilter["Id"] = dt.Rows[0]["Id"].ToString();
+            //             rowFilter["Name"] = dt.Rows[0]["Name"].ToString(); 
+            //             rowFilter["Gender"] = dt.Rows[0]["Gender"].ToString();
+            //             rowFilter["Birthday"] = dt.Rows[0]["Birthday"].ToString();
+            //             rowFilter["Email"] = dt.Rows[0]["Email"].ToString();
+            //             rowFilter["Phone"] = dt.Rows[0]["Phone"].ToString();
+            //             rowFilter["Address"] = dt.Rows[0]["Address"].ToString(); 
+
+            //            customer.Rows.Add(rowFilter);
+            //        //}
+            //    }
+            //}
+            // }
+            //row = customer.Select(expresion);
+            //foreach (DataRow rowItem in row)
+            //{
+            //    DataRow rowFilter = result.NewRow();
+            //    rowFilter["Id"] = rowItem["Id"];
+            //    rowFilter["Name"] = rowItem["Name"];
+            //    rowFilter["Gender"] = rowItem["Gender"];
+            //    rowFilter["Birthday"] = rowItem["Birthday"];
+            //    rowFilter["Email"] = rowItem["Email"];
+            //    rowFilter["Phone"] = rowItem["Phone"];
+            //    rowFilter["Address"] = rowItem["Address"];
+            //    result.Rows.Add(rowFilter);
+            //}
+            dlPager.MaxPages = 1000;
+            dlPager.PageSize = 50;
+            dlPager.DataSource = customer.DefaultView; //result.DefaultView;
+            dlPager.BindToControl = dtlCustomer;
+            this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
+            this.dtlCustomer.DataBind();
+            //dtlCustomer.DataSource = result;
+            //dtlCustomer.DataBind();
         }
-         if (getUserLogin().DepartmentId == 2)
+        catch (Exception ex)
         {
-            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            logMgr.Error(Session["us-login"] + " - btnFilter_Click", ex);
+
         }
-        if (getUserLogin().DepartmentId == 3)
-        {
-            customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
-         }
-
-        //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
-        //  }
-        //  else
-        //  {
-
-        //  customer = ctBUS.GetByID(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
-        //     DataTable dt = dtgBUS.GetByID(GroupID);
-        //if (dt.Rows.Count > 0)
-        //{
-        //    foreach (DataRow rowItem in dt.Rows)
-        //    {
-        //       //tam edit if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
-
-        //            DataRow rowFilter = customer.NewRow();
-
-        //            //tam edit
-        //          //  rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
-        //           // rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
-        //            //rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
-        //           // rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
-        //            //rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
-        //            //rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
-        //           // rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
-
-        //             rowFilter["Id"] = dt.Rows[0]["Id"].ToString();
-        //             rowFilter["Name"] = dt.Rows[0]["Name"].ToString(); 
-        //             rowFilter["Gender"] = dt.Rows[0]["Gender"].ToString();
-        //             rowFilter["Birthday"] = dt.Rows[0]["Birthday"].ToString();
-        //             rowFilter["Email"] = dt.Rows[0]["Email"].ToString();
-        //             rowFilter["Phone"] = dt.Rows[0]["Phone"].ToString();
-        //             rowFilter["Address"] = dt.Rows[0]["Address"].ToString(); 
-
-        //            customer.Rows.Add(rowFilter);
-        //        //}
-        //    }
-        //}
-        // }
-        //row = customer.Select(expresion);
-        //foreach (DataRow rowItem in row)
-        //{
-        //    DataRow rowFilter = result.NewRow();
-        //    rowFilter["Id"] = rowItem["Id"];
-        //    rowFilter["Name"] = rowItem["Name"];
-        //    rowFilter["Gender"] = rowItem["Gender"];
-        //    rowFilter["Birthday"] = rowItem["Birthday"];
-        //    rowFilter["Email"] = rowItem["Email"];
-        //    rowFilter["Phone"] = rowItem["Phone"];
-        //    rowFilter["Address"] = rowItem["Address"];
-        //    result.Rows.Add(rowFilter);
-        //}
-        dlPager.MaxPages = 1000;
-        dlPager.PageSize = 50;
-        dlPager.DataSource = customer.DefaultView; //result.DefaultView;
-        dlPager.BindToControl = dtlCustomer;
-        this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
-        this.dtlCustomer.DataBind();
-        //dtlCustomer.DataSource = result;
-        //dtlCustomer.DataBind();
     }
     private void GetExpresion()
     {
@@ -235,6 +254,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     }
     private void LoadCustomer()
     {
+       
         ctBUS = new CustomerBUS();
         int GroupID = 0;
         GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
@@ -257,8 +277,9 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
 
         }
 
@@ -319,6 +340,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - lbtExecute_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -417,6 +439,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = ex.Message;

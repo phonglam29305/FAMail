@@ -16,6 +16,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
 {
     UserLoginBUS ulBus = null;
     DepartmentBUS deBus = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -48,6 +49,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
 
@@ -89,8 +91,9 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logs.Error(Session["us-login"] + " - LoadData", ex);
         }
 
     }
@@ -243,6 +246,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(Session["us-login"] + " - btnSave_Click", ex);
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = "Kiểm tra lại dữ liệu nhập vào !";
@@ -301,8 +305,10 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
 
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+
+            logs.Error(Session["us-login"] + " - btnEdit_Click", ex);
             pnError.Visible = false;
             pnSuccess.Visible = false;
             throw;
@@ -324,6 +330,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(Session["us-login"] + " - btnDelete_Click", ex);
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
         }

@@ -86,8 +86,9 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logs.Error(Session["us-login"] + " - LoadData", ex);
         }
 
     }

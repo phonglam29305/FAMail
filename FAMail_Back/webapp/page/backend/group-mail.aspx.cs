@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using log4net;
 
 public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 {
@@ -19,6 +20,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     CustomerBUS ctBUS = null;
     DetailGroupBUS dgBUS = null;
     UserLoginBUS ulBus = null;
+    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -36,6 +38,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");//test confict
         return null;
     }
 
@@ -77,9 +80,10 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             }
 
         }
-
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - LoadSubClient", ex);
+
         }
     }
 
@@ -109,6 +113,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - LoadGroup", ex);
+
         }
     }
 
@@ -125,6 +131,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        try
+        {
         InitBUS();
         UserLoginDTO userLogin = getUserLogin();
       
@@ -172,6 +180,12 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
             pnSuccess.Visible = false;
         }
+        }
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
+
+        }
       //  LoadGroup();
 
     }
@@ -211,6 +225,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - btnEdit_Click", ex);
             pnError.Visible = true;
             lblError.Text = "Đã có lỗi : " + ex.ToString();
         }
@@ -244,6 +259,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
             //pnError.Visible = true;
             //lblError.Text = ex.Message;
         }

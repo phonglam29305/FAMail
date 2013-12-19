@@ -63,6 +63,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         catch (Exception ex)
         {
             logMgr.Error(Session["us-login"] + " - loadData", ex);
+           
         }
     }
     private UserLoginDTO getUserLogin()
@@ -71,6 +72,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");//test confict
         return null;
     }
     private void LoadCustomer()
@@ -117,6 +119,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     }
     private void LoadMailGroupLists()
     {
+        try
+        {
         DataTable dtMailGroup = null;
 
         if (getUserLogin().DepartmentId == 1)
@@ -148,7 +152,12 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         else
         {
-            //pnSelectGroup.Visible = false;
+            pnSelectGroup.Visible = false;
+        }
+        }
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - LoadMailGroupLists", ex);
         }
     }
     private void InitBUS()
@@ -272,11 +281,6 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         count++;
 
                         DataTable checkExistsMail = ctBUS.GetByEmail(lblEmail.Text, getUserLogin().UserId);
-
-
-
-
-
                         if (checkExistsMail.Rows.Count > 0)
                         {
                             CustomerID = int.Parse(checkExistsMail.Rows[0]["Id"].ToString());
@@ -357,6 +361,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 
     private string checkInputCustomer()
     {
+
         //verify = new EmailVerifier(true);
         string message = "";
         if (txtName.Text == "")
@@ -616,6 +621,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logMgr.Error(Session["us-login"] + " - btnAdd_Click", ex);
             pnError.Visible = true;
             lblError.Text = "Lỗi trong quá trình thêm khách hàng!" + ex.Message.ToString();
         }

@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using log4net;
 
 public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 {
@@ -24,6 +25,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     DataTable result = null;
     string expresion = "";
     DataRow[] row = null;
+    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -45,45 +47,54 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
     private void LoadSubGroup()
     {
-        DataTable MailGroup = new DataTable();
-        if (Session["us-login"] != null)
+        try
         {
-            if (getUserLogin().DepartmentId == 1)
+            DataTable MailGroup = new DataTable();
+            if (Session["us-login"] != null)
             {
-                MailGroup = mgBUS.GetAllNew();
-            }
-            if (getUserLogin().DepartmentId == 3)
-            {
-                MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
-            }
-            if (getUserLogin().DepartmentId == 2)
-            {
-                MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
-            }
-            if (MailGroup.Rows.Count > 0)
-            {
-                createTableMail();
-                DataRow rowE = null;
                 if (getUserLogin().DepartmentId == 1)
                 {
-                    rowE = group.NewRow();
-                    rowE["Id"] = 0;
-                    rowE["Name"] = "Tất cả";
-                    group.Rows.Add(rowE);
+                    MailGroup = mgBUS.GetAllNew();
                 }
-                foreach (DataRow rowItem in MailGroup.Rows)
+                if (getUserLogin().DepartmentId == 3)
                 {
-                    rowE = group.NewRow();
-                    rowE["Id"] = rowItem["Id"];
-                    rowE["Name"] = rowItem["Name"];
-                    group.Rows.Add(rowE);
+                    MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
                 }
+                if (getUserLogin().DepartmentId == 2)
+                {
+                    MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
+                }
+                if (MailGroup.Rows.Count > 0)
+                {
+                    createTableMail();
+                    DataRow rowE = null;
+                    if (getUserLogin().DepartmentId == 1)
+                    {
+                        rowE = group.NewRow();
+                        rowE["Id"] = 0;
+                        rowE["Name"] = "Tất cả";
+                        group.Rows.Add(rowE);
+                    }
+                    foreach (DataRow rowItem in MailGroup.Rows)
+                    {
+                        rowE = group.NewRow();
+                        rowE["Id"] = rowItem["Id"];
+                        rowE["Name"] = rowItem["Name"];
+                        group.Rows.Add(rowE);
+                    }
+                }
+                this.drlSubGroup.DataSource = group;
+                this.drlSubGroup.DataTextField = "Name";
+                this.drlSubGroup.DataValueField = "Id";
+                this.drlSubGroup.DataBind();
             }
-            this.drlSubGroup.DataSource = group;
-            this.drlSubGroup.DataTextField = "Name";
-            this.drlSubGroup.DataValueField = "Id";
-            this.drlSubGroup.DataBind();
         }
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - LoadSubGroup", ex);
+
+        }
+
         // pnSearch.Visible = true;
         // btnSearch.Visible = false;
     }
@@ -102,6 +113,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
     private void LoadCustomer()
     {
+        
         mgBUS = new MailGroupBUS();
         customer = new DataTable();
         customerBySelect = new DataTable();
@@ -126,10 +138,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
 
-        }
-        catch (Exception)
-        {
+         }
 
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
 
         }
 
@@ -140,6 +153,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");//test confict
         return null;
     }
     private int getSessionId()
@@ -228,47 +242,55 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     }
     protected void btnFilter_Click(object sender, EventArgs e)
     {
-        //  GetExpresion();
-        //  createTable();
-        customer = new DataTable();
-        ctBUS = new CustomerBUS();
-        int GroupID = 0;
-        GroupID = int.Parse(drlSubGroup.SelectedValue.ToString());
-        if (getUserLogin().DepartmentId == 1)
+        try
         {
-            //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+            //  GetExpresion();
+            //  createTable();
+            customer = new DataTable();
+            ctBUS = new CustomerBUS();
+            int GroupID = 0;
+            GroupID = int.Parse(drlSubGroup.SelectedValue.ToString());
+            if (getUserLogin().DepartmentId == 1)
+            {
+                //customer = ctBUS.GetAll();
+                customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+
+            }
+            if (getUserLogin().DepartmentId == 3)
+            {
+                customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            }
+
+            //row = customer.Select(expresion);
+            //foreach (DataRow rowItem in row)
+            //{
+            //    DataRow rowFilter = result.NewRow();
+            //    rowFilter["Id"] = rowItem["Id"];
+            //    rowFilter["Name"] = rowItem["Name"];
+            //    rowFilter["Gender"] = rowItem["Gender"];
+            //    rowFilter["Birthday"] = rowItem["Birthday"];
+            //    rowFilter["Email"] = rowItem["Email"];
+            //    rowFilter["Phone"] = rowItem["Phone"];
+            //    rowFilter["Address"] = rowItem["Address"];
+            //    result.Rows.Add(rowFilter);
+            //}
+
+            dlPager.MaxPages = 1000;
+            dlPager.PageSize = 50;
+            dlPager.DataSource = customer.DefaultView;
+            dlPager.BindToControl = dtlCustomer;
+            this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
+            this.dtlCustomer.DataBind();
+        }
+        catch (Exception ex)
+        {
+            logMgr.Error(Session["us-login"] + " - btnFilter_Click", ex);
 
         }
-        if (getUserLogin().DepartmentId == 3)
-        {
-            customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
-        }
-        if (getUserLogin().DepartmentId == 2)
-        {
-            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
-        }
-
-        //row = customer.Select(expresion);
-        //foreach (DataRow rowItem in row)
-        //{
-        //    DataRow rowFilter = result.NewRow();
-        //    rowFilter["Id"] = rowItem["Id"];
-        //    rowFilter["Name"] = rowItem["Name"];
-        //    rowFilter["Gender"] = rowItem["Gender"];
-        //    rowFilter["Birthday"] = rowItem["Birthday"];
-        //    rowFilter["Email"] = rowItem["Email"];
-        //    rowFilter["Phone"] = rowItem["Phone"];
-        //    rowFilter["Address"] = rowItem["Address"];
-        //    result.Rows.Add(rowFilter);
-        //}
-
-        dlPager.MaxPages = 1000;
-        dlPager.PageSize = 50;
-        dlPager.DataSource = customer.DefaultView;
-        dlPager.BindToControl = dtlCustomer;
-        this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
-        this.dtlCustomer.DataBind();
 
     }
 
