@@ -56,7 +56,14 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         {
             DataTable dtLogin = null;
             ulBus = new UserLoginBUS();
-            dtLogin = ulBus.GetSubClient();
+            if (getUserLogin().DepartmentId == 1)
+            {
+                dtLogin = ulBus.GetSubClient();
+            }
+            else
+            {
+                dtLogin = ulBus.GetSubClientUserID(getUserLogin().UserId);
+            }
             dlMember.DataSource = dtLogin;
             dlMember.DataBind();
 
@@ -159,30 +166,46 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
-                   ulBus.tblUserLoginSubClient_insert(ulDto);
 
-                   //lay UserID
-                   DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
-                    int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
-                    ulDto.UserId = userID;
-
-                    //lay clientID
                     DataTable table = ulBus.GetClientId(getUserLogin().UserId);
                     int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                     ulDto.ClientID = clienID;
-                    ulBus.tblSubClient_insert(ulDto);
-                    status = 1;
+
+                    DataTable countSubClient = ulBus.GetCountSubClient(ulDto.ClientID);
+                    int countSub = int.Parse(countSubClient.Rows[0]["numberSub"].ToString());
+
+                    DataTable subAccount = ulBus.GetSubAccountCount(ulDto.ClientID);
+                    int SubAccount = int.Parse(subAccount.Rows[0]["subAccontCount"].ToString());
+
+                    if (countSub < SubAccount)
+                    {
+
+                        ulBus.tblUserLoginSubClient_insert(ulDto);
+                        //lay UserID
+                        //  DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
+                        // int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
+                        ulDto.UserId = getUserLogin().UserId;
+                        ulBus.tblSubClient_insert(ulDto);
+                        status = 1;
+                    }
+                    else
+                    {
+                        lblSuccess.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+                    }
                 }
                 else
                 {
 
                     ulDto.SubId = int.Parse(hdfId.Value);
                     ulBus.tblSubClient_Update(ulDto);
-                    DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
-                    int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                    // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
+                    // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                    DataTable table = ulBus.GetBySubId(ulDto.SubId);
+                    string Username = table.Rows[0]["subEmail"].ToString();
+                    DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
                     bool Is_Block_check = chkBlock.Checked;
 
-                    ulBus.tblUserLoginSub_Update(userID, Is_Block_check);
+                    ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
                     status = 2;
 
                 }
@@ -260,9 +283,8 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
             int subId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
             ulBus = new UserLoginBUS();
             DataTable table = ulBus.GetBySubId(subId);
-            DataTable table1 = ulBus.GetUserIdBySubID(subId);
-            int UserId = int.Parse(table.Rows[0]["UserId"].ToString());
-            DataTable dtIsBlock = ulBus.GetIsBlockByUserId(UserId);
+            string Username = table.Rows[0]["subEmail"].ToString();
+            DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
             if (table.Rows.Count > 0)
             {
                 txtUsername.Text = table.Rows[0]["subName"].ToString();
@@ -295,14 +317,18 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
             ulBus = new UserLoginBUS();
             ConnectionData.OpenMyConnection();
 
-            DataTable table = ulBus.GetUserIdBySubID(subId);
-            int UserId = int.Parse(table.Rows[0]["UserId"].ToString());
-            ulBus.tblUserLogin_Delete(UserId);
+            // DataTable table = ulBus.GetUserIdBySubID(subId);
+            //  int UserId = int.Parse(table.Rows[0]["UserId"].ToString());
+
+            DataTable table = ulBus.GetBySubId(subId);
+            string Username = table.Rows[0]["subEmail"].ToString();
+
+            ulBus.tblUserLoginSub_Delete(Username);
 
             ulBus.tblSubClient_Delete(subId);
 
             //lay UserID
-          
+
             ConnectionData.CloseMyConnection();
             pnError.Visible = false;
             pnSuccess.Visible = true;

@@ -6,13 +6,13 @@ using System.Web;
 /// <summary>
 /// Summary description for UserLoginBUS
 /// </summary>
-public class UserLoginBUS:IUserLogin
+public class UserLoginBUS : IUserLogin
 {
     UserLoginDAO ulDao = null;
-	public UserLoginBUS()
-	{
+    public UserLoginBUS()
+    {
         ulDao = new UserLoginDAO();
-	}
+    }
 
     public void tblUserLogin_insert(UserLoginDTO dt)
     {
@@ -39,16 +39,21 @@ public class UserLoginBUS:IUserLogin
         ulDao.tblSubClient_Update(dt);
     }
 
-    public void tblUserLoginSub_Update(int UserID,bool Is_Block)
+    public void tblUserLoginSub_Update(string UserID, bool Is_Block)
     {
         ulDao.tblUserLoginSub_Update(UserID, Is_Block);
     }
+
+    public void tblUserLoginSub_Delete(string userId)
+    {
+        ulDao.tblUserLoginSub_Delete(userId);
+    }
+
 
     public void tblUserLogin_Delete(int userId)
     {
         ulDao.tblUserLogin_Delete(userId);
     }
-
     public void tblSubClient_Delete(int userId)
     {
         ulDao.tblSubClient_Delete(userId);
@@ -64,10 +69,15 @@ public class UserLoginBUS:IUserLogin
         return ulDao.GetSubClient();
     }
 
-
-    public System.Data.DataTable GetIsBlockByUserId(int userId)
+    public System.Data.DataTable GetSubClientUserID(int UserID)
     {
-        return ulDao.GetIsBlockByUserId(userId);
+        return ulDao.GetSubClientUserID(UserID);
+    }
+
+
+    public System.Data.DataTable GetIsBlockByUserId(string username)
+    {
+        return ulDao.GetIsBlockByUserId(username);
     }
 
     public System.Data.DataTable GetByUserId(int userId)
@@ -96,6 +106,16 @@ public class UserLoginBUS:IUserLogin
         return ulDao.GetClientId(userId);
     }
 
+    public System.Data.DataTable GetCountSubClient(int ClientId)
+    {
+        return ulDao.GetCountSubClient(ClientId);
+    }
+
+    public System.Data.DataTable GetSubAccountCount(int ClientId)
+    {
+        return ulDao.GetSubAccountCount(ClientId);
+    }
+
     public System.Data.DataTable GetUserIdBySubID(int subId)
     {
         return ulDao.GetUserIdBySubID(subId);
@@ -111,7 +131,7 @@ public class UserLoginBUS:IUserLogin
     public System.Data.DataTable GetByUsernameAndPass(string username, string password)
     {
         return ulDao.GetByUsernameAndPass(username, password);
-    } 
+    }
 
 
     public System.Data.DataTable GetByUserType(int departmentId)
@@ -133,5 +153,5 @@ public class UserLoginBUS:IUserLogin
     {
         ulDao.tblUserLogin_UpdateByDepartmentId(departmentId, hasSendMail);
     }
-   
+
 }

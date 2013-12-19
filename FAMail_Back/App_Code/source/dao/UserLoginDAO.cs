@@ -50,7 +50,7 @@ public class UserLoginDAO
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.UserId;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
-    
+
 
     }
 
@@ -84,7 +84,7 @@ public class UserLoginDAO
         //    ConnectionData._MyConnection.Open();
         //    cmd.ExecuteNonQuery();
         //    string subId = cmd.Parameters["@subId"].Value.ToString();
-         
+
         //}
         //catch (Exception ex)
         //{
@@ -117,7 +117,6 @@ public class UserLoginDAO
     public void tblSubClient_Update(UserLoginDTO dt)
     {
         string sql = "UPDATE tblSubClient SET " +
-                "subEmail = @subEmail, " +
                  "Is_Block = @Is_Block " +
                 " WHERE subId = @subId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
@@ -129,14 +128,14 @@ public class UserLoginDAO
         cmd.Dispose();
     }
 
-    public void tblUserLoginSub_Update(int userId, bool Is_Block)
+    public void tblUserLoginSub_Update(string userId, bool Is_Block)
     {
         string sql = "UPDATE tblUserLogin SET " +
                  "Is_Block = @Is_Block " +
-                     " WHERE UserId = @UserId";
+                     " WHERE Username = @UserId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+        cmd.Parameters.Add("@UserId", SqlDbType.NVarChar).Value = userId;
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = Is_Block;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
@@ -177,6 +176,16 @@ public class UserLoginDAO
         cmd.Dispose();
     }
 
+    public void tblUserLoginSub_Delete(string userId)
+    {
+        string sql = "DELETE FROM tblUserLogin WHERE Username = @UserId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserId", SqlDbType.NVarChar).Value = userId;
+        cmd.ExecuteNonQuery();
+        cmd.Dispose();
+    }
+
     public void tblSubClient_Delete(int subId)
     {
         string sql = "DELETE FROM tblSubClient WHERE subId = @subId";
@@ -210,6 +219,21 @@ public class UserLoginDAO
         return table;
     }
 
+
+    public DataTable GetSubClientUserID(int userId)
+    {
+        string sql = "SELECT * FROM vw_tblSubClient WHERE UserId = @UserId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetSubClient()
     {
         string sql = "SELECT * FROM vw_tblSubClient";
@@ -226,6 +250,35 @@ public class UserLoginDAO
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
+    public DataTable GetSubAccountCount(int ClientId)
+    {
+        string sql = "SELECT subAccontCount FROM tblClientRegister WHERE ClientID = @ClientId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@ClientId", SqlDbType.Int).Value = ClientId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable GetCountSubClient(int ClientId)
+    {
+        string sql = "SELECT count(*) as numberSub FROM tblSubClient WHERE ClientID = @ClientId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@ClientId", SqlDbType.Int).Value = ClientId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);
@@ -262,12 +315,12 @@ public class UserLoginDAO
         return table;
     }
 
-    public DataTable GetIsBlockByUserId(int UserId)
+    public DataTable GetIsBlockByUserId(string username)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE UserId = @UserId";
+        string sql = "SELECT * FROM tblUserLogin WHERE Username = @username";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);
