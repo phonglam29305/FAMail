@@ -16,6 +16,7 @@ public class clientRegisterdto
     public int packageId { get; set; }
     public int limitId { get; set; }
     public int subAccontCount { get; set; }
+    public int emailCount { get; set; }
     public double totalFee { get; set; }
     public int registerType { get; set; }
     public int packageTimeId { get; set; }

@@ -75,6 +75,7 @@ public class RegisterDAO
            ,[packageId]
            ,[limitId]
            ,[subAccontCount]
+           ,[emailCount]
            ,[totalFee]
            ,[registerType]
            ,[packageTimeId]
@@ -103,6 +104,7 @@ public class RegisterDAO
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = clientRegister.packageId;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = clientRegister.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = clientRegister.subAccontCount;
+        cmd.Parameters.Add("@emailCount", SqlDbType.Int).Value = clientRegister.emailCount;
         cmd.Parameters.Add("@totalFee", SqlDbType.Float).Value = clientRegister.totalFee;
         cmd.Parameters.Add("@packageTimeId", SqlDbType.Int).Value = clientRegister.packageTimeId;
         cmd.Parameters.Add("@from", SqlDbType.VarChar, 12).Value = clientRegister.from.ToString("dd/MM/yyyy");
