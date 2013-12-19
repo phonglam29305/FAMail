@@ -15,24 +15,33 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
     PackageBUS pkgBus;
     PackageLimitBUS pkglimitBus;
     FunctionBUS function;
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        //if (Session["us-login"] != null)
-        //{
-        //    Label1.Text = Session["UserName"].ToString() + " " + Session["UserId"].ToString();
-        //}
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             LoadData();
             Page.Header.Title = "Thông tin tài khoản!!!";
         }
     }
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        else Response.Redirect("~");//test confict
+        return null;
+    }
     private void LoadData()
     {
         #region LoadData
-        if (Request.QueryString["user"] != null)
+        int id = Convert.ToInt32(userLogin.UserId);
+        if (id != null)
         {
-            int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+            //int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+            int user = id;
             clientbus = new ClientBUS();
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);

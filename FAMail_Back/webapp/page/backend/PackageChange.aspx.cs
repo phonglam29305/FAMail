@@ -22,11 +22,10 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     PackageLimitBUS pkglimitBus;
     FunctionBUS function;
     string dayleft,expireDatesession;
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        //upgradeservices.Visible = false;
-        //extendbox.Visible = false;
-        //LoadData();
+        //getUserLogin();
         if (!IsPostBack)
         {
             upgradeservices.Visible = false;
@@ -35,6 +34,15 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
             LoadPackageTime();
             LoadAvailableService();
         }
+    }
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        else Response.Redirect("~");//test confict
+        return null;
     }
     private void LoadAvailableService()
     {
