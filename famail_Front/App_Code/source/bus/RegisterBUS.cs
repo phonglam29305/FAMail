@@ -33,4 +33,9 @@ public class RegisterBUS
     }
 
 
+
+    public bool CheckExistByEmail(string Email)
+    {
+        return dangky.CheckExistByEmail(Email);
+    }
 }

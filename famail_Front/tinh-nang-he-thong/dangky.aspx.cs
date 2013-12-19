@@ -74,63 +74,70 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     }
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
-        clientdto cliendto = getclient();
-        ConnectionData.OpenMyConnection();
-        dk = new RegisterBUS();
-        clientRegisterdto clientRegister = new clientRegisterdto();
-        clientRegister.from = DateTime.Now;
-        clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text) * 30);
-
-        string idpackage = Request.QueryString["packageId"].ToString();
-        int id = 0;
-        Int32.TryParse(idpackage, out id);
-        clientRegister.packageId = id;
-
-        DataTable T = dk.GetPackageById(id);
-        if (T != null && T.Rows.Count > 0)
+        if (dk.CheckExistByEmail(txtemail.Text))
         {
-            clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
-            clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
-            clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
+            clientdto cliendto = getclient();
+            ConnectionData.OpenMyConnection();
+            dk = new RegisterBUS();
+            clientRegisterdto clientRegister = new clientRegisterdto();
+            clientRegister.from = DateTime.Now;
+            clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text) * 30);
+
+            string idpackage = Request.QueryString["packageId"].ToString();
+            int id = 0;
+            Int32.TryParse(idpackage, out id);
+            clientRegister.packageId = id;
+
+            DataTable T = dk.GetPackageById(id);
+            if (T != null && T.Rows.Count > 0)
+            {
+                clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
+                clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
+                clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
+            }
+            object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
+            Int32.TryParse(temp + "", out id);
+            clientRegister.packageTimeId = id;
+
+            UserLoginDTO ulDto = new UserLoginDTO();
+            ulDto.Username = txtclientname.Text;
+            ulDto.Password = GetMd5Hash(txtPass.Text);
+            ulDto.Email = txtemail.Text;
+            ulDto.Is_Block = false;
+            ulDto.UserType = 2;
+            if (dk.Insert_client(cliendto, clientRegister, ulDto) > 0)
+            {
+
+                SmtpClient SmtpServer = new SmtpClient();
+                SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+
+                SmtpServer.Port = 25;
+                SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+                SmtpServer.EnableSsl = true;
+                MailMessage mail = new MailMessage();
+                String[] addr = txtemail.Text.Split(' ');
+
+
+                mail.From = new MailAddress("admin@fastautomaticmail.com",
+                "Xác Nhận Từ Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                Byte i;
+                for (i = 0; i < addr.Length; i++)
+                    mail.To.Add(addr[i]);
+                mail.Subject = "chao mung bao";
+                mail.Body = "Dear";
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                mail.ReplyTo = new MailAddress(txtemail.Text);
+                SmtpServer.Send(mail);
+
+                Response.Redirect("~");
+            }
         }
-        object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
-        Int32.TryParse(temp + "", out id);
-        clientRegister.packageTimeId = id;
-
-        UserLoginDTO ulDto = new UserLoginDTO();
-        ulDto.Username = txtclientname.Text;
-        ulDto.Password = GetMd5Hash(txtPass.Text);
-        ulDto.Email = txtemail.Text;
-        ulDto.Is_Block = false;
-        ulDto.UserType = 2;
-        if (dk.Insert_client(cliendto, clientRegister, ulDto) > 0)
-        {
-
-            SmtpClient SmtpServer = new SmtpClient();
-            SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
-
-            SmtpServer.Port = 25;
-            SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
-            SmtpServer.EnableSsl = true;
-            MailMessage mail = new MailMessage();
-            String[] addr = txtemail.Text.Split(' ');
-
-
-            mail.From = new MailAddress("admin@fastautomaticmail.com",
-            "Xác Nhận Từ Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
-            Byte i;
-            for (i = 0; i < addr.Length; i++)
-                mail.To.Add(addr[i]);
-            mail.Subject = "chao mung bao";
-            mail.Body = "Dear";
-            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-            mail.ReplyTo = new MailAddress(txtemail.Text);
-            SmtpServer.Send(mail);
-
-            Response.Redirect("~");
+        else {
+            lbdiengiai.Text = "Email này đã được đăng ký!";
+            lbdiengiai.ForeColor = System.Drawing.Color.Red;
         }
-
     }
+
     public static string GetMd5Hash(string input)
     {
         MD5 md5Hash = MD5.Create();

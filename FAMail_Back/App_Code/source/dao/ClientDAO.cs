@@ -64,9 +64,9 @@ public class ClientDAO
 
     public DataTable GetByID(int Id)
     {
-        SqlCommand cmd = new SqlCommand("Select * from tblClient where Clientid=@ClientId", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("Select * from tblClient where userid=@userId", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@Clientid", SqlDbType.NVarChar).Value = Id;
+        cmd.Parameters.Add("@userId", SqlDbType.NVarChar).Value = Id;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)

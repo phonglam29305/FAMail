@@ -28,6 +28,7 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
                 if (userLogin != null)
                 {
                     lblInfo.Text = userLogin.Username;
+                    lkClientDetail.NavigateUrl = "../../page/backend/clientdetail.aspx?user="+userLogin.UserId;
                 }
                 else
                 {
@@ -75,6 +76,7 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
                           Common.checkRoleByRoleId(int.Parse(hplRole.Attributes["roleId"]), ulDto.DepartmentId);
                 }
             }
+            
         }
         catch (Exception ex)
         {

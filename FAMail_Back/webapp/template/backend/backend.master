@@ -49,7 +49,8 @@
 				<li class="v-sep"><a href="#" class="round button dark menu-user image-left">Chào: <strong> 
                   <asp:Label ID="lblInfo" runat="server" Text=""></asp:Label></strong></a>
 					<ul>			
-						<li><a href="../../page/backend/change-pass.aspx">Đổi mật khẩu</a></li>                     
+						<li><a href="../../page/backend/change-pass.aspx">Đổi mật khẩu</a></li> 
+                        <li><asp:HyperLink ID="lkClientDetail"  runat="server">Thông tin tài khoản</asp:HyperLink></li>                     
 					</ul> 
 				</li>	
                 		

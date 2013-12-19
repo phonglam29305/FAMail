@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -45,8 +45,9 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             clientbus = new ClientBUS();
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);
-            string email = dtClient.Rows[0]["email"].ToString();
-            DateTime dateexpire = Convert.ToDateTime(dtClient.Rows[0]["expireDate"].ToString());
+            string email = dtClient.Rows[0]["email"] + "";
+            
+            
             int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
             int clientId = Convert.ToInt32(dtClient.Rows[0]["clientId"].ToString());
             clientRegister = new ClientRegisterBUS();
@@ -88,7 +89,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             DataTable dtfunction = new DataTable();
             dtfunction = clientFunction.GetByregisterIdandclientId(registerId, clientId);
             DataTable dtTemp = new DataTable();
-            dtTemp.Columns.Add("functionName",typeof(String));
+            dtTemp.Columns.Add("functionName", typeof(String));
             foreach (DataRow drfunction in dtfunction.Rows)
             {
                 DataRow dr = dtTemp.NewRow();
@@ -104,15 +105,19 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             txtHoTen.Text = dtClient.Rows[0]["clientName"].ToString();
             txtDiaChi.Text = dtClient.Rows[0]["address"].ToString();
             txtSoDienThoai.Text = dtClient.Rows[0]["phone"].ToString();
-            DateTime d = Convert.ToDateTime(dtClient.Rows[0]["dateofbirth"].ToString());
-            txtDateofBirth.Text=d.ToString("dd/MM/yyyy");
+            DateTime d = DateTime.Now;// Convert.ToDateTime(dtClient.Rows[0]["dateofbirth"].ToString());
+            if (DateTime.TryParse(dtClient.Rows[0]["expireDate"] + "", out d))
+                txtDateofBirth.Text = d.ToString("dd/MM/yyyy");
             lblEmail.Text = email;
             string todays = DateTime.Now.ToString("yyyy-MM-dd");
             DateTime today = Convert.ToDateTime(todays);
-            if (dateexpire < today)
+
+            DateTime dateexpire = DateTime.Now;
+            
+            if (DateTime.TryParse(dtClient.Rows[0]["expireDate"] + "", out dateexpire) && dateexpire < today)
             {
                 btnGiahan.Enabled = true;
-                btnGiahan.Text = "Gia hạn (Đã hết hạn " + (today-dateexpire).TotalDays + " ngày)";
+                btnGiahan.Text = "Gia hạn (Đã hết hạn " + (today - dateexpire).TotalDays + " ngày)";
             }
             else
             {
@@ -137,10 +142,10 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
         {
             clientbus = new ClientBUS();
             int user = Convert.ToInt32(Request.QueryString["user"].ToString());
-            string name=txtHoTen.Text;
-            string address=txtDiaChi.Text;
-            string phone=txtSoDienThoai.Text;
-            DateTime dateofbirth=Convert.ToDateTime(txtDateofBirth.Text);
+            string name = txtHoTen.Text;
+            string address = txtDiaChi.Text;
+            string phone = txtSoDienThoai.Text;
+            DateTime dateofbirth = Convert.ToDateTime(txtDateofBirth.Text);
             clientbus.UpdateInfomation(user, name, address, dateofbirth, phone);
         }
     }

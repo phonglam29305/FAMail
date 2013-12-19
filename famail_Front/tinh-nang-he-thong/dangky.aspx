@@ -14,7 +14,7 @@
     <link href="../css/template.css" rel="stylesheet" />
     <link href="../css/validationEngine.jquery.css" rel="stylesheet" />
     <script>
-        jQuery(document).ready(function () {
+      /*  jQuery(document).ready(function () {
             // binds form submission and fields to the validation engine
             jQuery("#form1").validationEngine();
         });
@@ -23,7 +23,7 @@
                 // this allows to use i18 for the error msgs
                 return options.allrules.validate2fields.alertText;
             }
-        }
+        }*/
 	</script>
     <%-- java cho chuc nang kiem tra  --%>
 </head>
@@ -37,7 +37,7 @@
                     </h2>
                     <%--<div style="float:left; padding-left:30px;"><span style="font-size:13px; text-align: left;"><i>(Phiên bản đầy đủ tính năng, danh sách 50 khách hàng, gởi không giới hạn. Thời gian 1 tháng)<asp:Label ID="Label15" runat="server" Text="Label"></asp:Label>
                     </i></span></div>--%>
-                    <div style="float: left; padding-left: 30px; width: 600px; height: 60px; background-color: #e5f5f9; border-radius: 30px; margin-left: 50px;">
+                    <div style="float: left; padding-left: 30px; width: 600px; height: 19px; background-color: #e5f5f9; border-radius: 30px; margin-left: 50px;">
                         <asp:Label ID="lbdiengiai" runat="server" Text=""></asp:Label>
                     </div>
                     <div class="formcontentdangky">
@@ -92,7 +92,7 @@
                                     <asp:Label ID="Label5" runat="server" Text="Mật khẩu:" BorderStyle="None"></asp:Label>
                                 </div>
                                 <div class="divbox">
-                                    <asp:TextBox ID="txtPass" CssClass="validate[required] text-input" runat="server" Width="220px"></asp:TextBox>
+                                    <asp:TextBox ID="txtPass" CssClass="validate[required] text-input" runat="server" Width="220px" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="box-fcdk">
@@ -101,7 +101,7 @@
                                     <asp:Label ID="Label6" runat="server" Text="Nhập lại mật khẩu:" BorderStyle="None"></asp:Label>
                                 </div>
                                 <div class="divbox">
-                                    <asp:TextBox ID="txtpassAgain" CssClass="validate[required,equals[txtPass]] text-input" runat="server" Width="220px"></asp:TextBox>
+                                    <asp:TextBox ID="txtpassAgain" CssClass="validate[required,equals[txtPass]] text-input" runat="server" Width="220px" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="box-fcdk">
