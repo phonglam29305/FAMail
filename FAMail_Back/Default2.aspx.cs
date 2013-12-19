@@ -13,9 +13,20 @@ public partial class Default2 : System.Web.UI.Page
 
     }
     [WebMethod]
-    public static string CalculateCost()
+    //public static string CalculateCost(string myParam)
+    //{
+    //    string rasd = "Success catching event!!!";
+    //    return rasd;
+    //}
+    public static string CalculateCost(string args)
     {
-        string rasd = "Success catching event!!!";
-        return rasd;
+        string returnValue = string.Empty;
+        returnValue ="Your current selected value is " + args.Trim();
+        return returnValue;
+    }
+    [WebMethod]
+    public static string sbGetData(string sdPreNo)
+    {
+        return sdPreNo+" hurray";
     }
 }

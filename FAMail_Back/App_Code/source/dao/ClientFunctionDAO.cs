@@ -31,4 +31,14 @@ public class ClientFunctionDAO
         adapter.Dispose();
         return table;
     }
+    public void UpdateFunction(int registerId, int clientId, int functionId)
+    {
+        string sql = "Insert Into tblClientFunction (registerId,clientId,functionId) values (@registerId,@clientId,@functionId)";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@registerId", SqlDbType.Int).Value = registerId;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
+        cmd.ExecuteNonQuery();
+    }
 }

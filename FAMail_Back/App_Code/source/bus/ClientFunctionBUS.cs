@@ -18,4 +18,8 @@ public class ClientFunctionBUS
     {
         return clientfunction.GetByregisterIdandclientId(Id, Id2);
     }
+    public void UpdateFunction(int registerId, int clientId, int functionId)
+    {
+        clientfunction.UpdateFunction(registerId,clientId,functionId);
+    }
 }

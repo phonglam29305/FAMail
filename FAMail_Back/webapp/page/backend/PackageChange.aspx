@@ -1,27 +1,19 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="PackageChange.aspx.cs" Inherits="webapp_page_backend_PackageChange" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#<%=ddlLimitPackage.ClientID%>").change(function () {
-                var myparam = $("#<%=ddlLimitPackage.ClientID%>").val();
-                $.ajax({
-                    type: "POST",
-                    url: "PackageChange.aspx/CalculateCost",
-                    data: '{param:"' + myparam + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        alert(data.d)
-                    }
-                });
-            });
-        });
-    </script>
-    <script type="text/javascript">
+    <%-- <asp:ListItem Value="30">1 tháng</asp:ListItem>
+                                            <asp:ListItem Value="90">3 tháng</asp:ListItem>
+                                            <asp:ListItem Value="180">6 tháng</asp:ListItem>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>    <%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
+                                            <asp:ListItem Value="90">3 tháng</asp:ListItem>
+                                            <asp:ListItem Value="180">6 tháng</asp:ListItem>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>
+    <%--<script type="text/javascript">
             $(document).ready(function () {
                 alert("ready");
             });
-    </script>
+    </script>--%>
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="side-content fr">
                 <!--start content 01-->
                 <div class="content-module">
@@ -119,15 +111,16 @@
 
                         </div>
                         <div id="changeoptionbox" class="full-width-editor" runat="server" visible="false">
-
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <ContentTemplate>
                             <table class="full-width-editor">
                                 <tr>
                                     <td>Chức năng:</td>
                                     <td style="max-width:800px;">
-                                        <asp:Repeater ID="rptListOptions" runat="server">
+                                        <asp:Repeater ID="rptListOptions" runat="server" OnItemDataBound="rptListOptions_ItemDataBound">
                                             <ItemTemplate>
                                                 <div class="confirmation-box" style="float:left;border:none !important">
-                                                    <asp:CheckBox ID="chkOptions" runat="server"/><%#Eval("functionName") %>
+                                                    <asp:CheckBox ID="chkOptions" runat="server" AutoPostBack="true" OnCheckedChanged="chkOptions_CheckedChanged"/><%#Eval("functionName") %><asp:Label ID="lblID" runat="server" Text='<%#Eval("functionId") %>' Visible="false" style="display:none;"></asp:Label><asp:Label ID="lblCost" runat="server" Text='<%#Eval("cost") %>' Visible="False" style="display:none;"></asp:Label><asp:Label ID="lblCheck" runat="server" Text='<%#Eval("isDefault") %>' Visible="false" style="display:none;"></asp:Label>
                                                 </div>
                                             </ItemTemplate>
                                         </asp:Repeater>
@@ -136,20 +129,25 @@
                                 <tr>
                                     <td>Gói giới hạn</td>
                                     <td style="text-align:left !important;">
-                                        <asp:DropDownList ID="ddlLimitPackage" runat="server">
+                                        <asp:DropDownList ID="ddlLimitPackage" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlLimitPackage_SelectedIndexChanged">
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    <td>Chi phí:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Label ID="lblSumCost" runat="server" Text=""></asp:Label>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    <td>
+                                        <asp:Button ID="btnEditOption" runat="server" CssClass="button round blue image-right ic-add text-upper" Text="Thay đổi" OnClick="btnEditOption_Click" />
+                                    </td>
                                 </tr>
                             </table>
-
+                            </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>
