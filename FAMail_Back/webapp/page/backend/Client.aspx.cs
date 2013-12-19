@@ -38,7 +38,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+<<<<<<< HEAD
         else Response.Redirect("~");//test confict
+=======
+        else Response.Redirect("~");//test confict1
+>>>>>>> ab7d80bf1a240d6d27e42e4c9a80dd7b50b2b2c8
         return null;
     }
     private void loadData()
