@@ -10,8 +10,11 @@ using Email;
 public partial class webapp_page_backend_Default : System.Web.UI.Page
 {
     FunctionBUS functionBus = new FunctionBUS();
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -51,6 +54,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
     private FunctionDTO getfunctionDTO()
@@ -141,12 +145,13 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+            logs.Error(userLogin.Username + "-Function-Save-", ex);
         }
         txtcode.Text = "";
         txtdescription.Text = "";
@@ -180,11 +185,11 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
 
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             pnError.Visible = false;
             pnSuccess.Visible = false;
-            throw;
+            logs.Error(userLogin.Username + "-Function-Edit-", ex);
         }
     }
     protected void btnDelete_Click2(object sender, ImageClickEventArgs e)
@@ -204,6 +209,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
+            logs.Error(userLogin.Username + "-Function-Delete-", ex);
         }
 
     }

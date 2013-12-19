@@ -16,8 +16,12 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
 {
     UserLoginBUS ulBus = null;
     DepartmentBUS deBus = null;
+
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -44,6 +48,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
 
@@ -85,43 +90,50 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
 
     protected void loadUserByDepartmentId(int departId)
     {
-        ulBus = new UserLoginBUS();
-        deBus = new DepartmentBUS();
-        DataTable dtLogin = ulBus.GetByDepartmentId(departId);
-
-        dlMember.DataSource = dtLogin;
-        dlMember.DataBind();
-        for (int i = 0; i < dtLogin.Rows.Count; i++)
+        try
         {
-            DataRow row = dtLogin.Rows[i];
+            ulBus = new UserLoginBUS();
+            deBus = new DepartmentBUS();
+            DataTable dtLogin = ulBus.GetByDepartmentId(departId);
 
-            Label lblUsername = (Label)dlMember.Items[i].FindControl("lblUsername");
-            lblUsername.Text = row["Username"].ToString();
-
-            Label lblDepartment = (Label)dlMember.Items[i].FindControl("lblDepartment");
-            DataTable dtDepartment = deBus.GetByID(int.Parse(row["DepartmentId"].ToString()));
-            if (dtDepartment.Rows.Count > 0)
+            dlMember.DataSource = dtLogin;
+            dlMember.DataBind();
+            for (int i = 0; i < dtLogin.Rows.Count; i++)
             {
-                lblDepartment.Text = dtDepartment.Rows[0]["Name"].ToString();
+                DataRow row = dtLogin.Rows[i];
+
+                Label lblUsername = (Label)dlMember.Items[i].FindControl("lblUsername");
+                lblUsername.Text = row["Username"].ToString();
+
+                Label lblDepartment = (Label)dlMember.Items[i].FindControl("lblDepartment");
+                DataTable dtDepartment = deBus.GetByID(int.Parse(row["DepartmentId"].ToString()));
+                if (dtDepartment.Rows.Count > 0)
+                {
+                    lblDepartment.Text = dtDepartment.Rows[0]["Name"].ToString();
+
+                }
+
+                LinkButton lbtEdit = (LinkButton)dlMember.Items[i].FindControl("lbtEdit");
+                lbtEdit.CommandArgument = row["UserId"].ToString();
+
+                LinkButton lbtDelete = (LinkButton)dlMember.Items[i].FindControl("lbtDelete");
+                lbtDelete.CommandArgument = row["UserId"].ToString();
+
+                LinkButton lbtViewDetail = (LinkButton)dlMember.Items[i].FindControl("lbtViewDetail");
+                lbtViewDetail.CommandArgument = row["UserId"].ToString();
+                lbtViewDetail.PostBackUrl = "user-detail.aspx?uid=" + row["UserId"].ToString();
+                if (row["Username"].Equals("administrator"))
+                {
+                    lbtDelete.Visible = false;
+                    lbtEdit.Visible = false;
+                    lbtViewDetail.Visible = false;
+                }
 
             }
-
-            LinkButton lbtEdit = (LinkButton)dlMember.Items[i].FindControl("lbtEdit");
-            lbtEdit.CommandArgument = row["UserId"].ToString();
-
-            LinkButton lbtDelete = (LinkButton)dlMember.Items[i].FindControl("lbtDelete");
-            lbtDelete.CommandArgument = row["UserId"].ToString();
-
-            LinkButton lbtViewDetail = (LinkButton)dlMember.Items[i].FindControl("lbtViewDetail");
-            lbtViewDetail.CommandArgument = row["UserId"].ToString();
-            lbtViewDetail.PostBackUrl = "user-detail.aspx?uid=" + row["UserId"].ToString();
-            if (row["Username"].Equals("administrator"))
-            {
-                lbtDelete.Visible = false;
-                lbtEdit.Visible = false;
-                lbtViewDetail.Visible = false;
-            }
-
+        }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "subClient-Load", ex);
         }
 
     }
@@ -239,6 +251,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = "Kiểm tra lại dữ liệu nhập vào !";
+            logs.Error(userLogin.Username + "subClient-Save", ex);
         }
     }
     protected string checkInput()
@@ -301,11 +314,10 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
 
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             pnError.Visible = false;
-            pnSuccess.Visible = false;
-            throw;
+            logs.Error(userLogin.Username + "subClient-Edit", ex);
         }
     }
 
@@ -338,6 +350,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = "Không thể xóa !</br>" + ex.Message;
+            logs.Error(userLogin.Username + "subClient-Delete", ex);
         }
         LoadData();
     }
