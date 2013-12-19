@@ -24,7 +24,7 @@
                             <asp:HyperLink ID="hplCustomerManager" href="packagetime.aspx" roleId="28" runat="server">Nhóm thời gian</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="hplAddCustomer" href="packagelimit.aspx" roleId="29" runat="server">Gói mail</asp:HyperLink>
+                            <asp:HyperLink ID="hplAddCustomer" href="packagelimit.aspx" roleId="29" runat="server">Gói Email</asp:HyperLink>
                         </li>
                         <li>
                             <asp:HyperLink ID="hplConfigSendMail" href="package.aspx" roleId="30" runat="server">Gói dịch vụ</asp:HyperLink>
@@ -45,16 +45,19 @@
                             <asp:HyperLink ID="HyperLink4" href="subClient.aspx" roleId="33" runat="server">Tài khoản con</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="HyperLink5" href="Config-Email-Send.aspx" roleId="10" runat="server">Cấu hình mail gửi</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink5" href="Config-Email-Send.aspx" roleId="10" runat="server">Cấu hình Email gửi</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="HyperLink6" href="group-mail.aspx" roleId="12" runat="server">Quản lý nhóm mail</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink6" href="group-mail.aspx" roleId="12" runat="server">Quản lý nhóm Email</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="HyperLink1" href="AddCustomer.aspx" roleId="3" runat="server">Tạo Email mới</asp:HyperLink>
                         </li>
                         <li>
                             <asp:HyperLink ID="HyperLink7" href="Customer.aspx" roleId="13" runat="server">Danh sách Email</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink ID="HyperLink8" href="FillterCustomer.aspx" roleId="18" runat="server">Phân loại nhóm email</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink8" href="FillterCustomer.aspx" roleId="18" runat="server">Phân loại nhóm Email</asp:HyperLink>
                         </li>
 
                     </asp:Panel>

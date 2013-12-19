@@ -93,7 +93,7 @@ public class RegisterDAO
            ,@packageTimeId
            ,@from
            ,@to
-           ,null,null,0,0,getdate(),getdate())";
+           ,null,null,0,0,getdate(),getdate()) select @@identity";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientRegister.clientId;
@@ -105,7 +105,7 @@ public class RegisterDAO
         cmd.Parameters.Add("@packageTimeId", SqlDbType.Int).Value = clientRegister.packageTimeId;
         cmd.Parameters.Add("@from", SqlDbType.VarChar, 12).Value = clientRegister.from.ToString("dd/MM/yyyy");
         cmd.Parameters.Add("@to", SqlDbType.VarChar, 12).Value = clientRegister.to.ToString("dd/MM/yyyy");
-        cmd.ExecuteNonQuery();
+        object registerid = cmd.ExecuteScalar();
         cmd.Dispose();
 
 
@@ -117,13 +117,14 @@ public class RegisterDAO
         cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = ulDto.Password;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = ulDto.UserType;
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = ulDto.Is_Block;
-         id = cmd.ExecuteScalar();
+        id = cmd.ExecuteScalar();
 
-        sql = "update tblClient set userid = @userid where clientid=@clientid";
+        sql = "update tblClient set userid = @userid, registerid=@registerid, activedate=getdate(), expiredate='" + clientRegister.to.ToString("dd/MM/yyyy") + "' where clientid=@clientid";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@userid", SqlDbType.Int).Value = id;
         cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
+        cmd.Parameters.Add("@registerid", SqlDbType.Int).Value = registerid;
         return cmd.ExecuteNonQuery();
     }
 
