@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using System.Net.Mail;
 
 public partial class webapp_page_backend_subClient : System.Web.UI.Page
 {
@@ -260,6 +261,20 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
             logs.Error(userLogin.Username + "subClient-Save", ex);
         }
     }
+
+    public bool IsValidMail(string emailaddress)
+    {
+        try
+        {
+            MailAddress m = new MailAddress(emailaddress);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+    }
+
     protected string checkInput()
     {
         string message = "";
@@ -271,6 +286,11 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         {
             message = "Nhập vào Email !";
         }
+        else if (IsValidMail(txtEmail.Text.ToString()) == false)
+        {
+            message = "Bạn nhập không đúng định dạng Email!";
+            this.txtEmail.Focus();
+        }
         else if (checkExistUsername(txtUsername.Text))
         {
             message = "Tên tài khoản con đã tồn tại !";
@@ -281,6 +301,39 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         }
         return message;
     }
+
+
+    private string checkInputCustomer()
+    {
+        //verify = new EmailVerifier(true);
+        string message = "";
+        if (txtName.Text == "")
+        {
+            message = "Bạn chưa nhập tên khách hàng!";
+            this.txtName.Focus();
+        }
+        else if (txtEmail.Text == "")
+        {
+            message = "Bạn chưa nhập Email khách hàng!";
+            this.txtEmail.Focus();
+        }
+        else if (IsValidMail(txtEmail.Text.ToString()) == false)
+        {
+            message = "Bạn nhập không đúng định dạng Email!";
+            this.txtEmail.Focus();
+        }
+        //else if (verify.CheckExists(txtEmail.Text) == false)
+        //{
+        //    message = "Địa chỉ mail không tồn tại";
+        //    this.txtEmail.Focus();
+        //}
+        else
+        {
+            message = checkCreateCustomer(1);
+        }
+        return message;
+    }
+
     protected bool checkExistUsername(string username)
     {
         ulBus = new UserLoginBUS();

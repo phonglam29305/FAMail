@@ -489,7 +489,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     }
                     else
                     {
-                        lblSuccess.Text = "Tạo địa chỉ Mail vượt quá giới hạn cho phép!";
+                        lblSuccess.Text = "Vượt quá hạng ngạch tạo khách hàng!";
                     }
 
 
