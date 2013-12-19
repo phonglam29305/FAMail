@@ -213,6 +213,33 @@ public class CustomerDAO
         return table;
     }
 
+
+    public DataTable GetAllCustomerDepart3(int UserID, int assignTo)
+    {
+        string sql = "";
+        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        sql += "FROM   tblMailGroup AS mg INNER JOIN ";
+        sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
+        sql += "WHERE     (mg.AssignToUserID = @userId) AND ct.recivedEmail='True' and ct.AssignTo = @assignTo";
+
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetAllByUser(int UserID)
     {
         string sql = "";

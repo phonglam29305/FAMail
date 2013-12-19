@@ -124,10 +124,15 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
 
             customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         }
-        else
+         if (getUserLogin().DepartmentId == 2)
         {
             customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
         }
+        if (getUserLogin().DepartmentId == 3)
+        {
+            customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+         }
+
         //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         //  }
         //  else

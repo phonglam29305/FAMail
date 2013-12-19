@@ -87,6 +87,11 @@ public class CustomerBUS : ICustomer
         return ctDao.GetAllByUserAssignTo(UserID, assignTo);
     }
 
+    public DataTable GetAllCustomerDepart3(int UserID, int assignTo)
+    {
+        return ctDao.GetAllCustomerDepart3(UserID, assignTo);
+    }
+
     #endregion
 
     #region ICustomer Members
