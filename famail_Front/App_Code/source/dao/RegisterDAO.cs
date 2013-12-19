@@ -125,6 +125,24 @@ public class RegisterDAO
         cmd.Parameters.Add("@userid", SqlDbType.Int).Value = id;
         cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
         cmd.Parameters.Add("@registerid", SqlDbType.Int).Value = registerid;
+
+        DataTable T = new LoadFunctionPackageDAO().dispalyfunctionpackage(clientRegister.packageId);
+        if(T!=null && T.Rows.Count>0)
+        {
+            sql = "insert into tblClientFunction(clientid, registerid, functionid) values(@clientid, @registerid, @functionid)";
+            foreach(DataRow r in T.Rows)
+            {
+                if(r["isUse"]+""=="yes")
+                {
+                    cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add("@functionid", SqlDbType.Int).Value = r["functionid"];
+                    cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
+                    cmd.Parameters.Add("@registerid", SqlDbType.Int).Value = registerid;
+                    cmd.Dispose();
+                }
+            }
+        }
         return cmd.ExecuteNonQuery();
     }
 
