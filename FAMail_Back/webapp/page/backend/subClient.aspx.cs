@@ -61,13 +61,19 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         {
             DataTable dtLogin = null;
             ulBus = new UserLoginBUS();
+            DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+            int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
             if (getUserLogin().DepartmentId == 1)
             {
                 dtLogin = ulBus.GetSubClient();
             }
-            else
+            else if (getUserLogin().DepartmentId == 3)
             {
-                dtLogin = ulBus.GetSubClientUserID(getUserLogin().UserId);
+                dtLogin = ulBus.GetSubClientDepart3(getUserLogin().UserId);
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                dtLogin = ulBus.GetSubClientUserID(clienID);
             }
             dlMember.DataSource = dtLogin;
             dlMember.DataBind();
@@ -194,9 +200,9 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
 
                         ulBus.tblUserLoginSubClient_insert(ulDto);
                         //lay UserID
-                        //  DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
-                        // int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
-                        ulDto.UserId = getUserLogin().UserId;
+                          DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
+                         int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
+                         ulDto.UserId = userID;
                         ulBus.tblSubClient_insert(ulDto);
                         status = 1;
                     }

@@ -62,7 +62,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             {
                 MailGroup = mgBUS.GetAllNew();
             }
-            else
+            if (getUserLogin().DepartmentId == 3)
+            {
+                MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
+            }
+            if (getUserLogin().DepartmentId == 2)
             {
                 MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
             }

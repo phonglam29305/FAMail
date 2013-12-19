@@ -136,6 +136,24 @@ public class MailGroupDAO
         return table;
     }
 
+
+    public DataTable GetAllNewDepart3(int AssignTouserId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup where AssignToUserId =@AssignTouserId",
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@AssignTouserId", SqlDbType.Int).Value = AssignTouserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetSubClientBySubID(int subId)
     {
         string sql = "SELECT * FROM tblSubClient WHERE subId = @subId";
@@ -172,6 +190,20 @@ public class MailGroupDAO
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable GetSubClientAll()
+    {
+        string sql = "SELECT * FROM tblSubClient where Is_Block = 0";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        //cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);

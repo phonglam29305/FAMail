@@ -220,12 +220,27 @@ public class UserLoginDAO
     }
 
 
-    public DataTable GetSubClientUserID(int userId)
+    public DataTable GetSubClientUserID(int clientID)
     {
-        string sql = "SELECT * FROM vw_tblSubClient WHERE UserId = @UserId";
+        string sql = "SELECT * FROM vw_tblSubClient WHERE ClientId = @clientID";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+        cmd.Parameters.Add("@clientID", SqlDbType.Int).Value = clientID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
+    public DataTable GetSubClientDepart3(int userID)
+    {
+        string sql = "SELECT * FROM vw_tblSubClient WHERE userId = @userID";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);

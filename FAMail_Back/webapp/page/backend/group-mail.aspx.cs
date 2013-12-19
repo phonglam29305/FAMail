@@ -42,24 +42,45 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 
     private void LoadSubClient()
     {
-         try
+        try
         {
             InitBUS();
+            UserLoginDTO userLogin = getUserLogin();
             dropSubClient.Items.Clear();
-            
-            DataTable table = ulBus.GetClientId(getUserLogin().UserId);
-            if (table.Rows.Count > 0)
+            if (userLogin.DepartmentId == 3)
             {
-                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
-                dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+
+                dropSubClient.DataSource = mgBUS.GetSubClientByAssignUserID(getUserLogin().UserId);
                 dropSubClient.DataTextField = "subEmail";
                 dropSubClient.DataValueField = "subId";
                 dropSubClient.DataBind();
             }
+            if (userLogin.DepartmentId == 2)
+            {
+                DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+                if (table.Rows.Count > 0)
+                {
+                    int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                    dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+                    dropSubClient.DataTextField = "subEmail";
+                    dropSubClient.DataValueField = "subId";
+                    dropSubClient.DataBind();
+                }
+
+            }
+            if (userLogin.DepartmentId == 1)
+            {
+                dropSubClient.DataSource = mgBUS.GetSubClientAll();
+                dropSubClient.DataTextField = "subEmail";
+                dropSubClient.DataValueField = "subId";
+                dropSubClient.DataBind();
+            }
+          
         }
-         catch (Exception ex)
-         {
-         }
+
+        catch (Exception ex)
+        {
+        }
     }
 
     private void LoadGroup()
