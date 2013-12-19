@@ -17,10 +17,10 @@ using System.Data.SqlClient;
 /// </summary>
 public class CustomerDAO
 {
-	public CustomerDAO()
-	{
+    public CustomerDAO()
+    {
 
-	}
+    }
 
     public int tblCustomer_insert(CustomerDTO dt)
     {
@@ -45,7 +45,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@countBuy", SqlDbType.Int).Value = 0;
         cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = dt.AssignTo;
         cmd.Parameters.Add("@createBy", SqlDbType.Int).Value = dt.createBy;
-      
+
         //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = dt.UserID;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
@@ -57,13 +57,13 @@ public class CustomerDAO
     }
     public void tblCustomer_Update(CustomerDTO dt)
     {
-        string sql = "UPDATE tblCustomer SET "+
-	                "Name = @Name, "+
-	                "Gender = @Gender, "+
-	                "BirthDay = @BirthDay, "+
-	                "Email = @Email, "+
-	                "Phone = @Phone, "+
-	                "Address = @Address, "+
+        string sql = "UPDATE tblCustomer SET " +
+                    "Name = @Name, " +
+                    "Gender = @Gender, " +
+                    "BirthDay = @BirthDay, " +
+                    "Email = @Email, " +
+                    "Phone = @Phone, " +
+                    "Address = @Address, " +
                     "SecondPhone = @SecondPhone, " +
                     "Fax = @Fax, " +
                     "Company = @Company, " +
@@ -72,7 +72,7 @@ public class CustomerDAO
                     "Country = @Country, " +
                     "recivedEmail = @recivedEmail, " +
                      "assignTo = @assignTo, " +
-	                "Type = @Type	WHERE Id = @Id";
+                    "Type = @Type	WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = dt.Id;
@@ -111,7 +111,7 @@ public class CustomerDAO
         cmd.Dispose();
     }
 
-    public DataTable GetAll(string Name,string phone,string email,int assignTo)
+    public DataTable GetAll(string Name, string phone, string email, int assignTo)
     {
         //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblCustomer where Name =@Name recivedEmail='True'", ConnectionData._MyConnection);
         //DataTable table = new DataTable();
@@ -142,7 +142,7 @@ public class CustomerDAO
         cmd.Dispose();
         adapter.Dispose();
         return table;
-        
+
         //string sql = "";
         //sql += "SELECT * FROM tblCustomer ";
         //sql += "WHERE (Name like '%" + @Name + "%') and Phone like '%" + @phone + "%' and Email like '%" + @email + "%' AND recivedEmail='True'";
@@ -162,6 +162,30 @@ public class CustomerDAO
         //adapter.Dispose();
         //return table;
     }
+
+
+    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    {
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_search_Filter_tblCustomer";
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
+        cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetAllByUser(int UserID)
     {
         string sql = "";
@@ -171,7 +195,7 @@ public class CustomerDAO
         sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
         sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
         sql += "WHERE     (mg.UserId = @userId) AND ct.recivedEmail='True'";
-        
+
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
@@ -224,12 +248,12 @@ public class CustomerDAO
     }
     public DataTable GetByCountBuy(int countBuy)
     {
-        string sql="";
+        string sql = "";
         if (countBuy == 1)
         {
             sql = "SELECT * FROM tblCustomer WHERE countBuy = 1 and recivedEmail='True' ";
         }
-        else if(countBuy==2)
+        else if (countBuy == 2)
         {
             sql = "SELECT * FROM tblCustomer WHERE countBuy >= 2 and recivedEmail='True' ";
         }
@@ -282,13 +306,13 @@ public class CustomerDAO
     }
     public void tblCustomer_UpdateRecive(int CustomerID, bool recivedEmail)
     {
-        string sql = "UPDATE tblCustomer SET " +                   
+        string sql = "UPDATE tblCustomer SET " +
                     "recivedEmail = @recivedEmail	WHERE Id = @CustomerID";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@CustomerID", SqlDbType.Int).Value = CustomerID;
         cmd.Parameters.Add("@recivedEmail", SqlDbType.Bit).Value = recivedEmail;
-       
+
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
@@ -314,7 +338,7 @@ public class CustomerDAO
         {
             if (table.Rows[0]["countBuy"].ToString() == "" || table.Rows[0]["countBuy"].ToString() == null)
             {
-                count=0;
+                count = 0;
             }
             else
             {
@@ -337,5 +361,5 @@ public class CustomerDAO
         cmd2.ExecuteNonQuery();
         cmd2.Dispose();
     }
-    
+
 }

@@ -29,58 +29,64 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         {
             try
             {
-                    InitBUS();           
-                    customer = new DataTable();
-                    customerBySelect = new DataTable();
-                    if (getUserLogin().DepartmentId == 1)
-                    {
-                        customer = ctBUS.GetAll();
-                    }
-                    else
-                    {
-                        customer = ctBUS.GetAllByUser(getUserLogin().UserId);
-                    }
-                    customerBySelect = customer;
-                    LoadCustomer();
-                    createTable();
-                    row = customer.Select(expresion);
-                    chkAgeAll.Checked = true;
-                    this.txtAge.Visible = false;
+                InitBUS();
+                LoadSubGroup();
+                //LoadCustomer();
+
 
             }
             catch (Exception)
             {
-              
+
             }
         }
+    }
+
+    private void LoadSubGroup()
+    {
+        if (Session["us-login"] != null)
+        {
+            if (getUserLogin().DepartmentId == 1)
+            {
+                this.drlSubGroup.DataSource = mgBUS.GetAllNew();
+            }
+            else
+            {
+                this.drlSubGroup.DataSource = mgBUS.GetAllNew(getUserLogin().UserId);
+            }
+        }
+        //this.drlSubGroup.DataSource = mgBUS.GetAllNew(getSessionId());
+        this.drlSubGroup.DataTextField = "Name";
+        this.drlSubGroup.DataValueField = "Id";
+        this.drlSubGroup.DataBind();
     }
 
     private void LoadCustomer()
     {
         mgBUS = new MailGroupBUS();
+        customer = new DataTable();
+        customerBySelect = new DataTable();
+        int GroupID = 0;
+        GroupID = int.Parse(drlSubGroup.SelectedValue.ToString());
+        if (getUserLogin().DepartmentId == 1)
+        {
+            //customer = ctBUS.GetAll();
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+        }
+        else
+        {
+            customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+        }
+        //customerBySelect = customer;
         try
         {
             dlPager.MaxPages = 1000;
             dlPager.PageSize = 50;
-            dlPager.DataSource = customerBySelect.DefaultView;
-            dlPager.BindToControl = dtlCustomer;
+            dlPager.DataSource = customer.DefaultView;
+            // dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
-            if (Session["us-login"] != null)
-            {
-                if (getUserLogin().DepartmentId == 1)
-                {
-                    this.drlSubGroup.DataSource = mgBUS.GetAllNew();
-                }
-                else
-                {
-                    this.drlSubGroup.DataSource = mgBUS.GetAllNew(getUserLogin().UserId);
-                }
-            }
-            //this.drlSubGroup.DataSource = mgBUS.GetAllNew(getSessionId());
-            this.drlSubGroup.DataTextField = "Name";
-            this.drlSubGroup.DataValueField = "Id";
-            this.drlSubGroup.DataBind();
+
         }
         catch (Exception)
         {
@@ -122,19 +128,19 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         mgBUS = new MailGroupBUS();
         srBUS = new SendRegisterBUS();
         dsgBUS = new DetailGroupBUS();
-       
+
     }
-  
+
     protected void drlGender_SelectedIndexChanged(object sender, EventArgs e)
     {
-       
+
         //string gender = "";
-       // gender = drlGender.SelectedValue.ToString();
+        // gender = drlGender.SelectedValue.ToString();
         //if (expresion == "")
         //{
         //    if (gender == "*")
         //    {
-               
+
         //    }
         //    else
         //    {
@@ -145,12 +151,12 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         //{
         //    if (gender == "*")
         //    {
-               
+
         //    }
         //    else
         //    {
         //        expresion += "and Gender = '" + gender + "'";
-               
+
         //    }
         //}
     }
@@ -178,68 +184,79 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     }
     protected void txtAddress_TextChanged(object sender, EventArgs e)
     {
-       
-       
+
+
     }
     protected void btnFilter_Click(object sender, EventArgs e)
     {
-        GetExpresion();
-        createTable();
+        //  GetExpresion();
+        //  createTable();
+        customer = new DataTable();
         ctBUS = new CustomerBUS();
+        int GroupID = 0;
+        GroupID = int.Parse(drlSubGroup.SelectedValue.ToString());
         if (getUserLogin().DepartmentId == 1)
         {
-            customer = ctBUS.GetAll();
+            //customer = ctBUS.GetAll();
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+
         }
         else
         {
             customer = ctBUS.GetAllByUser(getUserLogin().UserId);
         }
-       
-        row = customer.Select(expresion);
-        foreach (DataRow rowItem in row)
-        {
-            DataRow rowFilter = result.NewRow();
-            rowFilter["Id"] = rowItem["Id"];
-            rowFilter["Name"] = rowItem["Name"];
-            rowFilter["Gender"] = rowItem["Gender"];
-            rowFilter["Birthday"] = rowItem["Birthday"];
-            rowFilter["Email"] = rowItem["Email"];
-            rowFilter["Phone"] = rowItem["Phone"];
-            rowFilter["Address"] = rowItem["Address"];
-            result.Rows.Add(rowFilter);
-        }
-        dtlCustomer.DataSource = result;
-        dtlCustomer.DataBind();
+
+        //row = customer.Select(expresion);
+        //foreach (DataRow rowItem in row)
+        //{
+        //    DataRow rowFilter = result.NewRow();
+        //    rowFilter["Id"] = rowItem["Id"];
+        //    rowFilter["Name"] = rowItem["Name"];
+        //    rowFilter["Gender"] = rowItem["Gender"];
+        //    rowFilter["Birthday"] = rowItem["Birthday"];
+        //    rowFilter["Email"] = rowItem["Email"];
+        //    rowFilter["Phone"] = rowItem["Phone"];
+        //    rowFilter["Address"] = rowItem["Address"];
+        //    result.Rows.Add(rowFilter);
+        //}
+
+        dlPager.MaxPages = 1000;
+        dlPager.PageSize = 50;
+        dlPager.DataSource = customer.DefaultView;
+        // dlPager.BindToControl = dtlCustomer;
+        this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
+        this.dtlCustomer.DataBind();
+
     }
 
     private void GetExpresion()
     {
         string gender = "";
-       //// gender = drlGender.SelectedValue.ToString();
-       // if (expresion == "")
-       // {
-       //     if (gender == "*")
-       //     {
+        //// gender = drlGender.SelectedValue.ToString();
+        // if (expresion == "")
+        // {
+        //     if (gender == "*")
+        //     {
 
-       //     }
-       //     else
-       //     {
-       //         expresion += "Gender = '" + gender + "'";
+        //     }
+        //     else
+        //     {
+        //         expresion += "Gender = '" + gender + "'";
 
-       //     }
-       // }
-       // else
-       // {
-       //     if (gender == "*")
-       //     {
+        //     }
+        // }
+        // else
+        // {
+        //     if (gender == "*")
+        //     {
 
-       //     }
-       //     else
-       //     {
-       //         expresion += "and Gender = '" + gender + "'";
+        //     }
+        //     else
+        //     {
+        //         expresion += "and Gender = '" + gender + "'";
 
-       //     }
-       // }
+        //     }
+        // }
         string addr = this.txtAddress.Text;
 
         if (expresion == "")
@@ -250,31 +267,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         {
             expresion += " and Address like '%" + addr + "%'";
         }
-        if (chkAgeAll.Checked == true)
-        {
-            chkAgeTo.Checked = false;
 
-        }
-        else
-        {
-            int age = 100;
-            if (txtAge.Text != "")
-            {
-                bool isNum = int.TryParse(txtAge.Text, out age);
-                if (isNum)
-                {
-                    age = int.Parse(txtAge.Text.Trim());
-                    if (expresion == "")
-                    {
-                        expresion += "Birthday < #" + String.Format("{0:yyyy-M-d HH:mm:ss}", DateTime.Now.AddYears(-age)) + "#";
-                    }
-                    else
-                    {
-                        expresion += " and BirthDay < #" + String.Format("{0:yyyy-M-d HH:mm:ss}", DateTime.Now.AddYears(-age)) + "#";
-                    }
-                }
-            }
-        }
+
         string Name = this.txtName.Text;
         if (Name != "" || Name != null)
         {
@@ -314,7 +308,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
                 DataListItem item = dtlCustomer.Items[i];
                 CheckBox chkXoa = (CheckBox)item.FindControl("chkCheck");
                 HiddenField CustomerID = (HiddenField)item.FindControl("hdfId");
-               
+
                 if (chkXoa.Checked == true)
                 {
                     try
@@ -358,33 +352,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     private void Visible(bool p)
     {
         pnError.Visible = p;
-        pnSuccess.Visible=p;
+        pnSuccess.Visible = p;
     }
-    protected void chkAgeAll_CheckedChanged(object sender, EventArgs e)
-    {
-        if (chkAgeAll.Checked == true)
-        {
-            chkAgeTo.Checked = false;
-            this.txtAge.Visible = false;
 
-        }
-        else
-        {
-            chkAgeTo.Visible = true;
-        }
-        
-         
-    }
-    protected void chkAgeTo_CheckedChanged(object sender, EventArgs e)
-    {
-        if (chkAgeTo.Checked == true)
-        {
-            chkAgeAll.Checked = false;
-            this.txtAge.Visible = true;
-        }
-        else
-        {
-            chkAgeAll.Visible = true;
-        }
-    }
 }

@@ -13,7 +13,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for CustomerBUS
 /// </summary>
-public class CustomerBUS:ICustomer
+public class CustomerBUS : ICustomer
 {
     CustomerDAO ctDao = null;
     public CustomerBUS()
@@ -24,7 +24,7 @@ public class CustomerBUS:ICustomer
 
     public int tblCustomer_insert(CustomerDTO dt)
     {
-       return ctDao.tblCustomer_insert(dt);
+        return ctDao.tblCustomer_insert(dt);
     }
     public void tblCustomer_Update(CustomerDTO dt)
     {
@@ -34,9 +34,13 @@ public class CustomerBUS:ICustomer
     {
         ctDao.tblCustomer_Delete(Id);
     }
-    public DataTable GetAll(string Name,string phone,string email,int assignTo)
+    public DataTable GetAll(string Name, string phone, string email, int assignTo)
     {
         return ctDao.GetAll(Name, phone, email, assignTo);
+    }
+    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    {
+        return ctDao.GetAllFilterCustomer(Name, address, assignTo);
     }
     public DataTable GetByID(int Id)
     {
@@ -70,7 +74,7 @@ public class CustomerBUS:ICustomer
 
     public DataTable GetByEmail(string Email, int UserID)
     {
-        return ctDao.GetByEmail(Email,UserID);
+        return ctDao.GetByEmail(Email, UserID);
     }
 
     #endregion
