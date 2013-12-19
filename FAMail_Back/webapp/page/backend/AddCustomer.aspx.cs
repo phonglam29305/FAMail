@@ -55,9 +55,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         try
         {
             InitBUS();
-            LoadMailGroupLists();
+           
             pnSelectGroup.Visible = false;
             LoadCustomer();
+            LoadMailGroupLists();
         }
         catch (Exception ex)
         {
@@ -83,6 +84,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 int ID = int.Parse(CustomerId);
                 this.CustomerID.Value = ID.ToString();
                 DataTable dt = ctBUS.GetByID(ID);
+               // int AssignTo = int.Parse(dt.Rows[0]["AssignTo"].ToString());
+               // DataTable dtGroup = ctBUS.GetByGroupID(AssignTo);
                 if (dt.Rows.Count > 0)
                 {
                     //tamhm edit lai
@@ -101,7 +104,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     this.txtBirthday.Text = String.Format("{0:dd/MM/yyyy }", DateTime.Parse(dt.Rows[0]["BirthDay"].ToString()));
                     this.txtEmail.Text = dt.Rows[0]["Email"].ToString();
                     this.txtName.Text = dt.Rows[0]["Name"].ToString();
-                    this.drlGroup.SelectedValue = dt.Rows[0]["assignTo"].ToString();
+                    this.drlGroup.SelectedValue = dt.Rows[0]["AssignTo"].ToString();
                     this.drlGender.SelectedValue = dt.Rows[0]["Gender"].ToString();
 
                 }
@@ -120,9 +123,13 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             dtMailGroup = mailGroupBus.GetAllNew();
         }
-        else
+        if (getUserLogin().DepartmentId == 2)
         {
             dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
+        }
+        if (getUserLogin().DepartmentId == 3)
+        {
+            dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
         }
 
         if (dtMailGroup.Rows.Count > 0)
@@ -141,7 +148,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         else
         {
-            pnSelectGroup.Visible = false;
+            //pnSelectGroup.Visible = false;
         }
     }
     private void InitBUS()

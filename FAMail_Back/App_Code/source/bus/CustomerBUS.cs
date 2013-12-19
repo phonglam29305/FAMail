@@ -46,6 +46,11 @@ public class CustomerBUS : ICustomer
     {
         return ctDao.GetByID(Id);
     }
+
+    public DataTable GetByGroupID(int AssignTo)
+    {
+        return ctDao.GetByGroupID(AssignTo);
+    }
     public DataTable GetByEmail(string Email)
     {
         return ctDao.GetByEmail(Email);

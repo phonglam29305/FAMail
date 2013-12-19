@@ -283,6 +283,28 @@ public class CustomerDAO
         adapter.Dispose();
         return table;
     }
+
+
+
+    public DataTable GetByGroupID(int AssignTo)
+    {
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup WHERE Id = @AssignTo ", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@AssignTo", SqlDbType.Int).Value = AssignTo;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetByID(int Id, bool statusRecive)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Id = @Id and recivedEmail = @statusRecive ", ConnectionData._MyConnection);
