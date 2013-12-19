@@ -78,7 +78,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 dropSubClient.DataValueField = "subId";
                 dropSubClient.DataBind();
             }
-
+            LoadGroup();
         }
         catch (Exception ex)
         {

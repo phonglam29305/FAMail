@@ -504,7 +504,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     }
                     else
                     {
-                        lblSuccess.Text = "Vượt quá hạng ngạch tạo khách hàng!";
+                        lblError.Text = "Vượt quá hạng ngạch tạo khách hàng!";
+                        Visible(true);
                     }
 
 
