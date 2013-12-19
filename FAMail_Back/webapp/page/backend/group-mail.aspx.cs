@@ -17,16 +17,16 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     MailGroupBUS mgBUS = null;
     SendRegisterBUS srBUS = null;
     CustomerBUS ctBUS = null;
-    DetailGroupBUS dgBUS= null;
+    DetailGroupBUS dgBUS = null;
     UserLoginBUS ulBus = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
         if (!IsPostBack)
         {
             LoadSubClient();
             LoadGroup();
-           
+
         }
     }
 
@@ -42,24 +42,45 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 
     private void LoadSubClient()
     {
-         try
+        try
         {
             InitBUS();
+            UserLoginDTO userLogin = getUserLogin();
             dropSubClient.Items.Clear();
-            
-            DataTable table = ulBus.GetClientId(getUserLogin().UserId);
-            if (table.Rows.Count > 0)
+            if (userLogin.DepartmentId == 3)
             {
-                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
-                dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+
+                dropSubClient.DataSource = mgBUS.GetSubClientByAssignUserID(getUserLogin().UserId);
                 dropSubClient.DataTextField = "subEmail";
                 dropSubClient.DataValueField = "subId";
                 dropSubClient.DataBind();
             }
+            if (userLogin.DepartmentId == 2)
+            {
+                DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+                if (table.Rows.Count > 0)
+                {
+                    int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                    dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+                    dropSubClient.DataTextField = "subEmail";
+                    dropSubClient.DataValueField = "subId";
+                    dropSubClient.DataBind();
+                }
+
+            }
+            if (userLogin.DepartmentId == 1)
+            {
+                dropSubClient.DataSource = mgBUS.GetSubClientAll();
+                dropSubClient.DataTextField = "subEmail";
+                dropSubClient.DataValueField = "subId";
+                dropSubClient.DataBind();
+            }
+
         }
-         catch (Exception ex)
-         {
-         }
+
+        catch (Exception ex)
+        {
+        }
     }
 
     private void LoadGroup()
@@ -79,7 +100,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             }
             dlGroupMail.DataSource = tblGroupMail;
             dlGroupMail.DataBind();
-            for (int i = 0; i < tblGroupMail.Rows.Count; i++ )
+            for (int i = 0; i < tblGroupMail.Rows.Count; i++)
             {
                 Label lblNo = (Label)dlGroupMail.Items[i].FindControl("lblNO");
                 lblNo.Text = (i + 1).ToString();
@@ -90,7 +111,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         {
         }
     }
-    
+
 
     private void InitBUS()
     {
@@ -115,11 +136,11 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             mgDTO.UserId = userLogin.UserId;
             mgDTO.CreatedBy = userLogin.Username;
             DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
-            mgDTO.AssignToUserID =int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
+            mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
             mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
             int status = 1;
-            if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null )
-            {           
+            if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
+            {
                 mgBUS.tblMailGroup_insert(mgDTO);
                 this.txtGroupName.Text = "";
                 this.txtDescription.Text = "";
@@ -146,9 +167,9 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         else
         {
-                pnError.Visible = true;
-                lblError.Text = "Lỗi trong qua trình nhập! Bạn phải nhập dữ liệu !";
-                pnSuccess.Visible = false;
+            pnError.Visible = true;
+            lblError.Text = "Lỗi trong qua trình nhập! Bạn phải nhập dữ liệu !";
+            pnSuccess.Visible = false;
         }
         LoadGroup();
 
@@ -182,25 +203,25 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 DataRow row = dtGroup.Rows[0];
                 GroupId.Value = Id.ToString();
                 txtGroupName.Text = row["Name"].ToString();
-               
+
                 txtDescription.Text = row["Description"].ToString();
             }
-            
+
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
-            lblError.Text = "Đã có lỗi : "+ex.ToString() ;
+            lblError.Text = "Đã có lỗi : " + ex.ToString();
         }
         ConnectionData.CloseMyConnection();
-       
+
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
             int Id = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-           
+
             ConnectionData.OpenMyConnection();
             InitBUS();
             if (dgBUS.GetByID(Id).Rows.Count == 0)

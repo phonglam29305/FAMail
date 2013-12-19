@@ -17,8 +17,8 @@ using System.Data.SqlClient;
 /// </summary>
 public class MailGroupDAO
 {
-	public MailGroupDAO()
-	{
+    public MailGroupDAO()
+    {
 
     }
 
@@ -43,10 +43,10 @@ public class MailGroupDAO
     }
     public void tblMailGroup_Update(MailGroupDTO dt)
     {
-        string sql = "UPDATE tblMailGroup SET "+
+        string sql = "UPDATE tblMailGroup SET " +
                        "Name = @Name, " +
                        "UserID = @UserID, " +
-	                   "Description = @Description	WHERE Id = @Id";
+                       "Description = @Description	WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = dt.Id;
@@ -62,7 +62,7 @@ public class MailGroupDAO
     }
     public void tblMailGroup_Delete(int ID)
     {
-        SqlCommand cmd = new SqlCommand("DELETE FROM tblMailGroup WHERE Id = @Id", 
+        SqlCommand cmd = new SqlCommand("DELETE FROM tblMailGroup WHERE Id = @Id",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = ID;
@@ -88,7 +88,7 @@ public class MailGroupDAO
     }
     public DataTable GetAll(int userId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup  where UserID =@UserID ", 
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup  where UserID =@UserID ",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
@@ -104,7 +104,7 @@ public class MailGroupDAO
     }
     public DataTable GetByID(int Id)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup WHERE Id = @Id", 
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup WHERE Id = @Id",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
@@ -121,10 +121,28 @@ public class MailGroupDAO
     }
     public DataTable GetAllNew(int userId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup where UserID =@UserID", 
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup where UserID =@UserID",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
+
+
+    public DataTable GetAllNewDepart3(int AssignTouserId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup where AssignToUserId =@AssignTouserId",
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@AssignTouserId", SqlDbType.Int).Value = AssignTouserId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
@@ -180,10 +198,24 @@ public class MailGroupDAO
         return table;
     }
 
+    public DataTable GetSubClientAll()
+    {
+        string sql = "SELECT * FROM tblSubClient where Is_Block = 0";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        //cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetAllNew()
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup", ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;       
+        cmd.CommandType = CommandType.Text;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
 
@@ -198,9 +230,9 @@ public class MailGroupDAO
     public int countCustomerByUserId(int userId)
     {
         string sql = "SELECT   COUNT(*) AS countCustomer ";
-                sql += "FROM   tblMailGroup AS MG INNER JOIN ";
-                sql += "tblDetailGroup AS DG ON MG.Id = DG.GroupID ";
-                sql += " WHERE  MG.UserId = @UserId";
+        sql += "FROM   tblMailGroup AS MG INNER JOIN ";
+        sql += "tblDetailGroup AS DG ON MG.Id = DG.GroupID ";
+        sql += " WHERE  MG.UserId = @UserId";
 
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;

@@ -74,6 +74,11 @@ public class UserLoginBUS : IUserLogin
         return ulDao.GetSubClientUserID(UserID);
     }
 
+    public System.Data.DataTable GetSubClientDepart3(int UserID)
+    {
+        return ulDao.GetSubClientDepart3(UserID);
+    }
+
 
     public System.Data.DataTable GetIsBlockByUserId(string username)
     {
