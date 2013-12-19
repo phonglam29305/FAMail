@@ -70,7 +70,6 @@ public class RegisterDAO
        object id= cmd.ExecuteScalar();
         cmd.Dispose();
 
-        clientRegister.clientId = Convert.ToInt32(id);
         sql = @"set dateformat dmy INSERT INTO [tblClientRegister]
            ([clientId]
            ,[packageId]
@@ -82,7 +81,12 @@ public class RegisterDAO
            ,[packageTimeId]
            ,[from]
            ,[to]
-           ,[lastRegisterFrom],[lastRegisterTo],[lastRegisterFee],[lastRegisterFeeRemain],[registerTime],[registerDate])
+           ,[lastRegisterFrom]
+           ,[lastRegisterTo]
+           ,[lastRegisterFee]
+           ,[lastRegisterFeeRemain]
+           ,[registerTime]
+           ,[registerDate])
      VALUES
            (@clientId
            ,@packageId
@@ -93,10 +97,10 @@ public class RegisterDAO
            ,@packageTimeId
            ,@from
            ,@to
-           ,null,null,0,0,getdate(),getdate()) select @@identity";
+           ,null           ,null           ,0           ,0           ,getdate()           ,getdate())";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientRegister.clientId;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = id;
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = clientRegister.packageId;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = clientRegister.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = clientRegister.subAccontCount;
@@ -105,7 +109,7 @@ public class RegisterDAO
         cmd.Parameters.Add("@packageTimeId", SqlDbType.Int).Value = clientRegister.packageTimeId;
         cmd.Parameters.Add("@from", SqlDbType.VarChar, 12).Value = clientRegister.from.ToString("dd/MM/yyyy");
         cmd.Parameters.Add("@to", SqlDbType.VarChar, 12).Value = clientRegister.to.ToString("dd/MM/yyyy");
-        object registerid = cmd.ExecuteScalar();
+        cmd.ExecuteNonQuery();
         cmd.Dispose();
 
 
@@ -117,32 +121,12 @@ public class RegisterDAO
         cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = ulDto.Password;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = ulDto.UserType;
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = ulDto.Is_Block;
-        id = cmd.ExecuteScalar();
+         id = cmd.ExecuteScalar();
 
-        sql = "update tblClient set userid = @userid, registerid=@registerid, activedate=getdate(), expiredate='" + clientRegister.to.ToString("dd/MM/yyyy") + "' where clientid=@clientid";
+        sql = "update tblClient set userid = @userid ";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@userid", SqlDbType.Int).Value = id;
-        cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
-        cmd.Parameters.Add("@registerid", SqlDbType.Int).Value = registerid;
-
-        DataTable T = new LoadFunctionPackageDAO().dispalyfunctionpackage(clientRegister.packageId);
-        if(T!=null && T.Rows.Count>0)
-        {
-            sql = "insert into tblClientFunction(clientid, registerid, functionid) values(@clientid, @registerid, @functionid)";
-            foreach(DataRow r in T.Rows)
-            {
-                if(r["isUse"]+""=="yes")
-                {
-                    cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.Add("@functionid", SqlDbType.Int).Value = r["functionid"];
-                    cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
-                    cmd.Parameters.Add("@registerid", SqlDbType.Int).Value = registerid;
-                    cmd.Dispose();
-                }
-            }
-        }
         return cmd.ExecuteNonQuery();
     }
 

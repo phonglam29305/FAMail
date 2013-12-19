@@ -31,7 +31,7 @@
         <table>
             <tbody class="row-hover">
 
-                <asp:Label ID="lbphicaidat" runat="server" Text="Phí cài đặt và hợp đồng"></asp:Label>
+                <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
 
                 <tr class="row-3 odd">
                     <td class="column-1">
@@ -50,7 +50,7 @@
         </table>
     </div>
     <div id="chucnang">
-        <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="600px">
+        <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="113%">
 
             <ItemTemplate>
 

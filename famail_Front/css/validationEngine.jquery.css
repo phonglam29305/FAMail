@@ -41,8 +41,6 @@
 }
 
 .formError .formErrorContent {
-  margin-left: -685px;
-margin-top:77px;
 	width: 100%;
 	background: #ee0101;
 	position:relative;
@@ -86,8 +84,6 @@ margin-top:77px;
 	width: 15px;
 	margin: -2px 0 0 13px;
 	position:relative;
-    margin-left: -680px;
-margin-top: -2px;
 }
 body[dir='rtl'] .formError .formErrorArrow,
 body.rtl .formError .formErrorArrow {

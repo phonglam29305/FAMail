@@ -46,6 +46,7 @@
     float: left;
     text-align: left;
 }
+/*khoan cach giua cac lable*/
 #inline_dangky .formcontentdangky .fcdk1 .box-fcdk .labelfcdk {
     padding: 5px 0px 0px 0px;
     text-align: left;
@@ -59,7 +60,228 @@
 #inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox {
     float: left;
 	margin: 0px 0px 0px 15px;
+    width: 83px;
 }
+/*ding dang cac textbook*/
+    #inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtclientname {
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+/*companyName*/
+
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtcompanyname{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtemail{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtPass{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtpassAgain{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtphone{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtaddress{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
+#inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox #txtbody{
+        border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+    }
 
 #inline_dangky .formcontentdangky .fcdk1 .box-fcdk .divbox .txtbox{
 	border: solid 1px #E5E5E5;
@@ -95,7 +317,6 @@
 	padding: 5px;
 	display:block;
 	font-size:16px;
-	width:100px;
 	background: 
 		-webkit-gradient(
 			linear,
@@ -106,12 +327,7 @@
 			to(#FFFFFF)
 		);
 	background: 
-		-moz-linear-gradient(
-			top,
-			#FFFFFF,
-			#EEEEEE 1px,
-			#FFFFFF 25px
-			);
+		#FFFFFF;
 	-moz-box-shadow: 0px 0px 8px #f0f0f0;
 	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
 	box-shadow: 0px 0px 8px #f0f0f0;
@@ -161,6 +377,34 @@
 }
 
 #inline_dangnhap .divdangnhap .box-fcdn .divbox .txtbox{
+	border: solid 1px #E5E5E5;
+	background: #FFFFFF;
+	padding: 5px;
+	display:block;
+	font-size:13px;
+	width:240px;
+	background: 
+		-webkit-gradient(
+			linear,
+			left top,
+			left 25,
+			from(#FFFFFF),
+			color-stop(4%, #EEEEEE),
+			to(#FFFFFF)
+		);
+	background: 
+		-moz-linear-gradient(
+			top,
+			#FFFFFF,
+			#EEEEEE 1px,
+			#FFFFFF 25px
+			);
+	-moz-box-shadow: 0px 0px 8px #f0f0f0;
+	-webkit-box-shadow: 0px 0px 8px #f0f0f0;
+	box-shadow: 0px 0px 8px #f0f0f0;
+}
+
+#inline_dangnhap .divdangnhap .box-fcdk .divbox #Label15{
 	border: solid 1px #E5E5E5;
 	background: #FFFFFF;
 	padding: 5px;

@@ -18,6 +18,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadData();
+         
         }
     }
     private void LoadData()
@@ -69,6 +70,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     protected void Drpacketime_SelectedIndexChanged(object sender, EventArgs e)
     {
         tinhtien();
+        Label5.Visible = true;
     }
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
@@ -84,14 +86,15 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         Int32.TryParse(idpackage, out id);
         clientRegister.packageId = id;
 
-        DataTable T =dk.GetPackageById(id);
+        DataTable T = dk.GetPackageById(id);
         if (T != null && T.Rows.Count > 0)
-        {clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
-        clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
-        clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
+        {
+            clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
+            clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
+            clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
         }
         object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
-        Int32.TryParse(temp+"", out id);
+        Int32.TryParse(temp + "", out id);
         clientRegister.packageTimeId = id;
 
         UserLoginDTO ulDto = new UserLoginDTO();
@@ -100,7 +103,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         ulDto.Email = txtemail.Text;
         ulDto.Is_Block = false;
         ulDto.UserType = 2;
-        if (dk.Insert_client(cliendto, clientRegister, ulDto)>0)
+        if (dk.Insert_client(cliendto, clientRegister, ulDto) > 0)
         {
 
             SmtpClient SmtpServer = new SmtpClient();
