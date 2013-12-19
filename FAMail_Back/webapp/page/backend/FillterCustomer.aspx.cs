@@ -18,6 +18,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     MailGroupBUS mgBUS;
     SendRegisterBUS srBUS;
     DetailGroupBUS dsgBUS;
+    DataTable group = null;
     DataTable customer;
     DataTable customerBySelect;
     DataTable result = null;
@@ -44,21 +45,55 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
     private void LoadSubGroup()
     {
+        DataTable MailGroup = new DataTable();
         if (Session["us-login"] != null)
         {
             if (getUserLogin().DepartmentId == 1)
             {
-                this.drlSubGroup.DataSource = mgBUS.GetAllNew();
+                MailGroup = mgBUS.GetAllNew();
             }
             else
             {
-                this.drlSubGroup.DataSource = mgBUS.GetAllNew(getUserLogin().UserId);
+                MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
             }
+            if (MailGroup.Rows.Count > 0)
+            {
+                createTableMail();
+                DataRow rowE = null;
+                if (getUserLogin().DepartmentId == 1)
+                {
+                    rowE = group.NewRow();
+                    rowE["Id"] = 0;
+                    rowE["Name"] = "Tất cả";
+                    group.Rows.Add(rowE);
+                }
+                foreach (DataRow rowItem in MailGroup.Rows)
+                {
+                    rowE = group.NewRow();
+                    rowE["Id"] = rowItem["Id"];
+                    rowE["Name"] = rowItem["Name"];
+                    group.Rows.Add(rowE);
+                }
+            }
+            this.drlSubGroup.DataSource = group;
+            this.drlSubGroup.DataTextField = "Name";
+            this.drlSubGroup.DataValueField = "Id";
+            this.drlSubGroup.DataBind();
         }
-        //this.drlSubGroup.DataSource = mgBUS.GetAllNew(getSessionId());
-        this.drlSubGroup.DataTextField = "Name";
-        this.drlSubGroup.DataValueField = "Id";
-        this.drlSubGroup.DataBind();
+       // pnSearch.Visible = true;
+       // btnSearch.Visible = false;
+    }
+
+    private void createTableMail()
+    {
+        group = new DataTable("group");
+        DataColumn Id = new DataColumn("Id");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn Name = new DataColumn("Name");
+        DataColumn[] key = { Id };
+        group.Columns.Add(Id);
+        group.Columns.Add(Name);
+        group.PrimaryKey = key;
     }
 
     private void LoadCustomer()
@@ -71,11 +106,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim());
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
         }
         else
         {
-            customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
         }
         //customerBySelect = customer;
         try
@@ -198,7 +233,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim());
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
 
         }
         else

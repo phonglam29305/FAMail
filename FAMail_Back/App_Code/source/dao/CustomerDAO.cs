@@ -111,7 +111,7 @@ public class CustomerDAO
         cmd.Dispose();
     }
 
-    public DataTable GetAll(string Name, string phone, string email)
+    public DataTable GetAll(string Name, string phone, string email, int assignTo)
     {
         //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblCustomer where Name =@Name recivedEmail='True'", ConnectionData._MyConnection);
         //DataTable table = new DataTable();
@@ -130,7 +130,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
         cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
-        //cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;
@@ -164,7 +164,7 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllFilterCustomer(string Name, string address)
+    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
     {
 
         SqlCommand cmd = new SqlCommand();
@@ -172,7 +172,7 @@ public class CustomerDAO
         cmd.CommandText = "pro_search_Filter_tblCustomer";
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
         cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
-      //  cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;
@@ -226,6 +226,7 @@ public class CustomerDAO
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        //cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)

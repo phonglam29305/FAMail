@@ -117,8 +117,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             // customerBySelect = ctBUS.GetAll();
-     
-            customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim());
+
+            customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         }
         else
         {
@@ -232,8 +232,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             // customerBySelect = ctBUS.GetAll();
-           
-            customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim());
+
+            customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         }
         else
         {
