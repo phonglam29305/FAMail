@@ -29,4 +29,5 @@ public class UserLoginDTO
     public string Email { get; set; }
     public bool Is_Block { get; set; }
     public int ClientID { get; set; }
+    public int Deleted { get; set; }
 }

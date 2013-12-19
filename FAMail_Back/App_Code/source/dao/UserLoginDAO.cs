@@ -23,8 +23,8 @@ public class UserLoginDAO
     }
     public void tblUserLogin_insert(UserLoginDTO dt)
     {
-        string sql = "INSERT INTO tblUserLogin(Username, Password,DepartmentId, UserType,Is_Block) " +
-                     "VALUES(@Username, @Password, @departmentId, @UserType,@Is_Block)";
+        string sql = "INSERT INTO tblUserLogin(Username, Password,DepartmentId, UserType,Is_Block,Deleted) " +
+                     "VALUES(@Username, @Password, @departmentId, @UserType,@Is_Block,@Deleted)";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = dt.Username;
@@ -32,6 +32,7 @@ public class UserLoginDAO
         cmd.Parameters.Add("@departmentId", SqlDbType.Int).Value = dt.DepartmentId;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = dt.UserType;
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = dt.Is_Block;
+        cmd.Parameters.Add("@Deleted", SqlDbType.Bit).Value = dt.Deleted;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -178,7 +179,7 @@ public class UserLoginDAO
 
     public void tblUserLoginSub_Delete(string userId)
     {
-        string sql = "DELETE FROM tblUserLogin WHERE Username = @UserId";
+        string sql = "Update tblUserLogin set deleted =1 WHERE Username = @UserId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.NVarChar).Value = userId;
@@ -188,7 +189,7 @@ public class UserLoginDAO
 
     public void tblSubClient_Delete(int subId)
     {
-        string sql = "DELETE FROM tblSubClient WHERE subId = @subId";
+        string sql = "Update tblSubClient set deleted = 1 WHERE subId = @subId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@subId", SqlDbType.Int).Value = subId;

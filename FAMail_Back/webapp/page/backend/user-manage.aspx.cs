@@ -205,6 +205,7 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
                 DataTable dtLogin = ulBus.GetByUserType(ulDto.DepartmentId);
                 ulDto.UserType =int.Parse(dtLogin.Rows[0]["UserType"].ToString());
                 ulDto.Is_Block = this.chkBlock.Checked;
+                ulDto.Deleted = 0;
                 ConnectionData.OpenMyConnection();
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
