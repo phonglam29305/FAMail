@@ -127,6 +127,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     {
         InitBUS();
         UserLoginDTO userLogin = getUserLogin();
+      
         if (checkValid() == true)
         {
             ConnectionData.OpenMyConnection();
@@ -168,10 +169,10 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         else
         {
             pnError.Visible = true;
-            lblError.Text = "Lỗi trong qua trình nhập! Bạn phải nhập dữ liệu !";
+            lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
             pnSuccess.Visible = false;
         }
-        LoadGroup();
+      //  LoadGroup();
 
     }
 
