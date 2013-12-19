@@ -36,24 +36,25 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             {
             }
         }
-        
+
     }
 
-    private void loadData(){
-       // customer = new DataTable();
-      //  customerBySelect = new DataTable();
-      //  if (getUserLogin().DepartmentId == 1)
-      //  {
-      //      customer = ctBUS.GetAll();
-      //  }
-      //  else
-      //  {
-           // customer = ctBUS.GetAllByUser(getUserLogin().UserId);
-     //   }
+    private void loadData()
+    {
+        // customer = new DataTable();
+        //  customerBySelect = new DataTable();
+        //  if (getUserLogin().DepartmentId == 1)
+        //  {
+        //      customer = ctBUS.GetAll();
+        //  }
+        //  else
+        //  {
+        // customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+        //   }
         //customerBySelect = customer;
-       // createTable();
-       // row = customer.Select(expresion);
-       // LoadCustomer();
+        // createTable();
+        // row = customer.Select(expresion);
+        // LoadCustomer();
         DataTable MailGroup = new DataTable();
         if (Session["us-login"] != null)
         {
@@ -104,51 +105,51 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
 
     protected void btnFilter_Click(object sender, EventArgs e)
     {
-       // GetExpresion();
+        // GetExpresion();
         //createTable();
         //createTableCustomer();
-        InitBUS();        
+        InitBUS();
         int GroupID = 0;
-        GroupID= int.Parse(drlNhomMail.SelectedValue.ToString());
-        if (GroupID == 0)
-       {
-            customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(),GroupID);
-       }
-      // else
-       // {
+        GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
+        //  if (GroupID == 0)
+        // {
+        customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+        //  }
+        //  else
+        //  {
 
-          //  customer = ctBUS.GetByID(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
-          //  DataTable dt = dtgBUS.GetByID(GroupID);
-            //if (dt.Rows.Count > 0)
-            //{
-            //    foreach (DataRow rowItem in dt.Rows)
-            //    {
-            //       //tam edit if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
-                   
-            //            DataRow rowFilter = customer.NewRow();
+        //  customer = ctBUS.GetByID(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+        //     DataTable dt = dtgBUS.GetByID(GroupID);
+        //if (dt.Rows.Count > 0)
+        //{
+        //    foreach (DataRow rowItem in dt.Rows)
+        //    {
+        //       //tam edit if (ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows.Count > 0)
 
-            //            //tam edit
-            //          //  rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
-            //           // rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
-            //            //rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
-            //           // rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
-            //            //rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
-            //            //rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
-            //           // rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
+        //            DataRow rowFilter = customer.NewRow();
 
-            //             rowFilter["Id"] = dt.Rows[0]["Id"].ToString();
-            //             rowFilter["Name"] = dt.Rows[0]["Name"].ToString(); 
-            //             rowFilter["Gender"] = dt.Rows[0]["Gender"].ToString();
-            //             rowFilter["Birthday"] = dt.Rows[0]["Birthday"].ToString();
-            //             rowFilter["Email"] = dt.Rows[0]["Email"].ToString();
-            //             rowFilter["Phone"] = dt.Rows[0]["Phone"].ToString();
-            //             rowFilter["Address"] = dt.Rows[0]["Address"].ToString(); 
+        //            //tam edit
+        //          //  rowFilter["Id"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Id"];
+        //           // rowFilter["Name"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Name"];
+        //            //rowFilter["Gender"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Gender"];
+        //           // rowFilter["Birthday"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Birthday"];
+        //            //rowFilter["Email"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Email"];
+        //            //rowFilter["Phone"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Phone"];
+        //           // rowFilter["Address"] = ctBUS.GetByID(int.Parse(rowItem["CustomerID"].ToString())).Rows[0]["Address"];
 
-            //            customer.Rows.Add(rowFilter);
-            //        //}
-            //    }
-            //}
-       // }
+        //             rowFilter["Id"] = dt.Rows[0]["Id"].ToString();
+        //             rowFilter["Name"] = dt.Rows[0]["Name"].ToString(); 
+        //             rowFilter["Gender"] = dt.Rows[0]["Gender"].ToString();
+        //             rowFilter["Birthday"] = dt.Rows[0]["Birthday"].ToString();
+        //             rowFilter["Email"] = dt.Rows[0]["Email"].ToString();
+        //             rowFilter["Phone"] = dt.Rows[0]["Phone"].ToString();
+        //             rowFilter["Address"] = dt.Rows[0]["Address"].ToString(); 
+
+        //            customer.Rows.Add(rowFilter);
+        //        //}
+        //    }
+        //}
+        // }
         //row = customer.Select(expresion);
         //foreach (DataRow rowItem in row)
         //{
@@ -165,15 +166,15 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         dlPager.MaxPages = 1000;
         dlPager.PageSize = 50;
         dlPager.DataSource = customer.DefaultView; //result.DefaultView;
-        dlPager.BindToControl = dtlCustomer;
+        // dlPager.BindToControl = dtlCustomer;
         this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
-        this.dtlCustomer.DataBind(); 
+        this.dtlCustomer.DataBind();
         //dtlCustomer.DataSource = result;
         //dtlCustomer.DataBind();
     }
     private void GetExpresion()
     {
-        
+
         string Email = this.txtEmail.Text;
 
         if (expresion == "")
@@ -184,7 +185,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         {
             expresion += " and Email like '%" + Email + "%'";
         }
-       
+
         string Name = this.txtName.Text;
         if (Name != "" || Name != null)
         {
@@ -209,22 +210,22 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
                 expresion += "and Phone like '%" + Phone + "%'";
             }
         }
-        
-       
+
+
     }
     private void LoadCustomer()
     {
         ctBUS = new CustomerBUS();
         if (getUserLogin().DepartmentId == 1)
         {
-           // customerBySelect = ctBUS.GetAll();
+            // customerBySelect = ctBUS.GetAll();
             int GroupID = 0;
             GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
             customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         }
         else
         {
-           // customerBySelect = ctBUS.GetAllByUser(getUserLogin().UserId);
+            // customerBySelect = ctBUS.GetAllByUser(getUserLogin().UserId);
         }
         try
         {
@@ -233,13 +234,13 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             dlPager.DataSource = customerBySelect.DefaultView;
             dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
-            this.dtlCustomer.DataBind(); 
+            this.dtlCustomer.DataBind();
         }
-        catch (Exception) 
-        {       
-            
+        catch (Exception)
+        {
+
         }
-       
+
     }
 
     private void InitBUS()
@@ -279,15 +280,15 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
                             ctBUS.tblCustomer_Delete(int.Parse(id.Value.ToString()));
                             countDelete++;
                         }
-                        
+
                         ConnectionData.OpenMyConnection();
-                       
+
                     }
                 }
                 LoadCustomer();
                 pnSuccess.Visible = true;
                 lblMessage.Text = countDelete.ToString();
-                lblSuccess.Text = "Bạn xóa thành công: " + countDelete.ToString() + " Khách hàng \n<br> Không thành công :" + countNoDelete.ToString() + " khách hàng vì đang trong trạng thái chờ gửi!"; 
+                lblSuccess.Text = "Bạn xóa thành công: " + countDelete.ToString() + " Khách hàng \n<br> Không thành công :" + countNoDelete.ToString() + " khách hàng vì đang trong trạng thái chờ gửi!";
 
             }
             else
@@ -346,7 +347,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         result.Columns.Add(Address);
         result.Columns.Add(Name);
         result.PrimaryKey = key;
-      
+
     }
     private void createTableCustomer()
     {
@@ -383,13 +384,13 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         {
             ctBUS = new CustomerBUS();
             dtgBUS = new DetailGroupBUS();
-            int CustomerID= int.Parse(((ImageButton)sender).CommandArgument.ToString());
+            int CustomerID = int.Parse(((ImageButton)sender).CommandArgument.ToString());
             ConnectionData.OpenMyConnection();
             ctBUS.tblCustomer_Delete(CustomerID);
             dtgBUS.tblDetailGroup_DeleteByCustomerID(CustomerID);
             pnError.Visible = false;
             pnSuccess.Visible = true;
-            lblSuccess.Text = "Xóa thành công một khách hàng ID: "+ CustomerID.ToString();     
+            lblSuccess.Text = "Xóa thành công một khách hàng ID: " + CustomerID.ToString();
             LoadCustomer();
             ConnectionData.CloseMyConnection();
         }
