@@ -67,6 +67,21 @@ public class CustomerBUS : ICustomer
         return ctDao.GetAllByUser(UserID);
     }
 
+    public System.Data.DataTable GetCountEmail(int ClientId)
+    {
+        return ctDao.GetCountEmail(ClientId);
+    }
+
+    public System.Data.DataTable GetCountCustomerCreatedMail(int ClientId)
+    {
+        return ctDao.GetCountCustomerCreatedMail(ClientId);
+    }
+
+    public DataTable GetClientId(int UserID)
+    {
+        return ctDao.GetClientId(UserID);
+    }
+
     public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
     {
         return ctDao.GetAllByUserAssignTo(UserID, assignTo);
