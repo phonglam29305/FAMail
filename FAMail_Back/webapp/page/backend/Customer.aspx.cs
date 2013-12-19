@@ -227,16 +227,17 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     private void LoadCustomer()
     {
         ctBUS = new CustomerBUS();
+        int GroupID = 0;
+        GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
         if (getUserLogin().DepartmentId == 1)
         {
             // customerBySelect = ctBUS.GetAll();
-            int GroupID = 0;
-            GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
+           
             customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim());
         }
         else
         {
-             customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId,group);
+            customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
         }
         try
         {
