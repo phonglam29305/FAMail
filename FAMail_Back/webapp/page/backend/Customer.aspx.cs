@@ -113,7 +113,18 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
         //  if (GroupID == 0)
         // {
-        customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+
+        if (getUserLogin().DepartmentId == 1)
+        {
+            // customerBySelect = ctBUS.GetAll();
+     
+            customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim());
+        }
+        else
+        {
+            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+        }
+      //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         //  }
         //  else
         //  {
@@ -166,7 +177,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         dlPager.MaxPages = 1000;
         dlPager.PageSize = 50;
         dlPager.DataSource = customer.DefaultView; //result.DefaultView;
-        // dlPager.BindToControl = dtlCustomer;
+        dlPager.BindToControl = dtlCustomer;
         this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
         this.dtlCustomer.DataBind();
         //dtlCustomer.DataSource = result;
@@ -221,11 +232,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             // customerBySelect = ctBUS.GetAll();
             int GroupID = 0;
             GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
-            customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            customerBySelect = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim());
         }
         else
         {
-            // customerBySelect = ctBUS.GetAllByUser(getUserLogin().UserId);
+             customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId,group);
         }
         try
         {

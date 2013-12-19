@@ -111,7 +111,7 @@ public class CustomerDAO
         cmd.Dispose();
     }
 
-    public DataTable GetAll(string Name, string phone, string email, int assignTo)
+    public DataTable GetAll(string Name, string phone, string email)
     {
         //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblCustomer where Name =@Name recivedEmail='True'", ConnectionData._MyConnection);
         //DataTable table = new DataTable();
@@ -130,7 +130,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
         cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
-        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        //cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;
@@ -164,7 +164,7 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    public DataTable GetAllFilterCustomer(string Name, string address)
     {
 
         SqlCommand cmd = new SqlCommand();
@@ -172,10 +172,37 @@ public class CustomerDAO
         cmd.CommandText = "pro_search_Filter_tblCustomer";
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
         cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
-        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+      //  cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
+    public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
+    {
+        string sql = "";
+        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        sql += "FROM   tblMailGroup AS mg INNER JOIN ";
+        sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
+        sql += "WHERE     (mg.UserId = @userId) AND ct.recivedEmail='True' and ct.AssignTo = @assignTo";
+
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
@@ -194,7 +221,7 @@ public class CustomerDAO
         sql += "FROM   tblMailGroup AS mg INNER JOIN ";
         sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
         sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
-        sql += "WHERE     (mg.UserId = @userId) AND ct.recivedEmail='True'";
+        sql += "WHERE     (mg.UserId = @userId) AND ct.recivedEmail='True' and ct.AssignTo = @assignTo";
 
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;

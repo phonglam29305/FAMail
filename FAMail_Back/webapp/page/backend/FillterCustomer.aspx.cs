@@ -71,7 +71,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim());
         }
         else
         {
@@ -83,7 +83,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             dlPager.MaxPages = 1000;
             dlPager.PageSize = 50;
             dlPager.DataSource = customer.DefaultView;
-            // dlPager.BindToControl = dtlCustomer;
+             dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
 
@@ -198,12 +198,12 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim());
 
         }
         else
         {
-            customer = ctBUS.GetAllByUser(getUserLogin().UserId);
+            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
         }
 
         //row = customer.Select(expresion);
@@ -223,7 +223,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         dlPager.MaxPages = 1000;
         dlPager.PageSize = 50;
         dlPager.DataSource = customer.DefaultView;
-        // dlPager.BindToControl = dtlCustomer;
+        dlPager.BindToControl = dtlCustomer;
         this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
         this.dtlCustomer.DataBind();
 

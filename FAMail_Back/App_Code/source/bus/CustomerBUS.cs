@@ -34,13 +34,13 @@ public class CustomerBUS : ICustomer
     {
         ctDao.tblCustomer_Delete(Id);
     }
-    public DataTable GetAll(string Name, string phone, string email, int assignTo)
+    public DataTable GetAll(string Name, string phone, string email)
     {
-        return ctDao.GetAll(Name, phone, email, assignTo);
+        return ctDao.GetAll(Name, phone, email);
     }
-    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    public DataTable GetAllFilterCustomer(string Name, string address)
     {
-        return ctDao.GetAllFilterCustomer(Name, address, assignTo);
+        return ctDao.GetAllFilterCustomer(Name, address);
     }
     public DataTable GetByID(int Id)
     {
@@ -65,6 +65,11 @@ public class CustomerBUS : ICustomer
     public DataTable GetAllByUser(int UserID)
     {
         return ctDao.GetAllByUser(UserID);
+    }
+
+    public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
+    {
+        return ctDao.GetAllByUserAssignTo(UserID, assignTo);
     }
 
     #endregion
