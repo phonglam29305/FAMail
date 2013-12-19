@@ -303,36 +303,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
     }
 
 
-    private string checkInputCustomer()
-    {
-        //verify = new EmailVerifier(true);
-        string message = "";
-        if (txtName.Text == "")
-        {
-            message = "Bạn chưa nhập tên khách hàng!";
-            this.txtName.Focus();
-        }
-        else if (txtEmail.Text == "")
-        {
-            message = "Bạn chưa nhập Email khách hàng!";
-            this.txtEmail.Focus();
-        }
-        else if (IsValidMail(txtEmail.Text.ToString()) == false)
-        {
-            message = "Bạn nhập không đúng định dạng Email!";
-            this.txtEmail.Focus();
-        }
-        //else if (verify.CheckExists(txtEmail.Text) == false)
-        //{
-        //    message = "Địa chỉ mail không tồn tại";
-        //    this.txtEmail.Focus();
-        //}
-        else
-        {
-            message = checkCreateCustomer(1);
-        }
-        return message;
-    }
+  
 
     protected bool checkExistUsername(string username)
     {
