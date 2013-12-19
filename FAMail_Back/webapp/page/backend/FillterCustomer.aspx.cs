@@ -240,7 +240,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
 
         }
-        else
+        if (getUserLogin().DepartmentId == 3)
+        {
+            customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+        }
+        if (getUserLogin().DepartmentId == 2)
         {
             customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
         }
