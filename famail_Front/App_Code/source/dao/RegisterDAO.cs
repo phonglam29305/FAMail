@@ -70,6 +70,7 @@ public class RegisterDAO
        object id= cmd.ExecuteScalar();
         cmd.Dispose();
 
+        clientRegister.clientId = Convert.ToInt32(id);
         sql = @"set dateformat dmy INSERT INTO [tblClientRegister]
            ([clientId]
            ,[packageId]
@@ -81,12 +82,7 @@ public class RegisterDAO
            ,[packageTimeId]
            ,[from]
            ,[to]
-           ,[lastRegisterFrom]
-           ,[lastRegisterTo]
-           ,[lastRegisterFee]
-           ,[lastRegisterFeeRemain]
-           ,[registerTime]
-           ,[registerDate])
+           ,[lastRegisterFrom],[lastRegisterTo],[lastRegisterFee],[lastRegisterFeeRemain],[registerTime],[registerDate])
      VALUES
            (@clientId
            ,@packageId
@@ -97,10 +93,10 @@ public class RegisterDAO
            ,@packageTimeId
            ,@from
            ,@to
-           ,null           ,null           ,0           ,0           ,getdate()           ,getdate())";
+           ,null,null,0,0,getdate(),getdate())";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = id;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientRegister.clientId;
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = clientRegister.packageId;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = clientRegister.limitId;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = clientRegister.subAccontCount;
@@ -123,10 +119,11 @@ public class RegisterDAO
         cmd.Parameters.Add("@Is_Block", SqlDbType.Bit).Value = ulDto.Is_Block;
          id = cmd.ExecuteScalar();
 
-        sql = "update tblClient set userid = @userid ";
+        sql = "update tblClient set userid = @userid where clientid=@clientid";
         cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@userid", SqlDbType.Int).Value = id;
+        cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientRegister.clientId;
         return cmd.ExecuteNonQuery();
     }
 
