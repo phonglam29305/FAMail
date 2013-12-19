@@ -61,7 +61,7 @@
         <li></li>
         <li class="twitter"><a href="#" target="_blank" rel="nofollow">Twitter</a></li>
         <li class="facebook"><a href="#" target="_blank" rel="nofollow">Facebook</a></li>
-        <li style="padding-top: 2px;"><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script> <g:plusone size="medium"></g:plusone></li>  
+        <%--<li style="padding-top: 2px;"><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script> <g:plusone size="medium"></g:plusone></li>  --%>
         </ul>				
         <ul class="headsects">
 			<li><a href="../Default.aspx">Email Marketing</a></li>

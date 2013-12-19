@@ -92,7 +92,7 @@
                                             <tr>
                                                 <td>Điều chỉnh gói dịch vụ</td>
                                                 <td align="left" style="text-align:left !important">
-                                                    <asp:Button ID="btnGiahan0" runat="server" Text="Điều chỉnh gói dịch vụ" CssClass="button round blue image-right ic-add text-upper"/>
+                                                    <asp:Button ID="btnGiahan0" runat="server" Text="Điều chỉnh gói dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnGiahan0_Click"/>
                                                 </td>
                                             </tr>
                                         </table>

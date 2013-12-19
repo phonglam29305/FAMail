@@ -29,7 +29,7 @@ public class RegisterBUS
     }
     public int Insert_client(clientdto client, clientRegisterdto clientRegister, UserLoginDTO ulDto)
     {
-        return dangky.Insert_Client(client, clientRegister,  ulDto);
+        return dangky.Register(client, clientRegister,  ulDto);
     }
 
 

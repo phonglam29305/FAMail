@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Dangky.aspx.cs" Inherits="tinh_nang_he_thong_Dangky" %>
+﻿<%@ Page Language="C#" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Dangky.aspx.cs" Inherits="tinh_nang_he_thong_Dangky" %>
 
 <!DOCTYPE html>
 
@@ -8,13 +8,13 @@
     <link href="../css/cssform.css" rel="stylesheet" />
     <link href="../colorbox.css" rel="stylesheet" />
     <%-- java cho chuc nang kiem tra  --%>
-   <script src="../js/jquery-1.8.2.min.js"></script>
+  /* <%--<script src="../js/jquery-1.8.2.min.js"></script>
     <script src="../js/jquery.validationEngine-vi.js"></script>  
     <script src="../js/jquery.validationEngine.js"></script>
     <link href="../css/template.css" rel="stylesheet" />
     <link href="../css/validationEngine.jquery.css" rel="stylesheet" />
     <script>
-      /*  jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
             // binds form submission and fields to the validation engine
             jQuery("#form1").validationEngine();
         });
@@ -23,8 +23,8 @@
                 // this allows to use i18 for the error msgs
                 return options.allrules.validate2fields.alertText;
             }
-        }*/
-	</script>
+        }
+	</script>--%>*/
     <%-- java cho chuc nang kiem tra  --%>
 </head>
 <body>

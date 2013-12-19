@@ -11,10 +11,10 @@ using System.Web;
 /// </summary>
 public class ClientRegisterDAO
 {
-	public ClientRegisterDAO()
-	{
-	
-	}
+    public ClientRegisterDAO()
+    {
+
+    }
     public DataTable GetByID(int Id)
     {
         SqlCommand cmd = new SqlCommand("Select * from tblClientRegister where registerId=@registerId", ConnectionData._MyConnection);
@@ -31,13 +31,13 @@ public class ClientRegisterDAO
         adapter.Dispose();
         return table;
     }
-public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
+    public DataTable Search_client_register(string clientName, string namepackagelimit, string registerTime_from, string registerTime_to, string expireDate_from, string expireDate_to)
     {
         SqlCommand cmd = new SqlCommand("Client_Search_register", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@clientName", SqlDbType.NVarChar).Value = clientName;
         cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar, 250).Value = namepackagelimit;
-        cmd.Parameters.Add("@registerTime_from", SqlDbType.VarChar,12).Value = registerTime_from;
+        cmd.Parameters.Add("@registerTime_from", SqlDbType.VarChar, 12).Value = registerTime_from;
         cmd.Parameters.Add("@registerTime_to", SqlDbType.VarChar, 12).Value = registerTime_to;
         cmd.Parameters.Add("@expireDate_from", SqlDbType.VarChar, 12).Value = expireDate_from;
         cmd.Parameters.Add("@expireDate_to", SqlDbType.VarChar, 12).Value = expireDate_to;
@@ -61,7 +61,7 @@ public DataTable Search_client_register(string clientName, string namepackagelim
         adapter.Dispose();
         return table;
     }
-public int UpdateUpgrade(int clientId, int packageId, int limitId, int SubAccount, float totalFee, int registerType, int packagetimeid, string From, string To, string LastRegisterFrom, string LastRegisterTo, int LastRegisterFee, int LastRegisterFeeRemain)
+    public int UpdateUpgrade(int clientId, int packageId, int limitId, int SubAccount, float totalFee, int registerType, int packagetimeid, string From, string To, string LastRegisterFrom, string LastRegisterTo, int LastRegisterFee, int LastRegisterFeeRemain)
     {
         string sql = "set dateformat dmy Insert Into tblClientRegister (clientId,packageId,limitId,subAccontCount,totalFee,registerType,packageTimeId,[from],[to],lastRegisterFrom,lastRegisterTo,lastRegisterFee,lastRegisterFeeRemain,registerTime,registerDate) values (@clientId,@packageId,@limitId,@subAccontCount,@totalFee,@registerType,@packageTimeId,@from,@to,@lastRegisterFrom,@lastRegisterTo,@lastRegisterFee,@lastRegisterFeeRemain,getdate(),'" + DateTime.Now.ToString("dd/MM/yyyy") + "') Select @@identity";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
@@ -81,8 +81,8 @@ public int UpdateUpgrade(int clientId, int packageId, int limitId, int SubAccoun
         cmd.Parameters.Add("@lastRegisterFeeRemain", SqlDbType.Float).Value = LastRegisterFeeRemain;
         //cmd.Parameters.Add("@registerTime", SqlDbType.VarChar).Value = registerTime;
         //cmd.Parameters.Add("@registerDate", SqlDbType.VarChar).Value = registerDate;
-        object id =cmd.ExecuteScalar();
+        object id = cmd.ExecuteScalar();
         cmd.Dispose();
-        return Int32.Parse(id+"");
+        return Int32.Parse(id + "");
     }
 }

@@ -2,12 +2,12 @@
   <script src="js/jquery.min.js"></script>
         <link href="colorbox.css" rel="stylesheet" />
         <script src="js/jquery.colorbox.js"></script>
-		<script>
+		<%--<script>
 		    $(document).ready(function () {
 		        $(".inline").colorbox({ inline: true, });
 		    });
 		    //Example of preserving a JavaScript event for inline calls.		    
-		</script>
+		</script>--%>
       <%--  
         <link href="css/cssform.css" rel="stylesheet" /> --%><%--CSS form --%>
 <link href="css/cssform.css" rel="stylesheet" />

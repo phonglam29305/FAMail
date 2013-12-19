@@ -18,7 +18,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadData();
-         
+
         }
     }
     private void LoadData()
@@ -34,10 +34,10 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
             lbtotalfree.Text = table.Rows[0]["totalFee"].ToString();
 
 
-        Drpacketime.DataTextField = "monthCount";
-        Drpacketime.DataValueField = "discount";
-        Drpacketime.DataSource = dk.Getpackagetime();
-        Drpacketime.DataBind();
+            Drpacketime.DataTextField = "monthCount";
+            Drpacketime.DataValueField = "discount";
+            Drpacketime.DataSource = dk.Getpackagetime();
+            Drpacketime.DataBind();
         }
 
     }
@@ -74,11 +74,11 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     }
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
+        dk = new RegisterBUS();
         if (dk.CheckExistByEmail(txtemail.Text))
         {
             clientdto cliendto = getclient();
             ConnectionData.OpenMyConnection();
-            dk = new RegisterBUS();
             clientRegisterdto clientRegister = new clientRegisterdto();
             clientRegister.from = DateTime.Now;
             clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text) * 30);
@@ -132,7 +132,8 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
                 Response.Redirect("~");
             }
         }
-        else {
+        else
+        {
             lbdiengiai.Text = "Email này đã được đăng ký!";
             lbdiengiai.ForeColor = System.Drawing.Color.Red;
         }

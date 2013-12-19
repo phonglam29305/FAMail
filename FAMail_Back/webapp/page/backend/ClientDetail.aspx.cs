@@ -149,4 +149,8 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             clientbus.UpdateInfomation(user, name, address, dateofbirth, phone);
         }
     }
+    protected void btnGiahan0_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("packagechange.aspx?type=editoption&user="+userLogin.UserId);
+    }
 }
