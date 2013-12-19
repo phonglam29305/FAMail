@@ -362,7 +362,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     private string checkInputCustomer()
     {
 
-        //verify = new EmailVerifier(true);
+        verify = new EmailVerifier(true);
         string message = "";
         if (txtName.Text == "")
         {
@@ -461,14 +461,17 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.UserID = getUserLogin().UserId;
                 ctDTO.createBy = getUserLogin().UserId;
                 ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
+                int countEmail = 0;
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
                     DataTable table = ctBUS.GetClientId(getUserLogin().UserId);
-                    int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
-
-                    DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
-                    int countEmail = int.Parse(dtCountEmail.Rows[0]["emailCount"].ToString());
+                    if (table.Rows.Count > 0)
+                    {
+                        int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                        DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
+                        countEmail = int.Parse(dtCountEmail.Rows[0]["emailCount"].ToString());
+                    }
 
                     DataTable dtEmail = ctBUS.GetCountCustomerCreatedMail(getUserLogin().UserId);
                     int numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
