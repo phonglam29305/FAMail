@@ -139,11 +139,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             }
             if (getUserLogin().DepartmentId == 2)
             {
-                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                customer = ctBUS.GetAllByAssignToCustomer(getUserLogin().UserId, GroupID);
             }
             if (getUserLogin().DepartmentId == 3)
             {
-                customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                customer = ctBUS.GetAllCustomerDepart3AssignTo(getUserLogin().UserId, GroupID);
             }
 
             //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
