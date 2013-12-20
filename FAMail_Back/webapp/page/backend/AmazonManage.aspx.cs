@@ -22,8 +22,11 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
     private string username = null;
 
     VerifyEmail veriryEmail = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
-    {        
+    {
+        userLogin = getUserLogin();        
         if (!IsPostBack)
         {
             //LoadVerifyListByUserId();
@@ -70,6 +73,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
 
@@ -118,9 +122,9 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             this.dtlEmail.DataBind();
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            logs.Error(userLogin.Username +"-Verify",ex);
         }
        
     }

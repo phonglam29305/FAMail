@@ -72,5 +72,9 @@ public class MailConfigBUS:IMailConfig
         return mcDao.GetByUserId(UserId);
     }
 
+    public DataTable GetBySub(int userId)
+    {
+        return mcDao.GetBySub(userId);
+    }
     #endregion
 }

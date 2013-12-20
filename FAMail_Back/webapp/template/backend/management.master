@@ -44,8 +44,11 @@
                         <li>
                             <asp:HyperLink ID="HyperLink4" href="subClient.aspx" roleId="33" runat="server">Tài khoản con</asp:HyperLink>
                         </li>
-                        <li>
+<%--                        <li>
                             <asp:HyperLink ID="HyperLink5" href="Config-Email-Send.aspx" roleId="10" runat="server">Cấu hình Email gửi</asp:HyperLink>
+                        </li>--%>
+                        <li>
+                            <asp:HyperLink ID="HyperLink2" href="AmazonManage.aspx" roleId="10" runat="server">Cấu hình Email gửi</asp:HyperLink>
                         </li>
                         <li>
                             <asp:HyperLink ID="HyperLink6" href="group-mail.aspx" roleId="12" runat="server">Quản lý nhóm Email</asp:HyperLink>
