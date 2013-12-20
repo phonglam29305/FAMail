@@ -319,7 +319,7 @@ public class UserLoginDAO
 
     public DataTable GetByUserId(int UserId)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE UserId = @UserId";
+        string sql = "SELECT * FROM tblUserLogin WHERE UserId = @UserId and deleted =0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
@@ -333,7 +333,7 @@ public class UserLoginDAO
 
     public DataTable GetIsBlockByUserId(string username)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE Username = @username";
+        string sql = "SELECT * FROM tblUserLogin WHERE Username = @username and deleted =0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
@@ -348,7 +348,7 @@ public class UserLoginDAO
 
     public DataTable GetUserIDByUserName(string Username)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username";
+        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username and deleted =0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = Username;
@@ -376,7 +376,7 @@ public class UserLoginDAO
 
     public DataTable GetByUsername(string username)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username";
+        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username and deleted = 0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
@@ -389,7 +389,7 @@ public class UserLoginDAO
     }
     public DataTable GetByUsernameAndPass(string username, string password)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username AND Password = @Password";
+        string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username AND Password = @Password and deleted =0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
@@ -404,7 +404,7 @@ public class UserLoginDAO
 
     public DataTable GetByDepartmentId(int departmentId)
     {
-        string sql = "SELECT * FROM tblUserLogin WHERE DepartmentId = @DepartmentId";
+        string sql = "SELECT * FROM tblUserLogin WHERE DepartmentId = @DepartmentId and deleted =0";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@DepartmentId", SqlDbType.Int).Value = departmentId;
@@ -423,7 +423,7 @@ public class UserLoginDAO
     /// <returns></returns>
     public DataTable GetByUserType(int departmentId)
     {
-        string sql = "SELECT * FROM tblDepartment WHERE ID = @DepartmentId";
+        string sql = "SELECT * FROM tblDepartment WHERE ID = @DepartmentId ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@DepartmentId", SqlDbType.Int).Value = departmentId;

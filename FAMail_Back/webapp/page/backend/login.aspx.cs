@@ -41,37 +41,48 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 userLogin.Username = tbResult.Rows[0]["Username"].ToString();
                 userLogin.Password = tbResult.Rows[0]["Password"].ToString();
                 userLogin.DepartmentId = int.Parse(tbResult.Rows[0]["DepartmentId"].ToString());
-
-                try
+                DataTable table = ulBus.GetClientId(userLogin.UserId);
+                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                int status = int.Parse(table.Rows[0]["Status"].ToString());
+                if(status != 1)
                 {
-                    userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
+                        try
+                        {
+                            userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
+                        }
+                        catch (Exception)
+                        {
+                            userLogin.hasSendMail = 0;
+                        }
+                        int hasCreatedCustomer = Common.countHasCreateMailByUserId(int.Parse(tbResult.Rows[0]["UserId"].ToString()));
+                        userLogin.hasCreatedCustomer = hasCreatedCustomer;
+
+                        // Tạo session user login
+                        Session["us-login"] = userLogin;
+                        Session["UserName"] = userLogin.Username;
+                        Session["UserId"] = userLogin.UserId;
+                        // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
+                        DataTable tblRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, userLogin.DepartmentId);
+                        if (tblRoleDetail.Rows.Count > 0) {
+                            RoleDetailDTO rdDto = new RoleDetailDTO();
+                            rdDto.roleId = int.Parse(tblRoleDetail.Rows[0]["roleId"].ToString());
+                            rdDto.departmentId = int.Parse(tblRoleDetail.Rows[0]["departmentId"].ToString());
+                            rdDto.limitSendMail = int.Parse(tblRoleDetail.Rows[0]["limitSendMail"].ToString());
+                            rdDto.limitCreateCustomer = int.Parse(tblRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
+                            rdDto.toDate = DateTime.Parse(tblRoleDetail.Rows[0]["toDate"].ToString());
+                            // Tạo session limit
+                            Session["limitWithUser"] = rdDto;
+                        }
+
+                        Session["ID"] = 25;
+                        Response.Redirect("list-content-mail.aspx");
                 }
-                catch (Exception)
+                else
                 {
-                    userLogin.hasSendMail = 0;
+                    pnError.Visible = true;
+                    lblMessage.Text = "Tài khoản đăng nhập đã bị khóa.";
                 }
-                int hasCreatedCustomer = Common.countHasCreateMailByUserId(int.Parse(tbResult.Rows[0]["UserId"].ToString()));
-                userLogin.hasCreatedCustomer = hasCreatedCustomer;
-
-                // Tạo session user login
-                Session["us-login"] = userLogin;
-                Session["UserName"] = userLogin.Username;
-                Session["UserId"] = userLogin.UserId;
-                // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
-                DataTable tblRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, userLogin.DepartmentId);
-                if (tblRoleDetail.Rows.Count > 0) {
-                    RoleDetailDTO rdDto = new RoleDetailDTO();
-                    rdDto.roleId = int.Parse(tblRoleDetail.Rows[0]["roleId"].ToString());
-                    rdDto.departmentId = int.Parse(tblRoleDetail.Rows[0]["departmentId"].ToString());
-                    rdDto.limitSendMail = int.Parse(tblRoleDetail.Rows[0]["limitSendMail"].ToString());
-                    rdDto.limitCreateCustomer = int.Parse(tblRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
-                    rdDto.toDate = DateTime.Parse(tblRoleDetail.Rows[0]["toDate"].ToString());
-                    // Tạo session limit
-                    Session["limitWithUser"] = rdDto;
-                }
-
-                Session["ID"] = 25;
-                Response.Redirect("list-content-mail.aspx");
+                
             }
             else
             {
