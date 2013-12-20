@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Dangky.aspx.cs" Inherits="tinh_nang_he_thong_Dangky" %>
 
 <!DOCTYPE html>
-
+<%@ Register Assembly="MSCaptcha" Namespace="MSCaptcha" TagPrefix="cc1" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
@@ -130,7 +130,26 @@
                                 <div class="divbox">
                                     <asp:TextBox ID="txtbody" CssClass="txtmxn" runat="server" Width="90px"></asp:TextBox>
                                      
-                                      </div>                                                                                                                                 
+                                      </div>  
+                                     <div class="divbox1" style="margin-left:326px;margin-top:-2px;">
+                                    
+    <cc1:CaptchaControl ID="cptCaptcha" runat="server"
+
+        CaptchaBackgroundNoise="Low" CaptchaLength="5"
+
+        CaptchaHeight="31" CaptchaWidth="105"
+
+        CaptchaLineNoise="None" CaptchaMinTimeout="5"
+
+        CaptchaMaxTimeout="240" FontColor = "#529E00" />
+
+                                     
+                                </div>  
+                                  <div class="divbox2" style="margin-left:435px; margin-top:-33px;">
+                                   
+                                      <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/capchar.gif" OnClientClick="btnVerify_Click" />
+                                </div>  
+                                                                                                                                                              
                             </div>
                             <div class="box-fcdk">
                                 <asp:CheckBox ID="CheckBox1" runat="server" Checked="True" />
