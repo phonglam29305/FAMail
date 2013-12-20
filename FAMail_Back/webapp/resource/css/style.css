@@ -444,7 +444,7 @@ ul#nav {
 			color: white;
 			padding: 0.833em 0 0.833em 3em;
 			border-top: 1px solid #6a7282;
-			background: #5d6677 url('../images/menu-indicator.png') no-repeat right center;
+			/*background: #5d6677 url('../images/menu-indicator.png') no-repeat right center;*/
 			display: block;
 			width: 100%;
 			white-space: nowrap;

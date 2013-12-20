@@ -4,15 +4,10 @@
     <%-- <asp:ListItem Value="30">1 tháng</asp:ListItem>
                                             <asp:ListItem Value="90">3 tháng</asp:ListItem>
                                             <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>    <%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%><%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
                                             <asp:ListItem Value="90">3 tháng</asp:ListItem>
                                             <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>
-    <%--<script type="text/javascript">
-            $(document).ready(function () {
-                alert("ready");
-            });
-    </script>--%>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>    <%#Eval("functionName") %>
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="side-content fr">
                 <!--start content 01-->
@@ -41,6 +36,12 @@
                                 <tr>
                                     <td>Ngày hết hạn:</td>
                                     <td><asp:Label ID="lblExpireDate" runat="server" Text=""></asp:Label> </td>
+                                </tr>
+                                <tr>
+                                    <td>Chi phí:</td>
+                                    <td>
+                                        <asp:Label ID="lblExtendCost" runat="server"></asp:Label>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="center">
@@ -104,7 +105,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <asp:Button ID="btnUpgrade" runat="server" Text="Nâng cấp dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnUpgrade_Click" />
+                                        <asp:Button ID="btnUpgrade" runat="server" Text="Nâng cấp dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnUpgrade_Click" OnClientClick="return confirm('Bạn có chắc chắn nâng cấp gói dịch vụ này không ?');" />
                                     </td>
                                 </tr>
                             </table>
@@ -142,7 +143,7 @@
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <asp:Button ID="btnEditOption" runat="server" CssClass="button round blue image-right ic-add text-upper" Text="Thay đổi" OnClick="btnEditOption_Click" />
+                                        <asp:Button ID="btnEditOption" runat="server" CssClass="button round blue image-right ic-add text-upper" Text="Thay đổi" OnClick="btnEditOption_Click" OnClientClick="return confirm('Bạn có chắc chán muốn thay đổi ?');"/>
                                     </td>
                                 </tr>
                             </table>

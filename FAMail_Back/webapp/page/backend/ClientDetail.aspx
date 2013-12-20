@@ -86,13 +86,19 @@
                                             <tr>
                                                 <td>Gia hạn</td>
                                                 <td align="left" style="text-align:left !important">
-                                                    <asp:Button ID="btnGiahan" runat="server" Text="Gia hạn" CssClass="button round blue image-right ic-add text-upper"/>
+                                                    <asp:Button ID="btnGiahan" runat="server" Text="Gia hạn" CssClass="button round blue image-right ic-add text-upper" OnClick="btnGiahan_Click"/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Điều chỉnh gói dịch vụ</td>
                                                 <td align="left" style="text-align:left !important">
                                                     <asp:Button ID="btnGiahan0" runat="server" Text="Điều chỉnh gói dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnGiahan0_Click"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nâng cấp dịch vụ</td>
+                                                <td align="left" style="text-align:left !important">
+                                                    <asp:Button ID="btnUpGradeServices" runat="server" Text="Nâng cấp gói dịch vụ" CssClass="button round blue image-right ic-add text-upper" OnClick="btnUpGradeServices_Click" />
                                                 </td>
                                             </tr>
                                         </table>

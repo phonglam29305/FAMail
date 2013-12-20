@@ -45,7 +45,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             clientbus = new ClientBUS();
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);
-            string email = dtClient.Rows[0]["email"] + "";
+            string email = dtClient.Rows[0]["email"]+"";
             
             
             int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
@@ -106,7 +106,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             txtDiaChi.Text = dtClient.Rows[0]["address"].ToString();
             txtSoDienThoai.Text = dtClient.Rows[0]["phone"].ToString();
             DateTime d = DateTime.Now;// Convert.ToDateTime(dtClient.Rows[0]["dateofbirth"].ToString());
-            if (DateTime.TryParse(dtClient.Rows[0]["expireDate"] + "", out d))
+            if (DateTime.TryParse(dtClient.Rows[0]["dateofbirth"] + "", out d))
                 txtDateofBirth.Text = d.ToString("dd/MM/yyyy");
             lblEmail.Text = email;
             string todays = DateTime.Now.ToString("yyyy-MM-dd");
@@ -151,6 +151,14 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
     }
     protected void btnGiahan0_Click(object sender, EventArgs e)
     {
-        Response.Redirect("packagechange.aspx?type=editoption&user="+userLogin.UserId);
+        Response.Redirect("packagechange.aspx?type=editoption");
+    }
+    protected void btnGiahan_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("PackageChange.aspx?type=extend");
+    }
+    protected void btnUpGradeServices_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("packagechange.aspx?type=upgrade");
     }
 }

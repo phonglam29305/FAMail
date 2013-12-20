@@ -25,7 +25,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        //getUserLogin();
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             upgradeservices.Visible = false;
@@ -48,7 +48,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     {
         if (Request.QueryString["type"] != null)
         {
-            int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+            int user = Convert.ToInt32(userLogin.UserId);
             clientbus = new ClientBUS();
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);
@@ -82,6 +82,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         if (Request.QueryString["type"] != null)
         {
             string status = Request.QueryString["type"].ToString();
+            int userid = Convert.ToInt32(userLogin.UserId);
             if (status == "extend")
             {
                 #region Extend
@@ -90,9 +91,9 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 upgradeservices.Visible = false;
                 btnGiahan.Enabled = false; ;
                 btnGiahan.CssClass = "button round image-right ic-add text-upper";
-                if (Request.QueryString["user"] != null)
+                if (userid != null)
                 {
-                    int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+                    int user = userid;//Convert.ToInt32(Request.QueryString["user"].ToString());
                     clientbus = new ClientBUS();
                     DataTable dtClient = new DataTable();
                     dtClient = clientbus.GetByID(user);
@@ -153,9 +154,9 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 lblTitle.Text = "Nâng cấp dịch vụ";
                 extendbox.Visible = false;
                 upgradeservices.Visible = true;
-                if (Request.QueryString["user"] != null)
+                if (userid != null)
                 {
-                    int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+                    int user = userid;
                     clientbus = new ClientBUS();
                     DataTable dtClient = new DataTable();
                     dtClient = clientbus.GetByID(user);
@@ -227,9 +228,9 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 extendbox.Visible = false;
                 upgradeservices.Visible = false;
                 changeoptionbox.Visible = true;
-                if (Request.QueryString["user"] != null)
+                if (userid != null)
                 {
-                    int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+                    int user = userid;
                     clientbus = new ClientBUS();
                     DataTable dtClient = new DataTable();
                     dtClient = clientbus.GetByID(user);
@@ -294,6 +295,18 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     {
         string today = DateTime.Now.ToShortDateString();
         int numberofday = Convert.ToInt32(ddlExtend.SelectedValue.ToString());
+        int user = Convert.ToInt32(userLogin.UserId);
+        clientbus = new ClientBUS();
+        DataTable dtClient = new DataTable();
+        dtClient = clientbus.GetByID(user);
+        int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
+        clientRegister = new ClientRegisterBUS();
+        DataTable dtClientRegister = new DataTable();
+        dtClientRegister = clientRegister.GetbyID(registerId);
+        int packageId = Convert.ToInt32(dtClientRegister.Rows[0]["packageId"].ToString());
+        pkgCostBus = new PackageCostBUS();
+        DataTable dtCost = pkgCostBus.GetPackageCost(packageId);
+        lblExtendCost.Text = dtCost.Rows[0]["cost"].ToString();
         DateTime expiredays = Convert.ToDateTime(today).AddMonths(numberofday);
         if (dayleft != null)
         {
@@ -313,11 +326,44 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     {
         if (Session["expireDays"] != null)
         {
-            expireDatesession = Session["expireDays"].ToString();
-            string clientid = Request.QueryString["user"].ToString();
+            int user = Convert.ToInt32(userLogin.UserId);
+            clientbus = new ClientBUS();
+            DataTable dtClient = new DataTable();
+            dtClient = clientbus.GetByID(user);
+            int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
+            clientRegister = new ClientRegisterBUS();
+            DataTable dtClientRegister = new DataTable();
+            dtClientRegister = clientRegister.GetbyID(registerId);
+            int clientId = Convert.ToInt32(dtClientRegister.Rows[0]["clientId"].ToString());
+            int packageId = Convert.ToInt32(dtClientRegister.Rows[0]["packageId"].ToString());
+            int limitId = Convert.ToInt32(dtClientRegister.Rows[0]["limitId"].ToString());
+            int SubAccountCount = Convert.ToInt32(dtClientRegister.Rows[0]["subAccontCount"].ToString());
+            int emailCount = 0;
+            if(int.TryParse(dtClientRegister.Rows[0]["emailCount"].ToString(),out emailCount));
+            int totalFee = Convert.ToInt32(lblExtendCost.Text);
+            int registerType = Convert.ToInt32(dtClientRegister.Rows[0]["registerType"].ToString());
+            int packageTimeId = Convert.ToInt32(dtClientRegister.Rows[0]["packageTimeId"].ToString());
             DateTime activeDate = DateTime.Now;
-            DateTime expireDate = Convert.ToDateTime(expireDatesession);
-            clientbus.UpdateExtendLicense(clientid, activeDate, expireDate);
+            DateTime expireDate = Convert.ToDateTime(Session["expireDays"].ToString());
+            string from = activeDate.ToString("dd/MM/yyyy");
+            string to = expireDate.ToString("dd/MM/yyyy") ;
+            string lastRegisterFrom = Convert.ToDateTime(dtClientRegister.Rows[0]["from"].ToString()).ToString("dd/MM/yyyy");
+            string lastRegisterTo = Convert.ToDateTime(dtClientRegister.Rows[0]["to"].ToString()).ToString("dd/MM/yyyy");
+            int lastRegisterFee = Convert.ToInt32(dtClientRegister.Rows[0]["totalFee"].ToString());
+            int lastRegisterFeeRemain=0;
+            int newregisterid = clientRegister.UpdateUpgrade(clientId, packageId, limitId, SubAccountCount, totalFee, registerType, packageId, from, to, lastRegisterFrom, lastRegisterTo, lastRegisterFee, lastRegisterFeeRemain);
+            clientbus.UpdateRegiterId(clientId, from, to, registerId, newregisterid);
+            clientFunction = new ClientFunctionBUS();
+            DataTable dtRegisOldFunction = clientFunction.GetByregisterIdandclientId(registerId, clientId);
+            foreach (DataRow drRegisOldFunction in dtRegisOldFunction.Rows)
+            {
+                int functionId = Convert.ToInt32(drRegisOldFunction["functionId"].ToString());
+                clientFunction.UpdateFunction(newregisterid, clientId, functionId);
+            }
+            #region oldcode
+            expireDatesession = Session["expireDays"].ToString();
+            clientbus.UpdateExtendLicense(clientId.ToString(), activeDate, expireDate);
+            #endregion
         }
         LoadData();
     }
@@ -325,7 +371,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     {
         //int limitId = Convert.ToInt32(ddlUpgradeServices.SelectedValue.ToString());
         int packageid = Convert.ToInt32(ddlUpgradeServices.SelectedValue.ToString());
-        int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+        int user = Convert.ToInt32(userLogin.UserId);
         clientbus = new ClientBUS();
         DataTable dtClient = new DataTable();
         dtClient = clientbus.GetByID(user);
@@ -435,19 +481,19 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         if (ddlUpgradeTime.SelectedIndex != 0)
         {
             string today = DateTime.Now.ToShortDateString();
-            int packagelimitId = Convert.ToInt32(ddlUpgradeServices.SelectedValue);
+            int packageId = Convert.ToInt32(ddlUpgradeServices.SelectedValue);
             int numberofday = Convert.ToInt32(ddlUpgradeTime.SelectedValue.ToString());
             //DataTable dtlimit = new DataTable();
             //pkglimitBus = new PackageLimitBUS();
             //dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitId);
             pkgCostBus = new PackageCostBUS();
-            DataTable dtCost = pkgCostBus.GetPackageCost(packagelimitId);
+            DataTable dtCost = pkgCostBus.GetPackageCost(packageId);
             int cost = Convert.ToInt32(dtCost.Rows[0]["cost"].ToString());
             int numberoftime = Convert.ToInt32(ddlUpgradeTime.SelectedValue);
             double dayleft = Convert.ToDouble(Session["totalDayLeft"]);
             int totalFee = cost * numberoftime;
             double costperday = cost / 30;
-            double feeRemain = GetFeeRemain(Convert.ToInt32(Request.QueryString["user"].ToString()));
+            double feeRemain = GetFeeRemain(Convert.ToInt32(userLogin.UserId));
             double finalFeeRemain = Math.Round(feeRemain * dayleft);
             if (numberofday > 0)
             {
@@ -584,25 +630,41 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     }
     protected void rptListOptions_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        
+        //int userid = Convert.ToInt32(userLogin.UserId);
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
+            //clientbus = new ClientBUS();
+            //DataTable dtClient = new DataTable();
+            //dtClient = clientbus.GetByID(userid);
+            //int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
+            //clientRegister = new ClientRegisterBUS();
+            //DataTable dtClientRegister = new DataTable();
+            //dtClientRegister = clientRegister.GetbyID(registerId);
+            //string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
+            //pkgFunctionBus = new PackageFunctionBUS();
+            //DataTable dtfunction = pkgFunctionBus.GetFunctionbyPackageId(Convert.ToInt32(packageid));
             CheckBox chk = (CheckBox)e.Item.FindControl("chkOptions");
             Label lbl = (Label)e.Item.FindControl("lblCheck");
+            Label lblid = (Label)e.Item.FindControl("lblID");
             string value=lbl.Text.Trim();
-            if (value!=null)
+            int id = Convert.ToInt32(lblid.Text);
+            if (id != null)
             {
                 if (value == "True")
                 {
                     chk.Checked = true;
                     chk.Enabled = false;
                 }
+                else
+                {
+                    chk.Checked = true;
+                }
             }
         }
     }
     protected void btnEditOption_Click(object sender, EventArgs e)
     {
-        int user = Convert.ToInt32(Request.QueryString["user"].ToString());
+        int user = Convert.ToInt32(userLogin.UserId);
         clientbus = new ClientBUS();
         DataTable dtClient = new DataTable();
         dtClient = clientbus.GetByID(user);
