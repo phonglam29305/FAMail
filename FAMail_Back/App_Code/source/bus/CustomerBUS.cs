@@ -87,6 +87,11 @@ public class CustomerBUS : ICustomer
         return ctDao.GetClientId(UserID);
     }
 
+    public DataTable GetClientIdSub(int UserID)
+    {
+        return ctDao.GetClientIdSub(UserID);
+    }
+
     public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
     {
         return ctDao.GetAllByUserAssignTo(UserID, assignTo);

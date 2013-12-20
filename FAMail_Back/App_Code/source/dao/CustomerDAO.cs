@@ -461,6 +461,20 @@ public class CustomerDAO
         return table;
     }
 
+    public DataTable GetClientIdSub(int UserId)
+    {
+        string sql = "SELECT * FROM tblSubClient WHERE UserId = @UserId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetByEmail(string Email, int UserID)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Email = @Email and UserID= @UserID", ConnectionData._MyConnection);

@@ -126,15 +126,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
         DataTable dtMailGroup = null;
 
-        if (getUserLogin().DepartmentId == 1)
+        if (getUserLogin().UserType == 0)
         {
             dtMailGroup = mailGroupBus.GetAllNew();
         }
-        if (getUserLogin().DepartmentId == 2)
+        if (getUserLogin().UserType == 1)
         {
             dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
         }
-        if (getUserLogin().DepartmentId == 3)
+        if (getUserLogin().UserType == 2)
         {
             dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
         }
@@ -400,7 +400,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     {
         string resultMessage = "";
         // Kiem tra hang ngach cho phep tao khach hang.
-        if (getUserLogin().DepartmentId != 1) // Khong kiem tra voi tai khoan admin.
+        if (getUserLogin().UserType != 1) // Khong kiem tra voi tai khoan admin.
         {
             RoleDetailBUS rdBus = new RoleDetailBUS();
             DataTable dtRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, getUserLogin().DepartmentId);
@@ -469,6 +469,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.Type = "";
                 ctDTO.UserID = getUserLogin().UserId;
                 ctDTO.createBy = getUserLogin().UserId;
+                DataTable table = null;
                 if (drlGroup.SelectedIndex >= 0)
                 {
                     ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
@@ -477,7 +478,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
-                    DataTable table = ctBUS.GetClientId(getUserLogin().UserId);
+                    if (getUserLogin().UserType == 2)
+                    {
+                        table = ctBUS.GetClientIdSub(getUserLogin().UserId);
+                    }
+                    else
+                    {
+                         table = ctBUS.GetClientId(getUserLogin().UserId);
+                    }
+
                     if (table.Rows.Count > 0)
                     {
                         int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
