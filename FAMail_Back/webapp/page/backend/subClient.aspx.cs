@@ -192,43 +192,57 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                     int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                     ulDto.ClientID = clienID;
 
+                    int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
+
                     DataTable countSubClient = ulBus.GetCountSubClient(ulDto.ClientID);
                     int countSub = int.Parse(countSubClient.Rows[0]["numberSub"].ToString());
 
                     DataTable subAccount = ulBus.GetSubAccountCount(ulDto.ClientID);
                     int SubAccount = int.Parse(subAccount.Rows[0]["subAccontCount"].ToString());
 
-                    if (countSub < SubAccount)
-                    {
+                    DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                    string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                    DateTime today = Convert.ToDateTime(todays);
+                    DateTime expireDay = Convert.ToDateTime(NgayHetHan);
 
-                        ulBus.tblUserLoginSubClient_insert(ulDto);
-                        //lay UserID
-                        DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
-                        int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
-                        ulDto.UserId = userID;
-                        ulBus.tblSubClient_insert(ulDto);
-                        status = 1;
+                    if (statusclient == 2 || expireDay < today)
+                    {
+                        if (countSub < SubAccount)
+                        {
+
+                            ulBus.tblUserLoginSubClient_insert(ulDto);
+                            //lay UserID
+                            DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
+                            int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
+                            ulDto.UserId = userID;
+                            ulBus.tblSubClient_insert(ulDto);
+                            status = 1;
+                        }
+                        else
+                        {
+                            lblSuccess.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+                        }
                     }
                     else
                     {
-                        lblSuccess.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+
+                        ulDto.SubId = int.Parse(hdfId.Value);
+                        ulBus.tblSubClient_Update(ulDto);
+                        // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
+                        // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                        DataTable tablesub = ulBus.GetBySubId(ulDto.SubId);
+                        string Username = tablesub.Rows[0]["subEmail"].ToString();
+                        DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
+                        bool Is_Block_check = chkBlock.Checked;
+
+                        ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
+                        status = 2;
+
                     }
                 }
                 else
                 {
-
-                    ulDto.SubId = int.Parse(hdfId.Value);
-                    ulBus.tblSubClient_Update(ulDto);
-                    // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
-                    // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
-                    DataTable table = ulBus.GetBySubId(ulDto.SubId);
-                    string Username = table.Rows[0]["subEmail"].ToString();
-                    DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
-                    bool Is_Block_check = chkBlock.Checked;
-
-                    ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
-                    status = 2;
-
+                    lblSuccess.Text = "Tài khoản trên đã hết hạn đăng ký tài khoản con!";
                 }
 
                 ConnectionData.CloseMyConnection();

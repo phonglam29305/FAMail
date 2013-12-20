@@ -44,8 +44,22 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 DataTable table = ulBus.GetClientId(userLogin.UserId);
                 int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                 int status = int.Parse(table.Rows[0]["Status"].ToString());
+                DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                DateTime today = Convert.ToDateTime(todays);
+                DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+               
+
                 if(status != 1)
                 {
+
+                    if (expireDay < today)
+                    {
+
+                        lblMessage.Text = "Tài khoản đăng nhập đã hết hạn) ";
+                    }
+                    else
+                    {
                         try
                         {
                             userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
@@ -63,7 +77,8 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                         Session["UserId"] = userLogin.UserId;
                         // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
                         DataTable tblRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, userLogin.DepartmentId);
-                        if (tblRoleDetail.Rows.Count > 0) {
+                        if (tblRoleDetail.Rows.Count > 0)
+                        {
                             RoleDetailDTO rdDto = new RoleDetailDTO();
                             rdDto.roleId = int.Parse(tblRoleDetail.Rows[0]["roleId"].ToString());
                             rdDto.departmentId = int.Parse(tblRoleDetail.Rows[0]["departmentId"].ToString());
@@ -76,6 +91,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
 
                         Session["ID"] = 25;
                         Response.Redirect("list-content-mail.aspx");
+                    }
                 }
                 else
                 {
