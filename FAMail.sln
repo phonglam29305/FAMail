@@ -39,7 +39,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Front", "FAMail_Fron
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "60001"
+		VWDPort = "12707"
 	EndProjectSection
 EndProject
 Global

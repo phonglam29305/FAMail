@@ -38,6 +38,10 @@ public class SendContentBUS:ISendContent
     {
         return scDao.GetAll();
     }
+    public DataTable GetAllWidthBody()
+    {
+        return scDao.GetAllWidthBody();
+    }
 
     public DataTable GetByID(int Id)
     {

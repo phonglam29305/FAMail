@@ -16,8 +16,11 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 {
     SendRegisterBUS srBUS = null;
     SendRegisterDetailBUS srdBus = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -27,8 +30,9 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                //pnError.Visible = true;
-                //lblError.Text = ex.Message;
+                pnError.Visible = true;
+                lblError.Text = ex.Message;
+                logs.Error(userLogin.Username+"-mailSend-load",ex);
             }
             
         }
@@ -40,6 +44,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
     protected void loadDetailReport(bool status)
@@ -51,10 +56,11 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         {
             tblSendDetail = srdBus.GetByStatus(status);
         }
-        else
+        else if (userLogin.DepartmentId == 2)
         {
-            tblSendDetail = srdBus.GetByStatus(status);
+            tblSendDetail = srdBus.GetByStatus_User(status, userLogin.UserId);
         }
+        else tblSendDetail = srdBus.GetByStatus_SubUser(status, userLogin.UserId);
         if (tblSendDetail.Rows.Count > 0)
         {
             //dlReport.DataSource = tblSendDetail;

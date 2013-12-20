@@ -87,6 +87,19 @@ public class SendContentDAO
         adapter.Dispose();
         return table;
     }
+    public DataTable GetAllWidthBody()
+    {
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT id, createdate, subject, userid,Body FROM tblSendContent",
+            ConnectionData._MyConnection);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
     public DataTable GetByID(int Id)
     {
         SqlCommand cmd = new SqlCommand("SELECT id, createdate, subject, userid FROM tblSendContent WHERE Id = @Id", 

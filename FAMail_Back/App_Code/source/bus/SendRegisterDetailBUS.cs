@@ -49,6 +49,14 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     {
         return srdDao.GetByStatus(status);
     }
+    public DataTable GetByStatus_SubUser(bool status, int userId)
+    {
+        return srdDao.GetByStatus_SubUser(status, userId);
+    }
+    public DataTable GetByStatus_User(bool status, int userId)
+    {
+        return srdDao.GetByStatus_User(status, userId);
+    }
 
 
     public void tblSendRegisterDetail_Delete(int SendRegisterId, string email)

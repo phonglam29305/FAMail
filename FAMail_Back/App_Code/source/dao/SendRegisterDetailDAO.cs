@@ -38,6 +38,7 @@ public class SendRegisterDetailDAO
         cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = dt.Status;
         cmd.Parameters.Add("@ErrorType", SqlDbType.VarChar).Value = dt.ErrorType;
         cmd.Parameters.Add("@MailSend", SqlDbType.NVarChar).Value = dt.MailSend;
+        cmd.Parameters.Add("@CustomerName", SqlDbType.NVarChar).Value = dt.CustomerName;
 
         var sendID = cmd.ExecuteScalar();
         cmd.Dispose();
@@ -145,6 +146,40 @@ public class SendRegisterDetailDAO
         cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable(); 
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByStatus_User(bool status, int UserId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegisterDetail WHERE Status = @Status and sendregisterid in (select id from tblSendRegister where AccountId=@userid or AccountId in (select userid from tblSubClient where clientid = (select clientid from tblClient where userid=@userid)))", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByStatus_SubUser(bool status, int UserId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegisterDetail WHERE Status = @Status and sendregisterid in (select id from tblSendRegister where userid=@userid)", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();

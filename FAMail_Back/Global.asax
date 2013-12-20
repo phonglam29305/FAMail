@@ -18,16 +18,17 @@
     public static System.Data.DataTable listMailConfig = new System.Data.DataTable();
     public static int sendRegisterId;
     public static bool find;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     // chuoi ket noi 
     void Application_Start(object sender, EventArgs e)   {
+        log4net.Config.XmlConfigurator.Configure();
         string strConnect = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
         Email.ConnectionData._ConnectionString = strConnect;
         Email.ConnectionData.AddNewConnection();
-        //processEmail = new Email.ProcessSendEmail();
-        //StartMailChecker();  
+        processEmail = new Email.ProcessSendEmail();
+        StartMailChecker();  
 
 
-        log4net.Config.XmlConfigurator.Configure();
     }
     void timScheduledTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
@@ -106,8 +107,8 @@
                 System.Data.DataRow rowTemp = listSendRegister.Rows[i];
                 DateTime dateItem = DateTime.Parse(rowTemp["StartDate"].ToString());
                 if (currentDate.Year == dateItem.Year && currentDate.Month == dateItem.Month
-                    && currentDate.Day == dateItem.Day && currentDate.Hour == dateItem.Hour
-                    && currentDate.Minute == dateItem.Minute)
+                    && currentDate.Day == dateItem.Day && currentDate.Hour == dateItem.Hour)
+                   // && currentDate.Minute == dateItem.Minute)
                 {
                     Row = rowTemp;
                     break;
@@ -119,7 +120,7 @@
                 if (currentSendRegisterId != sendRegisterId)
                 {
                     sendRegisterId = currentSendRegisterId;
-                    string groupId = Row["SendType"].ToString();
+                    string groupId = Row["GroupTo"].ToString();
                     System.Data.DataTable tblCustomerByGroup = dgBUS.GetByID(int.Parse(groupId));
                     int countEmail = tblCustomerByGroup.Rows.Count;
                     int calcMinute = common.calculatorMinuteQuantityEmail(countEmail);
@@ -134,23 +135,30 @@
         }
         catch (Exception ex )
         {
-            Console.WriteLine(ex.ToString());
+            Console.WriteLine(ex.ToString()); logs.Error("Global-CallSendEmail" + ex);
         }   
     }
     public void GetData()
     {
-        Email.ConnectionData.OpenMyConnection();
-        listCustomer.Clear();
-        listSendRegister.Clear();
-        listMailConfig.Clear();
-        listSendContent.Clear();
-        
-        //lấy danh sách đăng ký gửi ( tính từ ngày hiện tại)
-        listSendRegister = srBUS.GetByTime(DateTime.Now,0);
-        listCustomer = cBUS.GetAll();
-        listMailConfig = mcBUS.GetAll();
-        listSendContent = scBUS.GetAll();
-        Email.ConnectionData.CloseMyConnection();        
+        try
+        {
+            Email.ConnectionData.OpenMyConnection();
+            listCustomer.Clear();
+            listSendRegister.Clear();
+            listMailConfig.Clear();
+            listSendContent.Clear();
+
+            //lấy danh sách đăng ký gửi ( tính từ ngày hiện tại)
+            listSendRegister = srBUS.GetByTime(DateTime.Now, 0);
+            //listCustomer = cBUS.GetAll();
+            listMailConfig = mcBUS.GetAll();
+            listSendContent = scBUS.GetAllWidthBody();
+            Email.ConnectionData.CloseMyConnection();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString()); logs.Error("Global-GetData" + ex);
+        }    
     }
        
 </script>
