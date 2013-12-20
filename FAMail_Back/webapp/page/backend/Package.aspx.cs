@@ -63,6 +63,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.limitId = int.Parse(drlPackageLimit.SelectedValue);
             sign.isUnLimit = ceIsUnlimit.Checked;
             sign.isActive = ceIsActive.Checked;
+            sign.isTry = ceTry.Checked;
             if (!ceIsUnlimit.Checked)
             {
                 int.TryParse(txtEmailCount.Text, out temp);
@@ -97,6 +98,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             }
             sign.isUnLimit = ceIsUnlimit.Checked;
             sign.isActive = ceIsActive.Checked;
+            sign.isTry = ceTry.Checked;
 
         }
         return sign;
@@ -254,6 +256,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 this.hdfId.Value = packageId + "";
                 ceIsUnlimit.Checked = Convert.ToBoolean(table.Rows[0]["isunlimit"]);
                 ceIsActive.Checked = Convert.ToBoolean(table.Rows[0]["isactive"]);
+                ceTry.Checked = Convert.ToBoolean(table.Rows[0]["isTry"]);
             }
 
 

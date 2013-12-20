@@ -59,7 +59,7 @@ public class PackageDAO
     public void tblPackage_insert(PackageDTO dt)
     {
         string sql = "INSERT INTO tblPackage (packageName, description,limitId, emailCount, isUnlimit,subAccontCount,isActive) " +
-                     "VALUES( @packageName, @description,@limitId, @emailCount, @isUnlimit,@subAccontCount,@isActive) ";
+                     "VALUES( @packageName, @description,@limitId, @emailCount, @isUnlimit,@subAccontCount,@isActive, @isTry) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = dt.packageName;
@@ -68,7 +68,8 @@ public class PackageDAO
         cmd.Parameters.Add("@emailcount", SqlDbType.BigInt).Value = dt.emailCount;
         cmd.Parameters.Add("@isUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.Parameters.Add("@subAccontCount", SqlDbType.Int).Value = dt.subAccontCount;
-        cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
+        cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive; 
+        cmd.Parameters.Add("@isTry", SqlDbType.Bit).Value = dt.isTry;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -108,6 +109,7 @@ public class PackageDAO
                      "description= @description, " +
                      "isActive= @isActive, " +
                      "emailcount= @emailCount, " +
+                     "isTry= @isTry, " +
                      "isunlimit= @isUnlimit " +
                     " WHERE packageId = @packageId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
@@ -121,6 +123,7 @@ public class PackageDAO
         cmd.Parameters.Add("@isUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
         cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = dt.packageId;
+        cmd.Parameters.Add("@isTry", SqlDbType.Bit).Value = dt.isTry;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }

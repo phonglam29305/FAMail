@@ -81,6 +81,11 @@
                                 <br />
                             </p>
                             <p>
+                                <label for="simple-input">Dùng thử</label>
+                                <asp:CheckBox ID="ceTry" runat="server" />
+
+                            </p>
+                            <p>
                                 <label for="simple-input">Kích hoạt</label>
                                 <asp:CheckBox ID="ceIsActive" runat="server" />
 

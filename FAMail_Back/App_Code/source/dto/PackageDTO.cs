@@ -19,4 +19,5 @@ public class PackageDTO
     public bool isUnLimit { get; set; }
     public long emailCount { get; set; }
     public bool isActive { get; set; }
+    public bool isTry { get; set; }
 }
