@@ -10,7 +10,11 @@
         <asp:Image ID="Image6" runat="server" ImageUrl="~/images/satisfaction-guaranteed.png" />
     </div>
     <div id="goimail">
-        <asp:DataList ID="dlGoiDichVu" runat="server" RepeatDirection="Horizontal">
+        <asp:DataList ID="dlGoiDichVu" runat="server" RepeatDirection="Horizontal" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
+            <AlternatingItemStyle BackColor="White" />
+            <FooterStyle BackColor="#CCCC99" />
+            <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
+            <ItemStyle BackColor="#F7F7DE" />
             <ItemTemplate>
 
                 <th style="width: 197px;" colspan="1" rowspan="1" class="column-5 sorting_disabled">
@@ -25,36 +29,44 @@
                     </div>
                 </th>
             </ItemTemplate>
+            <SelectedItemStyle BackColor="#CE5D5A" Font-Bold="True" ForeColor="White" />
         </asp:DataList>
     </div>
     <div id="goidichvu">
-        <table>
-            <tbody class="row-hover">
+    
+         
 
                 <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
 
-                <tr class="row-3 odd">
-                    <td class="column-1">
-                        <asp:DataList ID="dlTenChucNang" runat="server">
+             
+             
+                        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
+
+                            <AlternatingItemStyle BackColor="White" />
+                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <ItemStyle BackColor="#EFF3FB" />
 
                             <ItemTemplate>
-                                <asp:Label ID="all" runat="server" Text='<%#Eval("functionName") %>'></asp:Label>
+                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
 
                             </ItemTemplate>
 
+                            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+
                         </asp:DataList>
-                    </td>
-                    <td class="column-2"></td>
-                </tr>
-            </tbody>
-        </table>
+                   
+               
+            
+           
+      
     </div>
     <div id="chucnang">
         <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="113%">
 
             <ItemTemplate>
 
-                <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%#display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
+                <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
 
                     <ItemTemplate>
                         <%-- thay thanh image  --%>
