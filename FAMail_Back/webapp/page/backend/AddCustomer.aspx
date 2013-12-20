@@ -45,7 +45,7 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                     <asp:ListItem Value="Nam">Nam</asp:ListItem>
                                     <asp:ListItem Value="Nu">Nữ</asp:ListItem>
                                 </asp:DropDownList>
-                                <em>Giới tính</em>
+                                <em>Giới tính666</em>
                             </p>
                             <p>
                                 <label for="simple-input">
@@ -135,7 +135,41 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                               </script>
                     <table>
                     
-                        <asp:DataList ID="dtlCustomer" runat="server">
+                    
+                        <asp:Panel ID="pnSelectGroup" runat="server">
+                            <tr>
+                                <td style="width: 50px;" colspan="5">
+                                    <label for="table-select-actions" style="font-weight: bolder;">
+                                        Lựa chọn:</label>
+                                    <asp:DropDownList ID="drlMailGroup" runat="server" AutoPostBack="True" Height="30px">
+                                        <asp:ListItem Value="0">All</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <asp:Button ID="btnSave" runat="server" Text="Thêm vào" CssClass="round button blue text-upper small-button"
+                                        OnClick="btnSave_Click" />
+                                </td>
+                            </tr>
+                        </asp:Panel>
+                        <asp:Panel ID="pnBackAddGroup" runat="server">
+                            <a href="group-mail.aspx">Tạo nhóm mail mới</a>
+                        </asp:Panel>
+                    </table>
+                    <%-- </form>--%>
+                </div>
+                <!-- end content-module-main -->
+            </div>
+        </div>
+        <!-- ============= datetime picker -->
+
+    <script type="text/javascript">
+        $(function() {
+            $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBirthday').datetimepicker({
+	            changeMonth:true, changeYear:true, timeFormat: "", dateFormat: "dd/mm/yy"
+            });
+        });	
+    </script>
+
+    
+   <asp:DataList ID="dtlCustomer" runat="server">
                             <HeaderTemplate>
                                 <thead>
                                     <tr>
@@ -193,39 +227,5 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                             <FooterTemplate>
                             </FooterTemplate>
                         </asp:DataList>
-                        <asp:Panel ID="pnSelectGroup" runat="server">
-                            <tr>
-                                <td style="width: 50px;" colspan="5">
-                                    <label for="table-select-actions" style="font-weight: bolder;">
-                                        Lựa chọn:</label>
-                                    <asp:DropDownList ID="drlMailGroup" runat="server" AutoPostBack="True" Height="30px">
-                                        <asp:ListItem Value="0">All</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:Button ID="btnSave" runat="server" Text="Thêm vào" CssClass="round button blue text-upper small-button"
-                                        OnClick="btnSave_Click" />
-                                </td>
-                            </tr>
-                        </asp:Panel>
-                        <asp:Panel ID="pnBackAddGroup" runat="server">
-                            <a href="group-mail.aspx">Tạo nhóm mail mới</a>
-                        </asp:Panel>
-                    </table>
-                    <%-- </form>--%>
-                </div>
-                <!-- end content-module-main -->
-            </div>
-        </div>
-        <!-- ============= datetime picker -->
-
-    <script type="text/javascript">
-        $(function() {
-            $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBirthday').datetimepicker({
-	            changeMonth:true, changeYear:true, timeFormat: "", dateFormat: "dd/mm/yy"
-            });
-        });	
-    </script>
-
-  
-   
 </asp:Content>
 

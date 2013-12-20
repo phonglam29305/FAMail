@@ -198,7 +198,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     if (table.Rows.Count < 1000)
                     {
                         string message = checkCreateCustomer(table.Rows.Count);
-                        if (message != "")
+                        if (message == "")
                         {
                             this.dtlCustomer.DataSource = table;
                             this.dtlCustomer.DataBind();
