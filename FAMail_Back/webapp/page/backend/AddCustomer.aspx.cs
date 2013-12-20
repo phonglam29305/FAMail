@@ -31,10 +31,12 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     DetailGroupBUS dgBUS = new DetailGroupBUS();
     static string fileName;
     EmailVerifier verify;
-    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -62,8 +64,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - loadData", ex);
-           
+     
+            logs.Error(userLogin.Username + "-Client - LoadData", ex); 
         }
     }
     private UserLoginDTO getUserLogin()
@@ -114,7 +116,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
+  
+            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex); 
         }
     }
     private void LoadMailGroupLists()
@@ -157,7 +160,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadMailGroupLists", ex);
+ 
+            logs.Error(userLogin.Username + "-Client - LoadMailGroupLists", ex); 
         }
     }
     private void InitBUS()
@@ -230,7 +234,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             Visible(false);
             pnError.Visible = true;
             lblError.Text = "Vui lòng kiểm tra lại định dạng file, hoặc file của bạn đang được sử dụng <br/>" + ex.ToString();
-            logMgr.Error(Session["us-login"] + " - btnReadExcel_Click", ex);
+            logs.Error(userLogin.Username + "-Client - btnReadExcel_Click", ex); 
         }
     }
     private void Visible(bool p)
@@ -324,7 +328,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
+
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
         }
 
     }
@@ -625,7 +630,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnAdd_Click", ex);
+            
+            logs.Error(userLogin.Username + "-Client - btnAdd_Click", ex); 
             pnError.Visible = true;
             lblError.Text = "Lỗi trong quá trình thêm khách hàng!" + ex.Message.ToString();
         }

@@ -25,9 +25,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     DataTable result = null;
     string expresion = "";
     DataRow[] row = null;
-    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -103,7 +105,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - loadData", ex);
+           
+            logs.Error(userLogin.Username + "-Client - LoadData", ex);
 
         }
     }
@@ -207,8 +210,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnFilter_Click", ex);
-
+  
+            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex);
         }
     }
     private void GetExpresion()
@@ -279,8 +282,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
-
+    
+            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex);
         }
 
     }
@@ -340,7 +343,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - lbtExecute_Click", ex);
+   
+            logs.Error(userLogin.Username + "-Client - lbtExecute_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -439,7 +443,8 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
+     
+            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
             pnSuccess.Visible = false;
             pnError.Visible = true;
             lblError.Text = ex.Message;

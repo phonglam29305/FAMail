@@ -25,11 +25,13 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     DataTable result = null;
     string expresion = "";
     DataRow[] row = null;
-    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            userLogin = getUserLogin();
             try
             {
                 InitBUS();
@@ -91,8 +93,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadSubGroup", ex);
-
+    
+            logs.Error(userLogin.Username + "-Client - LoadSubGroup", ex); 
         }
 
         // pnSearch.Visible = true;
@@ -142,8 +144,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadCustomer", ex);
-
+       
+            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex); 
         }
 
     }
@@ -288,8 +290,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnFilter_Click", ex);
-
+      
+            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex); 
         }
 
     }
@@ -409,7 +411,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
         }
 
     }

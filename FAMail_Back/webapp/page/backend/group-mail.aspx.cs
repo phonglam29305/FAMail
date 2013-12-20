@@ -20,10 +20,11 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     CustomerBUS ctBUS = null;
     DetailGroupBUS dgBUS = null;
     UserLoginBUS ulBus = null;
-    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             LoadSubClient();
@@ -82,8 +83,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadSubClient", ex);
-
+         
+            logs.Error(userLogin.Username + "-Client - LoadSubClient", ex); 
         }
     }
 
@@ -113,8 +114,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadGroup", ex);
-
+          
+            logs.Error(userLogin.Username + "-Client - LoadGroup", ex); 
         }
     }
 
@@ -183,8 +184,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
-
+         
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
         }
       //  LoadGroup();
 
@@ -225,7 +226,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnEdit_Click", ex);
+         
+            logs.Error(userLogin.Username + "-Client - btnEdit_Click", ex); 
             pnError.Visible = true;
             lblError.Text = "Đã có lỗi : " + ex.ToString();
         }
@@ -259,7 +261,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
+     
+            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex); 
             //pnError.Visible = true;
             //lblError.Text = ex.Message;
         }

@@ -17,9 +17,11 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
 {
     DepartmentBUS dpBUS = null;
     MailConfigBUS mcBUS = null;
-    log4net.ILog logMgr = LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             InitBUS();
@@ -70,8 +72,8 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - LoadDepartmentList", ex);
-
+        
+            logs.Error(userLogin.Username + "-Client - LoadDepartmentList", ex); 
         }
     }
 
@@ -109,8 +111,8 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnDelete_Click", ex);
-
+        
+            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex); 
         }
     }
 
@@ -178,8 +180,7 @@ public partial class webapp_page_backend_Department : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logMgr.Error(Session["us-login"] + " - btnSave_Click", ex);
-
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
         }
 
     }
