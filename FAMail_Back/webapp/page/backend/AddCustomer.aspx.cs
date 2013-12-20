@@ -438,7 +438,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             InitBUS();
             Visible(false);
-            int GroupID = int.Parse(drlGroup.SelectedValue.ToString());
+            int GroupID = 0;
+            if (drlGroup.SelectedIndex >= 0)
+            {
+                 GroupID = int.Parse(drlGroup.SelectedValue.ToString());
+            }
             int CustomerID = 0;
             string message = checkInputCustomer();
             if (message != "")
@@ -465,7 +469,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.Type = "";
                 ctDTO.UserID = getUserLogin().UserId;
                 ctDTO.createBy = getUserLogin().UserId;
-                ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
+                if (drlGroup.SelectedIndex >= 0)
+                {
+                    ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
+                }
                 int countEmail = 0;
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
@@ -478,39 +485,55 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         countEmail = int.Parse(dtCountEmail.Rows[0]["emailCount"].ToString());
                     }
 
+                    int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
                     DataTable dtEmail = ctBUS.GetCountCustomerCreatedMail(getUserLogin().UserId);
                     int numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
-                    if (numbermail < countEmail)
+                    DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                    string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                    DateTime today = Convert.ToDateTime(todays);
+                    DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+
+                    if (statusclient == 2 || expireDay < today)
                     {
-                        CustomerID = ctBUS.tblCustomer_insert(ctDTO);
-
-
-                        if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
-                        {
-                            pnSuccess.Visible = false;
-                            pnError.Visible = true;
-                            lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
-                        }
-                        else
-                        {
-                            DetailGroupDTO dgDTO = new DetailGroupDTO();
-                            dgDTO.GroupID = GroupID;
-                            dgDTO.CustomerID = CustomerID;
-                            dgDTO.CountReceivedMail = 0;
-                            dgDTO.LastReceivedMail = DateTime.Now;
-                            dgBUS.tblDetailGroup_insert(dgDTO);
-                            pnError.Visible = false;
-                            pnSuccess.Visible = true;
-                            lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
-
-                            // Update limit send and create.
-                            updateLimitSendAndCreate(1, 0);
-                        }
+                        lblError.Text = "Không cho phép tạo Email.Liên hệ quản trị!";
+                        pnSuccess.Visible = false;
+                        pnError.Visible = true;
                     }
                     else
                     {
-                        lblError.Text = "Vượt quá hạng ngạch tạo khách hàng!";
-                        Visible(true);
+                        if (numbermail < countEmail)
+                        {
+                            CustomerID = ctBUS.tblCustomer_insert(ctDTO);
+
+
+                            if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                            {
+                                pnSuccess.Visible = false;
+                                pnError.Visible = true;
+                                lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
+                            }
+                            else
+                            {
+                                DetailGroupDTO dgDTO = new DetailGroupDTO();
+                                dgDTO.GroupID = GroupID;
+                                dgDTO.CustomerID = CustomerID;
+                                dgDTO.CountReceivedMail = 0;
+                                dgDTO.LastReceivedMail = DateTime.Now;
+                                dgBUS.tblDetailGroup_insert(dgDTO);
+                                pnError.Visible = false;
+                                pnSuccess.Visible = true;
+                                lblSuccess.Text = "Bạn đã thêm thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+
+                                // Update limit send and create.
+                                updateLimitSendAndCreate(1, 0);
+                            }
+                        }
+                        else
+                        {
+                            lblError.Text = "Vượt quá hạng ngạch tạo khách hàng!";
+                            pnSuccess.Visible = false;
+                            pnError.Visible = true;
+                        }
                     }
 
 

@@ -158,6 +158,13 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         catch (Exception)
         { }
     }
+
+
+    private void Visible(bool p)
+    {
+        pnError.Visible = p;
+        pnSuccess.Visible = p;
+    }
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string message = "";
@@ -207,6 +214,13 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
 
                     if (statusclient == 2 || expireDay < today)
                     {
+                       // lblError.Text = "Không cho phép tạo tài khoản con.Liên hệ quản trị!";
+                       // pnSuccess.Visible = false;
+                       // pnError.Visible = true;
+                        status = 3;
+                    }
+                    else
+                    {
                         if (countSub < SubAccount)
                         {
 
@@ -220,35 +234,41 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                         }
                         else
                         {
-                            lblSuccess.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+                            lblError.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+                            pnSuccess.Visible = false;
+                            pnError.Visible = true;
                         }
                     }
-                    else
-                    {
 
-                        ulDto.SubId = int.Parse(hdfId.Value);
-                        ulBus.tblSubClient_Update(ulDto);
-                        // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
-                        // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
-                        DataTable tablesub = ulBus.GetBySubId(ulDto.SubId);
-                        string Username = tablesub.Rows[0]["subEmail"].ToString();
-                        DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
-                        bool Is_Block_check = chkBlock.Checked;
-
-                        ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
-                        status = 2;
-
-                    }
                 }
                 else
                 {
-                    lblSuccess.Text = "Tài khoản trên đã hết hạn đăng ký tài khoản con!";
+
+                    ulDto.SubId = int.Parse(hdfId.Value);
+                    ulBus.tblSubClient_Update(ulDto);
+                    // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
+                    // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                    DataTable table = ulBus.GetBySubId(ulDto.SubId);
+                    string Username = table.Rows[0]["subEmail"].ToString();
+                    DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
+                    bool Is_Block_check = chkBlock.Checked;
+
+                    ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
+                    status = 2;
+
                 }
+
 
                 ConnectionData.CloseMyConnection();
                 pnSuccess.Visible = true;
                 pnError.Visible = false;
                 LoadData();
+                if (status == 3)
+                {
+                    lblError.Text = "Không cho phép tạo tài khoản con.Liên hệ quản trị!";
+                    pnSuccess.Visible = false;
+                     pnError.Visible = true;
+                }
                 if (status == 1)
                 {
                     lblSuccess.Text = "Thêm thành công !";

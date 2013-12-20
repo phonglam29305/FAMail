@@ -45,21 +45,15 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                 int status = int.Parse(table.Rows[0]["Status"].ToString());
 
-                DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
-                string todays = DateTime.Now.ToString("yyyy-MM-dd");
-                DateTime today = Convert.ToDateTime(todays);
-                DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+             //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+              //  string todays = DateTime.Now.ToString("yyyy-MM-dd");
+             //  DateTime today = Convert.ToDateTime(todays);
+             //   DateTime expireDay = Convert.ToDateTime(NgayHetHan);
                           
 
                 if(status != 1)
                 {
-                    if (today > expireDay)
-                    {
-                        pnError.Visible = true;
-                        lblMessage.Text = "Tài khoản đăng nhập đã hết hạn";
-                    }
-                    else
-                    {
+                 
                         try
                         {
                             userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
@@ -91,7 +85,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
 
                         Session["ID"] = 25;
                         Response.Redirect("list-content-mail.aspx");
-                    }
+     
                 }
                 else
                 {
