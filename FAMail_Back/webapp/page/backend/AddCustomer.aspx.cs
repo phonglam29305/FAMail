@@ -249,6 +249,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         int CustomerID = 0;
         int count = 0;
         int err = 0;
+        long countEmail = 0;
         try
         {
             for (int i = 0; i < dtlCustomer.Items.Count; i++)
@@ -293,7 +294,50 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         else
                         {
 
-                            CustomerID = ctBUS.tblCustomer_insert(ctDTO);
+                            if (getUserLogin().DepartmentId == 2)
+                            {
+                                table = ctBUS.GetClientId(getUserLogin().UserId);
+                            }
+                            else
+                            {
+                                table = ctBUS.GetClientIdSub(getUserLogin().UserId);
+                            }
+
+                            if (table.Rows.Count > 0)
+                            {
+                                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                                DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
+                                if (dtCountEmail.Rows[0]["isUnLimit"] + "" != "" || Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                                countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
+                              
+                            }
+
+                            int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
+                            DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                            string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                            DateTime today = Convert.ToDateTime(todays);
+                            DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+                            DataTable dtEmail = ctBUS.GetCountCustomerCreatedMail(getUserLogin().UserId);
+                            int numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
+                            if (statusclient == 2 || expireDay < today)
+                            {
+                                lblError.Text = "Không cho phép tạo Email.Liên hệ quản trị!";
+                                pnSuccess.Visible = false;
+                                pnError.Visible = true;
+                            }
+                            else
+                            {
+                                if (numbermail < countEmail)
+                                {
+                                    CustomerID = ctBUS.tblCustomer_insert(ctDTO);
+                                }
+                                else
+                                {
+                                    lblError.Text = "Vượt quá hạng ngạch tạo khách hàng!";
+                                    pnSuccess.Visible = false;
+                                    pnError.Visible = true;
+                                }
+                            }
 
                         }
 
