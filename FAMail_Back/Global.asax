@@ -25,8 +25,8 @@
         string strConnect = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
         Email.ConnectionData._ConnectionString = strConnect;
         Email.ConnectionData.AddNewConnection();
-        processEmail = new Email.ProcessSendEmail();
-        StartMailChecker();  
+        //processEmail = new Email.ProcessSendEmail();
+       // StartMailChecker();  
 
 
     }
