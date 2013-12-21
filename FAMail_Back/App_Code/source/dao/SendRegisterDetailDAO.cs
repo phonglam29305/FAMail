@@ -174,7 +174,7 @@ public class SendRegisterDetailDAO
     }
     public DataTable GetByStatus_SubUser(bool status, int UserId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegisterDetail WHERE Status = @Status and sendregisterid in (select id from tblSendRegister where userid=@userid)", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegisterDetail WHERE Status = @Status and sendregisterid in (select id from tblSendRegister where accountid=@userid)", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;

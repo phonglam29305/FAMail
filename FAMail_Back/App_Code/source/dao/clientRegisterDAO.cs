@@ -36,7 +36,7 @@ public class ClientRegisterDAO
         SqlCommand cmd = new SqlCommand("Client_Search_register", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@clientName", SqlDbType.NVarChar).Value = clientName;
-        cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar, 250).Value = namepackagelimit;
+        cmd.Parameters.Add("@namepackagelimit", SqlDbType.Int).Value = namepackagelimit;
         cmd.Parameters.Add("@registerTime_from", SqlDbType.VarChar, 12).Value = registerTime_from;
         cmd.Parameters.Add("@registerTime_to", SqlDbType.VarChar, 12).Value = registerTime_to;
         cmd.Parameters.Add("@expireDate_from", SqlDbType.VarChar, 12).Value = expireDate_from;

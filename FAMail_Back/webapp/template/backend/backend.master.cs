@@ -29,6 +29,11 @@ public partial class webapp_template_backend_backend : System.Web.UI.MasterPage
                 {
                     lblInfo.Text = userLogin.Username;
                     lkClientDetail.NavigateUrl = "../../page/backend/clientdetail.aspx";
+                    lkClientDetail.Visible = userLogin.DepartmentId == 2;
+                    if(userLogin.UserType==0)
+                    hplManager.NavigateUrl = "../../page/backend/clientregister.aspx";
+                    else
+                        hplManager.NavigateUrl = "../../page/backend/customer.aspx";
                 }
                 else
                 {

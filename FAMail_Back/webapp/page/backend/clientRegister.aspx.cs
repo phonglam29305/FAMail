@@ -33,7 +33,7 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
         dt.Columns.Add("namepackagelimit");
         dt = clientregisterBus.GetAllPackage();
         DataRow dr = dt.NewRow();
-        dr["namepackagelimit"] = "---------------Vui lòng chọn gói mail-----------------";
+        dr["namepackagelimit"] = "---------------[Tất cả]-----------------";
         dr["limitId"] = "-1";
         dt.Rows.InsertAt(dr, 0);
         //DataRow dr=new DataRow();
@@ -78,7 +78,7 @@ public partial class webapp_page_backend_clientRegister : System.Web.UI.Page
         string ngaydk_to = txtdenngaydangky.Text;
         string ngayhh_from =txtngayhethang.Text;
         string ngayhh_to = txtdenngayhethang.Text;
-        DataTable t = clientregisterBus.Search_client_register(txtname.Text, Dropgoidichvu.Text, ngaydk_from, ngaydk_to, ngayhh_from, ngayhh_to);
+        DataTable t = clientregisterBus.Search_client_register(txtname.Text, Dropgoidichvu.SelectedValue, ngaydk_from, ngaydk_to, ngayhh_from, ngayhh_to);
         dlPager.MaxPages = 1000;
         dlPager.PageSize = 50;
         dlPager.DataSource = t.DefaultView;

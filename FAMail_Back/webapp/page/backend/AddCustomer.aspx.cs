@@ -486,11 +486,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 {
                     if (getUserLogin().UserType ==2)
                     {
-                        table = ctBUS.GetClientIdSub(getUserLogin().UserId);
+                        table = ctBUS.GetClientId(getUserLogin().UserId);
                     }
                     else
                     {
-                         table = ctBUS.GetClientId(getUserLogin().UserId);
+                        table = ctBUS.GetClientIdSub(getUserLogin().UserId);
                     }
 
                     if (table.Rows.Count > 0)

@@ -56,7 +56,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 userLogin.Password = tbResult.Rows[0]["Password"].ToString();
                 userLogin.DepartmentId = int.Parse(tbResult.Rows[0]["DepartmentId"].ToString());
                 userLogin.UserType = int.Parse(tbResult.Rows[0]["UserType"].ToString());
-                if (userLogin.UserType == 2)
+                if (userLogin.UserType == 3)
                 {
                     table = ulBus.GetClientIdSub(userLogin.UserId);
                     clienID = int.Parse(table.Rows[0]["clientId"].ToString());
@@ -107,7 +107,10 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                         }
 
                         Session["ID"] = 25;
-                        Response.Redirect("list-content-mail.aspx");
+                    if(userLogin.UserType==0)
+                        Response.Redirect("clientregister.aspx");
+                    else
+                        Response.Redirect("mail-send.aspx");
      
                 }
                 else

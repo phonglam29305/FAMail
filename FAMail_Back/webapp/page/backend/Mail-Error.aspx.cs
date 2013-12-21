@@ -51,10 +51,11 @@ public partial class webapp_page_backend_Mail_Error : System.Web.UI.Page
         {
             tblSendDetail = srdBus.GetByStatus(status);
         }
-        else
+        else if (userLogin.DepartmentId == 2)
         {
-            tblSendDetail = srdBus.GetByStatus(status);
+            tblSendDetail = srdBus.GetByStatus_User(status, userLogin.UserId);
         }
+        else tblSendDetail = srdBus.GetByStatus_SubUser(status, userLogin.UserId);
         
         if (tblSendDetail.Rows.Count > 0)
         {

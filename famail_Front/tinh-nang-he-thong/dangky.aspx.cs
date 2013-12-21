@@ -94,6 +94,7 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
                 clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
                 clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
                 clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
+                clientRegister.limitId = Convert.ToInt32(T.Rows[0]["limitId"]);
             }
             object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
             Int32.TryParse(temp + "", out id);

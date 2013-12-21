@@ -151,8 +151,7 @@
                                                 <asp:Label ID="lblAddr" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
                                             </td>
                                             <td style="width: 100px;">
-                                                              <asp:ImageButton ID="btnOrder" runat="server" ImageUrl="~/webapp/resource/images/Actions-view-list-details-icon.png"
-                                                    PostBackUrl='<%#"~/webapp/page/backend/ListOrder.aspx?CustomerId=" + Eval("Id")%>' />
+                                                              
                                                 <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"
                                                     PostBackUrl='<%#"~/webapp/page/backend/AddCustomer.aspx?CustomerId=" + Eval("Id")%>' />
                                                 <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/webapp/resource/images/Delete-icon.png"
