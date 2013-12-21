@@ -56,8 +56,8 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
             DataTable dtpackage = new DataTable();
             pkgBus = new PackageBUS();
-            dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
-            int packagelimitid = Convert.ToInt32(dtpackage.Rows[0]["limitid"].ToString());
+            dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
+            int packagelimitid = Convert.ToInt32(dtClientRegister.Rows[0]["limitid"].ToString());
             DataTable dtlimit = new DataTable();
             pkglimitBus = new PackageLimitBUS();
             dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitid);

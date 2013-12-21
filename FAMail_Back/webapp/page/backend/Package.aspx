@@ -43,7 +43,7 @@
                                 
                                 <br />
 
-                                <label for="simple-input">Giới hạn mail</label>
+                                <label for="simple-input">Giới hạn mail quản lý</label>
                                 <asp:DropDownList ID="drlPackageLimit" runat="server" CssClass="round default-width-input" Style="height: 35px; border: 1px solid #bbbdbe; width: 360px;">
                                 </asp:DropDownList>
                             </p>
@@ -67,13 +67,13 @@
                             </p>
                             
                             <p>
-                                <label for="simple-input">Không giới hạn số email quản lý</label>
+                                <label for="simple-input">Không giới hạn số email gửi</label>
                                 <asp:CheckBox ID="ceIsUnlimit" runat="server" />
 
                             </p>
                             <p>
 
-                                <label for="full-width-input">Số Email quản lý </label>
+                                <label for="full-width-input">Giới hạn mail gửi </label>
                                 <asp:TextBox ID="txtEmailCount" CssClass="round default-width-input"
                                     runat="server"></asp:TextBox>
 
@@ -134,7 +134,7 @@
 
                                 <th>Tên gói dịch vụ </th>
                                 <th>Số lượng tk con  </th>
-                                <th>Giới hạn mail </th>
+                                <th>Giới hạn mail quản lý</th>
                                 <th>Hiệu lực </th>
                                 <th>Diều chỉnh </th>
                             </tr>

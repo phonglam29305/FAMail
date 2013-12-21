@@ -9,6 +9,7 @@ using Email;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
 {
@@ -67,6 +68,99 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         lbtongphi.Text = c.ToString();
 
     }
+
+    private string check()
+    {
+        string tenkh = null;  
+        string email = null;       
+        string password = null;
+        string confilmPass = null;
+        string Phone = null;
+        string address = null;
+        string captcha = null;
+        tenkh = this.txtclientname.Text;
+        email = this.txtemail.Text;
+        password = this.txtPass.Text.ToString().Trim();
+        confilmPass = this.txtpassAgain.Text.ToString().Trim() ;
+        Phone = this.txtphone.Text;
+        address = this.txtaddress.Text;
+        captcha = this.txtbody.Text;
+
+        if (tenkh == "" || tenkh == null)
+        {
+            this.txtclientname.Focus();
+            return "Bạn chưa nhập tên";
+        }
+       else if (email == "" || email == null)
+        {
+            this.txtemail.Focus();
+            return "Bạn chưa nhập Email";
+        }
+       else if (password == "" || password == null)
+        {
+            this.txtPass.Focus();
+            return "Bạn chưa nhập mật khẩu";
+        }
+        else if (confilmPass == "" || confilmPass == null)
+        {
+            this.txtpassAgain.Focus();
+            return "Bạn chưa xác nhận lại mật khẩu";
+        }
+      else  if (Phone == "" || Phone == null)
+        {
+            this.txtphone.Focus();
+            return "Bạn chưa nhập số điện thoại";
+        }
+        else if (address == "" || address == null)
+       {
+            this.txtaddress.Focus();
+           return "Bạn chưa nhập địa chỉ";
+        }
+        else if (captcha == "" || captcha == null)
+        {
+            this.txtbody.Focus();
+            return "Bạn chưa nhập vào mã captcha";
+        }
+        else if (IsValidMail(email) == false)
+        {
+            this.txtemail.Focus();
+            return "Bạn email của bạn không đúng định dạng";
+        }
+        else if (IsItNumber(Phone) == false)
+        {
+            this.txtphone.Focus();
+            return "Bạn nhập số điện thoại không đúng định dạng";
+        }
+        else if (password.Equals(confilmPass) == false)
+        {
+            this.txtpassAgain.Focus(); ;
+            return "Hai mật khẩu không trùng nhau!";
+
+        }
+        else
+        {
+            return "";
+        }
+          
+
+    }
+    public bool IsValidMail(string emailaddress)
+    {
+        try
+        {
+            MailAddress m = new MailAddress(emailaddress);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+    }
+    public bool IsItNumber(string inputvalue)
+    {
+        Regex isnumber = new Regex("[^0-9]");
+        return !isnumber.IsMatch(inputvalue);
+    }
     protected void Drpacketime_SelectedIndexChanged(object sender, EventArgs e)
     {
         tinhtien();
@@ -75,7 +169,8 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
         dk = new RegisterBUS();
-        if (dk.CheckExistByEmail(txtemail.Text))
+        string mess = check();
+        if (mess == "")
         {
             clientdto cliendto = getclient();
             ConnectionData.OpenMyConnection();
@@ -94,7 +189,6 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
                 clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
                 clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
                 clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
-                clientRegister.limitId = Convert.ToInt32(T.Rows[0]["limitId"]);
             }
             object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
             Int32.TryParse(temp + "", out id);
@@ -135,10 +229,15 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
         }
         else
         {
-            lbdiengiai.Text = "Email này đã được đăng ký!";
-            lbdiengiai.ForeColor = System.Drawing.Color.Red;
+            lbdiengiai.Text = mess;
         }
     }
+
+        
+          
+          
+        
+    
 
     public static string GetMd5Hash(string input)
     {

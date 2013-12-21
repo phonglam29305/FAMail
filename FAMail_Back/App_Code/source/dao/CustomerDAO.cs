@@ -422,7 +422,7 @@ public class CustomerDAO
 
     public DataTable GetCountCustomerCreatedMail(int createdby)
     {
-        string sql = "SELECT count(*) as numberMail FROM tblCustomer WHERE createBy = @createdby";
+        string sql = "SP_GetEmailCount_ByUser";// "SELECT count(*) as numberMail FROM tblCustomer WHERE createBy = @createdby";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@createdby", SqlDbType.Int).Value = createdby;
@@ -436,7 +436,10 @@ public class CustomerDAO
 
     public DataTable GetCountEmail(int ClientId)
     {
-        string sql = "SELECT emailCount FROM tblClientRegister WHERE ClientID = @ClientId";
+        string sql = @"SELECT under, isunlimit FROM tblClientRegister cr 
+        inner join tblClient c on c.RegisterID = cr.RegisterID  
+        inner join tblPackageLimit l on l.limitID = cr.limitID 
+        WHERE c.ClientID = @ClientId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@ClientId", SqlDbType.Int).Value = ClientId;

@@ -91,7 +91,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.subAccontCount = temp;
             int.TryParse(drlPackageLimit.Text, out temp);
             sign.limitId = int.Parse(drlPackageLimit.SelectedValue);
-            if (ceIsUnlimit.Checked)
+            if (!ceIsUnlimit.Checked)
             {
                 int.TryParse(txtEmailCount.Text, out temp);
                 sign.emailCount = temp;
@@ -245,7 +245,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         try
         {
             int packageId = int.Parse((((ImageButton)sender).CommandArgument.ToString()));
-            DataTable table = packageBus.GetByUserId(packageId);
+            DataTable table = packageBus.GetById(packageId);
             if (table.Rows.Count > 0)
             {
                 txtname.Text = table.Rows[0]["packageName"].ToString();

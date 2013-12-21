@@ -45,9 +45,9 @@ public class PackageBUS
         sign.tblPackage_Update(dt);
     }
 
-    public System.Data.DataTable GetByUserId(int packageId)
+    public System.Data.DataTable GetById(int packageId)
     {
-        return sign.GetByUserId(packageId);
+        return sign.GetById(packageId);
     }
 
 

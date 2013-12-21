@@ -31,6 +31,8 @@ public partial class tinh_nang_he_thong_Bang_gia : System.Web.UI.Page
             dlGoiDichVu.DataSource = dlSDCN.DataSource = pakage;
             dlGoiDichVu.DataBind();
             dlSDCN.DataBind();
+            dlSDCN.Attributes.Add("style", "border:none;");
+            
             int ma = int.Parse(pakage.Rows[0]["packageId"].ToString());
 
             DataTable t = display.LoadFunctionPackage(ma);
@@ -43,5 +45,8 @@ public partial class tinh_nang_he_thong_Bang_gia : System.Web.UI.Page
         catch (Exception ex)
         { }
     }
-    
+    protected void dlSDCN_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        
+    }
 }

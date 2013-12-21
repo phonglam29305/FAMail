@@ -31,4 +31,13 @@ public DataTable Search_client_register(string clientName, string namepackagelim
     {
         return clientdao.UpdateUpgrade(clientId, packageId, limitId, SubAccount, totalFee, registerType, packagetimeid,From,To,LastRegisterFrom,LastRegisterTo,LastRegisterFee,LastRegisterFeeRemain);
     }
+
+    public DataTable GetByUserId(int UserID)
+    {
+        return clientdao.GetByUserId(UserID);
+    }
+    public DataTable GetBySubUserId(int UserID)
+    {
+        return clientdao.GetBySubUserId(UserID);
+    }
 }

@@ -2250,12 +2250,30 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
         #goidichvu td.column-1 {font-size:14px; text-align: left; padding-left: 10px; line-height: 190%; margin-top:20px;}
        
         #chucnang {
-            margin-top:-350px;
-            margin-left:276px;
+            border:0px;
+            border-left:1px solid black;
+            border-right:1px solid black;
             line-height:330%;
-            
+            margin-top:-350px;
+            margin-left:193px;
+            width:780px;
         }
-
+        #chucnang table,table tbody tr td:nth-child(2n+2){
+           border-right:none;
+        }
+        #chucnang table,table tbody tr td:nth-child(4) table{
+           border:none;
+        }
+        #chucnang table,table tbody tr td:nth-child(4) table tbody {
+           border:none;
+        }
+        #chucnang table,table tbody tr td:nth-child(1) table{
+           border-right:1px solid black;
+        }
+        #chucnang table,table tbody tr td table {
+            width:191px;
+            border-right:1px solid ridge;
+        }
       #chucnang #dangky{
                 margin-left:-35px;
              

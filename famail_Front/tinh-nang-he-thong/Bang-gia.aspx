@@ -33,25 +33,36 @@
         </asp:DataList>
     </div>
     <div id="goidichvu">
-        <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
-        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
+    
+         
 
-            <AlternatingItemStyle BackColor="White" />
-            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <ItemStyle BackColor="#EFF3FB" />
+                <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
 
-            <ItemTemplate>
-                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
+             
+             
+                        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
 
-            </ItemTemplate>
+                            <AlternatingItemStyle BackColor="White" />
+                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <ItemStyle BackColor="#EFF3FB" />
 
-            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                            <ItemTemplate>
+                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
 
-        </asp:DataList>
+                            </ItemTemplate>
+
+                            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+
+                        </asp:DataList>
+                   
+               
+            
+           
+      
     </div>
     <div id="chucnang">
-        <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="113%">
+        <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="103%" OnItemDataBound="dlSDCN_ItemDataBound">
 
             <ItemTemplate>
 
@@ -61,7 +72,9 @@
                         <%-- thay thanh image  --%>
                         <asp:Image ID="Image1" runat="server" ImageUrl="~/images/blue-check.png" Visible='<%#Eval("isuse")+""=="yes"?true:false %>' />
                         <asp:Image ID="Image2" runat="server" ImageUrl="~/images/CloseIcon20x20.png" Visible='<%#Eval("isuse")+""=="no"?true:false %> ' />
-                        <asp:Label ID="Label6" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="NO")?true:false %>'></asp:Label>
+                        <asp:Label ID="Label1" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="NO")?true:false %>'><%#Eval("isuse") %></asp:Label>         
+
+                      
                         <%-- thay thanh image   --%>    <%--<asp:Label ID="Label5" runat="server"  Visible='<%#Eval("isuse")+""=="yes"?true:false %>'><%#Eval("isuse") %></asp:Label> --%>
 
                         <div id="dangky">
@@ -71,7 +84,7 @@
 
                 <div id="dangky">
                     <asp:HyperLink ID="Hpldangky" runat="server">
-                        <a class="ajax" href='dangky.aspx?packageId=<%#Eval("packageId") %>'>
+                        <a class="ajax colorbox" href='dangky.aspx?packageId=<%#Eval("packageId") %>'>
                             <asp:Image ID="Image3" runat="server" ImageUrl="~/images/signupbtn.png" />
                         </a>
                     </asp:HyperLink>

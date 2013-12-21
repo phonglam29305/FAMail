@@ -85,4 +85,23 @@ public class ClientRegisterDAO
         cmd.Dispose();
         return Int32.Parse(id + "");
     }
+
+    internal DataTable GetByUserId(int UserID)
+    {
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT emailCount, [to] FROM tblClientRegister where registerid = (select registerid from tblClient where userid=" + UserID + ")",
+            ConnectionData._MyConnection);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
+    internal DataTable GetBySubUserId(int UserID)
+    {
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT emailCount,[to] FROM tblClientRegister where registerid = (select registerid from tblClient where clientid =(select clientid from tblSubClient where userid=" + UserID + "))",
+            ConnectionData._MyConnection);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
 }

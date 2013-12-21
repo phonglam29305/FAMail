@@ -56,13 +56,13 @@
                                    </tr>
                                     <tr >
                                       <td style="width:150px;" style="width:150px;">
-                                        Số lượng Email 
+                                        Giới hạn email gửi đi:
                                       </td>
                                        <td align="left">
                                            <asp:Label ID="lblSoLuongEmail" runat="server" Text=""></asp:Label>
                                        </td>
                                       <td style="width:150px;" >
-                                        Giới hạn email gửi đi:
+                                        Số lượng Email :
                                       </td>
                                        <td align="left" style="width:150px;">
                                            <asp:Label ID="lblGioiHanEmail" runat="server" Text=""></asp:Label>

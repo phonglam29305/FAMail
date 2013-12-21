@@ -57,15 +57,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         try
         {
             InitBUS();
-           
-           // pnSelectGroup.Visible = false;
+
+            // pnSelectGroup.Visible = false;
             LoadCustomer();
             LoadMailGroupLists();
         }
         catch (Exception ex)
         {
-     
-            logs.Error(userLogin.Username + "-Client - LoadData", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadData", ex);
         }
     }
     private UserLoginDTO getUserLogin()
@@ -88,8 +88,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 int ID = int.Parse(CustomerId);
                 this.CustomerID.Value = ID.ToString();
                 DataTable dt = ctBUS.GetByID(ID);
-               // int AssignTo = int.Parse(dt.Rows[0]["AssignTo"].ToString());
-               // DataTable dtGroup = ctBUS.GetByGroupID(AssignTo);
+                // int AssignTo = int.Parse(dt.Rows[0]["AssignTo"].ToString());
+                // DataTable dtGroup = ctBUS.GetByGroupID(AssignTo);
                 if (dt.Rows.Count > 0)
                 {
                     //tamhm edit lai
@@ -116,52 +116,52 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-  
-            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex);
         }
     }
     private void LoadMailGroupLists()
     {
         try
         {
-        DataTable dtMailGroup = null;
+            DataTable dtMailGroup = null;
 
-        if (getUserLogin().DepartmentId ==1)
-        {
-            dtMailGroup = mailGroupBus.GetAllNew();
-        }
-        if (getUserLogin().DepartmentId == 2)
-        {
-            dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
-        }
-        if (getUserLogin().DepartmentId == 3)
-        {
-            dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
-        }
+            if (getUserLogin().DepartmentId == 1)
+            {
+                dtMailGroup = mailGroupBus.GetAllNew();
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
+            }
+            if (getUserLogin().DepartmentId == 3)
+            {
+                dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
+            }
 
-        if (dtMailGroup.Rows.Count > 0)
-        {
-            drlMailGroup.Items.Clear();
-            drlMailGroup.DataSource = dtMailGroup.DefaultView;
-            drlMailGroup.DataTextField = "Name";
-            drlMailGroup.DataValueField = "Id";
-            drlMailGroup.DataBind();
-            drlGroup.Items.Clear();
-            drlGroup.DataSource = dtMailGroup.DefaultView;
-            drlGroup.DataTextField = "Name";
-            drlGroup.DataValueField = "Id";
-            drlGroup.DataBind();
-            pnSelectGroup.Visible = true;
-        }
-        else
-        {
-            //pnSelectGroup.Visible = false;
-        }
+            if (dtMailGroup.Rows.Count > 0)
+            {
+                drlMailGroup.Items.Clear();
+                drlMailGroup.DataSource = dtMailGroup.DefaultView;
+                drlMailGroup.DataTextField = "Name";
+                drlMailGroup.DataValueField = "Id";
+                drlMailGroup.DataBind();
+                drlGroup.Items.Clear();
+                drlGroup.DataSource = dtMailGroup.DefaultView;
+                drlGroup.DataTextField = "Name";
+                drlGroup.DataValueField = "Id";
+                drlGroup.DataBind();
+                pnSelectGroup.Visible = true;
+            }
+            else
+            {
+                //pnSelectGroup.Visible = false;
+            }
         }
         catch (Exception ex)
         {
- 
-            logs.Error(userLogin.Username + "-Client - LoadMailGroupLists", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadMailGroupLists", ex);
         }
     }
     private void InitBUS()
@@ -234,7 +234,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             Visible(false);
             pnError.Visible = true;
             lblError.Text = "Vui lòng kiểm tra lại định dạng file, hoặc file của bạn đang được sử dụng <br/>" + ex.ToString();
-            logs.Error(userLogin.Username + "-Client - btnReadExcel_Click", ex); 
+            logs.Error(userLogin.Username + "-Client - btnReadExcel_Click", ex);
         }
     }
     private void Visible(bool p)
@@ -330,7 +330,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex);
         }
 
     }
@@ -447,7 +447,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             int GroupID = 0;
             if (drlGroup.SelectedIndex >= 0)
             {
-                 GroupID = int.Parse(drlGroup.SelectedValue.ToString());
+                GroupID = int.Parse(drlGroup.SelectedValue.ToString());
             }
             int CustomerID = 0;
             string message = checkInputCustomer();
@@ -480,11 +480,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 {
                     ctDTO.AssignTo = int.Parse(drlGroup.SelectedValue.ToString());
                 }
-                int countEmail = 0;
+                long countEmail = 0;
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
-                    if (getUserLogin().UserType ==2)
+                    if (getUserLogin().UserType == 2)
                     {
                         table = ctBUS.GetClientId(getUserLogin().UserId);
                     }
@@ -497,7 +497,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     {
                         int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                         DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
-                        countEmail = int.Parse(dtCountEmail.Rows[0]["emailCount"].ToString());
+                        if (Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                        countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
                     }
 
                     int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
@@ -668,8 +669,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            
-            logs.Error(userLogin.Username + "-Client - btnAdd_Click", ex); 
+
+            logs.Error(userLogin.Username + "-Client - btnAdd_Click", ex);
             pnError.Visible = true;
             lblError.Text = "Lỗi trong quá trình thêm khách hàng!" + ex.Message.ToString();
         }

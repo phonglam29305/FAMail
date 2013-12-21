@@ -38,7 +38,7 @@ public class PackageDAO
         return table;
     }
 
-    public DataTable GetByUserId(int packageId)
+    public DataTable GetById(int packageId)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblPackage where packageId = @packageId",
             ConnectionData._MyConnection);
@@ -51,7 +51,6 @@ public class PackageDAO
         adapter.Dispose();
         return table;
     }
-
 
 
 

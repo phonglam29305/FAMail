@@ -62,7 +62,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
             string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
             DataTable dtpackage = new DataTable();
             pkgBus = new PackageBUS();
-            dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+            dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
             int packagelimitid = Convert.ToInt32(dtClientRegister.Rows[0]["limitid"].ToString());
             DataTable dtlimit = new DataTable();
             pkglimitBus = new PackageLimitBUS();
@@ -107,7 +107,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                     string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
                     DataTable dtpackage = new DataTable();
                     pkgBus = new PackageBUS();
-                    dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+                    dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
                     int packagelimitid = Convert.ToInt32(dtClientRegister.Rows[0]["limitId"].ToString());
                     DataTable dtlimit = new DataTable();
                     pkglimitBus = new PackageLimitBUS();
@@ -171,7 +171,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                     string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
                     DataTable dtpackage = new DataTable();
                     pkgBus = new PackageBUS();
-                    dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+                    dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
                     int packagelimitid = Convert.ToInt32(dtClientRegister.Rows[0]["limitid"].ToString());
                     DataTable dtlimit = new DataTable();
                     pkglimitBus = new PackageLimitBUS();
@@ -200,7 +200,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                     rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
                     rptListOptionsUpgrade.DataBind();
                     pkgBus = new PackageBUS();
-                    DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+                    DataTable dtPackage = pkgBus.GetById(Convert.ToInt32(packageid));
                     int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
                     pkglimitBus = new PackageLimitBUS();
                     DataTable dtTempp = pkglimitBus.GetAll();
@@ -291,7 +291,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                     rptListOptions.DataSource = dtFunctionTemmp;
                     rptListOptions.DataBind();
                     pkgBus=new PackageBUS();
-                    DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+                    DataTable dtPackage = pkgBus.GetById(Convert.ToInt32(packageid));
                     int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
                     pkglimitBus = new PackageLimitBUS();
                     DataTable dtTempp = pkglimitBus.GetAll();
@@ -416,7 +416,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         clientRegister = new ClientRegisterBUS();
         DataTable dtpackage = new DataTable();
         pkgBus = new PackageBUS();
-        dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+        dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
         int SubAccount = Convert.ToInt32(dtpackage.Rows[0]["subAccontCount"].ToString());
         int packagelimitid = Convert.ToInt32(dtpackage.Rows[0]["limitid"].ToString());
         DataTable dtlimit = new DataTable();
@@ -600,7 +600,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
             rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
             rptListOptionsUpgrade.DataBind();
             pkgBus = new PackageBUS();
-            DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageId));
+            DataTable dtPackage = pkgBus.GetById(Convert.ToInt32(packageId));
             int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
             pkglimitBus = new PackageLimitBUS();
             DataTable dtTempp = pkglimitBus.GetAll();
@@ -627,7 +627,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
         DataTable dtpackage = new DataTable();
         pkgBus = new PackageBUS();
-        dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+        dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
         int packagelimitid = Convert.ToInt32(dtClientRegister.Rows[0]["limitId"].ToString());
         DataTable dtlimit = new DataTable();
         pkglimitBus = new PackageLimitBUS();
@@ -767,7 +767,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         int limitId = Convert.ToInt32(ddlLimitPackage.SelectedValue.ToString());
         pkgBus = new PackageBUS();
         DataTable dtpackage = new DataTable();
-        dtpackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+        dtpackage = pkgBus.GetById(Convert.ToInt32(packageid));
         int SubAccount = Convert.ToInt32(dtpackage.Rows[0]["subAccontCount"].ToString());
         int totalFee = Convert.ToInt32(lblSumCost.Text);
         int registerType = 3;
@@ -866,7 +866,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
             rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
             rptListOptionsUpgrade.DataBind();
             pkgBus = new PackageBUS();
-            DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageId));
+            DataTable dtPackage = pkgBus.GetById(Convert.ToInt32(packageId));
             int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
             pkglimitBus = new PackageLimitBUS();
             DataTable dtTempp = pkglimitBus.GetAll();
