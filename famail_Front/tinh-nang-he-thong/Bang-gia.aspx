@@ -84,7 +84,7 @@
 
                 <div id="dangky">
                     <asp:HyperLink ID="Hpldangky" runat="server">
-                        <a class="ajax colorbox" href='dangky.aspx?packageId=<%#Eval("packageId") %>'>
+                        <a  href='register.aspx?packageId=<%#Eval("packageId") %>'>
                             <asp:Image ID="Image3" runat="server" ImageUrl="~/images/signupbtn.png" />
                         </a>
                     </asp:HyperLink>
