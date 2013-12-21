@@ -484,7 +484,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
-                    if (getUserLogin().UserType == 2)
+                    if (getUserLogin().DepartmentId == 2)
                     {
                         table = ctBUS.GetClientId(getUserLogin().UserId);
                     }

@@ -466,7 +466,7 @@ public class CustomerDAO
 
     public DataTable GetClientIdSub(int UserId)
     {
-        string sql = "SELECT * FROM tblSubClient WHERE UserId = @UserId";
+        string sql = "SELECT c.clientid, status, expireDate FROM tblSubClient sc inner join tblClient c on c.clientid = sc.clientid WHERE sc.UserId = @UserId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;

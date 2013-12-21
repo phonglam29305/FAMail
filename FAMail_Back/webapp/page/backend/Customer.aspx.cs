@@ -94,7 +94,10 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
                         rowE["Name"] = rowItem["Name"];
                         group.Rows.Add(rowE);
                     }
-                }
+                } DataRow dr = group.NewRow();
+                dr["Name"] = "---------------[Tất cả]-----------------";
+                dr["Id"] = "-1";
+                group.Rows.InsertAt(dr, 0);
                 this.drlNhomMail.DataSource = group;
                 this.drlNhomMail.DataTextField = "Name";
                 this.drlNhomMail.DataValueField = "Id";

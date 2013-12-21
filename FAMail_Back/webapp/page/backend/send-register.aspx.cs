@@ -366,7 +366,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     {
         try
         {
-            string message = checkLimitSendMail();
+            string message = "";// checkLimitSendMail();
             if (message != "")
             {
                 pnError.Visible = true;
