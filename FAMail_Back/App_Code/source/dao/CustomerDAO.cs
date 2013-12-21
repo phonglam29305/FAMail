@@ -240,13 +240,21 @@ public class CustomerDAO
 
     public DataTable GetAllCustomerDepart3(int UserID, int assignTo)
     {
+        //string sql = "";
+        //sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        //sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        //sql += "FROM   tblMailGroup AS mg INNER JOIN ";
+        //sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        //sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
+        //sql += "WHERE     (mg.AssignToUserID = @userId) AND ct.recivedEmail='True' and ct.AssignTo != @assignTo";
+
         string sql = "";
         sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
         sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
-        sql += "FROM   tblMailGroup AS mg INNER JOIN ";
-        sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
-        sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
-        sql += "WHERE     (mg.AssignToUserID = @userId) AND ct.recivedEmail='True' and ct.AssignTo != @assignTo";
+        sql += "FROM   tblMailGroup AS mg ";
+        // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON mg.Id = ct.assignTo ";
+        sql += "WHERE     (ct.createBy = @userId) AND ct.recivedEmail='True' and ct.assignTo != @assignTo";
 
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -265,22 +273,17 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllCustomerDepart3AssignTo(int UserID, int assignTo)
+    public DataTable GetAllCustomerDepart3AssignTo(int UserID, int GroupId)
     {
-        string sql = "";
-        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
-        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
-        sql += "FROM   tblMailGroup AS mg INNER JOIN ";
-        sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
-        sql += "INNER JOIN tblCustomer AS ct ON dg.CustomerID = ct.Id ";
-        sql += "WHERE     (mg.AssignToUserID = @userId) AND ct.recivedEmail='True' and ct.AssignTo = @assignTo";
-
-        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_search_Filter_tblCustomer_group3";
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
-        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = GroupId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
