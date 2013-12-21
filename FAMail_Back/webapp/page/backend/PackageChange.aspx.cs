@@ -154,6 +154,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 lblTitle.Text = "Nâng cấp dịch vụ";
                 extendbox.Visible = false;
                 upgradeservices.Visible = true;
+                ddlUpgradeTime.Enabled = false;
                 if (userid != null)
                 {
                     int user = userid;
@@ -176,13 +177,39 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                     pkglimitBus = new PackageLimitBUS();
                     dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitid);
                     lblTenGoi.Text = dtpackage.Rows[0]["packageName"].ToString();
-                    //int idPackage =Convert.ToInt32( dtlimit.Rows[0]["limitId"]);
-                    //pkglimitBus = new PackageLimitBUS();
-                    //DataTable dtAvailable = pkglimitBus.GetAvailablePackage(idPackage);
-                    //ddlUpgradeServices.DataSource = dtAvailable;
-                    //ddlUpgradeServices.DataTextField = "namepackagelimit";
-                    //ddlUpgradeServices.DataValueField = "limitId";
-                    //ddlUpgradeServices.DataBind();
+                    #region loadpackage
+                    pkgFunctionBus = new PackageFunctionBUS();
+                    DataTable dtfunction = pkgFunctionBus.GetFunctionbyPackageId(Convert.ToInt32(packageid));
+                    DataTable dtFunctionTemmp = new DataTable();
+                    dtFunctionTemmp.Columns.Add("functionId");
+                    dtFunctionTemmp.Columns.Add("functionName");
+                    dtFunctionTemmp.Columns.Add("cost");
+                    dtFunctionTemmp.Columns.Add("isDefault");
+                    foreach (DataRow drfunction in dtfunction.Rows)
+                    {
+                        int id = Convert.ToInt32(drfunction["functionId"].ToString());
+                        function = new FunctionBUS();
+                        DataTable dtTemp = function.GetByUserId(id);
+                        DataRow dr = dtFunctionTemmp.NewRow();
+                        dr["functionId"] = dtTemp.Rows[0]["functionId"].ToString();
+                        dr["functionName"] = dtTemp.Rows[0]["functionName"].ToString();
+                        dr["cost"] = dtTemp.Rows[0]["cost"].ToString();
+                        dr["isDefault"] = dtTemp.Rows[0]["isDefault"].ToString();
+                        dtFunctionTemmp.Rows.Add(dr);
+                    }
+                    rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
+                    rptListOptionsUpgrade.DataBind();
+                    pkgBus = new PackageBUS();
+                    DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageid));
+                    int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
+                    pkglimitBus = new PackageLimitBUS();
+                    DataTable dtTempp = pkglimitBus.GetAll();
+                    ddlPackageLimitUpgrade.DataSource = dtTempp;
+                    ddlPackageLimitUpgrade.DataTextField = "namepackagelimit";
+                    ddlPackageLimitUpgrade.DataValueField = "limitId";
+                    ddlPackageLimitUpgrade.DataBind();
+                    ddlPackageLimitUpgrade.SelectedValue = currentLimitID.ToString();
+                    #endregion
                     DateTime today = DateTime.Now;
                     DateTime dayexpire = Convert.ToDateTime(dtClient.Rows[0]["expireDate"].ToString());
                     string totaldayleft,hoursleft;
@@ -399,7 +426,8 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         DataTable dtCost = pkgCostBus.GetPackageCost(packageid);
         int cost = Convert.ToInt32(dtCost.Rows[0]["cost"].ToString());
         int numberoftime = Convert.ToInt32(ddlUpgradeTime.SelectedValue);
-        int totalFee = cost * numberoftime;
+        int value = 0;
+        int totalFee = Convert.ToInt32(lblFee.Text);
         string status = Request.QueryString["type"].ToString();
         int registerType;
         if (status == "extend")
@@ -430,8 +458,18 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         int lastRegisterFeeRemain = Convert.ToInt32(lblFeeRemain.Text);
         int packagetimeid = Convert.ToInt32(ddlUpgradeServices.SelectedValue);
         int newregisterid = clientRegister.UpdateUpgrade(clientId, packageid, limitId, SubAccount, totalFee, registerType, packagetimeid, from, to, lastRegisterFrom, lastRegisterTo, lastRegisterFee, lastRegisterFeeRemain);
-        //lblUpgradeExpireTime.Text = "Số registerId là "+newregisterid;
         clientbus.UpdateRegiterId(clientId, from, to, registerId, newregisterid);
+        foreach (RepeaterItem rptItems in rptListOptionsUpgrade.Items)
+        {
+            CheckBox chk = (CheckBox)rptItems.FindControl("chkOptionsUpgrade");
+            Label lbl = (Label)rptItems.FindControl("lblIDUpgrade");
+            int functionId = Convert.ToInt32(lbl.Text);
+            if (chk.Checked == true)
+            {
+                clientFunction = new ClientFunctionBUS();
+                clientFunction.UpdateFunction(newregisterid, clientId, functionId);
+            }
+        }
         btnUpgrade.Enabled = false;
         btnUpgrade.CssClass = "button round text-upper";
         btnUpgrade.Text = "Đã nâng cấp gói thành công!!!";
@@ -478,14 +516,12 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     }
     protected void ddlUpgradeTime_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (ddlUpgradeTime.SelectedIndex != 0)
+        int value=Convert.ToInt32(ddlUpgradeServices.SelectedValue);
+        if (value != 0 )
         {
             string today = DateTime.Now.ToShortDateString();
             int packageId = Convert.ToInt32(ddlUpgradeServices.SelectedValue);
             int numberofday = Convert.ToInt32(ddlUpgradeTime.SelectedValue.ToString());
-            //DataTable dtlimit = new DataTable();
-            //pkglimitBus = new PackageLimitBUS();
-            //dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitId);
             pkgCostBus = new PackageCostBUS();
             DataTable dtCost = pkgCostBus.GetPackageCost(packageId);
             int cost = Convert.ToInt32(dtCost.Rows[0]["cost"].ToString());
@@ -541,6 +577,39 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 lblFee.Text = totalFee.ToString();
                 lblFeeRemain.Text = Math.Round(feeRemain).ToString();
             }
+            #region loadfunction
+            pkgFunctionBus = new PackageFunctionBUS();
+            DataTable dtfunction = pkgFunctionBus.GetFunctionbyPackageId(Convert.ToInt32(packageId));
+            DataTable dtFunctionTemmp = new DataTable();
+            dtFunctionTemmp.Columns.Add("functionId");
+            dtFunctionTemmp.Columns.Add("functionName");
+            dtFunctionTemmp.Columns.Add("cost");
+            dtFunctionTemmp.Columns.Add("isDefault");
+            foreach (DataRow drfunction in dtfunction.Rows)
+            {
+                int id = Convert.ToInt32(drfunction["functionId"].ToString());
+                function = new FunctionBUS();
+                DataTable dtTemp = function.GetByUserId(id);
+                DataRow dr = dtFunctionTemmp.NewRow();
+                dr["functionId"] = dtTemp.Rows[0]["functionId"].ToString();
+                dr["functionName"] = dtTemp.Rows[0]["functionName"].ToString();
+                dr["cost"] = dtTemp.Rows[0]["cost"].ToString();
+                dr["isDefault"] = dtTemp.Rows[0]["isDefault"].ToString();
+                dtFunctionTemmp.Rows.Add(dr);
+            }
+            rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
+            rptListOptionsUpgrade.DataBind();
+            pkgBus = new PackageBUS();
+            DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageId));
+            int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
+            pkglimitBus = new PackageLimitBUS();
+            DataTable dtTempp = pkglimitBus.GetAll();
+            ddlPackageLimitUpgrade.DataSource = dtTempp;
+            ddlPackageLimitUpgrade.DataTextField = "namepackagelimit";
+            ddlPackageLimitUpgrade.DataValueField = "limitId";
+            ddlPackageLimitUpgrade.DataBind();
+            ddlPackageLimitUpgrade.SelectedValue = currentLimitID.ToString();
+            #endregion
         }
     }
     private double GetFeeRemain(int userid)
@@ -606,6 +675,37 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         int value2=Convert.ToInt32(dtTemp.Rows[0]["cost"].ToString());
         lblSumCost.Text = (value+value2).ToString();
     }
+    protected void chkOptionsUpgrade_CheckedChanged(object sender, EventArgs e)
+    {
+        int value = 0;
+        int Id = Convert.ToInt32(ddlPackageLimitUpgrade.SelectedValue.ToString());
+        int numberoftime = Convert.ToInt32(ddlUpgradeTime.SelectedValue);
+        pkglimitBus = new PackageLimitBUS();
+        DataTable dtTemp = pkglimitBus.GetByUserIdPackageLimit(Id);
+        foreach (RepeaterItem rptItems in rptListOptionsUpgrade.Items)
+        {
+            CheckBox chk = (CheckBox)rptItems.FindControl("chkOptionsUpgrade");
+            Label lbl = (Label)rptItems.FindControl("lblCostUpgrade");
+            if (chk.Checked == true)
+            {
+                value += Convert.ToInt32(lbl.Text);
+            }
+            else
+            {
+                //value = value;
+            }
+        }
+        int value2 = Convert.ToInt32(dtTemp.Rows[0]["cost"].ToString());
+        if (numberoftime == 0)
+        { 
+            lblFee.Text = (value + value2).ToString();
+        }
+        else if (numberoftime > 0)
+        {
+            int sum=((value + value2)*numberoftime);
+            lblFee.Text = sum.ToString();
+        }
+    }
     protected void ddlLimitPackage_SelectedIndexChanged(object sender, EventArgs e)
     {
         int value = 0;
@@ -630,19 +730,8 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
     }
     protected void rptListOptions_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        //int userid = Convert.ToInt32(userLogin.UserId);
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
-            //clientbus = new ClientBUS();
-            //DataTable dtClient = new DataTable();
-            //dtClient = clientbus.GetByID(userid);
-            //int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
-            //clientRegister = new ClientRegisterBUS();
-            //DataTable dtClientRegister = new DataTable();
-            //dtClientRegister = clientRegister.GetbyID(registerId);
-            //string packageid = dtClientRegister.Rows[0]["packageId"].ToString();
-            //pkgFunctionBus = new PackageFunctionBUS();
-            //DataTable dtfunction = pkgFunctionBus.GetFunctionbyPackageId(Convert.ToInt32(packageid));
             CheckBox chk = (CheckBox)e.Item.FindControl("chkOptions");
             Label lbl = (Label)e.Item.FindControl("lblCheck");
             Label lblid = (Label)e.Item.FindControl("lblID");
@@ -705,5 +794,124 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
         btnEditOption.Enabled = false;
         btnEditOption.CssClass = "button round text-upper";
         btnEditOption.Text = "Đã điều chỉnh chức năng gói!!!";
+    }
+    protected void rptListOptionsUpgrade_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            CheckBox chk = (CheckBox)e.Item.FindControl("chkOptionsUpgrade");
+            Label lbl = (Label)e.Item.FindControl("lblCheckUpgrade");
+            Label lblid = (Label)e.Item.FindControl("lblIDUpgrade");
+            string value = lbl.Text.Trim();
+            int id = Convert.ToInt32(lblid.Text);
+            if (id != null)
+            {
+                if (value == "True")
+                {
+                    chk.Checked = true;
+                    chk.Enabled = false;
+                }
+                else
+                {
+                    chk.Checked = true;
+                }
+            }
+        }
+    }
+    protected void ddlPackageLimitUpgrade_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int value = 0;
+        int Id = Convert.ToInt32(ddlPackageLimitUpgrade.SelectedValue.ToString());
+        pkglimitBus = new PackageLimitBUS();
+        DataTable dtTemp = pkglimitBus.GetByUserIdPackageLimit(Id);
+        foreach (RepeaterItem rptItems in rptListOptionsUpgrade.Items)
+        {
+            CheckBox chk = (CheckBox)rptItems.FindControl("chkOptionsUpgrade");
+            Label lbl = (Label)rptItems.FindControl("lblCostUpgrade");
+            if (chk.Checked == true)
+            {
+                value += Convert.ToInt32(lbl.Text);
+            }
+            else
+            {
+            }
+        }
+        int value2 = Convert.ToInt32(dtTemp.Rows[0]["cost"].ToString());
+        lblFee.Text = (value + value2).ToString();
+    }
+    protected void ddlUpgradeServices_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int packageId = Convert.ToInt32(ddlUpgradeServices.SelectedValue);
+        if (packageId != 0)
+        {
+            pkgFunctionBus = new PackageFunctionBUS();
+            DataTable dtfunction = pkgFunctionBus.GetFunctionbyPackageId(Convert.ToInt32(packageId));
+            DataTable dtFunctionTemmp = new DataTable();
+            dtFunctionTemmp.Columns.Add("functionId");
+            dtFunctionTemmp.Columns.Add("functionName");
+            dtFunctionTemmp.Columns.Add("cost");
+            dtFunctionTemmp.Columns.Add("isDefault");
+            foreach (DataRow drfunction in dtfunction.Rows)
+            {
+                int id = Convert.ToInt32(drfunction["functionId"].ToString());
+                function = new FunctionBUS();
+                DataTable dtTemp = function.GetByUserId(id);
+                DataRow dr = dtFunctionTemmp.NewRow();
+                dr["functionId"] = dtTemp.Rows[0]["functionId"].ToString();
+                dr["functionName"] = dtTemp.Rows[0]["functionName"].ToString();
+                dr["cost"] = dtTemp.Rows[0]["cost"].ToString();
+                dr["isDefault"] = dtTemp.Rows[0]["isDefault"].ToString();
+                dtFunctionTemmp.Rows.Add(dr);
+            }
+            rptListOptionsUpgrade.DataSource = dtFunctionTemmp;
+            rptListOptionsUpgrade.DataBind();
+            pkgBus = new PackageBUS();
+            DataTable dtPackage = pkgBus.GetByUserId(Convert.ToInt32(packageId));
+            int currentLimitID = Convert.ToInt32(dtPackage.Rows[0]["limitId"].ToString());
+            pkglimitBus = new PackageLimitBUS();
+            DataTable dtTempp = pkglimitBus.GetAll();
+            ddlPackageLimitUpgrade.DataSource = dtTempp;
+            ddlPackageLimitUpgrade.DataTextField = "namepackagelimit";
+            ddlPackageLimitUpgrade.DataValueField = "limitId";
+            ddlPackageLimitUpgrade.DataBind();
+            ddlPackageLimitUpgrade.SelectedValue = currentLimitID.ToString();
+            ddlUpgradeTime.Enabled = true;
+            //ddlUpgradeTime.SelectedValue = 1+"";
+            int value = 0;
+            int Id = Convert.ToInt32(ddlPackageLimitUpgrade.SelectedValue.ToString());
+            int numberoftime = Convert.ToInt32(ddlUpgradeTime.SelectedValue);
+            pkglimitBus = new PackageLimitBUS();
+            DataTable dtTemps = pkglimitBus.GetByUserIdPackageLimit(Id);
+            if (numberoftime > 0)
+            {
+                foreach (RepeaterItem rptItems in rptListOptionsUpgrade.Items)
+                {
+                    CheckBox chk = (CheckBox)rptItems.FindControl("chkOptionsUpgrade");
+                    Label lbl = (Label)rptItems.FindControl("lblCostUpgrade");
+                    if (chk.Checked == true)
+                    {
+                        value += Convert.ToInt32(lbl.Text);
+                    }
+                    else
+                    {
+                        //value = value;
+                    }
+                }
+                int value2 = Convert.ToInt32(dtTemps.Rows[0]["cost"].ToString());
+                if (numberoftime == 0)
+                {
+                    lblFee.Text = (value + value2).ToString();
+                }
+                else if (numberoftime > 0)
+                {
+                    int sum = ((value + value2) * numberoftime);
+                    lblFee.Text = sum.ToString();
+                }
+            }
+            else
+            { 
+                
+            }
+        }
     }
 }

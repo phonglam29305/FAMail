@@ -1,13 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="PackageChange.aspx.cs" Inherits="webapp_page_backend_PackageChange" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <%-- <asp:ListItem Value="30">1 tháng</asp:ListItem>
+    <%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
                                             <asp:ListItem Value="90">3 tháng</asp:ListItem>
                                             <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%><%--<asp:ListItem Value="30">1 tháng</asp:ListItem>
-                                            <asp:ListItem Value="90">3 tháng</asp:ListItem>
-                                            <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>    <%#Eval("functionName") %>
+                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%><%#Eval("functionName") %><%#Eval("functionName") %>
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="side-content fr">
                 <!--start content 01-->
@@ -63,7 +60,8 @@
                                 <tr>
                                     <td>Gói dịch vụ có thể nâng cấp:</td>
                                     <td style="text-align:left !important;">
-                                        <asp:DropDownList ID="ddlUpgradeServices" runat="server">
+                                        <asp:DropDownList ID="ddlUpgradeServices" runat="server" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlUpgradeServices_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">-------------Chọn gói nâng cấp-------------</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
@@ -101,6 +99,29 @@
                                     <td>Thời gian hết hạn:</td>
                                     <td style="text-align:left !important;">
                                         <asp:Label ID="lblUpgradeExpireTime" runat="server" Text=""></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Chức năng:</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:Repeater ID="rptListOptionsUpgrade" runat="server" OnItemDataBound="rptListOptionsUpgrade_ItemDataBound">
+                                            <ItemTemplate>
+                                                <div class="confirmation-box" style="float:left;border:none !important">
+                                                    <asp:CheckBox ID="chkOptionsUpgrade" runat="server" AutoPostBack="true" OnCheckedChanged="chkOptionsUpgrade_CheckedChanged" />
+                                                    <%#Eval("functionName") %>
+                                                    <asp:Label ID="lblIDUpgrade" runat="server" style="display:none;" Text='<%#Eval("functionId") %>' Visible="false"></asp:Label>
+                                                    <asp:Label ID="lblCostUpgrade" runat="server" style="display:none;" Text='<%#Eval("cost") %>' Visible="False"></asp:Label>
+                                                    <asp:Label ID="lblCheckUpgrade" runat="server" style="display:none;" Text='<%#Eval("isDefault") %>' Visible="false"></asp:Label>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gói giới hạn</td>
+                                    <td style="text-align:left !important;">
+                                        <asp:DropDownList ID="ddlPackageLimitUpgrade" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlPackageLimitUpgrade_SelectedIndexChanged">
+                                        </asp:DropDownList>
                                     </td>
                                 </tr>
                                 <tr>
