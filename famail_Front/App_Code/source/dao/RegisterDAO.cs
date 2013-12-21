@@ -37,7 +37,7 @@ public class RegisterDAO
     }
     public DataTable GetAllPackagetime()
     {
-        SqlCommand cmd = new SqlCommand("select * from tblPackageTime", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("select * from tblPackageTime order by monthcount", ConnectionData._MyConnection);
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);

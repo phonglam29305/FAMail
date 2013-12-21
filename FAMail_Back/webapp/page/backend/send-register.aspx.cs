@@ -449,35 +449,37 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     {
         try
         {
-            DataTable tblCustomer = new DataTable();
-            dsgBUS = new DetailGroupBUS();
-            psBus = new PartSendBUS();
-            int groupID = int.Parse(this.drlMailGroup.SelectedValue.ToString());
-            if (groupID == -3)
+            if (this.drlMailGroup.SelectedValue != null)
             {
-                customerBus = new CustomerBUS();
-                tblCustomer = customerBus.GetAll();
+                DataTable tblCustomer = new DataTable();
+                dsgBUS = new DetailGroupBUS();
+                psBus = new PartSendBUS();
+                int groupID = int.Parse(this.drlMailGroup.SelectedValue.ToString());
+                if (groupID == -3)
+                {
+                    customerBus = new CustomerBUS();
+                    tblCustomer = customerBus.GetAll();
+                }
+                else
+                {
+                    tblCustomer = dsgBUS.GetByID(groupID);
+                }
+
+                string countCustomer = tblCustomer.Rows.Count.ToString();
+                lblCountCustomer.Text = "Hiện có " + countCustomer + " khách hàng trong nhóm này !";
+                hdfCountCustomer.Value = countCustomer;
+
+                // Đếm số lượng mail đã gửi trong group trong chiến dịch gửi từng phần
+                //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(getUserLogin().UserId, groupID);
+                //if (tblPartSend.Rows.Count > 0)
+                //{
+                //    string strContentList = tblPartSend.Rows[0]["hasContentSend"].ToString();
+                //    string[] arrayContentList = strContentList.Split(',');
+                //    hplCountPartSend.Text = arrayContentList.Length + " nội dung";
+                //    hplCountPartSend.NavigateUrl = "view-content-send.aspx?groupId=" + groupID;
+                //}
+
             }
-            else
-            {
-                tblCustomer = dsgBUS.GetByID(groupID);
-            }
-
-            string countCustomer = tblCustomer.Rows.Count.ToString();
-            lblCountCustomer.Text = "Hiện có " + countCustomer + " khách hàng trong nhóm này !";
-            hdfCountCustomer.Value = countCustomer;
-
-            // Đếm số lượng mail đã gửi trong group trong chiến dịch gửi từng phần
-            //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(getUserLogin().UserId, groupID);
-            //if (tblPartSend.Rows.Count > 0)
-            //{
-            //    string strContentList = tblPartSend.Rows[0]["hasContentSend"].ToString();
-            //    string[] arrayContentList = strContentList.Split(',');
-            //    hplCountPartSend.Text = arrayContentList.Length + " nội dung";
-            //    hplCountPartSend.NavigateUrl = "view-content-send.aspx?groupId=" + groupID;
-            //}
-
-
         }
         catch (Exception ex)
         {

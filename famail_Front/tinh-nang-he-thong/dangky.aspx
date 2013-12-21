@@ -48,7 +48,7 @@
                             <asp:Label ID="Label1" runat="server" Text="Gói thời gian:" BorderStyle="None"></asp:Label>
                         </div>
                         <div class="divbox">
-                            <asp:DropDownList ID="Drpacketime" runat="server" CssClass="txtbox" OnSelectedIndexChanged="Drpacketime_SelectedIndexChanged" Width="48px" AutoPostBack="True"></asp:DropDownList>
+                            <asp:DropDownList ID="Drpacketime" runat="server" CssClass="txtbox" OnSelectedIndexChanged="Drpacketime_SelectedIndexChanged" Width="105px" AutoPostBack="True"></asp:DropDownList>
                         </div>
                     </div>
                     <div class="box-fcdk">

@@ -35,10 +35,19 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             lbtotalfree.Text = table.Rows[0]["totalFee"].ToString();
 
 
-            Drpacketime.DataTextField = "monthCount";
+            Drpacketime.DataTextField = "MonthText";
             Drpacketime.DataValueField = "discount";
-            Drpacketime.DataSource = dk.Getpackagetime();
+            DataTable Time = dk.Getpackagetime();
+            DataColumn col = new DataColumn("MonthText", typeof(string));
+            Time.Columns.Add(col);
+            foreach (DataRow r in Time.Rows)
+            {
+                r["MonthText"] = Convert.ToInt32(r["monthcount"]).ToString("00' tháng'");
+            }
+            Drpacketime.DataSource = Time;
             Drpacketime.DataBind();
+
+            lbtongphi.Text = Convert.ToInt32(table.Rows[0]["totalfee"]).ToString("0,000.0' $'");
         }
 
     }
@@ -58,7 +67,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         double a = Convert.ToDouble(Drpacketime.SelectedValue.ToString());
         double b = Convert.ToDouble(lbtotalfree.Text);
         double c = b * (a) / 100;
-        lbtongphi.Text = c.ToString();
+        lbtongphi.Text = c.ToString("0,000.0' $'");
 
     }
     protected void Drpacketime_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,7 +85,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             ConnectionData.OpenMyConnection();
             clientRegisterdto clientRegister = new clientRegisterdto();
             clientRegister.from = DateTime.Now;
-            clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text) * 30);
+            clientRegister.to = DateTime.Now.AddDays(Convert.ToInt32(Drpacketime.SelectedItem.Text.Replace(" tháng", "")) * 30);
 
             string idpackage = Request.QueryString["packageId"].ToString();
             int id = 0;
@@ -89,8 +98,9 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
                 clientRegister.totalFee = Convert.ToDouble(T.Rows[0]["cost"]);
                 clientRegister.subAccontCount = Convert.ToInt32(T.Rows[0]["subAccontCount"]);
                 clientRegister.emailCount = Convert.ToInt32(T.Rows[0]["emailCount"]);
+                clientRegister.limitId = Convert.ToInt32(T.Rows[0]["limitid"]);
             }
-            object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text)[0]["packageTimeId"];
+            object temp = dk.Getpackagetime().Select("monthCount=" + Drpacketime.SelectedItem.Text.Replace(" tháng", ""))[0]["packageTimeId"];
             Int32.TryParse(temp + "", out id);
             clientRegister.packageTimeId = id;
 
@@ -130,6 +140,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         else
         {
             lbdiengiai.Text = mess;
+            lblTenGoiMail.ForeColor = System.Drawing.Color.Red;
         }
     }
     public static string GetMd5Hash(string input)
@@ -222,9 +233,18 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         }
         else
         {
-            return "";
-        }
+            cptCaptcha.ValidateCaptcha(txtbody.Text.Trim());
+            if (!cptCaptcha.UserValidated)
+            {
+                this.txtpassAgain.Focus();
+                return "Mã bảo vệ không đúng";
 
+            }
+            else
+            {
+                return "";
+            }
+        }
 
     }
     public bool IsValidMail(string emailaddress)

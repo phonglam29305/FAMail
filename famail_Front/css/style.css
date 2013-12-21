@@ -2275,8 +2275,7 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
             border-right:1px solid ridge;
         }
       #chucnang #dangky{
-                margin-left:-35px;
-             
+                margin-left:5px;
               
             }
             #chucnang #dangky #bakground{
@@ -2284,7 +2283,8 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
                 background-position: center top;
                 background-repeat: no-repeat;
                 height: 60px;
-                width:200px;
+                width:193px;
+                text-align: center;
                margin-left:-51px;
                margin-top:-52px;
 

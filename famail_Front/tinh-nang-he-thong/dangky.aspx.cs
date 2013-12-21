@@ -35,9 +35,16 @@ public partial class tinh_nang_he_thong_Dangky : System.Web.UI.Page
             lbtotalfree.Text = table.Rows[0]["totalFee"].ToString();
 
 
-            Drpacketime.DataTextField = "monthCount";
+            Drpacketime.DataTextField = "MonthText";
             Drpacketime.DataValueField = "discount";
-            Drpacketime.DataSource = dk.Getpackagetime();
+            DataTable Time = dk.Getpackagetime();
+            DataColumn col = new DataColumn("MonthText",typeof(string));
+            Time.Columns.Add(col);
+            foreach (DataRow r in Time.Rows)
+            {
+                r["MonthText"] = Convert.ToInt32(r["monthcount"]).ToString("00' tháng'");
+            }
+            Drpacketime.DataSource = Time;
             Drpacketime.DataBind();
         }
 

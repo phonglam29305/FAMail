@@ -77,7 +77,7 @@ ValidateRequest="false"  %>
 								    <label for="another-simple-input">Sử dụng email gửi đi</label>
                                     <asp:DropDownList ID="drlMailConfig" CssClass="round default-width-dropdown" runat="server">
                                     </asp:DropDownList>
-								    <em>Tùy chọn này sẽ quyết định mail gửi đi (<a href="Config-Email-Send.aspx">Cấu hình mail</a>)</em>								
+								    <em>Tùy chọn này sẽ quyết định mail gửi đi (<a href="AmazonManage.aspx">Cấu hình mail</a>)</em>								
 							    </p>							
 						    </fieldset>	
     				

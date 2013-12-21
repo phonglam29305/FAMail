@@ -68,16 +68,16 @@
 
                 <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
 
-                    <ItemTemplate>
+                    <ItemTemplate><div id="dangky">
                         <%-- thay thanh image  --%>
                         <asp:Image ID="Image1" runat="server" ImageUrl="~/images/blue-check.png" Visible='<%#Eval("isuse")+""=="yes"?true:false %>' />
                         <asp:Image ID="Image2" runat="server" ImageUrl="~/images/CloseIcon20x20.png" Visible='<%#Eval("isuse")+""=="no"?true:false %> ' />
-                        <asp:Label ID="Label1" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="NO")?true:false %>'><%#Eval("isuse") %></asp:Label>         
+                        <asp:Label ID="Label1" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="no")?true:false %>'><%#Eval("isuse") %></asp:Label>         
 
                       
                         <%-- thay thanh image   --%>    <%--<asp:Label ID="Label5" runat="server"  Visible='<%#Eval("isuse")+""=="yes"?true:false %>'><%#Eval("isuse") %></asp:Label> --%>
 
-                        <div id="dangky">
+                        </div>
                     </ItemTemplate>
 
                 </asp:DataList>
