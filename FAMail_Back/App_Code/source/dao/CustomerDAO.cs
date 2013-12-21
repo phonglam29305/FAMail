@@ -477,7 +477,7 @@ public class CustomerDAO
 
     public DataTable GetByEmail(string Email, int UserID)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Email = @Email and UserID= @UserID", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Email = @Email and createBy= @UserID", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;

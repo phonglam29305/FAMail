@@ -25,8 +25,22 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
         catch (Exception)
         {}
     }
+
+    private UserLoginDTO getUserLogin()
+    {
+        if (Session["us-login"] != null)
+        {
+            return (UserLoginDTO)Session["us-login"];
+        }
+        else Response.Redirect("~");//test confict
+        return null;
+    }
     protected void lbtSubmit_Click(object sender, EventArgs e)
     {
+        DataTable table = null;
+        DataTable tableStatus = null;
+        int clienID = 0;
+        int status = 0;
         try
         {
             String user = txtUsername.Text;
@@ -41,9 +55,18 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 userLogin.Username = tbResult.Rows[0]["Username"].ToString();
                 userLogin.Password = tbResult.Rows[0]["Password"].ToString();
                 userLogin.DepartmentId = int.Parse(tbResult.Rows[0]["DepartmentId"].ToString());
-                DataTable table = ulBus.GetClientId(userLogin.UserId);
-                int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
-                int status = int.Parse(table.Rows[0]["Status"].ToString());
+                userLogin.UserType = int.Parse(tbResult.Rows[0]["UserType"].ToString());
+                if (userLogin.UserType == 2)
+                {
+                    table = ulBus.GetClientIdSub(userLogin.UserId);
+                    clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+
+                    tableStatus = ulBus.GetClientId(clienID);
+                    status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
+                }
+               
+               
+               
 
              //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
               //  string todays = DateTime.Now.ToString("yyyy-MM-dd");

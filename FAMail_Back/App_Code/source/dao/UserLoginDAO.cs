@@ -262,7 +262,21 @@ public class UserLoginDAO
 
     public DataTable GetClientId(int UserId)
     {
-        string sql = "SELECT * FROM tblClient WHERE UserId = @UserId";
+        string sql = "SELECT * FROM tblClient WHERE clientId = @UserId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable GetClientIdSub(int UserId)
+    {
+        string sql = "SELECT * FROM tblSubClient WHERE UserId = @UserId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;

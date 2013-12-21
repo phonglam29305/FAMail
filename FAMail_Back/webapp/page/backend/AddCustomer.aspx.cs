@@ -58,7 +58,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             InitBUS();
            
-            pnSelectGroup.Visible = false;
+           // pnSelectGroup.Visible = false;
             LoadCustomer();
             LoadMailGroupLists();
         }
@@ -126,15 +126,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
         DataTable dtMailGroup = null;
 
-        if (getUserLogin().UserType == 0)
+        if (getUserLogin().DepartmentId ==1)
         {
             dtMailGroup = mailGroupBus.GetAllNew();
         }
-        if (getUserLogin().UserType == 1)
+        if (getUserLogin().DepartmentId == 2)
         {
             dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
         }
-        if (getUserLogin().UserType == 2)
+        if (getUserLogin().DepartmentId == 3)
         {
             dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
         }
@@ -155,7 +155,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         }
         else
         {
-            pnSelectGroup.Visible = false;
+            //pnSelectGroup.Visible = false;
         }
         }
         catch (Exception ex)
@@ -282,6 +282,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         ctDTO.Type = "";
                         ctDTO.UserID = getUserLogin().UserId;
                         ctDTO.createBy = getUserLogin().UserId;
+                        ctDTO.AssignTo = int.Parse(drlMailGroup.SelectedItem.Value);
                         count++;
 
                         DataTable checkExistsMail = ctBUS.GetByEmail(lblEmail.Text, getUserLogin().UserId);
@@ -373,6 +374,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         {
             message = "Bạn chưa nhập tên khách hàng!";
             this.txtName.Focus();
+        }
+        else if (txtBirthday.Text == "")
+        {
+            message = "Bạn chưa nhập ngày sinh!";
+            this.txtBirthday.Focus();
         }
         else if (txtEmail.Text == "")
         {
@@ -478,7 +484,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 //them moi
                 if (hdfCustomerId.Value == null || hdfCustomerId.Value == "")
                 {
-                    if (getUserLogin().UserType == 2)
+                    if (getUserLogin().UserType ==2)
                     {
                         table = ctBUS.GetClientIdSub(getUserLogin().UserId);
                     }

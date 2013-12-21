@@ -102,6 +102,25 @@ public class MailGroupDAO
         adapter.Dispose();
         return table;
     }
+
+
+    public DataTable GetAllAssignTo(int userId)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup  where AssignToUserId =@UserID ",
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetByID(int Id)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup WHERE Id = @Id",

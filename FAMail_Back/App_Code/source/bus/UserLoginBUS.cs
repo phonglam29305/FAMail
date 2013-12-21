@@ -111,6 +111,11 @@ public class UserLoginBUS : IUserLogin
         return ulDao.GetClientId(userId);
     }
 
+    public System.Data.DataTable GetClientIdSub(int userId)
+    {
+        return ulDao.GetClientIdSub(userId);
+    }
+
     public System.Data.DataTable GetCountSubClient(int ClientId)
     {
         return ulDao.GetCountSubClient(ClientId);

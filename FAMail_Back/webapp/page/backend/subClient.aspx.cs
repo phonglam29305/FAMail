@@ -167,6 +167,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        DataTable table = null;
         string message = "";
         try
         {
@@ -195,7 +196,15 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
 
-                    DataTable table = ulBus.GetClientId(getUserLogin().UserId);
+                    if (getUserLogin().UserType == 2)
+                    {
+                        table = ulBus.GetClientIdSub(getUserLogin().UserId);
+                    }
+                    else
+                    {
+                        table = ulBus.GetClientId(getUserLogin().UserId);
+                    }
+
                     int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                     ulDto.ClientID = clienID;
 
@@ -248,8 +257,8 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                     ulBus.tblSubClient_Update(ulDto);
                     // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
                     // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
-                    DataTable table = ulBus.GetBySubId(ulDto.SubId);
-                    string Username = table.Rows[0]["subEmail"].ToString();
+                    DataTable tablesub = ulBus.GetBySubId(ulDto.SubId);
+                    string Username = tablesub.Rows[0]["subEmail"].ToString();
                     DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
                     bool Is_Block_check = chkBlock.Checked;
 

@@ -2,10 +2,10 @@
 AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_backend_AddCustomer" Title="FASTAUTOMATICMAIL" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <script>
-    $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dtlCustomer_ctl00_chkAll:checkbox').change(function() {
-        if ($(this).attr("checked")) $('input:checkbox').attr('checked', 'checked');
-        else $('input:checkbox').removeAttr('checked');
-    });
+        $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dtlCustomer_ctl00_chkAll:checkbox').change(function () {
+            if ($(this).attr("checked")) $('input:checkbox').attr('checked', 'checked');
+            else $('input:checkbox').removeAttr('checked');
+        });
 </script>
  <div class="side-content fr">
           <asp:HiddenField ID="hdfCustomerId" runat="server" /> 
@@ -133,43 +133,9 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                        $(this).data('checked', checked);
                                    }
                               </script>
-                    <table>
+                    <table id="tbl" width="100px">
                     
-                    
-                        <asp:Panel ID="pnSelectGroup" runat="server">
-                            <tr>
-                                <td style="width: 50px;" colspan="5">
-                                    <label for="table-select-actions" style="font-weight: bolder;">
-                                        Lựa chọn:</label>
-                                    <asp:DropDownList ID="drlMailGroup" runat="server" AutoPostBack="True" Height="30px">
-                                        <asp:ListItem Value="0">All</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:Button ID="btnSave" runat="server" Text="Thêm vào" CssClass="round button blue text-upper small-button"
-                                        OnClick="btnSave_Click" />
-                                </td>
-                            </tr>
-                        </asp:Panel>
-                        <asp:Panel ID="pnBackAddGroup" runat="server">
-                            <a href="group-mail.aspx">Tạo nhóm mail mới</a>
-                        </asp:Panel>
-                    </table>
-                    <%-- </form>--%>
-                </div>
-                <!-- end content-module-main -->
-            </div>
-        </div>
-        <!-- ============= datetime picker -->
-
-    <script type="text/javascript">
-        $(function() {
-            $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBirthday').datetimepicker({
-	            changeMonth:true, changeYear:true, timeFormat: "", dateFormat: "dd/mm/yy"
-            });
-        });	
-    </script>
-
-    
-   <asp:DataList ID="dtlCustomer" runat="server">
+                       <asp:DataList ID="dtlCustomer" runat="server">
                             <HeaderTemplate>
                                 <thead>
                                     <tr>
@@ -224,8 +190,53 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                     </tr>
                                 </tbody>
                             </ItemTemplate>
-                            <FooterTemplate>
-                            </FooterTemplate>
+                             <FooterTemplate>
+                </tbody>
+                 <tfoot style="padding:10px;">
+                        <tr style="margin:5px;">
+                            <td colspan="7" class="table-footer">
+                  
+                            </td>
+                           
+                        </tr>
+                    </tfoot>	 
+        	    
+        	   
+                </FooterTemplate>
                         </asp:DataList>
+                        <asp:Panel ID="pnSelectGroup" runat="server">
+                            <tr>
+                                <td style="width: 50px;" colspan="5">
+                                    <label for="table-select-actions" style="font-weight: bolder;">
+                                        Lựa chọn:</label>
+                                    <asp:DropDownList ID="drlMailGroup" runat="server"  Height="30px">
+                                        <asp:ListItem Value="0">All</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <asp:Button ID="btnSave" runat="server" Text="Thêm vào" CssClass="round button blue text-upper small-button"
+                                        OnClick="btnSave_Click" />
+                                </td>
+                            </tr>
+                        </asp:Panel>
+                        <asp:Panel ID="pnBackAddGroup" runat="server">
+                            <a href="group-mail.aspx">Tạo nhóm mail mới</a>
+                        </asp:Panel>
+                    </table>
+                    <%-- </form>--%>
+                </div>
+                <!-- end content-module-main -->
+            </div>
+        </div>
+        <!-- ============= datetime picker -->
+
+    <script type="text/javascript">
+        $(function() {
+            $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBirthday').datetimepicker({
+	            changeMonth:true, changeYear:true, timeFormat: "", dateFormat: "dd/mm/yy"
+            });
+        });	
+    </script>
+
+    
+
 </asp:Content>
 
