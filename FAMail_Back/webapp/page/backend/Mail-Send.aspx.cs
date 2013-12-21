@@ -76,11 +76,11 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
             {
                 count++;
                 DataRow row = tblSendDetail.Rows[i];
-                Label lblNo = (Label)dlReport.Items[i].FindControl("lblNo");
-                lblNo.Text = count.ToString();
+                //Label lblNo = (Label)dlReport.Items[i].FindControl("lblNo");
+                //lblNo.Text = count.ToString();
 
-                HiddenField hdfId = (HiddenField)dlReport.Items[i].FindControl("hdfId");
-                hdfId.Value = row["SendRegisterId"].ToString();
+                //HiddenField hdfId = (HiddenField)dlReport.Items[i].FindControl("hdfId");
+                //hdfId.Value = row["SendRegisterId"].ToString();
 
                 Label lblEmail = (Label)dlReport.Items[i].FindControl("lblEmail");
                 lblEmail.Text = row["Email"].ToString();

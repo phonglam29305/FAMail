@@ -11,7 +11,7 @@ AutoEventWireup="true" CodeFile="report.master.cs" Inherits="webapp_template_bac
 				    <ul>        
                         <asp:Panel ID="ControlPanel" runat="server">
                             <li>
-                            <asp:HyperLink ID="hplReport" href="mail-report.aspx" roleId="8"  runat="server">Thống kê</asp:HyperLink>
+                            <asp:HyperLink ID="hplReport" href="reportSend.aspx" roleId="8"  runat="server">Thống kê</asp:HyperLink>
                             </li>
 					        <li>
 					            <asp:HyperLink ID="hplReportMailSend" href="Mail-Send.aspx" roleId="16" runat="server">Thư đã gửi</asp:HyperLink>

@@ -33,33 +33,22 @@
         </asp:DataList>
     </div>
     <div id="goidichvu">
-    
-         
+        <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
+        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
 
-                <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
+            <AlternatingItemStyle BackColor="White" />
+            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+            <ItemStyle BackColor="#EFF3FB" />
 
-             
-             
-                        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
+            <ItemTemplate>
+                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
 
-                            <AlternatingItemStyle BackColor="White" />
-                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <ItemStyle BackColor="#EFF3FB" />
+            </ItemTemplate>
 
-                            <ItemTemplate>
-                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
+            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
 
-                            </ItemTemplate>
-
-                            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-
-                        </asp:DataList>
-                   
-               
-            
-           
-      
+        </asp:DataList>
     </div>
     <div id="chucnang">
         <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="113%">
