@@ -31,8 +31,10 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 LoadData();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
+                logs.Error(userLogin.Username + "-Client - LoadData", ex);
             }
         }
     }

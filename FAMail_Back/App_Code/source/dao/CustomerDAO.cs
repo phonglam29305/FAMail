@@ -424,7 +424,7 @@ public class CustomerDAO
     {
         string sql = "SP_GetEmailCount_ByUser";// "SELECT count(*) as numberMail FROM tblCustomer WHERE createBy = @createdby";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@createdby", SqlDbType.Int).Value = createdby;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();

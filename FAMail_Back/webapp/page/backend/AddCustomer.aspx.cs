@@ -497,7 +497,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     {
                         int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                         DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
-                        if (Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                        if (dtCountEmail.Rows[0]["isUnLimit"]+""!="" ||Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
                         countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
                     }
 

@@ -262,7 +262,7 @@ public class UserLoginDAO
 
     public DataTable GetClientId(int UserId)
     {
-        string sql = "SELECT * FROM tblClient WHERE clientId = @UserId";
+        string sql = "SELECT * FROM tblClient WHERE UserId = @UserId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
