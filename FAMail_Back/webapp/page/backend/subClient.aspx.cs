@@ -198,7 +198,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 if (hdfId.Value == null || hdfId.Value == "")//them moi
                 {
 
-                    if (getUserLogin().UserType == 2)
+                    if (getUserLogin().DepartmentId == 3)
                     {
                         table = ulBus.GetClientIdSub(getUserLogin().UserId);
                     }
