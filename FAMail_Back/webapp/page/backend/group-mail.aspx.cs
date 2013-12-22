@@ -195,7 +195,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
          
             logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
         }
-      //  LoadGroup();
+        LoadGroup();
 
     }
 
