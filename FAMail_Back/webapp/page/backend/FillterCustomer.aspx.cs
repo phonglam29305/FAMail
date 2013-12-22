@@ -93,8 +93,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-    
-            logs.Error(userLogin.Username + "-Client - LoadSubGroup", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadSubGroup", ex);
         }
 
         // pnSearch.Visible = true;
@@ -115,7 +115,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
     private void LoadCustomer()
     {
-        
+
         mgBUS = new MailGroupBUS();
         customer = new DataTable();
         customerBySelect = new DataTable();
@@ -140,12 +140,12 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
 
-         }
+        }
 
         catch (Exception ex)
         {
-       
-            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadCustomer", ex);
         }
 
     }
@@ -250,8 +250,10 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             //  createTable();
             customer = new DataTable();
             ctBUS = new CustomerBUS();
+            dsgBUS = new DetailGroupBUS();
             int GroupID = 0;
             GroupID = int.Parse(drlSubGroup.SelectedValue.ToString());
+
             if (getUserLogin().DepartmentId == 1)
             {
                 //customer = ctBUS.GetAll();
@@ -260,11 +262,36 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             }
             if (getUserLogin().DepartmentId == 3)
             {
-                customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                DataTable dtCustomerID = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
+                for (int i = 0; i < dtCustomerID.Rows.Count; i++)
+                {
+                    if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    {
+                        customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID, GroupID);
+                    }
+                    else
+                    {
+                        customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                    }
+                }
+               
             }
             if (getUserLogin().DepartmentId == 2)
             {
-                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                DataTable dtCustomerID = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
+                for (int i = 0; i < dtCustomerID.Rows.Count; i++)
+                {
+                    if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    {
+                        customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID,GroupID);
+                    }
+                    else
+                    {
+                        customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                    }
+                }
             }
 
             //row = customer.Select(expresion);
@@ -290,8 +317,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-      
-            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex); 
+
+            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex);
         }
 
     }
@@ -411,7 +438,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex);
         }
 
     }

@@ -47,6 +47,12 @@ public class CustomerBUS : ICustomer
         return ctDao.GetByID(Id);
     }
 
+    public DataTable GetCustomerID(int Id, int assignTo)
+    {
+        return ctDao.GetCustomerID(Id, assignTo);
+    }
+
+
     public DataTable GetByGroupID(int AssignTo)
     {
         return ctDao.GetByGroupID(AssignTo);
@@ -95,6 +101,11 @@ public class CustomerBUS : ICustomer
     public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
     {
         return ctDao.GetAllByUserAssignTo(UserID, assignTo);
+    }
+
+    public DataTable GetCustomerByCustomerID(int UserID, int customerid, int GroupID)
+    {
+        return ctDao.GetCustomerByCustomerID(UserID, customerid, GroupID);
     }
 
     public DataTable GetAllByAssignToCustomer(int UserID, int assignTo)

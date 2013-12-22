@@ -193,7 +193,7 @@ public class CustomerDAO
         sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
         sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
         sql += "FROM   tblMailGroup AS mg ";
-       // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
         sql += "INNER JOIN tblCustomer AS ct ON mg.Id = ct.assignTo ";
         sql += "WHERE     (ct.createBy = @userId) AND ct.recivedEmail='True' and ct.assignTo != @assignTo";
 
@@ -213,9 +213,37 @@ public class CustomerDAO
         return table;
     }
 
+
+    public DataTable GetCustomerByCustomerID(int UserID, int CustomerId, int GroupID)
+    {
+        string sql = "";
+        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        sql += "FROM   tblMailGroup AS mg ";
+        // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON mg.Id = ct.assignTo ";
+        sql += "WHERE     (ct.createBy = @userId) AND ct.recivedEmail='True' and ct.id != @CustomerId and ct.AssignTo != @GroupID";
+
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        cmd.Parameters.Add("@CustomerId", SqlDbType.Int).Value = CustomerId;
+        cmd.Parameters.Add("@groupid", SqlDbType.Int).Value = GroupID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetAllByAssignToCustomer(int UserID, int GroupId)
     {
-      
+
 
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
@@ -275,7 +303,7 @@ public class CustomerDAO
 
     public DataTable GetAllCustomerDepart3AssignTo(int UserID, int GroupId)
     {
-        
+
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.CommandText = "pro_search_Filter_tblCustomer_group3";
@@ -325,6 +353,33 @@ public class CustomerDAO
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE Id = @Id ", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable GetCustomerID(int Id, int @assignTo)
+    {
+        string sql = "";
+        sql += "SELECT  ct.Id, ct.Name, ct.Gender, ct.BirthDay, ct.Email, ct.Phone, ct.SecondPhone, ";
+        sql += "ct.Address, ct.Fax, ct.Company, ct.City, ct.Province, ct.Country, ct.Type, ct.countBuy, ct.recivedEmail, ct.createBy, ct.assignTo ";
+        sql += "FROM   tblMailGroup AS mg ";
+        // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
+        sql += "INNER JOIN tblCustomer AS ct ON mg.Id = ct.assignTo ";
+        sql += "WHERE     (ct.createBy = @userId) AND ct.recivedEmail='True' and ct.assignTo != @assignTo";
+
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
+        cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
