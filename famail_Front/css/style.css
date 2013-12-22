@@ -66,7 +66,7 @@ body {text-align: center; font: normal 11px Arial, Helvetica, sans-serif; backgr
 /*Header*/
 #header {width: 974px; height: 140px; position: relative;}
 
-#logo {position: absolute; top: 18px; left: 0; width: 270px; height: 58px; display: block; text-indent: -1200em; background-image: url(images/logofamail.png); background-repeat: no-repeat; background-position: 0 0;}
+#logo {position: absolute; top: 18px; left: 0; width: 270px; height: 58px; display: block; text-indent: -1200em; background-image: url(images/logofamail.png); background-repeat: no-repeat; background-position: 0 0; margin-top:-15px;}
 
 .login-btn {position: absolute; top: 15px; right: 0px;}
 /*.login-btn {position: absolute; top: 16px; right: 0;}*/

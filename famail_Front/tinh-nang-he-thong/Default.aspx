@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-   <meta charset="utf-8">
+  <meta http-equiv="refresh" content="5; url=http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/login.aspx />
 	<title>FASTAUTOMATICMAIL</title>
 	<link href="http://chomy.com.vn/templates/ja_mesolite_ii/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 	<!-- Stylesheets -->

@@ -38,7 +38,7 @@
                   </div>
                   <div>
                      <div class="img_user">
-                         <asp:Image ID="Image1" runat="server" Width="60px" Height="70px" BorderStyle="Solid" BorderWidth="2px" BorderColor="White" ImageUrl="~/images/anhkiet.png" />
+                         <asp:Image ID="Image1" runat="server" Width="60px" Height="70px" BorderStyle="Solid" BorderWidth="2px" BorderColor="White" ImageUrl="~/images/" />
                      </div>
                      <div class="detail_user">
                            <a>Ông Vũ Văn Cương</a>

@@ -42,7 +42,7 @@
 <!-- END Google+ -->   
 <link href="../css/jquery.fancybox.css" rel="stylesheet" />
 <link href="../css/style.css" rel="stylesheet" />
-<a href="http://fastautomaticmail.com" id="logo" title="">Fastautomaticmail.com</a>
+<a href="http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/login.aspx" id="logo" title="">Fastautomaticmail.com</a>
 		<div class="headerlinks">
         	<ul><li><a href="#">Hãy để chúng tôi tư vấn cho bạn: 0917890550</a> </li>
 				<li><a href="#">
@@ -53,10 +53,10 @@
                     </a></li>
             </ul>
         </div>		
-        <div class="login-btn"><a href="http://fastautomaticmail.com/webapp/page/backend/login.aspx" target="_blank" rel="nofollow">
+        <div class="login-btn"><a href="http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/login.aspx" target="_blank" rel="nofollow">
             <asp:Image ID="Image1" runat="server" ImageUrl="~/css/images/dangnhaphethong.png" Height="30px" />
         </a></div>	
-        <div class="headhtml"><span>Hotline: 0917890550</span></div>
+        <div class="headhtml"><span></span></div>
 		<ul class="headsocial">
         <li></li>
         <li class="twitter"><a href="#" target="_blank" rel="nofollow">Twitter</a></li>
