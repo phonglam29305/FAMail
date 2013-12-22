@@ -608,27 +608,27 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     ctBUS.tblCustomer_Update(ctDTO);
                     pnError.Visible = false;
                     pnSuccess.Visible = true;
-                    //   lblSuccess.Text = "Bạn đã cập nhật thông thành công 1 khách hàng ! <br/>";
-                    if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
-                    {
-                        pnSuccess.Visible = false;
-                        pnError.Visible = true;
-                        lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
-                    }
-                    else
-                    {
-                        DetailGroupDTO dgDTO = new DetailGroupDTO();
-                        dgDTO.GroupID = GroupID;
-                        dgDTO.CustomerID = CustomerID;
-                        dgDTO.LastReceivedMail = DateTime.Now;
-                        dgBUS.tblDetailGroup_insert(dgDTO);
-                        pnError.Visible = false;
-                        pnSuccess.Visible = true;
-                        lblSuccess.Text = "Bạn đã cập nhật thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
+                    lblSuccess.Text = "Bạn đã cập nhật thành công 1 khách hàng";
+                    //if (dgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    //{
+                    //    pnSuccess.Visible = false;
+                    //    pnError.Visible = true;
+                    //    lblError.Text = "Khách hàng này đã tồn tại trong nhóm này !";
+                    //}
+                    //else
+                    //{
+                    //    DetailGroupDTO dgDTO = new DetailGroupDTO();
+                    //    dgDTO.GroupID = GroupID;
+                    //    dgDTO.CustomerID = CustomerID;
+                    //    dgDTO.LastReceivedMail = DateTime.Now;
+                    //    dgBUS.tblDetailGroup_insert(dgDTO);
+                    //    pnError.Visible = false;
+                    //    pnSuccess.Visible = true;
+                    //    lblSuccess.Text = "Bạn đã cập nhật thành công 1 khách hàng vào nhóm: " + drlGroup.SelectedItem.ToString();
 
-                        // Update limit send and create.
-                        updateLimitSendAndCreate(1, 0);
-                    }
+                    //    // Update limit send and create.
+                    //    updateLimitSendAndCreate(1, 0);
+                    //}
                 }
 
 

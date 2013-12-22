@@ -95,11 +95,13 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             InitBUS();
             UserLoginDTO userLogin = getUserLogin();
             DataTable tblGroupMail = new DataTable();
+
+          
             if (userLogin.DepartmentId == 1)
             {
                 tblGroupMail = mgBUS.GetAllNew();
             }
-            else
+            else if (userLogin.DepartmentId == 2)
             {
                 tblGroupMail = mgBUS.GetAllNew(userLogin.UserId);
             }
