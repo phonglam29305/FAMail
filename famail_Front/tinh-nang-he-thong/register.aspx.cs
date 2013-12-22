@@ -134,7 +134,8 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
                 mail.ReplyTo = new MailAddress(txtemail.Text);
                 SmtpServer.Send(mail);
 
-                Response.Redirect("~");
+                Response.Redirect("Default.aspx");
+               
             }
         }
         else
@@ -142,6 +143,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             lbdiengiai.Text = mess;
             lblTenGoiMail.ForeColor = System.Drawing.Color.Red;
         }
+        Session["email"] = txtemail.Text;
     }
     public static string GetMd5Hash(string input)
     {
