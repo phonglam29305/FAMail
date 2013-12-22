@@ -255,14 +255,14 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                     }
                     else
                     {
-                        Session["Error"] = "Bạn đã đăng ký thành công.";
+                        Session["Error"] = "Bạn đã đăng ký không thành công.";
                         Response.Redirect("event-register-error.aspx", false);
                     }
 
                 }
                 else
                 {
-                    Session["Error"] = "Bạn đã đăng ký thành công.";
+                    Session["Error"] = "Bạn đã đăng ký không thành công.";
                     Response.Redirect("event-register-error.aspx", false);
                 }
 

@@ -207,7 +207,7 @@ ValidateRequest="false"  %>
                                  </asp:Panel>
                                  <p>
                                  </p>
-                                 <table>
+                                 <table width="800px">
                                      <tr>
                                          <td>
                                              <label for="simple-input" 
