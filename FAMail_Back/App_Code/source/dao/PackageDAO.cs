@@ -30,7 +30,7 @@ public class PackageDAO
     }
     public DataTable GetdaPackage()
     {
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblPackage",
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT p.*, namepackagelimit FROM tblPackage p left join tblPackageLimit l on l.limitid = p.limitid ",
             ConnectionData._MyConnection);
         DataTable table = new DataTable();
         adapter.Fill(table);
@@ -57,7 +57,7 @@ public class PackageDAO
 
     public void tblPackage_insert(PackageDTO dt)
     {
-        string sql = "INSERT INTO tblPackage (packageName, description,limitId, emailCount, isUnlimit,subAccontCount,isActive) " +
+        string sql = "INSERT INTO tblPackage (packageName, description,limitId, emailCount, isUnlimit,subAccontCount,isActive, isTry) " +
                      "VALUES( @packageName, @description,@limitId, @emailCount, @isUnlimit,@subAccontCount,@isActive, @isTry) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;

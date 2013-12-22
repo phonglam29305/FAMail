@@ -158,7 +158,7 @@
                                     <asp:Label ID="lblGmail" runat="server" Text='<%# Eval("subAccontCount") %>'></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("limitId") %>'></asp:Label>
+                                    <asp:Label ID="lblYahooMail" runat="server" Text='<%# Eval("namepackagelimit") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Eval("isActive") %>'></asp:Label>

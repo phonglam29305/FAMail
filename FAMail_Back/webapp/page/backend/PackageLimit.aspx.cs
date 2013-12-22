@@ -154,7 +154,7 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
 
             pnSuccess.Visible = false;
             pnError.Visible = true;
-            lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+            lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !<br/>" + ex.Message;
             logs.Error(userLogin.Username + "- PLimit - Update", ex);
         }
         LoadData();
@@ -195,6 +195,7 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
                 txtcode.Text = table.Rows[0]["cost"].ToString();
                 ceUnLimit.Checked = Convert.ToBoolean(table.Rows[0]["IsUnlimit"]);
                 ceIsActive.Checked = Convert.ToBoolean(table.Rows[0]["IsActive"]);
+                hdfId.Value = limitId+"";
             }
 
 

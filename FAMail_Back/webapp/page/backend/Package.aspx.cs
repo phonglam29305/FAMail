@@ -211,7 +211,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
 
             pnSuccess.Visible = false;
             pnError.Visible = true;
-            lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !";
+            lblError.Text = " Đã xảy ra lỗi trong quá trình thực hiện. Vui lòng thử lại !<br/>" + ex.Message;
             logs.Error(userLogin.Username + "-Package - Update", ex);
         }
         LoadData();
@@ -251,7 +251,8 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 txtname.Text = table.Rows[0]["packageName"].ToString();
                 txtdescription.Text = table.Rows[0]["description"].ToString();
                 txtsubaccount.Text = table.Rows[0]["subAccontCount"].ToString();
-                drlPackageLimit.Text = table.Rows[0]["limitId"].ToString();
+                if (new PackageLimitBUS().GetByUserIdPackageLimit(Convert.ToInt32(table.Rows[0]["limitId"])).Rows.Count > 0)
+                    drlPackageLimit.Text = table.Rows[0]["limitId"].ToString();
                 txtEmailCount.Text = table.Rows[0]["emailCount"].ToString();
                 this.hdfId.Value = packageId + "";
                 ceIsUnlimit.Checked = Convert.ToBoolean(table.Rows[0]["isunlimit"]);

@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="box-fcdk">
-                        <div class="divbo" style="margin-left: 330px; margin-top: -33px; font-size: 14px; font-weight: bold; color: red;">
+                        <div class="divbo" style="margin-left: 330px; margin-top: -33px; font-size: 14px; font-weight: bold; color: blue;">
                             <asp:Label ID="Label15" runat="server" Text="Phí dịch vụ:"></asp:Label>
                             <asp:Label ID="lbtongphi" runat="server"></asp:Label>
                         </div>

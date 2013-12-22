@@ -31,6 +31,7 @@ public class PackageLimitDAO
     }
     public void tblPackageLimit_insert(PackageLimitDTO dt)
     {
+        ConnectionData.OpenMyConnection();
         string sql = "INSERT INTO tblPackageLimit (namepackagelimit,under,cost,isActive, IsUnLimit) " +
                      "VALUES( @namepackagelimit, @under,@cost,@isActive, @IsUnLimit) ";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
@@ -42,18 +43,22 @@ public class PackageLimitDAO
         cmd.Parameters.Add("@IsUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
+        ConnectionData.CloseMyConnection();
     }
     public void tblPackageLimit_Delete(int limitId)
     {
+        ConnectionData.OpenMyConnection();
         SqlCommand cmd = new SqlCommand("DELETE FROM tblPackageLimit WHERE limitId = @limitId",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = limitId;
         cmd.ExecuteNonQuery();
+        ConnectionData.CloseMyConnection();
         cmd.Dispose();
     }
     public DataTable GetByUserIdPackageLimit(int limitId)
     {
+        ConnectionData.OpenMyConnection();
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblPackageLimit WHERE limitId = @limitId",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -63,6 +68,7 @@ public class PackageLimitDAO
         adapter.Fill(table);
         cmd.Dispose();
         adapter.Dispose();
+        ConnectionData.CloseMyConnection();
         return table;
     }
     public void tblPackageLimit_Update(PackageLimitDTO dt)
@@ -80,6 +86,7 @@ public class PackageLimitDAO
         cmd.Parameters.Add("@under", SqlDbType.BigInt).Value = dt.under;
         cmd.Parameters.Add("@cost", SqlDbType.Float).Value = dt.cost;
         cmd.Parameters.Add("@isActive", SqlDbType.Bit).Value = dt.isActive;
+        cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = dt.limitId;
         cmd.Parameters.Add("@IsUnLimit", SqlDbType.Bit).Value = dt.isUnLimit;
         ConnectionData.OpenMyConnection();
         cmd.ExecuteNonQuery();
@@ -88,6 +95,7 @@ public class PackageLimitDAO
     }
     public DataTable GetAvailablePackage(int limitId)
     {
+        ConnectionData.OpenMyConnection();
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblPackageLimit except Select * From tblPackageLimit Where limitId = @limitId",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -97,6 +105,7 @@ public class PackageLimitDAO
         adapter.Fill(table);
         cmd.Dispose();
         adapter.Dispose();
+        ConnectionData.CloseMyConnection();
         return table;
     }
 }

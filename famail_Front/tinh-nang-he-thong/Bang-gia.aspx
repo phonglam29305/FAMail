@@ -24,7 +24,7 @@
                     <div class="subtitle">Hệ thống FA Mail</div>
                     <div id="month_pro">
                         <div class="pricing">
-                            <span><%#Convert.ToDouble(Eval("totalFee")).ToString("'$' 0,000.0' tháng'") %></span>
+                            <span><%#Convert.ToDouble(Eval("totalFee")).ToString("'$' #,#.#' tháng'") %></span>
                         </div>
                     </div>
                 </th>
@@ -48,7 +48,7 @@
                             <ItemStyle BackColor="#EFF3FB" />
 
                             <ItemTemplate>
-                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
+                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="10pt" ></asp:Label>
 
                             </ItemTemplate>
 
