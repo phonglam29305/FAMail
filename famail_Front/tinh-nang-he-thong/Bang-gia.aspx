@@ -24,7 +24,7 @@
                     <div class="subtitle">Hệ thống FA Mail</div>
                     <div id="month_pro">
                         <div class="pricing">
-                            <span><sup>$</sup><%#Eval("totalFee") %></span>Tháng
+                            <span><%#Convert.ToDouble(Eval("totalFee")).ToString("'$' 0,000.0' tháng'") %></span>
                         </div>
                     </div>
                 </th>
@@ -68,11 +68,11 @@
 
                 <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
 
-                    <ItemTemplate><div id="dangky">
+                    <ItemTemplate><div id="dangky" style="text-align: center">
                         <%-- thay thanh image  --%>
                         <asp:Image ID="Image1" runat="server" ImageUrl="~/images/blue-check.png" Visible='<%#Eval("isuse")+""=="yes"?true:false %>' />
                         <asp:Image ID="Image2" runat="server" ImageUrl="~/images/CloseIcon20x20.png" Visible='<%#Eval("isuse")+""=="no"?true:false %> ' />
-                        <asp:Label ID="Label1" runat="server" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="no")?true:false %>'><%#Eval("isuse") %></asp:Label>         
+                        <asp:Label ID="Label1" runat="server" style="text-align: center" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="no")?true:false %>'><%#Eval("isuse") %></asp:Label>         
 
                       
                         <%-- thay thanh image   --%>    <%--<asp:Label ID="Label5" runat="server"  Visible='<%#Eval("isuse")+""=="yes"?true:false %>'><%#Eval("isuse") %></asp:Label> --%>
@@ -82,13 +82,13 @@
 
                 </asp:DataList>
 
-                <div id="dangky">
+                <div id="dangky" style="margin-left: 50px">
                     <asp:HyperLink ID="Hpldangky" runat="server">
                         <a  href='register.aspx?packageId=<%#Eval("packageId") %>'>
                             <asp:Image ID="Image3" runat="server" ImageUrl="~/images/signupbtn.png" />
                         </a>
                     </asp:HyperLink>
-                    <div id="bakground"></div>
+                    <%--<div id="bakground"></div>--%>
                 </div>
 
             </ItemTemplate>
