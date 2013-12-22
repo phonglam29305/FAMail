@@ -263,35 +263,44 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             if (getUserLogin().DepartmentId == 3)
             {
                 DataTable dtCustomerID = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
-                int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
-                for (int i = 0; i < dtCustomerID.Rows.Count; i++)
+                if (dtCustomerID.Rows.Count > 0)
                 {
-                    if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
+                    for (int i = 0; i < dtCustomerID.Rows.Count; i++)
                     {
-                        customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID, GroupID);
-                    }
-                    else
-                    {
-                        customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                        if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                        {
+                            customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID, GroupID);
+                        }
+                        else
+                        {
+                            customer = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
+                        }
                     }
                 }
+              
                
             }
             if (getUserLogin().DepartmentId == 2)
             {
                 DataTable dtCustomerID = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
-                int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
-                for (int i = 0; i < dtCustomerID.Rows.Count; i++)
+                if (dtCustomerID.Rows.Count > 0)
                 {
-                    if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                    int CustomerID = int.Parse(dtCustomerID.Rows[0]["ID"].ToString());
+                    for (int i = 0; i < dtCustomerID.Rows.Count; i++)
                     {
-                        customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID,GroupID);
-                    }
-                    else
-                    {
-                        customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                        if (dsgBUS.GetByID(GroupID, CustomerID).Rows.Count > 0)
+                        {
+                            customer = ctBUS.GetCustomerByCustomerID(getUserLogin().UserId, CustomerID, GroupID);
+                        }
+                        else
+                        {
+                            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                        }
+                        
                     }
                 }
+               
             }
 
             //row = customer.Select(expresion);
