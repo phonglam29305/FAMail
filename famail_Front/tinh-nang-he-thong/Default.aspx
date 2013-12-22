@@ -1,86 +1,65 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="tinh_nang_he_thong_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master_page/baiviethtml.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="tinh_nang_he_thong_Default" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="refresh" content="5; url=http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/login.aspx" />
-	<title>FASTAUTOMATICMAIL</title>
-	<link href="http://chomy.com.vn/templates/ja_mesolite_ii/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-	<!-- Stylesheets -->
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
-    <link href="../css/success.css" rel="stylesheet" />
-   
-	<!-- Optimize for mobile devices -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
-	<!-- jQuery & JS files -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="../../resource/js/script.js"></script>  
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div id="top-bar">		
-	    <div class="page-full-width cf">
-
-			<ul id="nav" class="fl">	
-				<li class="v-sep">
-				<a href="emailmarketing.1onlinebusinesssystem.com" class="round button dark ic-left-arrow image-left">
-				Đến trang FAMail</a>
-				</li>
-				
-			</ul> <!-- end nav -->
-			
-		</div> <!-- end full-width -->		
-	</div> <!-- end top-bar -->
-
-        <div id="content">
-		
-		<div class="page-full-width cf">		
-			
-			<div class="confirmation-box round">
-			    <table>
-                   <tr >
-                       <td style="font-size:20px; color:red; " > Đăng ký thành công !</td>
-                   </tr>
-                   <tr>
-                       <td> Cảm ơn Quí khách đã tin tưởng vào dịch vụ của chúng tôi</td>
-                   </tr>
-                    <tr>
-                       <td> Thông tin tài khoản đăng nhập</td>
-                   </tr>
-                    <tr>
-                       <td>
-                           <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label></td>
-                   </tr>
-                    <tr>
-                       <td>http://localhost:7318/FAMail_Back/webapp/page/backend/login.aspx</td>
-                   </tr>
-                     <tr>
-                       <td></td>
-                   </tr>
-			   </table>
-			    <br />    
-               
-			</div>	
-            
-			<asp:Image ID="Image1" ImageUrl="~/images/register-success.jpg" Width="100%" Height="400px" runat="server" />			
-		
-		</div> <!-- end full-width -->
-			
-	</div>
-<div id="footer">
-
-		<p>&copy; Copyright 2013 <a href="#">Công ty cổ phần MARKET AMARICAN</a>. All rights reserved.</p>
-		<p><strong>Design</strong> by <a href="#">FPT Team</a></p>
-	
-	</div>
-<div id="Div1">		
-    <div class="page-full-width cf">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div class="topPage" style="width: auto; height: auto;">
+        <h1 class="entry-title pricing">Bảng giá các tài khoản</h1>
     </div>
-</div>
+    <div id="logo1">
+        <asp:Image ID="Image6" runat="server" ImageUrl="~/images/satisfaction-guaranteed.png" />
+    </div>
+    <div id="goimail">
+        <asp:DataList ID="dlGoiDichVu" runat="server" RepeatDirection="Horizontal" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
+            <AlternatingItemStyle BackColor="White" />
+            <FooterStyle BackColor="#CCCC99" />
+            <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
+            <ItemStyle BackColor="#F7F7DE" />
+            <ItemTemplate>
+                <th style="width: 197px;" colspan="1" rowspan="1" class="column-5 sorting_disabled">
+                    <div class="majortitle1">
+                        <asp:Label ID="Lbgoidichvu" runat="server" Text=""><%#Eval("PackageName") %></asp:Label>
+                    </div>
+                    <div class="subtitle">Hệ thống FA Mail</div>
+                    <div id="month_pro">
+                        <div class="pricing">
+                            <span><sup>$</sup><%#Eval("totalFee") %></span>Tháng
+                        </div>
+                    </div>
+                </th>
+            </ItemTemplate>
+            <SelectedItemStyle BackColor="#CE5D5A" Font-Bold="True" ForeColor="White" />
+        </asp:DataList>
+    </div>
+    <div id="goidichvu" style="height:100%;width:195px;float:left;">
+                <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
+        <asp:Repeater ID="rptNameFunction" runat="server" >
+            <ItemTemplate>
+                <div style="clear:both;width:192px;height:40px;">
+                    <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="12pt"></asp:Label>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
+    <div id="chucnang">
+        <asp:Repeater ID="rptMain" runat="server">
+            <ItemTemplate>
+                <div style="width:191px;float:left;margin-right:2px;border:1px solid #C3D5DF;">
+                <asp:Repeater ID="rptSudungChucnang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
+                    <ItemTemplate>
+                         <div style="text-align:center;width:100%;">
+                             <img id="Img1" runat="server" src="../images/blue-check.png" Visible='<%#Eval("isUse")+""=="yes"?true:false %>' />
+                             <img id="Img2" runat="server" src="~/images/CloseIcon20x20.png" Visible='<%#Eval("isUse")+""=="no"?true:false %> ' />
+                         </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+                <div id="dangky">
+                    <img src="../images/signupbtn.png" style="margin-left:10px;"/>
+                    <div id="bakground"></div>
+                </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
+</asp:Content>
 
-
-    </form>
-</body>
-</html>

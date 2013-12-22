@@ -10,6 +10,7 @@
     </asp:ContentPlaceHolder>
 
     <link href="css/style.css" rel="stylesheet" />
+    <link href="tinh-nang-he-thong/pricetable.css" rel="stylesheet" />
 </head>
 <%@ Register Src="~/usercontrol/header.ascx" TagPrefix="uc1" TagName="header" %>
 <%@ Register Src="~/usercontrol/slideimage.ascx" TagPrefix="uc1" TagName="slideimage" %>

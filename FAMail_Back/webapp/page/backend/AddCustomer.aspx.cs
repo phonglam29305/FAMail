@@ -434,6 +434,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             message = "Bạn nhập không đúng định dạng Email!";
             this.txtEmail.Focus();
         }
+        else if (drlMailGroup.SelectedValue==null) 
+        {
+            message = "Bạn chưa chọn nhóm mail!";
+            this.drlMailGroup.Focus();
+        }
         //else if (verify.CheckExists(txtEmail.Text) == false)
         //{
         //    message = "Địa chỉ mail không tồn tại";

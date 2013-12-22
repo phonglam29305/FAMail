@@ -26,8 +26,8 @@
 
 			<ul id="nav" class="fl">	
 				<li class="v-sep">
-				<a href="http://chomy.com.vn" class="round button dark ic-left-arrow image-left">
-				Đến trang chợ mỹ</a>
+				<a href="http://emailmarketing.1onlinebusinesssystem.com" class="round button dark ic-left-arrow image-left">
+				Đăng nhập hệ thống</a>
 				</li>
 				
 			</ul> <!-- end nav -->

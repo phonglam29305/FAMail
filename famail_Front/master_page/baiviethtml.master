@@ -18,6 +18,7 @@
     <link href="../colorbox.css" rel="stylesheet" />
     <script src="../js/jquery.min.js"></script>
     <script src="../js/jquery.colorbox.js"></script> 
+    <%--<link href="pricetable.css" rel="stylesheet" />--%>
     <%--<link href="../css/cssform.css" rel="stylesheet" />--%>
     <title>FASTAUTOMATICMAIL.COM</title>
     <meta name="description" content="FASTAUTOMATICMAIL.COM"/>
