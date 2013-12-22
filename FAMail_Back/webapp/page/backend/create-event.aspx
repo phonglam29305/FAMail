@@ -258,7 +258,7 @@ ValidateRequest="false"  %>
                        <%--<asp:TextBox ID="txtContent" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>  
                             
                         <p>					            
-                            <asp:TextBox ID="txtContent" class="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>
+                            <asp:TextBox ID="txtContent" class="ckeditor" runat="server" TextMode="MultiLine" Width="900px"></asp:TextBox>
                             <%--<asp:TextBox ID="txtContent" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
 			            </p>
 			            

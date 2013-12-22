@@ -102,7 +102,7 @@ public class SendContentDAO
     }
     public DataTable GetByID(int Id)
     {
-        SqlCommand cmd = new SqlCommand("SELECT id, createdate, subject, userid FROM tblSendContent WHERE Id = @Id", 
+        SqlCommand cmd = new SqlCommand("SELECT id, createdate, subject, userid, body FROM tblSendContent WHERE Id = @Id", 
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;

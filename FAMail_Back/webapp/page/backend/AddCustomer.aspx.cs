@@ -541,16 +541,16 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     {
                         int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                         DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
-                        if (dtCountEmail.Rows[0]["isUnLimit"]+""!="" ||Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
-                        countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
+                        if (dtCountEmail.Rows[0]["isUnLimit"]+""!="" &&Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                        else countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
                     }
 
                     int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
                     DataTable dtEmail = ctBUS.GetCountCustomerCreatedMail(getUserLogin().UserId);
                     int numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
                     DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
-                    string todays = DateTime.Now.ToString("yyyy-MM-dd");
-                    DateTime today = Convert.ToDateTime(todays);
+                    //string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                    DateTime today = DateTime.Now.Date;
                     DateTime expireDay = Convert.ToDateTime(NgayHetHan);
 
                     if (statusclient == 2 || expireDay < today)

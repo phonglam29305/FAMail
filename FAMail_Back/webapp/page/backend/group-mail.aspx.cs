@@ -145,9 +145,16 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             mgDTO.Description = txtDescription.Text;
             mgDTO.UserId = userLogin.UserId;
             mgDTO.CreatedBy = userLogin.Username;
-            DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
-            mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
-            mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
+            if (dropSubClient.SelectedValue + "" != "")
+            {
+                DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
+                mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
+                mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
+            }
+            else {
+                mgDTO.AssignToUserID = -1;
+                mgDTO.AssignTo ="";
+            }
             int status = 1;
             if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
             {
@@ -163,6 +170,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 mgBUS.tblMailGroup_Update(mgDTO);
                 status = 2;
             }
+            LoadSubClient();
             pnSuccess.Visible = true;
             if (status == 1)
             {

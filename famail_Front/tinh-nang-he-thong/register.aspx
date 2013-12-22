@@ -96,7 +96,7 @@
                             <asp:TextBox ID="txtaddress" class="txtbox" runat="server" Width="221px"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="box-fcdk">
+                    <%--<div class="box-fcdk">
                         <div class="labelfcdk">
                             <span style="font-size: 16px; color: #FF0000;">*</span>
                             <asp:Label ID="Label14" runat="server" Text="Mã xác nhận:" BorderStyle="None"></asp:Label>
@@ -120,7 +120,7 @@
                             <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/capchar.gif" OnClientClick="btnVerify_Click" />
                         </div>
 
-                    </div>
+                    </div>--%>
                     <div class="box-fcdk">
                         <asp:CheckBox ID="CheckBox1" runat="server" Checked="True" />
                         <span style="font-size: 13px; color: #000000;">Tôi đồng ý với 

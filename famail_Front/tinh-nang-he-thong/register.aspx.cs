@@ -47,7 +47,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             Drpacketime.DataSource = Time;
             Drpacketime.DataBind();
 
-            lbtongphi.Text = Convert.ToInt32(table.Rows[0]["totalfee"]).ToString("0,000.0' $'");
+            lbtongphi.Text = Convert.ToInt32(table.Rows[0]["totalfee"]).ToString("#,#.#' $'");
         }
 
     }
@@ -59,7 +59,6 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         client.address = txtaddress.Text;
         client.email = txtemail.Text;
         client.phone = txtphone.Text;
-
         return client;
     }
     private void tinhtien()
@@ -67,7 +66,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         double a = Convert.ToDouble(Drpacketime.SelectedValue.ToString());
         double b = Convert.ToDouble(lbtotalfree.Text);
         double c = b * (a) / 100;
-        lbtongphi.Text = c.ToString("0,000.0' $'");
+        lbtongphi.Text = c.ToString("#,#.#' $'");
 
     }
     protected void Drpacketime_SelectedIndexChanged(object sender, EventArgs e)
@@ -180,7 +179,7 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
         confilmPass = this.txtpassAgain.Text.ToString().Trim();
         Phone = this.txtphone.Text;
         address = this.txtaddress.Text;
-        captcha = this.txtbody.Text;
+        //captcha = this.txtbody.Text;
 
         if (tenkh == "" || tenkh == null)
         {
@@ -212,11 +211,11 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             this.txtaddress.Focus();
             return "Bạn chưa nhập địa chỉ";
         }
-        else if (captcha == "" || captcha == null)
-        {
-            this.txtbody.Focus();
-            return "Bạn chưa nhập vào mã captcha";
-        }
+        //else if (captcha == "" || captcha == null)
+        //{
+        //    this.txtbody.Focus();
+        //    return "Bạn chưa nhập vào mã captcha";
+        //}
         else if (IsValidMail(email) == false)
         {
             this.txtemail.Focus();
@@ -233,21 +232,21 @@ public partial class tinh_nang_he_thong_register : System.Web.UI.Page
             return "Hai mật khẩu không trùng nhau!";
 
         }
-        else
-        {
-            cptCaptcha.ValidateCaptcha(txtbody.Text.Trim());
-            if (!cptCaptcha.UserValidated)
-            {
-                this.txtpassAgain.Focus();
-                return "Mã bảo vệ không đúng";
+        //else
+        //{
+        //    cptCaptcha.ValidateCaptcha(txtbody.Text.Trim());
+        //    if (!cptCaptcha.UserValidated)
+        //    {
+        //        this.txtpassAgain.Focus();
+        //        return "Mã bảo vệ không đúng";
 
-            }
-            else
-            {
-                return "";
-            }
-        }
-
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
+        return "";
     }
     public bool IsValidMail(string emailaddress)
     {
