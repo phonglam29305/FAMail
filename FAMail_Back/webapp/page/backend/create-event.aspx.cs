@@ -20,11 +20,13 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     MailGroupBUS mailGroupBus = null;
     EventBUS eventBus = null;
     SignatureBUS signBus = null;
-
+    UserLoginDTO userLogin = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            userLogin = getUserLogin();
             try
             {
                 InitialBUS();
@@ -32,10 +34,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 LoadMailConfigList();
                 LoadEventList();
                 // Khoi tao session for store contentSendEvent
-                ContentSendEventBUS cseBus = new ContentSendEventBUS();
-                Session["listContentSendEvent"] = cseBus.GetById(0);
+               // ContentSendEventBUS cseBus = new ContentSendEventBUS();
+              //  Session["listContentSendEvent"] = cseBus.GetById(0);
                 
-                LoadContentList();
+               // LoadContentList();
             }
             catch (Exception ex)
             {
@@ -147,7 +149,8 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
     private void LoadEventList()
     {
-       
+        try
+        {
         string EventId = Request.QueryString["EventId"].ToString();
         this.hdfEventId.Value = EventId + "";
         int ID = 0;
@@ -187,7 +190,12 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
             }
         }
-      
+        }
+        catch (Exception ex)
+        {
+
+            logs.Error(userLogin.Username + "-Client - LoadEventList", ex);
+        }
 
     }
 

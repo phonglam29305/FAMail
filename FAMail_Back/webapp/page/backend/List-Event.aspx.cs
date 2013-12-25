@@ -132,7 +132,40 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
 
     }
 
-   
+
+    protected void btnDelete_Click(object sender, ImageClickEventArgs e)
+    {
+        //try
+        //{
+
+        //    ContentSendEventBUS cseBus = new ContentSendEventBUS();
+        //    int contentId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
+        //    DataTable dtContent = (DataTable)Session["listContentSendEvent"];
+        //    if (dtContent.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < dtContent.Rows.Count; i++)
+        //        {
+        //            DataRow row = dtContent.Rows[i];
+        //            if (row["Id"].Equals(contentId))
+        //            {
+        //                dtContent.Rows.Remove(row);
+        //                cseBus.tblContentSendEvent_Delete(contentId);
+                       
+        //            }
+        //        }
+        //    }
+        //    //LoadContentSendEventList(dtContent);
+        //}
+        //catch (Exception ex)
+        //{
+
+        //    logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
+        //    pnSuccess.Visible = false;
+        //    pnError.Visible = true;
+        //    lblError.Text = ex.Message;
+        //}
+    }
+
 
     protected void btnFilter_Click(object sender, EventArgs e)
     {
@@ -176,13 +209,13 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
             Label lblVoucher = (Label)dlEvent.Items[i].FindControl("lblVoucher");
             lblVoucher.Text = row["Voucher"].ToString();
 
-            LinkButton lbtEdit = (LinkButton)dlEvent.Items[i].FindControl("lbtEdit");
-            lbtEdit.CssClass = "table-actions-button ic-table-edit";
-            lbtEdit.CommandArgument = row["EventId"].ToString();
+            //LinkButton lbtEdit = (LinkButton)dlEvent.Items[i].FindControl("lbtEdit");
+            //lbtEdit.CssClass = "table-actions-button ic-table-edit";
+            //lbtEdit.CommandArgument = row["EventId"].ToString();
 
-            LinkButton lbtDelete = (LinkButton)dlEvent.Items[i].FindControl("lbtDelete");
-            lbtDelete.CssClass = "table-actions-button ic-table-delete";
-            lbtDelete.CommandArgument = row["EventId"].ToString();
+            //LinkButton lbtDelete = (LinkButton)dlEvent.Items[i].FindControl("lbtDelete");
+            //lbtDelete.CssClass = "table-actions-button ic-table-delete";
+            //lbtDelete.CommandArgument = row["EventId"].ToString();
 
         }
     

@@ -115,9 +115,9 @@ ValidateRequest="false"  %>
 								            <td>
 								                  <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"
                                                     PostBackUrl='<%#"~/webapp/page/backend/create-event.aspx?EventId=" + Eval("EventId")%>' />
-								                <asp:LinkButton ID="lbtDelete" runat="server" Height="15px" 
-								                OnClientClick="return confirmDelete('Nếu tiếp tục dữ liệu sẽ bị xóa khỏi hệ thống ?')"
-                                                   onclick="lbtDelete_Click" Width="15px"></asp:LinkButton>
+								                <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/webapp/resource/images/Delete-icon.png"
+                                                    CommandArgument='<%# Eval("id") %>' OnClick="btnDelete_Click" OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa sự kiện này không ?')" />
+
 								            </td>
 								            
 							            </tr>             						
