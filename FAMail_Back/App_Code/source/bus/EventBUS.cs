@@ -44,6 +44,12 @@ public class EventBUS:IEvent
         return eDao.GetByID(EventId);
     }
 
+    public DataTable GetAllListEvent(string subject, int userId, int group)
+    {
+        return eDao.GetAllListEvent(subject, userId, group);
+    }
+
+
     public DataTable GetByUserId(int userId)
     {
         return eDao.GetByUserId(userId);

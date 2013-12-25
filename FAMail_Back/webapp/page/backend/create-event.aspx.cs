@@ -147,49 +147,48 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
     private void LoadEventList()
     {
-        DataTable dtEvent = new DataTable();
-        UserLoginDTO userLogin = getUserLogin();
-        if (userLogin.DepartmentId==1)
+       
+        string EventId = Request.QueryString["EventId"].ToString();
+        this.hdfEventId.Value = EventId + "";
+        int ID = 0;
+        if (EventId != null)
         {
-            dtEvent = eventBus.GetAll();
-        }
-        else
-        {
-            dtEvent = eventBus.GetByUserId(userLogin.UserId);
-        }
-        dlEvent.DataSource = dtEvent;        
-        dlEvent.DataBind();
-        for (int i = 0; i < dtEvent.Rows.Count; i++)
-        {
-            DataRow row = dtEvent.Rows[i];
+            ID = int.Parse(EventId);
+            DataTable dtEvent = eventBus.GetByID(ID);
+            if (dtEvent.Rows.Count > 0)
+            {
 
-            LinkButton lbtSubject = (LinkButton)dlEvent.Items[i].FindControl("lbtSubject");
-            lbtSubject.Text = row["Subject"].ToString();            
+                txtSubject.Text = dtEvent.Rows[0]["Subject"].ToString();
+                txtVoucher.Text = dtEvent.Rows[0]["Voucher"].ToString();
+                drlMailConfig.SelectedItem.Value = dtEvent.Rows[0]["ConfigId"].ToString();
+                drlMailGroup.SelectedValue = dtEvent.Rows[0]["GroupId"].ToString();
+                txtContent.Text = dtEvent.Rows[0]["Body"].ToString();
+                txtStartDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["StartDate"].ToString()));
+                txtEndDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["EndDate"].ToString()));
+                if (dtEvent.Rows[0]["ResponeUrl"].Equals("Default"))
+                {
+                    chkDefaultPage.Checked = true;
+                    txtResponeUrl.Enabled = false;
+                }
+                else
+                {
+                    txtResponeUrl.Text = dtEvent.Rows[0]["ResponeUrl"].ToString();
+                }
 
-            Label lblEmailGui = (Label)dlEvent.Items[i].FindControl("lblEmailGui");
-            DataTable config = mailConfigBus.GetByID(int.Parse(row["ConfigId"].ToString()));
-            if(config.Rows.Count>0){
-                lblEmailGui.Text = config.Rows[0]["Email"].ToString();
+
+                // Hien thi ConentSendEvent list.
+                ContentSendEventBUS cseBus = new ContentSendEventBUS();
+                DataTable tblContent = cseBus.GetByEventId(ID);
+                if (tblContent.Rows.Count > 0)
+                {
+                    Session["listContentSendEvent"] = tblContent;
+                    LoadContentSendEventList(tblContent);
+                }
+
             }
-
-            Label lblStartDate = (Label)dlEvent.Items[i].FindControl("lblStartDate");
-            lblStartDate.Text = row["StartDate"].ToString();
-
-            Label lblEndDate = (Label)dlEvent.Items[i].FindControl("lblEndDate");
-            lblEndDate.Text = row["EndDate"].ToString();
-
-            Label lblVoucher = (Label)dlEvent.Items[i].FindControl("lblVoucher");
-            lblVoucher.Text = row["Voucher"].ToString();
-
-            LinkButton lbtEdit = (LinkButton)dlEvent.Items[i].FindControl("lbtEdit");
-            lbtEdit.CssClass = "table-actions-button ic-table-edit";
-            lbtEdit.CommandArgument = row["EventId"].ToString();
-
-            LinkButton lbtDelete = (LinkButton)dlEvent.Items[i].FindControl("lbtDelete");
-            lbtDelete.CssClass = "table-actions-button ic-table-delete";
-            lbtDelete.CommandArgument = row["EventId"].ToString();
-
         }
+      
+
     }
 
     private void LoadMailConfigList()
@@ -407,6 +406,8 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         return strDate;
         
     }
+
+
     protected void lbtEdit_Click(object sender, EventArgs e)
     {
         try

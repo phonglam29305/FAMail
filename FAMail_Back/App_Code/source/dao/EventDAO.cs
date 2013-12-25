@@ -95,6 +95,31 @@ public class EventDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
+
+    public DataTable GetAllListEvent(string subject, int userId, int groupId)
+    {
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_get_all_listevent";
+        cmd.Parameters.Add("@Subject", SqlDbType.NVarChar).Value = subject;
+        cmd.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+        cmd.Parameters.Add("@groupId", SqlDbType.Int).Value = groupId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+
+    }
+
+
     public DataTable GetAll()
     {
         SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM tblEvent", 

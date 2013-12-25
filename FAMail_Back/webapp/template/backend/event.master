@@ -13,6 +13,9 @@ AutoEventWireup="true" CodeFile="event.master.cs" Inherits="webapp_template_back
                             <li>
                                 <asp:HyperLink ID="hplCreateEvent" href="create-event.aspx" roleId="14"  runat="server">Tạo sự kiện</asp:HyperLink>
                             </li>
+                            <li>
+                                <asp:HyperLink ID="hplListEvent" href="List-Event.aspx" roleId="14"  runat="server">Danh sách sự kiện</asp:HyperLink>
+                            </li>
 					        <li>
 					            <asp:HyperLink ID="hplEventReport" href="event-report.aspx" roleId="15" runat="server">Thống kê sự kiện</asp:HyperLink>
 					        </li>					       				        
