@@ -374,6 +374,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             }
             else
             {
+                drlMailGroup_SelectedIndexChanged(sender, e);
                 DateTime timeStart = DateTime.Now.AddMinutes(1);
                 if (txtStartDate.Text.ToString() != "" & this.chkNow.Checked == false)
                 {
@@ -458,7 +459,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                 if (groupID == -3)
                 {
                     customerBus = new CustomerBUS();
-                    tblCustomer = customerBus.GetAll();
+                    tblCustomer = dsgBUS.GetAll();
                 }
                 else
                 {

@@ -196,7 +196,8 @@ public class CustomerDAO
         // sql += "tblDetailGroup AS dg ON mg.Id = dg.GroupID ";
         sql += "INNER JOIN tblCustomer AS ct ON mg.Id = ct.assignTo ";
         sql += "WHERE     (ct.createBy = @userId) AND ct.recivedEmail='True' and ct.assignTo != @assignTo";
-
+        // phong them
+        sql = "SP_GetEmailByGroupId " + UserID + "," + assignTo;
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;

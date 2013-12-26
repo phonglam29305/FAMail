@@ -61,11 +61,15 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             DataTable dtlimit = new DataTable();
             pkglimitBus = new PackageLimitBUS();
             dtlimit = pkglimitBus.GetByUserIdPackageLimit(packagelimitid);
-            lblTenGoi.Text = dtpackage.Rows[0]["packageName"].ToString();
+            string SoluongEmail = "";
+            if (dtpackage.Rows.Count > 0)
+            {
+                lblTenGoi.Text = dtpackage.Rows[0]["packageName"].ToString();
+                SoluongEmail = dtpackage.Rows[0]["isUnlimit"].ToString();
+            }
             lblNgayKichHoat.Text = dtClient.Rows[0]["activeDate"].ToString();
             lblNgayDenHan.Text = dtClient.Rows[0]["expireDate"].ToString();
             lblSoTaiKhoanCon.Text = dtClientRegister.Rows[0]["subAccontCount"].ToString();
-            string SoluongEmail = dtpackage.Rows[0]["isUnlimit"].ToString();
             if (SoluongEmail.Trim() != "True")
             {
                 SoluongEmail = dtpackage.Rows[0]["emailCount"].ToString();

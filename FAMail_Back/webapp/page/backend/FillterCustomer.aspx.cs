@@ -260,6 +260,9 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
                 customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
 
             }
+            else
+                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            /*
             if (getUserLogin().DepartmentId == 3)
             {
                 DataTable dtCustomerID = ctBUS.GetAllCustomerDepart3(getUserLogin().UserId, GroupID);
@@ -301,7 +304,7 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
                     }
                 }
                
-            }
+            }*/
 
             //row = customer.Select(expresion);
             //foreach (DataRow rowItem in row)
