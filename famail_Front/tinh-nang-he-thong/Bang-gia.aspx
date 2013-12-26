@@ -3,97 +3,83 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+     <style>
+        @-moz-document url-prefix() {
+            #chucnang div:nth-child(1){
+                    border-left:none !important;
+                    margin-right:4px !important;
+            }
+            #chucnang div:last-child{
+                width:190px !important;
+                margin-right:0px !important;
+                border-right:none !important;
+                margin-left:-1px;
+            }
+        }
+    </style>
     <div class="topPage" style="width: auto; height: auto;">
-        <h1 class="entry-title pricing">Bảng giá các tài khoản</h1>
+        <h1 class="entry-title pricing">Bảng giá các gói dịch vụ</h1>
     </div>
     <div id="logo1">
         <asp:Image ID="Image6" runat="server" ImageUrl="~/images/satisfaction-guaranteed.png" />
     </div>
     <div id="goimail">
-        <asp:DataList ID="dlGoiDichVu" runat="server" RepeatDirection="Horizontal" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
-            <AlternatingItemStyle BackColor="White" />
-            <FooterStyle BackColor="#CCCC99" />
-            <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
-            <ItemStyle BackColor="#F7F7DE" />
+       
+        <asp:Repeater ID="rptGoiDichVu" runat="server">
             <ItemTemplate>
-
-                <th style="width: 197px;" colspan="1" rowspan="1" class="column-5 sorting_disabled">
+                <div class="column-5 sorting_disabled">
                     <div class="majortitle1">
                         <asp:Label ID="Lbgoidichvu" runat="server" Text=""><%#Eval("PackageName") %></asp:Label>
                     </div>
                     <div class="subtitle">Hệ thống FA Mail</div>
                     <div id="month_pro">
                         <div class="pricing">
-                            <span><%#Convert.ToDouble(Eval("totalFee")).ToString("'$' #,#.#' tháng'") %></span>
+                            <span><%#"<p style='margin-top: -52px;margin-bottom: -56px;margin-left: 6px;width: 10px;font-size: 20px;'>$</p>"+Eval("totalFee") %></span>/Tháng
                         </div>
                     </div>
-                </th>
+                </div>
             </ItemTemplate>
-            <SelectedItemStyle BackColor="#CE5D5A" Font-Bold="True" ForeColor="White" />
-        </asp:DataList>
+        </asp:Repeater>
     </div>
-    <div id="goidichvu">
+    <div id="goidichvu" style="height:100%;width:195px;float:left;">
                 <asp:Label ID="lbphicaidat" runat="server" Text=""></asp:Label>
-
-             
-             
-                        <asp:DataList ID="dlTenChucNang" runat="server" CellPadding="4" ForeColor="#333333" Width="973px">
-
-                            <AlternatingItemStyle BackColor="White" />
-                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <ItemStyle BackColor="#EFF3FB" />
-
-                            <ItemTemplate>
-                                <asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>' Font-Size="10pt" ></asp:Label>
-
-                            </ItemTemplate>
-
-                            <SelectedItemStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-
-                        </asp:DataList>
-                   
-               
-            
-           
-      
+        <asp:Repeater ID="rptNameFunction" runat="server" >
+            <ItemTemplate>
+                <div style="clear:both;width:192px;height:39px;vertical-align:middle;">
+                    <div style="border:none !important;height:10px;margin-top:10px;"><asp:Label ID="all" runat="server" Text='<%# Eval("functionName") %>'></asp:Label></div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
     <div id="chucnang">
-        <asp:DataList ID="dlSDCN" runat="server" RepeatDirection="Horizontal" Width="103%" OnItemDataBound="dlSDCN_ItemDataBound">
-
+        <asp:Repeater ID="rptMain" runat="server">
             <ItemTemplate>
-
-                <asp:DataList ID="dlSudungChucNang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
-
-                    <ItemTemplate><div id="dangky" style="text-align: center">
-                        <%-- thay thanh image  --%>
-                        <asp:Image ID="Image1" runat="server" ImageUrl="~/images/blue-check.png" Visible='<%#Eval("isuse")+""=="yes"?true:false %>' />
-                        <asp:Image ID="Image2" runat="server" ImageUrl="~/images/CloseIcon20x20.png" Visible='<%#Eval("isuse")+""=="no"?true:false %> ' />
-                        <asp:Label ID="Label1" runat="server" style="text-align: center" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="no")?true:false %>'><%#Eval("isuse") %></asp:Label>         
-
-                      
-                        <%-- thay thanh image   --%>    <%--<asp:Label ID="Label5" runat="server"  Visible='<%#Eval("isuse")+""=="yes"?true:false %>'><%#Eval("isuse") %></asp:Label> --%>
-
-                        </div>
+                <div style="width:152px;float:left;margin-right:2px;border:1px solid #C3D5DF;">
+                <div style="text-align:center;width:100%;height:39px;">
+                    <a class="ajax register" href="Register.aspx?packageId=14"><img src="../images/signupbtn.png" /></a>
+                </div>
+                <asp:Repeater ID="rptSudungChucnang" runat="server" DataSource='<%# display.LoadFunctionPackage(Convert.ToInt32(Eval("packageid"))) %>'>
+                    <ItemTemplate>
+                         <div style="text-align:center;width:100%;">
+                             <img id="Img1" runat="server" src="../images/blue-check.png" Visible='<%#Eval("isUse")+""=="yes"?true:false %>' />
+                             <img id="Img2" runat="server"  Visible='<%#Eval("isUse")+""=="no"?true:false %> ' />
+                             <asp:Label ID="Label1" runat="server" style="text-align: center" Visible='<%#(Eval("isuse")+""!="yes"&&Eval("isuse")+""!="no")?true:false %>'><%#Eval("isuse") %></asp:Label>
+                         </div>
                     </ItemTemplate>
-
-                </asp:DataList>
-
-                <div id="dangky" style="margin-left: 50px">
-                    <asp:HyperLink ID="Hpldangky" runat="server">
-                        <a  href='register.aspx?packageId=<%#Eval("packageId") %>'>
+                </asp:Repeater>
+                <div id="dangky">
+                    <%--<img src="../images/signupbtn.png" style="margin-left:10px;"/>--%>
+                    <div id="bakground">
+                         <a class="ajax register"  href='register.aspx?packageId=<%#Eval("packageId") %>'>
                             <asp:Image ID="Image3" runat="server" ImageUrl="~/images/signupbtn.png" />
                         </a>
-                    </asp:HyperLink>
-                    <%--<div id="bakground"></div>--%>
+                    </div>
                 </div>
-
+                </div>
             </ItemTemplate>
-
-
-        </asp:DataList>
-
+        </asp:Repeater>
     </div>
+    <div style="clear:both;margin-bottom:20px;"></div>
 
 </asp:Content>
 
