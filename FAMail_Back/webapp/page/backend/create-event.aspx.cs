@@ -34,8 +34,8 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 LoadMailConfigList();
                 LoadEventList();
                 // Khoi tao session for store contentSendEvent
-               // ContentSendEventBUS cseBus = new ContentSendEventBUS();
-              //  Session["listContentSendEvent"] = cseBus.GetById(0);
+                ContentSendEventBUS cseBus = new ContentSendEventBUS();
+                Session["listContentSendEvent"] = cseBus.GetById(0);
                 
                // LoadContentList();
             }
@@ -304,7 +304,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 lblSuccess.Text = "Thông tin của sự kiện đã được cập nhật !";
             }
             pnError.Visible = false;
-            LoadEventList();
+           // LoadEventList();
         }
         catch (Exception ex)
         {

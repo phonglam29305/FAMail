@@ -183,6 +183,10 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         {
             dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
         }
+        else if (getUserLogin().DepartmentId == 3)
+        {
+            dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
+        }
         
         dlEvent.DataSource = dtEvent;
         dlEvent.DataBind();
