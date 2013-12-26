@@ -245,9 +245,8 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                         }
                         else
                         {
-                            lblError.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
-                            pnSuccess.Visible = false;
-                            pnError.Visible = true;
+                            status = 4;
+                          
                         }
                     }
 
@@ -274,6 +273,12 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 pnSuccess.Visible = true;
                 pnError.Visible = false;
                 LoadData();
+                if (status == 4)
+                {
+                    lblError.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
+                    pnSuccess.Visible = false;
+                    pnError.Visible = true;
+                }
                 if (status == 3)
                 {
                     lblError.Text = "Không cho phép tạo tài khoản con.Liên hệ quản trị!";

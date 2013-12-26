@@ -60,7 +60,7 @@ ValidateRequest="false"  %>
                                     </td>
                                     <td align="left" style="text-align: left;">
                                     <p>
-								    <label for="full-width-input">Phân loại khách hàng</label>
+								    <label for="full-width-input">Phân loại nhóm</label>
 								    <asp:DropDownList ID="drlMailGroup" CssClass="round default-width-dropdown" runat="server">
                                     </asp:DropDownList>
 								    <em>Tùy chọn này dùng để phân nhóm mail ! (<a href="group-mail.aspx">Thêm nhóm mới</a>)</em>								
@@ -116,7 +116,7 @@ ValidateRequest="false"  %>
 								                  <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"
                                                     PostBackUrl='<%#"~/webapp/page/backend/create-event.aspx?EventId=" + Eval("EventId")%>' />
 								                <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/webapp/resource/images/Delete-icon.png"
-                                                    CommandArgument='<%# Eval("id") %>' OnClick="btnDelete_Click" OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa sự kiện này không ?')" />
+                                                    CommandArgument='<%# Eval("EventId") %>' OnClick="btnDelete_Click" OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa sự kiện này không ?')" />
 
 								            </td>
 								            
