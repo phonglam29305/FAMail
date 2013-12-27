@@ -14,26 +14,16 @@ CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title
       </asp:Panel>
         <asp:Panel ID="pnSearch" runat="server">
             <table id="FilterTable">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 1090px" >
-                                            &nbsp;</th>
-                                        <th colspan="3" style="height: 27px; padding-left: 5px; text-align: left">Tìm kiếm khách hàng </th>
-                                    </tr>
-                                </thead>
+                               
                                 <tr>
-                                    <td style="width: 1090px">
-                                        &nbsp;</td>
-                                    <td style="width: 107px">
-                                        <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/webapp/resource/images/EMail-icon.png" />
-                                    </td>
-                                    <td align="left" style="text-align: left; width: 267px;">
-                                        <asp:Label ID="Label5" runat="server" Text="&lt;b&gt;Sự kiện:&lt;/b&gt;"></asp:Label>
+                                    
+                                    
+                                    
+                                    <td align="right">
+                                        Sự kiện:
                                         <asp:DropDownList ID="drlNhomMail" runat="server" Height="30px" Width="200px">
                                             <asp:ListItem Value="0">Tất cả</asp:ListItem>
                                         </asp:DropDownList>
-                                    </td>
-                                    <td>
                                         <asp:Button ID="btnFilter" runat="server" CssClass="button round blue image-right ic-search text-upper" OnClick="btnFilter_Click" Text="Lọc dữ liệu" />
                                     </td>
                                     
