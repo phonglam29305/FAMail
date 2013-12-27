@@ -139,39 +139,32 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
 
-        //try
-        //{
+        try
+        {
+            InitialBUS();
+            int eventId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+            ConnectionData.OpenMyConnection();
+            eventBus.tblEvent_Delete(eventId);
+            //Response.Redirect(Request.RawUrl);
+            btnFilter_Click(null, null);
+            visibleMessage(false);
+            pnSuccess.Visible = true;
+            lblSuccess.Text = "Bạn vừa xóa thành công sự kiện !";
+            ConnectionData.CloseMyConnection();
 
-        //    ContentSendEventBUS cseBus = new ContentSendEventBUS();
-        //    int contentId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-
-        //    DataTable dtContent = (DataTable)Session["listContentSendEvent"];
-        //    if (dtContent.Rows.Count > 0)
-        //    {
-        //        for (int i = 0; i < dtContent.Rows.Count; i++)
-        //        {
-        //            DataRow row = dtContent.Rows[i];
-        //            if (row["Id"].Equals(contentId))
-        //            {
-        //                dtContent.Rows.Remove(row);
-        //                cseBus.tblContentSendEvent_Delete(contentId);
-
-        //            }
-        //        }
-        //    }
-        //    //LoadContentSendEventList(dtContent);
-        //}
-        //catch (Exception ex)
-        //{
-
-        //    logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
-        //    pnSuccess.Visible = false;
-        //    pnError.Visible = true;
-        //    lblError.Text = ex.Message;
-        //}
+        }
+        catch (Exception ex)
+        {
+            pnError.Visible = true;
+            lblError.Text = ex.Message;
+        }
     }
 
-
+    protected void visibleMessage(bool vis)
+    {
+        pnError.Visible = vis;
+        pnSuccess.Visible = vis;
+    }
     protected void btnFilter_Click(object sender, EventArgs e)
     {
         int AssignUserId = 0;
