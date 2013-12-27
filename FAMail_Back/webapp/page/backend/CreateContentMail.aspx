@@ -98,7 +98,7 @@
                             <%--<input id="btnCheck" type="button" value="Đánh giá nội dung" class="round blue ic-right-arrow"
                             onclick = "ShowCurrentTime()" />  --%>                  
 
-                            <asp:Button ID="btnPreview" runat="server" Text="Xem với các trình duyệt mail" 
+                            <asp:Button ID="btnPreview" runat="server" Text="Kiểm tra HTML" 
                             CssClass="round blue ic-right-arrow" 
                             ToolTip="Xem với các trình duyệt Email: Gmail, Yahoo, Hotmail.." 
                             onclick="btnPreview_Click" />
