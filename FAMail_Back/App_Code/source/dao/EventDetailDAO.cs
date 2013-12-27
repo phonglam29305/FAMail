@@ -17,10 +17,10 @@ using System.Data.SqlClient;
 /// </summary>
 public class EventDetailDAO
 {
-	public EventDetailDAO()
-	{
-	
-	}
+    public EventDetailDAO()
+    {
+
+    }
     public void tblEventDetail_insert(EventDetailDTO dt)
     {
         string sql = "INSERT INTO tblEventDetail(EventId, CreateDate, FullName, EmailID, Company, Phone, SecondPhone, Address, Address2, City, Province, ZipCode, Country, Fax,GroupId, CountReceivedMail, LastReceivedMail) " +
@@ -53,19 +53,19 @@ public class EventDetailDAO
     }
     public void tblEventDetail_Update(EventDetailDTO dt)
     {
-        string sql = "UPDATE tblEventDetail SET "+
-	                "CreateDate = @CreateDate, "+
+        string sql = "UPDATE tblEventDetail SET " +
+                    "CreateDate = @CreateDate, " +
                     "FullName = @FullName, " +
-	                "EmailID = @EmailID, "+
-	                "Company = @Company, "+
-	                "Phone = @Phone, "+
-	                "SecondPhone = @SecondPhone, "+
-	                "Address = @Address, "+
-	                "Address2 = @Address2, "+
-	                "City = @City, "+
-	                "Province = @Province, "+
-	                "ZipCode = @ZipCode, "+
-	                "Country = @Country, "+
+                    "EmailID = @EmailID, " +
+                    "Company = @Company, " +
+                    "Phone = @Phone, " +
+                    "SecondPhone = @SecondPhone, " +
+                    "Address = @Address, " +
+                    "Address2 = @Address2, " +
+                    "City = @City, " +
+                    "Province = @Province, " +
+                    "ZipCode = @ZipCode, " +
+                    "Country = @Country, " +
                     "Fax = @Fax, GroupId = @GroupId	WHERE EventId = @EventId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -115,6 +115,31 @@ public class EventDetailDAO
         adapter.Dispose();
         return table;
     }
+
+
+    public DataTable GetByGroupIdNew(int GroupId, int eventID)
+    {
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "pro_get_all_listEventDetail";
+        cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = GroupId;
+        cmd.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+
+    }
+
+
     public DataTable GetByID(int EventId)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblEventDetail WHERE EventId = @EventId", ConnectionData._MyConnection);

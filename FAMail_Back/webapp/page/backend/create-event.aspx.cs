@@ -30,21 +30,21 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             try
             {
                 InitialBUS();
-                LoadMailGroupList();
+                LoadMailGroupLists();
                 LoadMailConfigList();
                 LoadEventList();
                 // Khoi tao session for store contentSendEvent
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);
-                
-               // LoadContentList();
+
+                // LoadContentList();
             }
             catch (Exception ex)
             {
                 pnError.Visible = true;
                 lblError.Text = ex.Message;
             }
-            
+
         }
     }
 
@@ -79,14 +79,14 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 if (dtContent.Rows.Count > 0)
                 {
                     lbtContent.Text = dtContent.Rows[0]["Subject"].ToString();
-                }                
+                }
 
                 Label lblHour = (Label)dlContentSendEvent.Items[i].FindControl("lblHour");
                 lblHour.Text = dataTable.Rows[i]["HourSend"].ToString() + " Giờ sau";
-               
+
                 string id = dataTable.Rows[i]["Id"].ToString();
                 LinkButton lbtDelete = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContentDelete");
-                lbtDelete.CommandArgument = id; 
+                lbtDelete.CommandArgument = id;
 
             }
         }
@@ -118,7 +118,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     //        throw;
     //    }
     //}
-    
+
     private UserLoginDTO getUserLogin()
     {
         if (Session["us-login"] != null)
@@ -151,45 +151,45 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         try
         {
-        string EventId = Request.QueryString["EventId"].ToString();
-        this.hdfEventId.Value = EventId + "";
-        int ID = 0;
-        if (EventId != null)
-        {
-            ID = int.Parse(EventId);
-            DataTable dtEvent = eventBus.GetByID(ID);
-            if (dtEvent.Rows.Count > 0)
+            string EventId = Request.QueryString["EventId"].ToString();
+            this.hdfEventId.Value = EventId + "";
+            int ID = 0;
+            if (EventId != null)
             {
-
-                txtSubject.Text = dtEvent.Rows[0]["Subject"].ToString();
-                txtVoucher.Text = dtEvent.Rows[0]["Voucher"].ToString();
-                drlMailConfig.SelectedItem.Value = dtEvent.Rows[0]["ConfigId"].ToString();
-                drlMailGroup.SelectedValue = dtEvent.Rows[0]["GroupId"].ToString();
-                txtContent.Text = dtEvent.Rows[0]["Body"].ToString();
-                txtStartDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["StartDate"].ToString()));
-                txtEndDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["EndDate"].ToString()));
-                if (dtEvent.Rows[0]["ResponeUrl"].Equals("Default"))
+                ID = int.Parse(EventId);
+                DataTable dtEvent = eventBus.GetByID(ID);
+                if (dtEvent.Rows.Count > 0)
                 {
-                    chkDefaultPage.Checked = true;
-                    txtResponeUrl.Enabled = false;
-                }
-                else
-                {
-                    txtResponeUrl.Text = dtEvent.Rows[0]["ResponeUrl"].ToString();
-                }
+
+                    txtSubject.Text = dtEvent.Rows[0]["Subject"].ToString();
+                    txtVoucher.Text = dtEvent.Rows[0]["Voucher"].ToString();
+                    drlMailConfig.SelectedItem.Value = dtEvent.Rows[0]["ConfigId"].ToString();
+                    drlMailGroup.SelectedValue = dtEvent.Rows[0]["GroupId"].ToString();
+                    txtContent.Text = dtEvent.Rows[0]["Body"].ToString();
+                    txtStartDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["StartDate"].ToString()));
+                    txtEndDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["EndDate"].ToString()));
+                    if (dtEvent.Rows[0]["ResponeUrl"].Equals("Default"))
+                    {
+                        chkDefaultPage.Checked = true;
+                        txtResponeUrl.Enabled = false;
+                    }
+                    else
+                    {
+                        txtResponeUrl.Text = dtEvent.Rows[0]["ResponeUrl"].ToString();
+                    }
 
 
-                // Hien thi ConentSendEvent list.
-                ContentSendEventBUS cseBus = new ContentSendEventBUS();
-                DataTable tblContent = cseBus.GetByEventId(ID);
-                if (tblContent.Rows.Count > 0)
-                {
-                    Session["listContentSendEvent"] = tblContent;
-                    LoadContentSendEventList(tblContent);
-                }
+                    // Hien thi ConentSendEvent list.
+                    ContentSendEventBUS cseBus = new ContentSendEventBUS();
+                    DataTable tblContent = cseBus.GetByEventId(ID);
+                    if (tblContent.Rows.Count > 0)
+                    {
+                        Session["listContentSendEvent"] = tblContent;
+                        LoadContentSendEventList(tblContent);
+                    }
 
+                }
             }
-        }
         }
         catch (Exception ex)
         {
@@ -218,24 +218,48 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         drlMailConfig.DataBind();
     }
 
-    private void LoadMailGroupList()
+
+
+    private void LoadMailGroupLists()
     {
-        DataTable dtMailGroup = new DataTable();
-        UserLoginDTO userLogin = getUserLogin();
-        if (userLogin.DepartmentId == 1)
+        try
         {
-            dtMailGroup = mailGroupBus.GetAllNew();
+            DataTable dtMailGroup = null;
+
+            if (getUserLogin().DepartmentId == 1)
+            {
+                dtMailGroup = mailGroupBus.GetAllNew();
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
+            }
+            if (getUserLogin().DepartmentId == 3)
+            {
+                dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
+            }
+
+            if (dtMailGroup.Rows.Count > 0)
+            {
+                drlMailGroup.Items.Clear();
+                drlMailGroup.DataSource = dtMailGroup.DefaultView;
+                drlMailGroup.DataTextField = "Name";
+                drlMailGroup.DataValueField = "Id";
+                drlMailGroup.DataBind();
+
+            }
+            else
+            {
+                //pnSelectGroup.Visible = false;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            dtMailGroup = mailGroupBus.GetAllNew(userLogin.UserId);
+
+            logs.Error(userLogin.Username + "-Client - LoadMailGroupLists", ex);
         }
-        drlMailGroup.Items.Clear();
-        drlMailGroup.DataSource = dtMailGroup.DefaultView;
-        drlMailGroup.DataTextField = "Name";
-        drlMailGroup.DataValueField = "Id";
-        drlMailGroup.DataBind();
     }
+
     private void InitialBUS()
     {
         mailConfigBus = new MailConfigBUS();
@@ -246,7 +270,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         try
         {
-           
+
             InitialBUS();
             String eventId = hdfEventId.Value.ToString();
             EventDTO eventDto = getEvent();
@@ -275,14 +299,14 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                     lblError.Text = "Vui lòng kiểm tra lại định dạng ngày tháng !";
                     return;
                 }
-                
+
             }
 
             int status = 1;// insert
             if (eventId == "" || eventId == null)//insert new
             {
                 int eId = eventBus.tblEvent_insert(eventDto);
-                hdfEventId.Value = eId.ToString() ;
+                hdfEventId.Value = eId.ToString();
                 // Store for ContentSendEvent table.
                 saveContentSendEvent(eId);
             }
@@ -298,20 +322,23 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
             pnSuccess.Visible = true;
 
-            if(status==1){
+            if (status == 1)
+            {
                 lblSuccess.Text = "Bạn vừa thêm thành công sự kiện !";
-            }else{
+            }
+            else
+            {
                 lblSuccess.Text = "Thông tin của sự kiện đã được cập nhật !";
             }
             pnError.Visible = false;
-           // LoadEventList();
+            // LoadEventList();
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
-        
+
     }
     private string checkData()
     {
@@ -327,12 +354,12 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         return msg;
     }
     protected EventDTO getEvent()
-    {        
+    {
         string subject = txtSubject.Text;
         string voucher = txtVoucher.Text;
         string subscribe = "";
         string body = txtContent.Text;
-        int configId = int.Parse(drlMailConfig.SelectedValue.ToString());           
+        int configId = int.Parse(drlMailConfig.SelectedValue.ToString());
         string responeUrl = "";
         if (chkDefaultPage.Checked == true)
         {
@@ -341,7 +368,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         else
         {
             responeUrl = txtResponeUrl.Text;
-            
+
             if (responeUrl == null || responeUrl == "")
             {
                 responeUrl = "http://chomy.com.vn";
@@ -355,7 +382,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
         // Initial eventDto object.
         EventDTO eventDto = new EventDTO(subject, voucher, subscribe, body, configId,
-            DateTime.Now, DateTime.Now, responeUrl, confirmContent, confirmFlag, getUserLogin().UserId, groupId);     
+            DateTime.Now, DateTime.Now, responeUrl, confirmContent, confirmFlag, getUserLogin().UserId, groupId);
 
         return eventDto;
     }
@@ -370,16 +397,17 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             // Set null value for listContentSendEvent session.
             ContentSendEventBUS cseBus = new ContentSendEventBUS();
             Session["listContentSendEvent"] = cseBus.GetById(0);
-           
+
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
-        
+
     }
-    protected void resetForm(){
+    protected void resetForm()
+    {
         txtSubject.Text = "";
         txtVoucher.Text = "";
         txtContent.Text = "";
@@ -403,16 +431,16 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         int year = date.Year;
         int hours = date.Hour;
         int minute = date.Minute;
-        String strDate = (month < 10) ? "0" + month : month+"";
-               strDate +="/";
-               strDate += (day < 10) ? "0" + day : day + "";
-               strDate +="/";
-               strDate += year + " ";
-               strDate += (hours < 10) ? "0" + hours : hours + "";
-               strDate +=":";
-               strDate += (minute < 10) ? "0" + minute: minute+"";
+        String strDate = (month < 10) ? "0" + month : month + "";
+        strDate += "/";
+        strDate += (day < 10) ? "0" + day : day + "";
+        strDate += "/";
+        strDate += year + " ";
+        strDate += (hours < 10) ? "0" + hours : hours + "";
+        strDate += ":";
+        strDate += (minute < 10) ? "0" + minute : minute + "";
         return strDate;
-        
+
     }
 
 
@@ -454,14 +482,14 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 Session["listContentSendEvent"] = tblContent;
                 LoadContentSendEventList(tblContent);
             }
-            
+
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
-        
+
     }
     protected void visibleMessage(bool vis)
     {
@@ -482,15 +510,15 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             pnSuccess.Visible = true;
             lblSuccess.Text = "Bạn vừa xóa thành công sự kiện !";
             ConnectionData.CloseMyConnection();
-            
+
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
-        
-        
+
+
     }
 
     protected void btnGenerate_Click(object sender, EventArgs e)
@@ -520,20 +548,20 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
-        
+
     }
     protected void chkDefaultPage_CheckedChanged(object sender, EventArgs e)
     {
         if (chkDefaultPage.Checked == true)
-        {           
+        {
             txtResponeUrl.Enabled = false;
         }
         else
         {
-            txtResponeUrl.Enabled = true ;
+            txtResponeUrl.Enabled = true;
         }
     }
-    
+
     protected void lbtEditSignature_Click(object sender, EventArgs e)
     {
         Response.Redirect("create-signature.aspx");
@@ -562,10 +590,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         SendContentBUS scBus = new SendContentBUS();
         try
         {
-            PanelHourError.Visible = false;        
+            PanelHourError.Visible = false;
             DataTable dtContent = (DataTable)Session["listContentSendEvent"];
             int contentId = int.Parse(drlContent.SelectedValue);
-            string contentSubject = drlContent.SelectedItem.ToString();     
+            string contentSubject = drlContent.SelectedItem.ToString();
 
             int hour = int.Parse(txtHour.Text);
             DataRow row = dtContent.NewRow();
@@ -575,7 +603,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             dtContent.Rows.Add(row);
 
             LoadContentSendEventList(dtContent);
-            
+
         }
         catch (Exception)
         {
@@ -588,7 +616,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         ContentSendEventBUS cseBus = new ContentSendEventBUS();
         int contentId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
         DataTable dtContent = (DataTable)Session["listContentSendEvent"];
-        if(dtContent.Rows.Count>0)
+        if (dtContent.Rows.Count > 0)
         {
             for (int i = 0; i < dtContent.Rows.Count; i++)
             {
@@ -606,7 +634,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             }
         }
         LoadContentSendEventList(dtContent);
-        
+
     }
 
     protected void saveContentSendEvent(int eventId)
@@ -637,12 +665,12 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         LoadContentList();
     }
-     [System.Web.Services.WebMethod]
+    [System.Web.Services.WebMethod]
     public static string Spam(string content)
-    {        
+    {
         try
         {
-            string[]_content= Regex.Split(content,"//Hung-Hai//");
+            string[] _content = Regex.Split(content, "//Hung-Hai//");
             SpamRuleBUS spamBUS = new SpamRuleBUS();
             DataTable spam = spamBUS.GetAll();
             float totalScoreTitle = 0;
@@ -652,155 +680,155 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             string key = "";
             string titleData = _content[0];
             string contentData = _content[1];
-            #region MyRegion  
+            #region MyRegion
             #region Fisrt
-            ruleContent ="<div class='toolTipBox' style='padding: 5px; margin-top: 10px; background-color: rgb(224, 236, 255);"+
-                    "color: rgb(51, 51, 51); text-decoration: none; margin-bottom: 15px; font-family: Tahoma, Arial;"+
-                    "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;"+
-                    "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;"+
-                    "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;"+
-                    "-webkit-text-stroke-width: 0px;'>" +
-                    "<img align='left' height='16' src='../../resource/images/infoballon.gif' width='20' />Thống"+
-                    "kê nội dung các quy tắc vi phạm của &#39;<b>Tiêu đề gửi</b>&#39; chi tiết như bên"+
-                    " dưới:</div>"+
-                    "<div class='Heading2' style='font-weight: bold; color: rgb(0, 0, 0); height: 16pt;"+
-                    "background-color: rgb(237, 236, 236); padding: 4px 4px 4px 10px; background-image: url(../../resource/images/table_bg.gif);"+
-                    "font-family: Tahoma, Arial; font-size: 11px; font-style: normal; font-variant: normal;"+
-                    "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;"+
-                    "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;"+
-                    "-webkit-text-stroke-width: 0px;'>"+
-                    "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>"+
-                    "Quy tắc vi phạm</div>"+
-                    "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;"+
-                    "padding: 3px 15px 3px 5px;'>"+
-                    "Điểm</div>"+
-                    "&nbsp;</div>"+
-                    "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);"+
-                   " display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;"+
-                    "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;"+
-                    "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;"+
-                    "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;"+
-                    "-webkit-text-stroke-width: 0px;'>"; 
-                      #endregion Fisrt
-                    foreach (DataRow RowItem in spam.Rows)
-                    {
-                        key = " " + RowItem["Keyword"].ToString() + " ";
-                        ItemScore = float.Parse(RowItem["Score"].ToString());
-                        if (titleData.Contains(key) == true)
-                        {
-                               //Bắt đầu vòng lặp tính điểm tiêu đề
-                            ruleContent += "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
-                                  "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
-                                  "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
-                                  "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
-                                  "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
-                                  "-webkit-text-stroke-width: 0px;'>";
-                              ruleContent+="<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" + "Chứa từ vi phạm '" + key + "'" + "</div>" +
-                               "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" + "padding: 3px 15px 3px 5px;'>" + ItemScore + "</div> </br>";
-                              ruleContent += "</div>";
-                              totalScoreTitle = totalScoreTitle + ItemScore;
-                        // Kết thúc vòng lặp tính điểm tiêu đề
-                        }
-                    }
-
-            #region Medium
-                    ruleContent += "" +
-                      "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
-                       "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
-                       "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
-                       "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
-                       "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
-                       "-webkit-text-stroke-width: 0px;'>" +
-                       "<div class='spamRuleBroken_graph' style='border: 1px solid gray; height: 5px; background-color: rgb(238, 238, 238);'>" +
-                       "<div class='spam_notspam' style='background-color: rgb(0, 255, 0); height: 5px; width: 165.296875px;'>" +
-                       "<img height='5' src='../../resource/images/1x1.gif' width='1' /></div>" +
-                       "</div>" +
-                       "<div style='line-height: 1; margin-bottom: 5px;'>" +
-                       "<br />" +
-                       "Nội dung được đánh giá cao nhất<span class ='Apple-converted-space'>&nbsp;</span><span" +
-                       " style='font-size: 12px; font-weight: bold;'><b>" + totalScoreTitle.ToString() + "</b></span><span class='Apple-converted-space'>&nbsp;</span>trong" +
-                       " ngưỡng cho phép là 5. Điều này có nghĩa email của bạn sẽ được gửi đến đích, nhưng" +
-                       "điều này không được bảo đảm tuyệt đối nó chỉ có giá trị tham khảo.</div>" +
-                    "</div>" +
-                    "<div class='toolTipBox' style='padding: 5px; margin-top: 10px; background-color: rgb(224, 236, 255);" +
+            ruleContent = "<div class='toolTipBox' style='padding: 5px; margin-top: 10px; background-color: rgb(224, 236, 255);" +
                     "color: rgb(51, 51, 51); text-decoration: none; margin-bottom: 15px; font-family: Tahoma, Arial;" +
                     "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
                     "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
                     "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
                     "-webkit-text-stroke-width: 0px;'>" +
                     "<img align='left' height='16' src='../../resource/images/infoballon.gif' width='20' />Thống" +
-                    " kê nội dung các quy tắc vi phạm của &#39;<b>Nội dung gửi</b>&#39; chi tiết như" +
-                    " bên dưới:" + "</div>" +
-                     "<div class='Heading2' style='font-weight: bold; color: rgb(0, 0, 0); height: 16pt;" +
-                     "background-color: rgb(237, 236, 236); padding: 4px 4px 4px 10px; background-image: url(../../resource/images/table_bg.gif);" +
-                     "font-family: Tahoma, Arial; font-size: 11px; font-style: normal; font-variant: normal;" +
-                     "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
-                     "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
-                     "-webkit-text-stroke-width: 0px;'>" +
-                     "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" +
-                     "Quy tắc vi phạm</div>" +
-                     "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" +
-                     "padding: 3px 15px 3px 5px;'>" +
-                     "Điểm</div>" +
-                    "&nbsp;</div>";
-                  
+                    "kê nội dung các quy tắc vi phạm của &#39;<b>Tiêu đề gửi</b>&#39; chi tiết như bên" +
+                    " dưới:</div>" +
+                    "<div class='Heading2' style='font-weight: bold; color: rgb(0, 0, 0); height: 16pt;" +
+                    "background-color: rgb(237, 236, 236); padding: 4px 4px 4px 10px; background-image: url(../../resource/images/table_bg.gif);" +
+                    "font-family: Tahoma, Arial; font-size: 11px; font-style: normal; font-variant: normal;" +
+                    "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+                    "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+                    "-webkit-text-stroke-width: 0px;'>" +
+                    "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" +
+                    "Quy tắc vi phạm</div>" +
+                    "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" +
+                    "padding: 3px 15px 3px 5px;'>" +
+                    "Điểm</div>" +
+                    "&nbsp;</div>" +
+                    "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
+                   " display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
+                    "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+                    "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+                    "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+                    "-webkit-text-stroke-width: 0px;'>";
+            #endregion Fisrt
+            foreach (DataRow RowItem in spam.Rows)
+            {
+                key = " " + RowItem["Keyword"].ToString() + " ";
+                ItemScore = float.Parse(RowItem["Score"].ToString());
+                if (titleData.Contains(key) == true)
+                {
+                    //Bắt đầu vòng lặp tính điểm tiêu đề
+                    ruleContent += "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
+                          "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
+                          "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+                          "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+                          "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+                          "-webkit-text-stroke-width: 0px;'>";
+                    ruleContent += "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" + "Chứa từ vi phạm '" + key + "'" + "</div>" +
+                     "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" + "padding: 3px 15px 3px 5px;'>" + ItemScore + "</div> </br>";
+                    ruleContent += "</div>";
+                    totalScoreTitle = totalScoreTitle + ItemScore;
+                    // Kết thúc vòng lặp tính điểm tiêu đề
+                }
+            }
+
+            #region Medium
+            ruleContent += "" +
+              "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
+               "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
+               "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+               "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+               "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+               "-webkit-text-stroke-width: 0px;'>" +
+               "<div class='spamRuleBroken_graph' style='border: 1px solid gray; height: 5px; background-color: rgb(238, 238, 238);'>" +
+               "<div class='spam_notspam' style='background-color: rgb(0, 255, 0); height: 5px; width: 165.296875px;'>" +
+               "<img height='5' src='../../resource/images/1x1.gif' width='1' /></div>" +
+               "</div>" +
+               "<div style='line-height: 1; margin-bottom: 5px;'>" +
+               "<br />" +
+               "Nội dung được đánh giá cao nhất<span class ='Apple-converted-space'>&nbsp;</span><span" +
+               " style='font-size: 12px; font-weight: bold;'><b>" + totalScoreTitle.ToString() + "</b></span><span class='Apple-converted-space'>&nbsp;</span>trong" +
+               " ngưỡng cho phép là 5. Điều này có nghĩa email của bạn sẽ được gửi đến đích, nhưng" +
+               "điều này không được bảo đảm tuyệt đối nó chỉ có giá trị tham khảo.</div>" +
+            "</div>" +
+            "<div class='toolTipBox' style='padding: 5px; margin-top: 10px; background-color: rgb(224, 236, 255);" +
+            "color: rgb(51, 51, 51); text-decoration: none; margin-bottom: 15px; font-family: Tahoma, Arial;" +
+            "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+            "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+            "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+            "-webkit-text-stroke-width: 0px;'>" +
+            "<img align='left' height='16' src='../../resource/images/infoballon.gif' width='20' />Thống" +
+            " kê nội dung các quy tắc vi phạm của &#39;<b>Nội dung gửi</b>&#39; chi tiết như" +
+            " bên dưới:" + "</div>" +
+             "<div class='Heading2' style='font-weight: bold; color: rgb(0, 0, 0); height: 16pt;" +
+             "background-color: rgb(237, 236, 236); padding: 4px 4px 4px 10px; background-image: url(../../resource/images/table_bg.gif);" +
+             "font-family: Tahoma, Arial; font-size: 11px; font-style: normal; font-variant: normal;" +
+             "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+             "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+             "-webkit-text-stroke-width: 0px;'>" +
+             "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" +
+             "Quy tắc vi phạm</div>" +
+             "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" +
+             "padding: 3px 15px 3px 5px;'>" +
+             "Điểm</div>" +
+            "&nbsp;</div>";
+
             #endregion
-                //Đánh giá nội dung
-                   foreach (DataRow RowItem in spam.Rows)
-                    {
-                        key = " " + RowItem["Keyword"].ToString() + " ";
-                        ItemScore = float.Parse(RowItem["Score"].ToString());
-                        if (contentData.Contains(key) == true)
-                        {
-                                 //Bắt đầu vòng lặp tính điểm tiêu đề
-                          ruleContent+=  "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
-                                       "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
-                                       "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
-                                       "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
-                                       "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
-                                       "-webkit-text-stroke-width: 0px;'>";
-                              ruleContent+="<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" + "Chứa từ vi phạm '" + key + "'" + "</div>" +
-                               "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" + "padding: 3px 15px 3px 5px;'>" + ItemScore + "</div></br>";
-                              ruleContent += "</div>";
-                              totalScoreContent = totalScoreContent + ItemScore;
-                        // Kết thúc vòng lặp tính điểm tiêu đề
-                        }
-                    }
-                      
-                //Kết thúc đánh giá nội dung
+            //Đánh giá nội dung
+            foreach (DataRow RowItem in spam.Rows)
+            {
+                key = " " + RowItem["Keyword"].ToString() + " ";
+                ItemScore = float.Parse(RowItem["Score"].ToString());
+                if (contentData.Contains(key) == true)
+                {
+                    //Bắt đầu vòng lặp tính điểm tiêu đề
+                    ruleContent += "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
+                                 "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
+                                 "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+                                 "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+                                 "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+                                 "-webkit-text-stroke-width: 0px;'>";
+                    ruleContent += "<div class='spamRuleBroken_row_rulename' style='float: left; padding: 3px 0px 3px 5px;'>" + "Chứa từ vi phạm '" + key + "'" + "</div>" +
+                     "<div class='spamRuleBroken_row_rulescore' style='float: right; width: 80px; text-align: right;" + "padding: 3px 15px 3px 5px;'>" + ItemScore + "</div></br>";
+                    ruleContent += "</div>";
+                    totalScoreContent = totalScoreContent + ItemScore;
+                    // Kết thúc vòng lặp tính điểm tiêu đề
+                }
+            }
+
+            //Kết thúc đánh giá nội dung
             #region End
-                    ruleContent+=  "" +
-                      "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
-                      "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
-                      "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
-                      "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
-                      "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
-                      "-webkit-text-stroke-width: 0px;'>" +
-                      "<div class='spamRuleBroken_graph' style='border: 1px solid gray; height: 5px; background-color: rgb(238, 238, 238);'>" +
-                      "<div class='spam_notspam' style='background-color: rgb(0, 255, 0); height: 5px; width: 50%;'>" +
-                      "<img height='5' src='../../resource/images/1x1.gif' width='1' /></div>" + "</div>" +
-                       "<div style='line-height: 1; margin-bottom: 5px;'>" + "<br />" +
-                       "Nội dung được đánh giá cao nhất<span class='Apple-converted-space'>&nbsp;</span><span" +
-                       " style='font-size: 13px; font-weight: bold;'>" + totalScoreContent.ToString()+ "</span><span class='Apple-converted-space'>&nbsp;</span>trong" +
-                       " ngưỡng cho phép là 5. Điều này có nghĩa email của bạn sẽ được gửi đến đích, nhưng" +
-                       "điều này không được bảo đảm tuyệt đối nó chỉ có giá trị tham khảo." +
-                        "</div>" +
-                    "</div>";
-               #endregion
+            ruleContent += "" +
+              "<div class='spam_info spamRuleBroken_row' style='padding: 4px 8px; background-color: rgb(249, 249, 249);" +
+              "display: block; clear: both; color: rgb(103, 103, 103); font-family: Tahoma, Arial;" +
+              "font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal;" +
+              "letter-spacing: normal; line-height: normal; orphans: auto; text-align: start;" +
+              "text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px;" +
+              "-webkit-text-stroke-width: 0px;'>" +
+              "<div class='spamRuleBroken_graph' style='border: 1px solid gray; height: 5px; background-color: rgb(238, 238, 238);'>" +
+              "<div class='spam_notspam' style='background-color: rgb(0, 255, 0); height: 5px; width: 50%;'>" +
+              "<img height='5' src='../../resource/images/1x1.gif' width='1' /></div>" + "</div>" +
+               "<div style='line-height: 1; margin-bottom: 5px;'>" + "<br />" +
+               "Nội dung được đánh giá cao nhất<span class='Apple-converted-space'>&nbsp;</span><span" +
+               " style='font-size: 13px; font-weight: bold;'>" + totalScoreContent.ToString() + "</span><span class='Apple-converted-space'>&nbsp;</span>trong" +
+               " ngưỡng cho phép là 5. Điều này có nghĩa email của bạn sẽ được gửi đến đích, nhưng" +
+               "điều này không được bảo đảm tuyệt đối nó chỉ có giá trị tham khảo." +
+                "</div>" +
+            "</div>";
+            #endregion
             #endregion
             return ruleContent;
         }
         catch (Exception)
         {
-            return null; 
+            return null;
         }
-       
+
     }
     [System.Web.Services.WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-     public static string contentUpdate(string content)
-     {
-         string con = content;
-         return null;
-     }
+    public static string contentUpdate(string content)
+    {
+        string con = content;
+        return null;
+    }
 }

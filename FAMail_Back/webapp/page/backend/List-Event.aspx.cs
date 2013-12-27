@@ -62,10 +62,10 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
     private void loadData()
     {
 
-      
+
         try
         {
-           
+
             DataTable MailGroup = new DataTable();
             if (Session["us-login"] != null)
             {
@@ -99,8 +99,11 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
                         rowE["Name"] = rowItem["Name"];
                         group.Rows.Add(rowE);
                     }
-                } 
-           
+                }
+                //DataRow dr = group.NewRow();
+                //dr["Name"] = "---------------[Tất cả]-----------------";
+                //dr["Id"] = "-1";
+                //group.Rows.InsertAt(dr, 0);
                 this.drlMailGroup.DataSource = group;
                 this.drlMailGroup.DataTextField = "Name";
                 this.drlMailGroup.DataValueField = "Id";
@@ -128,18 +131,20 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
 
     protected void lbtDelete_Click(object sender, EventArgs e)
     {
-       
+
 
     }
 
 
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
+
         //try
         //{
 
         //    ContentSendEventBUS cseBus = new ContentSendEventBUS();
-        //    int contentId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
+        //    int contentId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+
         //    DataTable dtContent = (DataTable)Session["listContentSendEvent"];
         //    if (dtContent.Rows.Count > 0)
         //    {
@@ -150,7 +155,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         //            {
         //                dtContent.Rows.Remove(row);
         //                cseBus.tblContentSendEvent_Delete(contentId);
-                       
+
         //            }
         //        }
         //    }
@@ -169,25 +174,30 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
 
     protected void btnFilter_Click(object sender, EventArgs e)
     {
+        int AssignUserId = 0;
         InitialBUS();
+        int ID = 0;
         int GroupID = 0;
+
         GroupID = int.Parse(drlMailGroup.SelectedValue.ToString());
+
         DataTable dtEvent = new DataTable();
         UserLoginDTO userLogin = getUserLogin();
-     
+
         if (userLogin.DepartmentId == 1)
         {
             dtEvent = eventBus.GetAll();
         }
         else if (getUserLogin().DepartmentId == 2)
         {
+
             dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
         }
         else if (getUserLogin().DepartmentId == 3)
         {
             dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
         }
-        
+
         dlEvent.DataSource = dtEvent;
         dlEvent.DataBind();
         for (int i = 0; i < dtEvent.Rows.Count; i++)
@@ -221,8 +231,10 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
             //lbtDelete.CssClass = "table-actions-button ic-table-delete";
             //lbtDelete.CommandArgument = row["EventId"].ToString();
 
+
+
         }
-    
-       
+
+
     }
 }

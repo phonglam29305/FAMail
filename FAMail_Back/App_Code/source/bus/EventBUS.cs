@@ -13,7 +13,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for EventBUS
 /// </summary>
-public class EventBUS:IEvent
+public class EventBUS : IEvent
 {
     public EventBUS() { }
 
@@ -49,6 +49,16 @@ public class EventBUS:IEvent
         return eDao.GetAllListEvent(subject, userId, group);
     }
 
+    public DataTable GetAllListEventDepart2(string subject, int userId, int group)
+    {
+        return eDao.GetAllListEventDepart2(subject, userId, group);
+    }
+
+    public DataTable GetAssignTo(int groupId)
+    {
+        return eDao.GetAssignTo(groupId);
+    }
+
 
     public DataTable GetByUserId(int userId)
     {
@@ -57,5 +67,5 @@ public class EventBUS:IEvent
     #endregion
 
 
-    
+
 }

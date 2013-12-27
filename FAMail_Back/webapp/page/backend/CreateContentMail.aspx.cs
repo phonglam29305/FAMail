@@ -16,21 +16,26 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
 {
     SendContentBUS scBUS = null;
     SignatureBUS signBus = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
-    {        
+    {
         try
         {
+
             if (!IsPostBack)
             {
                 LoadContentMail();
                 LoadSignatureList();
-                
-            }            
+
+            }
         }
         catch (Exception)
-        {            
-        }        
+        {
+        }
     }
+
+
 
     private void LoadSignatureList()
     {
@@ -44,10 +49,10 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
             {
                 dlSignature.DataSource = tblSignList;
                 dlSignature.DataBind();
-               
+
                 for (int i = 0; i < tblSignList.Rows.Count; i++)
-                {         
-                    
+                {
+
                     LinkButton lbtInsert = (LinkButton)dlSignature.Items[i].FindControl("lbtInsert");
                     lbtInsert.CommandArgument = tblSignList.Rows[i]["id"].ToString();
                     lbtInsert.Text = tblSignList.Rows[i]["SignatureName"].ToString();
@@ -56,7 +61,7 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
             }
         }
         catch (Exception)
-        {          
+        {
         }
     }
 
@@ -106,29 +111,29 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = "Bạn chưa nhập tiêu đề hoặc nôi dung. Vui lòng kiểm tra lại";
-             pnSuccess.Visible = false;
-             return;
-            
+            pnSuccess.Visible = false;
+            return;
+
         }
         int status = 1;//1-insert 2-update
         String ContentId = this.hdfContentId.Value.ToString();
         SendContentDTO scDTO = getscDTO();
         ConnectionData.OpenMyConnection();
-        if (ContentId == "" || ContentId == null || int.Parse(ContentId)==0)//them moi
+        if (ContentId == "" || ContentId == null || int.Parse(ContentId) == 0)//them moi
         {
             scBUS.tblSendContent_insert(scDTO);
         }
         else
         {
-           
+
             scBUS.tblSendContent_Update(scDTO);
             status = 2;
-          
+
         }
-       
+
         ConnectionData.CloseMyConnection();
         pnSuccess.Visible = true;
-        
+
         if (status == 1)
         {
             lblSuccess.Text = "Bạn vừa thêm thành công một nội dung mail !";
@@ -142,13 +147,13 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
 
     private bool CheckNull()
     {
-        
+
         string subject = "";
         string body = "";
         body = this.txtBody.Text.ToString();
         DateTime createdate = DateTime.Now;
         subject = this.txtSubject.Text.ToString();
-       
+
         if (subject == "" || subject == null || body == null || body == "")
         {
             return false;
@@ -180,7 +185,7 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         {
             return null;
         }
-        
+
     }
     private UserLoginDTO getUserLogin()
     {
@@ -193,7 +198,7 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
 
     protected void resetForm()
     {
-        txtSubject.Text = "";       
+        txtSubject.Text = "";
         txtBody.Text = "";
     }
 
@@ -220,10 +225,10 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         }
         catch (Exception)
         {
-            
+
             throw;
         }
-        
+
     }
     protected void lbtEditSignature_Click(object sender, EventArgs e)
     {
@@ -252,10 +257,10 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
     {
         string ContentMail = this.txtBody.Text;
         Session["Content"] = ContentMail;
-        Response.Redirect("PreviewContent.aspx");      
-       
+        Response.Redirect("PreviewContent.aspx");
+
     }
-   
+
 
     [System.Web.Services.WebMethod]
     public static string GetCurrentTime(string name)
@@ -269,5 +274,5 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         return "Hello " + name + Environment.NewLine + "The Current Time is: "
             + DateTime.Now.ToString();
     }
-    
+
 }

@@ -13,7 +13,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for EventDetailBUS
 /// </summary>
-public class EventDetailBUS:IEventDetail
+public class EventDetailBUS : IEventDetail
 {
     public EventDetailBUS() { }
 
@@ -48,6 +48,11 @@ public class EventDetailBUS:IEventDetail
     public DataTable GetByGroupId(int GroupId)
     {
         return edDao.GetByGroupId(GroupId);
+    }
+
+    public DataTable GetByGroupIdNew(int GroupId, int eventID)
+    {
+        return edDao.GetByGroupIdNew(GroupId, eventID);
     }
 
     public DataTable GetByIdAndEmail(int EventId, string email)

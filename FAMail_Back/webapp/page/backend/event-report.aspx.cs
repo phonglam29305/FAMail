@@ -15,19 +15,25 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 {
     MailGroupBUS mailGroupBus = null;
     EventDetailBUS eventDetailBus = null;
+    EventBUS eventBus = null;
+    DataTable group = null;
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             try
             {
-                LoadEventReport();   
+                loadData();
+                LoadEventReport();
+
             }
             catch (Exception)
             {
-            }                     
+            }
         }
-       
+
     }
 
     private UserLoginDTO getUserLogin()
@@ -39,33 +45,111 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         return null;
     }
 
+
+    private void loadData()
+    {
+        eventDetailBus = new EventDetailBUS();
+        eventBus = new EventBUS();
+        try
+        {
+
+            DataTable dtEvent = new DataTable();
+
+            if (Session["us-login"] != null)
+            {
+                if (getUserLogin().DepartmentId == 1)
+                {
+                    dtEvent = eventBus.GetAll();
+                }
+                else
+                {
+                    dtEvent = eventBus.GetByUserId(getUserLogin().UserId);
+                }
+
+                if (dtEvent.Rows.Count > 0)
+                {
+                    createTableMail();
+                    DataRow rowE = null;
+                    if (getUserLogin().DepartmentId == 1)
+                    {
+                        rowE = group.NewRow();
+                        rowE["EventId"] = 0;
+                        rowE["Subject"] = "Tất cả";
+                        group.Rows.Add(rowE);
+                    }
+                    foreach (DataRow rowItem in dtEvent.Rows)
+                    {
+                        rowE = group.NewRow();
+                        rowE["EventId"] = rowItem["EventId"];
+                        rowE["Subject"] = rowItem["Subject"];
+                        group.Rows.Add(rowE);
+                    }
+                } //DataRow dr = group.NewRow();
+                //dr["Subject"] = "---------------[Tất cả]-----------------";
+                //dr["EventId"] = "-1";
+                //group.Rows.InsertAt(dr, 0);
+                this.drlNhomMail.DataSource = group;
+                this.drlNhomMail.DataTextField = "Subject";
+                this.drlNhomMail.DataValueField = "EventId";
+                this.drlNhomMail.DataBind();
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            logs.Error(userLogin.Username + "-eventreport - LoadData", ex);
+
+        }
+    }
+
+    private void createTableMail()
+    {
+        group = new DataTable("group");
+        DataColumn Id = new DataColumn("EventId");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn Name = new DataColumn("Subject");
+        DataColumn[] key = { Id };
+        group.Columns.Add(Id);
+        group.Columns.Add(Name);
+        group.PrimaryKey = key;
+    }
+
     protected void LoadEventReport()
     {
         mailGroupBus = new MailGroupBUS();
         eventDetailBus = new EventDetailBUS();
         UserLoginDTO userLogin = getUserLogin();
         DataTable dtGroup = new DataTable();
-        if (userLogin.DepartmentId == 1)
+
+        int eventID = int.Parse(drlNhomMail.SelectedValue.ToString());
+        if (getUserLogin().DepartmentId == 1)
         {
-            dtGroup = mailGroupBus.GetAll();
+            dtGroup = mailGroupBus.GetAllNew();
         }
-        else
+        if (getUserLogin().DepartmentId == 3)
         {
-            dtGroup = mailGroupBus.GetAll(userLogin.UserId);
+            dtGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
         }
+        if (getUserLogin().DepartmentId == 2)
+        {
+            dtGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
+        }
+
         rptGroup.DataSource = dtGroup;
         rptGroup.DataBind();
         for (int i = 0; i < dtGroup.Rows.Count; i++)
         {
+
             DataRow rowGroup = dtGroup.Rows[i];
             int groupId = int.Parse(rowGroup["Id"].ToString());
-            DataTable dtEventByGroup = eventDetailBus.GetByGroupId(groupId);
 
-            
+
+            DataTable dtEventByGroup = eventDetailBus.GetByGroupIdNew(groupId, eventID);
             Label lblGroupName = (Label)rptGroup.Items[i].FindControl("lblGroupName");
-            lblGroupName.Text = rowGroup["Name"].ToString()+" ( Có "+dtEventByGroup.Rows.Count+" khách hàng đăng ký )";            
+            lblGroupName.Text = rowGroup["Name"].ToString() + " ( Có " + dtEventByGroup.Rows.Count + " khách hàng đăng ký )";
 
-            
+
             if (dtEventByGroup.Rows.Count > 0)
             {
                 DataList dlEventRegister = (DataList)rptGroup.Items[i].FindControl("dlEventRegister");
@@ -93,12 +177,12 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
                     lblEvent.Text = rowEventDetail["EventId"].ToString();
                 }
             }
-            
-            
+
+
         }
     }
 
-    
+
     protected void chkAll_CheckedChanged(object sender, EventArgs e)
     {
         //CheckBox chkAll = (CheckBox)sender;
@@ -113,6 +197,10 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         //}
     }
     protected void lbtExecute_Click(object sender, EventArgs e)
-    {        
+    {
+    }
+    protected void btnFilter_Click(object sender, EventArgs e)
+    {
+        LoadEventReport();
     }
 }
