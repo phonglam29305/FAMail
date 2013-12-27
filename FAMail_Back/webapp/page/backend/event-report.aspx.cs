@@ -146,9 +146,11 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 
 
             DataTable dtEventByGroup = eventDetailBus.GetByGroupIdNew(groupId, eventID);
-            Label lblGroupName = (Label)rptGroup.Items[i].FindControl("lblGroupName");
-            lblGroupName.Text = rowGroup["Name"].ToString() + " ( Có " + dtEventByGroup.Rows.Count + " khách hàng đăng ký )";
-
+            if (dtEventByGroup.Rows.Count > 0)
+            {
+                Label lblGroupName = (Label)rptGroup.Items[i].FindControl("lblGroupName");
+                lblGroupName.Text = rowGroup["Name"].ToString() + " ( Có " + dtEventByGroup.Rows.Count + " khách hàng đăng ký )";
+            }
 
             if (dtEventByGroup.Rows.Count > 0)
             {

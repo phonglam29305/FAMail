@@ -16,13 +16,13 @@ CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title
             <table id="FilterTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 166px" >
+                                        <th style="width: 1090px" >
                                             &nbsp;</th>
                                         <th colspan="3" style="height: 27px; padding-left: 5px; text-align: left">Tìm kiếm khách hàng </th>
                                     </tr>
                                 </thead>
                                 <tr>
-                                    <td style="width: 166px">
+                                    <td style="width: 1090px">
                                         &nbsp;</td>
                                     <td style="width: 107px">
                                         <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/webapp/resource/images/EMail-icon.png" />
