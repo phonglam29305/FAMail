@@ -115,8 +115,8 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                     <span class="fr expand-collapse-text">Thu vào</span> <span class="fr expand-collapse-text initial-expand">
                         Mở ra</span>
                 </div>
-                <!-- end content-module-heading -->
-                <div class="content-module-main" style="display: none">
+                <!-- end content-module-heading style="display: none" -->
+                <div class="content-module-main"> 
                     <%--<form  runat="server">--%>
                     <fieldset>
                         <p>
@@ -229,11 +229,11 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
         <!-- ============= datetime picker -->
 
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $('#ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBirthday').datetimepicker({
-	            changeMonth:true, changeYear:true, timeFormat: "", dateFormat: "dd/mm/yy"
+                changeMonth: true, changeYear: true, timeFormat: "", dateFormat: "dd/mm/yy"
             });
-        });	
+        });
     </script>
 
     

@@ -83,8 +83,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-         
-            logs.Error(userLogin.Username + "-Client - LoadSubClient", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadSubClient", ex);
         }
     }
 
@@ -96,7 +96,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             UserLoginDTO userLogin = getUserLogin();
             DataTable tblGroupMail = new DataTable();
 
-          
+
             if (userLogin.DepartmentId == 1)
             {
                 tblGroupMail = mgBUS.GetAllNew();
@@ -116,8 +116,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-          
-            logs.Error(userLogin.Username + "-Client - LoadGroup", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadGroup", ex);
         }
     }
 
@@ -136,66 +136,67 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     {
         try
         {
-        InitBUS();
-        UserLoginDTO userLogin = getUserLogin();
-      
-        if (checkValid() == true)
-        {
-            ConnectionData.OpenMyConnection();
-            MailGroupDTO mgDTO = new MailGroupDTO();
-            mgDTO.Name = txtGroupName.Text;
-            mgDTO.Description = txtDescription.Text;
-            mgDTO.UserId = userLogin.UserId;
-            mgDTO.CreatedBy = userLogin.Username;
-            if (dropSubClient.SelectedValue + "" != "")
+            InitBUS();
+            UserLoginDTO userLogin = getUserLogin();
+
+            if (checkValid() == true)
             {
-                DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
-                mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
-                mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
-            }
-            else {
-                mgDTO.AssignToUserID = -1;
-                mgDTO.AssignTo ="";
-            }
-            int status = 1;
-            if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
-            {
-                mgBUS.tblMailGroup_insert(mgDTO);
-                this.txtGroupName.Text = "";
-                this.txtDescription.Text = "";
-                this.txtGroupName.Focus();
+                ConnectionData.OpenMyConnection();
+                MailGroupDTO mgDTO = new MailGroupDTO();
+                mgDTO.Name = txtGroupName.Text;
+                mgDTO.Description = txtDescription.Text;
+                mgDTO.UserId = userLogin.UserId;
+                mgDTO.CreatedBy = userLogin.Username;
+                if (dropSubClient.SelectedValue + "" != "")
+                {
+                    DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
+                    mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
+                    mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
+                }
+                else
+                {
+                    mgDTO.AssignToUserID = -1;
+                    mgDTO.AssignTo = "";
+                }
+                int status = 1;
+                if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
+                {
+                    mgBUS.tblMailGroup_insert(mgDTO);
+                    this.txtGroupName.Text = "";
+                    this.txtDescription.Text = "";
+                    this.txtGroupName.Focus();
+                }
+                else
+                {
+                    int ID = int.Parse(GroupId.Value.ToString());
+                    mgDTO.Id = ID;
+                    mgBUS.tblMailGroup_Update(mgDTO);
+                    status = 2;
+                }
+                LoadSubClient();
+                pnSuccess.Visible = true;
+                if (status == 1)
+                {
+                    lblSuccess.Text = "Bạn vừa thêm thành công nhóm Email !";
+                }
+                else
+                {
+                    lblSuccess.Text = "Thông tin của  nhóm Email đã được cập nhật !";
+                }
+                ConnectionData.CloseMyConnection();
+                pnError.Visible = false;
             }
             else
             {
-                int ID = int.Parse(GroupId.Value.ToString());
-                mgDTO.Id = ID;
-                mgBUS.tblMailGroup_Update(mgDTO);
-                status = 2;
+                pnError.Visible = true;
+                lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
+                pnSuccess.Visible = false;
             }
-            LoadSubClient();
-            pnSuccess.Visible = true;
-            if (status == 1)
-            {
-                lblSuccess.Text = "Bạn vừa thêm thành công nhóm Email !";
-            }
-            else
-            {
-                lblSuccess.Text = "Thông tin của  nhóm Email đã được cập nhật !";
-            }
-            ConnectionData.CloseMyConnection();
-            pnError.Visible = false;
-        }
-        else
-        {
-            pnError.Visible = true;
-            lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
-            pnSuccess.Visible = false;
-        }
         }
         catch (Exception ex)
         {
-         
-            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex); 
+
+            logs.Error(userLogin.Username + "-Client - btnSave_Click", ex);
         }
         LoadGroup();
 
@@ -229,15 +230,15 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 DataRow row = dtGroup.Rows[0];
                 GroupId.Value = Id.ToString();
                 txtGroupName.Text = row["Name"].ToString();
-
+                txtGroupName.Enabled = false;
                 txtDescription.Text = row["Description"].ToString();
             }
 
         }
         catch (Exception ex)
         {
-         
-            logs.Error(userLogin.Username + "-Client - btnEdit_Click", ex); 
+
+            logs.Error(userLogin.Username + "-Client - btnEdit_Click", ex);
             pnError.Visible = true;
             lblError.Text = "Đã có lỗi : " + ex.ToString();
         }
@@ -271,8 +272,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-     
-            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex); 
+
+            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
             //pnError.Visible = true;
             //lblError.Text = ex.Message;
         }
@@ -281,5 +282,12 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     {
         pnError.Visible = vis;
         pnSuccess.Visible = vis;
+    }
+    protected void btnRefesh_Click(object sender, EventArgs e)
+    {
+        txtGroupName.Text = "";
+        txtGroupName.Enabled = true;
+        txtDescription.Text = "";
+        dropSubClient.SelectedIndex = 0;
     }
 }

@@ -45,14 +45,16 @@ public class MailGroupDAO
     {
         string sql = "UPDATE tblMailGroup SET " +
                        "Name = @Name, " +
-                       "UserID = @UserID, " +
+                       "AssignToUserID = @AssignToUserID, " +
+                       "AssignTo = @AssignTo, " +
                        "Description = @Description	WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = dt.Id;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = dt.Description;
-        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = dt.UserId;
+        cmd.Parameters.Add("@AssignToUserID", SqlDbType.Int).Value = dt.AssignToUserID;
+        cmd.Parameters.Add("@AssignTo", SqlDbType.NVarChar).Value = dt.AssignTo;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();

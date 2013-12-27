@@ -309,7 +309,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                                 DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
                                 if (dtCountEmail.Rows[0]["isUnLimit"] + "" != "" || Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
                                 countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
-                              
+
                             }
 
                             int statusclient = int.Parse(table.Rows[0]["Status"].ToString());
@@ -435,7 +435,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             this.txtEmail.Focus();
         }
 
-        else if (drlMailGroup.SelectedValue==null) 
+        else if (drlMailGroup.SelectedValue == null)
         {
             message = "Bạn chưa chọn nhóm mail!";
             this.drlMailGroup.Focus();
@@ -547,7 +547,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     {
                         int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
                         DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
-                        if (dtCountEmail.Rows[0]["isUnLimit"]+""!="" &&Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                        if (dtCountEmail.Rows[0]["isUnLimit"] + "" != "" && Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
                         else countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
                     }
 
@@ -617,7 +617,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 //update
                 else
                 {
-              
+
                     CustomerID = int.Parse(this.CustomerID.Value.ToString());
                     GroupID = int.Parse(drlGroup.SelectedValue.ToString());
                     ctDTO.Id = int.Parse(this.CustomerID.Value.ToString());
