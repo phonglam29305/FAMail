@@ -164,7 +164,7 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo, string phone)
     {
 
         SqlCommand cmd = new SqlCommand();
@@ -173,6 +173,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
         cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
         cmd.Parameters.Add("@assignTo", SqlDbType.Int).Value = assignTo;
+        cmd.Parameters.Add("@phone", SqlDbType.Int).Value = phone;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;
@@ -187,7 +188,7 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllByUserAssignTo(int UserID, int assignTo, string name, string email)
+    public DataTable GetAllByUserAssignTo(int UserID, int assignTo, string name, string email, string phone)
     {
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
@@ -196,6 +197,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = assignTo;
         cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
         cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         cmd.Connection = ConnectionData._MyConnection;

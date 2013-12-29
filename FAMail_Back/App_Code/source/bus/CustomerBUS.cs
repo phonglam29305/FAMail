@@ -38,9 +38,9 @@ public class CustomerBUS : ICustomer
     {
         return ctDao.GetAll(Name, phone, email, assignTo);
     }
-    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo)
+    public DataTable GetAllFilterCustomer(string Name, string address, int assignTo,string phone)
     {
-        return ctDao.GetAllFilterCustomer(Name, address, assignTo);
+        return ctDao.GetAllFilterCustomer(Name, address, assignTo, phone);
     }
     public DataTable GetByID(int Id)
     {
@@ -107,9 +107,9 @@ public class CustomerBUS : ICustomer
         return ctDao.GetClientIdSub(UserID);
     }
 
-    public DataTable GetAllByUserAssignTo(int UserID, int assignTo, string name, string email)
+    public DataTable GetAllByUserAssignTo(int UserID, int assignTo, string name, string email,string phone)
     {
-        return ctDao.GetAllByUserAssignTo(UserID, assignTo, name, email);
+        return ctDao.GetAllByUserAssignTo(UserID, assignTo, name, email, phone);
     }
 
     public DataTable GetCustomerByCustomerID(int UserID, int customerid, int GroupID)
