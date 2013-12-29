@@ -100,10 +100,10 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
                         group.Rows.Add(rowE);
                     }
                 }
-                //DataRow dr = group.NewRow();
-                //dr["Name"] = "---------------[Tất cả]-----------------";
-                //dr["Id"] = "-1";
-                //group.Rows.InsertAt(dr, 0);
+                DataRow dr = group.NewRow();
+                dr["Name"] = "---------------[Tất cả]-----------------";
+                dr["Id"] = "-1";
+                group.Rows.InsertAt(dr, 0);
                 this.drlMailGroup.DataSource = group;
                 this.drlMailGroup.DataTextField = "Name";
                 this.drlMailGroup.DataValueField = "Id";
@@ -175,6 +175,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         GroupID = int.Parse(drlMailGroup.SelectedValue.ToString());
 
         DataTable dtEvent = new DataTable();
+        DataTable dtclient = new DataTable();
         UserLoginDTO userLogin = getUserLogin();
 
         if (userLogin.DepartmentId == 1)
@@ -183,8 +184,9 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         }
         else if (getUserLogin().DepartmentId == 2)
         {
-
-            dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
+            dtclient = eventBus.GetClientId(getUserLogin().UserId);
+            int clientid =int.Parse(dtclient.Rows[0]["clientId"].ToString());
+            dtEvent = eventBus.GetAllListEventDepart2(txtSubject.Text, clientid, GroupID);
         }
         else if (getUserLogin().DepartmentId == 3)
         {

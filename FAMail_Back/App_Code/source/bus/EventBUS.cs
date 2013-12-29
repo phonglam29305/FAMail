@@ -49,11 +49,17 @@ public class EventBUS : IEvent
         return eDao.GetAllListEvent(subject, userId, group);
     }
 
-    public DataTable GetAllListEventDepart2(string subject, int userId, int group)
+    public DataTable GetAllListEventDepart2(string subject, int clientid, int group)
     {
-        return eDao.GetAllListEventDepart2(subject, userId, group);
+        return eDao.GetAllListEventDepart2(subject, clientid, group);
     }
 
+
+    public System.Data.DataTable GetClientId(int userId)
+    {
+        return eDao.GetClientId(userId);
+    }
+   
     public DataTable GetAssignTo(int groupId)
     {
         return eDao.GetAssignTo(groupId);
