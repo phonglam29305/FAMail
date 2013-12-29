@@ -124,11 +124,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtEmail.Text.Trim(), GroupID,txtPhone.Text.Trim());
         }
         else
         {
-            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim());
+            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim(),txtPhone.Text.Trim());
         }
         //customerBySelect = customer;
         try

@@ -239,7 +239,7 @@ public class CustomerDAO
         return table;
     }
 
-    public DataTable GetAllByAssignToCustomer(int UserID, int GroupId)
+    public DataTable GetAllByAssignToCustomer(int UserID, string name, string phone, string email, int GroupId)
     {
 
 
@@ -247,6 +247,9 @@ public class CustomerDAO
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.CommandText = "pro_search_Filter_tblCustomer_group";
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
         cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = GroupId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
@@ -299,13 +302,16 @@ public class CustomerDAO
     }
 
 
-    public DataTable GetAllCustomerDepart3AssignTo(int UserID, int GroupId)
+    public DataTable GetAllCustomerDepart3AssignTo(int UserID, string name, string phone, string email, int GroupId)
     {
 
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.CommandText = "pro_search_Filter_tblCustomer_group3";
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
         cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = GroupId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
