@@ -124,11 +124,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
         if (getUserLogin().DepartmentId == 1)
         {
             //customer = ctBUS.GetAll();
-            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+            customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtEmail.Text.Trim(), GroupID);
         }
         else
         {
-            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim());
         }
         //customerBySelect = customer;
         try
@@ -257,11 +257,11 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             if (getUserLogin().DepartmentId == 1)
             {
                 //customer = ctBUS.GetAll();
-                customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtAddress.Text.Trim(), GroupID);
+                customer = ctBUS.GetAllFilterCustomer(txtName.Text.Trim(), txtEmail.Text.Trim(), GroupID);
 
             }
             else
-                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+                customer = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim());
             /*
             if (getUserLogin().DepartmentId == 3)
             {
@@ -326,6 +326,8 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
             dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
+            pnSuccess.Visible = false;
+
         }
         catch (Exception ex)
         {
@@ -363,15 +365,15 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
 
         //     }
         // }
-        string addr = this.txtAddress.Text;
+        string addr = this.txtEmail.Text;
 
         if (expresion == "")
         {
-            expresion += "Address like '%" + addr + "%'";
+            expresion += "txtEmail like '%" + addr + "%'";
         }
         else
         {
-            expresion += " and Address like '%" + addr + "%'";
+            expresion += " and txtEmail like '%" + addr + "%'";
         }
 
 

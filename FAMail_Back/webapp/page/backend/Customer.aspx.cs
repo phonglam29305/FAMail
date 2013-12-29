@@ -108,7 +108,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-           
+
             logs.Error(userLogin.Username + "-Client - LoadData", ex);
 
         }
@@ -213,7 +213,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-  
+
             logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex);
         }
     }
@@ -260,7 +260,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     }
     private void LoadCustomer()
     {
-       
+
         ctBUS = new CustomerBUS();
         int GroupID = 0;
         GroupID = int.Parse(drlNhomMail.SelectedValue.ToString());
@@ -272,7 +272,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         else
         {
-            customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID);
+            customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim());
         }
         try
         {
@@ -285,7 +285,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-    
+
             logs.Error(userLogin.Username + "-Client - LoadCustomer", ex);
         }
 
@@ -346,7 +346,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-   
+
             logs.Error(userLogin.Username + "-Client - lbtExecute_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
@@ -446,7 +446,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-     
+
             logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
             pnSuccess.Visible = false;
             pnError.Visible = true;

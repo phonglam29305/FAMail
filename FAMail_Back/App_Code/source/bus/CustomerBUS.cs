@@ -80,7 +80,7 @@ public class CustomerBUS : ICustomer
 
     public DataTable GetEmail(string Email)
     {
-        return ctDao.GetEmail( Email);
+        return ctDao.GetEmail(Email);
     }
     public DataTable GetEmailByUser(int UserID, string Email)
     {
@@ -107,9 +107,9 @@ public class CustomerBUS : ICustomer
         return ctDao.GetClientIdSub(UserID);
     }
 
-    public DataTable GetAllByUserAssignTo(int UserID, int assignTo)
+    public DataTable GetAllByUserAssignTo(int UserID, int assignTo, string name, string email)
     {
-        return ctDao.GetAllByUserAssignTo(UserID, assignTo);
+        return ctDao.GetAllByUserAssignTo(UserID, assignTo, name, email);
     }
 
     public DataTable GetCustomerByCustomerID(int UserID, int customerid, int GroupID)
