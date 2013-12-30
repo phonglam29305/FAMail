@@ -152,7 +152,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 mgDTO.Description = txtDescription.Text;
                 mgDTO.UserId = userLogin.UserId;
                 mgDTO.CreatedBy = userLogin.Username;
-                if (dropSubClient.SelectedValue + "" != "")
+                if (dropSubClient.SelectedValue + "" != "" && dropSubClient.SelectedValue + "" != "-1")
                 {
                     DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
                     mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());

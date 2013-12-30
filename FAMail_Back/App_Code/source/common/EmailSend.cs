@@ -74,7 +74,7 @@ public class EmailSend
                 //Thông tin nội dung
                 string eSubject = Subject.Replace("[khachhang]", rowEmail["CustomerName"].ToString());
                 string eBody = Body.Replace("[khachhang]", rowEmail["CustomerName"].ToString());
-                eBody += String.Format("<IMG height=1 src=\"http://fastautomaticmail.com/emailtrack.aspx?emailsentID={0}\" width=1>", rowEmail["SendRegisterDetailId"]);
+                eBody += String.Format("<IMG height=1 src=\"http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/emailtrack.aspx?emailsentID={0}\" width=1>", rowEmail["SendRegisterDetailId"]);
                 eDTO.Subject = eSubject;
                 eDTO.Content = eBody;
                 eDTO.SendID = int.Parse(rowEmail["SendRegisterDetailId"].ToString());

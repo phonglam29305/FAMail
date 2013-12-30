@@ -416,7 +416,7 @@ namespace Email
                                 // Lưu lại thông tin từng mail đã gửi                           
                                 sendetailID = srdBus.tblSendRegisterDetail_insert(srdDto);
                                 srdDto.SendRegisterDetailId = sendetailID;
-                                body += String.Format("<IMG height=1 src=\"http://fastautomaticmail.com/emailtrack.aspx?emailsentID={0}\" width=1>", sendetailID);
+                                body += String.Format("<IMG height=1 src=\"http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/emailtrack.aspx?emailsentID={0}\" width=1>", sendetailID);
 
                                 //Update thời gian bắt đầu gửi
                                 startDate = DateTime.Now;

@@ -45,7 +45,7 @@
 
 			<ul id="nav" class="fl">
 	
-				<%--<li class="v-sep"><a href="http://fastautomaticmail.com/" class="round button dark ic-left-arrow image-left">FASTAUTOMATICMAIL.COM</a></li>--%>
+				<%--<li class="v-sep"><a href="http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/" class="round button dark ic-left-arrow image-left">EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM</a></li>--%>
 				<li class="v-sep"><a href="#" class="round button dark menu-user image-left">Chào: <strong> 
                   <asp:Label ID="lblInfo" runat="server" Text=""></asp:Label></strong></a>
 					<ul>			
@@ -90,7 +90,7 @@
 			
 			<!-- Change this image to your own company's logo -->
 			<!-- The logo will automatically be resized to 30px height. -->
-			<a href="http://fastautomaticmail.com/" id="company-branding-small" class="fr">
+			<a href="http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/" id="company-branding-small" class="fr">
 			<img src="../../resource/images/chomy-logo.png" alt="FASTAUTOMATICMAIL" />
 			</a>			
 		</div> <!-- end full-width -->	

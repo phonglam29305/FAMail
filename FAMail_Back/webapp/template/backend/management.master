@@ -7,11 +7,10 @@
     <div id="content">
         <div class="page-full-width cf">
             <div class="side-menu fl">
-                <h3>
-                    Quản lý</h3>
+                <h3>Quản lý</h3>
                 <ul>
                     <asp:Panel ID="ControlPanel" runat="server">
-<li>
+                        <li>
                             <asp:HyperLink ID="hplDepartmentManager" href="Department.aspx" roleId="9" runat="server">Nhóm người dùng</asp:HyperLink>
                         </li>
                         <li>
@@ -44,7 +43,7 @@
                         <li>
                             <asp:HyperLink ID="HyperLink4" href="subClient.aspx" roleId="33" runat="server">Tài khoản con</asp:HyperLink>
                         </li>
-<%--                        <li>
+                        <%--                        <li>
                             <asp:HyperLink ID="HyperLink5" href="Config-Email-Send.aspx" roleId="10" runat="server">Cấu hình Email gửi</asp:HyperLink>
                         </li>--%>
                         <li>

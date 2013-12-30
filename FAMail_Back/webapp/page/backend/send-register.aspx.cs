@@ -158,6 +158,19 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             drlContent.DataTextField = "Subject";
             drlContent.DataValueField = "Id";
             drlContent.DataBind();
+            object id = Request.QueryString["SendContenID"];
+            if (id + "" != "")
+            {
+                drlContent.Text = id + "";
+                DataTable T = scBUS.GetByID(Convert.ToInt32(id));
+                if (T != null && T.Rows.Count > 0)
+                {
+                    txtBody.Text = T.Rows[0]["body"] + "";
+                    txtSubject.Text = T.Rows[0]["subject"] + "";
+                }
+            }
+
+
         }
     }
     private void LoadMailGroupLists()
@@ -416,7 +429,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         {
             RoleDetailBUS rdBus = new RoleDetailBUS();
             DataTable register = new ClientRegisterBUS().GetByUserId(userLogin.UserId);//rdBus.GetByDepartmentIdAndRole(-1, getUserLogin().DepartmentId);
-            if(userLogin.DepartmentId==3)
+            if (userLogin.DepartmentId == 3)
                 register = new ClientRegisterBUS().GetBySubUserId(userLogin.UserId);
             if (register.Rows.Count > 0)
             {
@@ -464,7 +477,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                     customerBus = new CustomerBUS();
                     //tblCustomer = dsgBUS.GetAll();
                     DataTable dtEmail = customerBus.GetCountCustomerCreatedMail(userLogin.UserId);
-                     numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
+                    numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
                 }
                 else
                 {
@@ -474,7 +487,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
 
                 //string countCustomer = tblCustomer.Rows.Count.ToString();
                 lblCountCustomer.Text = "Hiện có " + numbermail + " khách hàng trong nhóm này !";
-                hdfCountCustomer.Value = numbermail+"";
+                hdfCountCustomer.Value = numbermail + "";
 
                 // Đếm số lượng mail đã gửi trong group trong chiến dịch gửi từng phần
                 //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(getUserLogin().UserId, groupID);

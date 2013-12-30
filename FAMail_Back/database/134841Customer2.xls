@@ -61,9 +61,9 @@ function __doPostBack(eventTarget, eventArgument) {
 
 			<ul id="nav" class="fl">
 	
-				<li class="v-sep"><a href="http://fastautomaticmail.com/" class="round button dark ic-left-arrow image-left">FASTAUTOMATICMAIL.COM</a></li>
+				<li class="v-sep"><a href="http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/" class="round button dark ic-left-arrow image-left">EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM</a></li>
 				<li class="v-sep"><a href="#" class="round button dark menu-user image-left">Chào: <strong> 
-                  <span id="ctl00_lblInfo">admin@fastautomaticmail.com</span></strong></a>
+                  <span id="ctl00_lblInfo">admin@EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM</span></strong></a>
 					<ul>
 						<li><a href="#">Thông tin</a></li>
 						<li><a href="../../page/backend/Config-Email-Send.aspx">Cấu hình</a></li>
@@ -111,7 +111,7 @@ function __doPostBack(eventTarget, eventArgument) {
 			
 			<!-- Change this image to your own company's logo -->
 			<!-- The logo will automatically be resized to 30px height. -->
-			<a href="http://fastautomaticmail.com/" id="company-branding-small" class="fr">
+			<a href="http://EMAILMARKETING.1ONLINEBUSINESSSYSTEM.COM/" id="company-branding-small" class="fr">
 			<img src="../../resource/images/chomy-logo.png" alt="FASTAUTOMATICMAIL" />
 			</a>			
 		</div> <!-- end full-width -->	

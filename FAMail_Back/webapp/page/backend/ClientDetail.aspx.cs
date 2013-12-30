@@ -45,9 +45,9 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             clientbus = new ClientBUS();
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);
-            string email = dtClient.Rows[0]["email"]+"";
-            
-            
+            string email = dtClient.Rows[0]["email"] + "";
+
+
             int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
             int clientId = Convert.ToInt32(dtClient.Rows[0]["clientId"].ToString());
             clientRegister = new ClientRegisterBUS();
@@ -66,19 +66,20 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             {
                 lblTenGoi.Text = dtpackage.Rows[0]["packageName"].ToString();
                 SoluongEmail = dtpackage.Rows[0]["isUnlimit"].ToString();
+                if (SoluongEmail.Trim() != "True")
+                {
+                    SoluongEmail = dtpackage.Rows[0]["emailCount"].ToString();
+                    lblSoLuongEmail.Text = SoluongEmail;
+                }
+                else
+                {
+                    lblSoLuongEmail.Text = "Không giới hạn";
+                }
             }
             lblNgayKichHoat.Text = dtClient.Rows[0]["activeDate"].ToString();
             lblNgayDenHan.Text = dtClient.Rows[0]["expireDate"].ToString();
             lblSoTaiKhoanCon.Text = dtClientRegister.Rows[0]["subAccontCount"].ToString();
-            if (SoluongEmail.Trim() != "True")
-            {
-                SoluongEmail = dtpackage.Rows[0]["emailCount"].ToString();
-                lblSoLuongEmail.Text = SoluongEmail;
-            }
-            else
-            {
-                lblSoLuongEmail.Text = "Không giới hạn";
-            }
+
             string GioihanEmail = dtlimit.Rows[0]["isUnlimit"].ToString();
             if (GioihanEmail.Trim() != "True")
             {
@@ -92,20 +93,27 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             clientFunction = new ClientFunctionBUS();
             DataTable dtfunction = new DataTable();
             dtfunction = clientFunction.GetByregisterIdandclientId(registerId, clientId);
-            DataTable dtTemp = new DataTable();
-            dtTemp.Columns.Add("functionName", typeof(String));
-            foreach (DataRow drfunction in dtfunction.Rows)
+            if (dtfunction != null && dtfunction.Rows.Count > 0)
             {
-                DataRow dr = dtTemp.NewRow();
-                function = new FunctionBUS();
-                string idFunction = drfunction["functionId"].ToString();
-                DataTable dtTemp2 = function.GetByFunctionId(Convert.ToInt32(idFunction));
-                string FunctionName = dtTemp2.Rows[0]["functionName"].ToString();
-                dr["functionName"] = FunctionName;
-                dtTemp.Rows.Add(dr);
+                DataTable dtTemp = new DataTable();
+                dtTemp.Columns.Add("functionName", typeof(String));
+                foreach (DataRow drfunction in dtfunction.Rows)
+                {
+                    DataRow dr = dtTemp.NewRow();
+                    function = new FunctionBUS();
+                    string idFunction = drfunction["functionId"].ToString();
+                    DataTable dtTemp2 = function.GetByFunctionId(Convert.ToInt32(idFunction));
+                    if (dtTemp2 != null && dtTemp2.Rows.Count > 0)
+                    {
+                        string FunctionName = dtTemp2.Rows[0]["functionName"].ToString();
+                        dr["functionName"] = FunctionName;
+                        dtTemp.Rows.Add(dr);
+                    }
+                }
+
+                rptFunction.DataSource = dtTemp;
+                rptFunction.DataBind();
             }
-            rptFunction.DataSource = dtTemp;
-            rptFunction.DataBind();
             txtHoTen.Text = dtClient.Rows[0]["clientName"].ToString();
             txtDiaChi.Text = dtClient.Rows[0]["address"].ToString();
             txtSoDienThoai.Text = dtClient.Rows[0]["phone"].ToString();
@@ -117,7 +125,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             DateTime today = Convert.ToDateTime(todays);
 
             DateTime dateexpire = DateTime.Now;
-            
+
             if (DateTime.TryParse(dtClient.Rows[0]["expireDate"] + "", out dateexpire) && dateexpire < today)
             {
                 btnGiahan.Enabled = true;

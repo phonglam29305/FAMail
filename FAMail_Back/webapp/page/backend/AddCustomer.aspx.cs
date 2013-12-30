@@ -358,8 +358,9 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         }
                         ConnectionData.OpenMyConnection();
                     }
-                    catch (Exception)
+                    catch (Exception exx)
                     {
+                        logs.Error(userLogin.Username + "-Add Customer - btnSave_Click", exx);
                         continue;
                     }
 
