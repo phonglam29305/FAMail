@@ -312,7 +312,6 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
             logs.Error(userLogin.Username + "-Client - btnEdit_Click", ex); 
             pnError.Visible = false;
             pnSuccess.Visible = false;
-            throw;
         }
     }
 

@@ -390,6 +390,8 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            pnError.Visible = true;
+            lblError.Text = "Có lỗi trong quá trình đăng ký gửi mail!";
             logs.Error(userLogin.Username + "-Send_Register-Send", ex);
         }
     }
@@ -456,19 +458,23 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                 dsgBUS = new DetailGroupBUS();
                 psBus = new PartSendBUS();
                 int groupID = int.Parse(this.drlMailGroup.SelectedValue.ToString());
+                int numbermail = 0;
                 if (groupID == -3)
                 {
                     customerBus = new CustomerBUS();
-                    tblCustomer = dsgBUS.GetAll();
+                    //tblCustomer = dsgBUS.GetAll();
+                    DataTable dtEmail = customerBus.GetCountCustomerCreatedMail(userLogin.UserId);
+                     numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
                 }
                 else
                 {
                     tblCustomer = dsgBUS.GetByID(groupID);
+                    numbermail = tblCustomer.Rows.Count;
                 }
 
-                string countCustomer = tblCustomer.Rows.Count.ToString();
-                lblCountCustomer.Text = "Hiện có " + countCustomer + " khách hàng trong nhóm này !";
-                hdfCountCustomer.Value = countCustomer;
+                //string countCustomer = tblCustomer.Rows.Count.ToString();
+                lblCountCustomer.Text = "Hiện có " + numbermail + " khách hàng trong nhóm này !";
+                hdfCountCustomer.Value = numbermail+"";
 
                 // Đếm số lượng mail đã gửi trong group trong chiến dịch gửi từng phần
                 //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(getUserLogin().UserId, groupID);

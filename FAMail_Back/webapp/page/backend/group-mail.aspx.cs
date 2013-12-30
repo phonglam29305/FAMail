@@ -65,7 +65,12 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 if (table.Rows.Count > 0)
                 {
                     int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
-                    dropSubClient.DataSource = mgBUS.GetSubClient(clienID);
+                    DataTable T = mgBUS.GetSubClient(clienID);
+                    DataRow r = T.NewRow();
+                    r["subEmail"] = "[Chọn tài khoản con]";
+                    r["subId"] = "-1";
+                    T.Rows.InsertAt(r,0);
+                    dropSubClient.DataSource = T;
                     dropSubClient.DataTextField = "subEmail";
                     dropSubClient.DataValueField = "subId";
                     dropSubClient.DataBind();
@@ -221,7 +226,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             DataTable dtGroup = mgBUS.GetByID(Id);
             if (dtGroup.Rows.Count > 0)
             {
-                if (dtGroup.Rows[0]["AssignTo"].ToString() != null || dtGroup.Rows[0]["AssignTo"].ToString() != "")
+                if (dtGroup.Rows[0]["AssignTo"] != null && dtGroup.Rows[0]["AssignTo"].ToString() != "" && dtGroup.Rows[0]["AssignToUserID"].ToString() != "-1")
                 {
                     int AssignToUserID = int.Parse(dtGroup.Rows[0]["AssignToUserID"].ToString());
                     DataTable dt = mgBUS.GetSubClientByAssignUserID(AssignToUserID);

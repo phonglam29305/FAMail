@@ -55,7 +55,7 @@
 	<!-- FOOTER -->
 	<div id="footer">
 
-		<p>&copy; Copyright 2013 <a href="#">Công ty cổ phần MARKET AMARICAN</a>. All rights reserved.</p>
+		<p>&copy; Copyright 2013 <a href="#">Hệ thống FA MAI</a>. All rights reserved.</p>
 		<p><strong>Design</strong> by <a href="#">FPT Team</a></p>
 	
 	</div> <!-- end footer -->

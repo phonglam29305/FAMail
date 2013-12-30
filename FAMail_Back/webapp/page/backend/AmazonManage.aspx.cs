@@ -90,7 +90,12 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             // Load accessKey & secretKey & Password.
             getConfigAmazone();
             veriryEmail = new VerifyEmail(accessKey, secretKey);
-            List<string> listEmail = veriryEmail.ListVerifiedEmailAddresses();
+            List<string> listEmail = new List<string>();
+            try { listEmail =veriryEmail.ListVerifiedEmailAddresses(); }
+            catch (Exception ex)
+            {
+                logs.Error(userLogin.Username + "-Verify", ex);
+            }
             foreach (DataRow EmailItem in dtVerifyList.Rows)
             {
                 stt++;
@@ -152,6 +157,10 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         dt.Columns.Add(Name);
         dt.PrimaryKey = key;
         return dt;
+    }
+    protected void btnReload_Click(object sender, EventArgs e)
+    {
+        Response.Redirect(Request.Url.AbsolutePath);
     }
     protected void btnVerify_Click(object sender, EventArgs e)
     {

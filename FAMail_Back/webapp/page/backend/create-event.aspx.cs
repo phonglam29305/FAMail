@@ -37,7 +37,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);
 
-                // LoadContentList();
+                LoadContentList();
             }
             catch (Exception ex)
             {
@@ -54,6 +54,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         DataTable dtContent = scBus.GetAll(getUserLogin().UserId);
         if (dtContent.Rows.Count > 0)
         {
+            DataRow row = dtContent.NewRow();
+            row["Subject"] = "[Chọn nội dung]";
+            row["Id"] = "-1";
+            dtContent.Rows.InsertAt(row,0);
             drlContent.DataSource = dtContent;
             drlContent.DataTextField = "Subject";
             drlContent.DataValueField = "Id";
@@ -306,9 +310,12 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             if (eventId == "" || eventId == null)//insert new
             {
                 int eId = eventBus.tblEvent_insert(eventDto);
+                eventDto.EventId = eId;
                 hdfEventId.Value = eId.ToString();
                 // Store for ContentSendEvent table.
                 saveContentSendEvent(eId);
+
+                eventBus.tblEventCustomer_Insert(eventDto);
             }
             else //update
             {
@@ -603,7 +610,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             dtContent.Rows.Add(row);
 
             LoadContentSendEventList(dtContent);
-
+            drlContent.SelectedIndex = 0;
         }
         catch (Exception)
         {

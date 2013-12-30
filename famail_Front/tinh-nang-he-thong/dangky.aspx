@@ -150,7 +150,7 @@
                     <div class="box-fcdk">
                         <asp:CheckBox ID="CheckBox1" runat="server" Checked="True" />
                         <span style="font-size: 13px; color: #000000;">Tôi đồng ý với 
-                            <asp:HyperLink ID="HyperLink4" runat="server"><u>Quy định sử dụng</u> </asp:HyperLink>&
+                            <asp:HyperLink ID="HyperLink4" runat="server" Target="_parent" NavigateUrl="http://emailmarketing.1onlinebusinesssystem.com"><u>Quy định sử dụng</u> </asp:HyperLink>&
                             <asp:HyperLink ID="HyperLink5" runat="server"><u> Chính sách bảo mật của FA MAIL</u></asp:HyperLink></span>
                     </div>
                     <div class="box-btndangky">

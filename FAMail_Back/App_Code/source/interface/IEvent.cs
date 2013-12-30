@@ -21,4 +21,5 @@ public interface IEvent
      DataTable GetAll();
      DataTable GetByID(int EventId);
      DataTable GetByUserId(int userId);
+     void tblEventCustomer_Insert(int customerId, string eventId);
 }

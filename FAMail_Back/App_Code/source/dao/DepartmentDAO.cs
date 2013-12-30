@@ -97,7 +97,7 @@ public class DepartmentDAO
 
     public DataTable GetByUserType(int UserType)
     {
-        string sql = "SELECT * FROM tblDepartment WHERE UserType = @UserType";
+        string sql = "SELECT * FROM tblDepartment --WHERE UserType = @UserType";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserType", SqlDbType.Int).Value = UserType;

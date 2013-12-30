@@ -28,75 +28,75 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                 address2, city, province, country, zipcode, fax, groupId,
                 visibleField, gender, requireTime, UserID;
 
-             eventId = Request.Params["eventId"];
-             name = Request.Params["Name"];
-             if (name == null || name == "")
-             {
-                 name = "";
-             }
-             email = Request.Params["Email"];
-             if (email == null || email == "")
-             {
-                 Session["Error"] = "Vui lòng kiểm tra lại thông tin đăng ký !";
-                 Response.Redirect("event-register-error.aspx", false);
-                 return;
-             }
-             gender = Request.Params["Gender"];
-             if (gender == null || gender == "")
-             {
-                 gender = "Name";
-             }
+            eventId = Request.Params["eventId"];
+            name = Request.Params["Name"];
+            if (name == null || name == "")
+            {
+                name = "";
+            }
+            email = Request.Params["Email"];
+            if (email == null || email == "")
+            {
+                Session["Error"] = "Vui lòng kiểm tra lại thông tin đăng ký !";
+                Response.Redirect("event-register-error.aspx", false);
+                return;
+            }
+            gender = Request.Params["Gender"];
+            if (gender == null || gender == "")
+            {
+                gender = "Nam";
+            }
 
-             company = Request.Params["Company"];
-             if (company == null || company == "")
-             {
-                 company = "";
-             }
-             phone = Request.Params["Phone"];
-             if (phone == null || phone == "")
-             {
-                 phone = "";
-             }
-             secondPhone = Request.Params["SecondPhone"];
-             if (secondPhone == null || secondPhone == "")
-             {
-                 secondPhone = "";
-             }
-             address1 = Request.Params["Address1"];
-             if (address1 == null || address1 == "")
-             {
-                 address1 = "";
-             }
-             address2 = Request.Params["Address2"];
-             if (address2 == null || address2 == "")
-             {
-                 address2 = "";
-             }
-             city = Request.Params["City"];
-             if (city == null || city == "")
-             {
-                 city = "";
-             }
-             province = Request.Params["Province"];
-             if (province == null || province == "")
-             {
-                 province = "";
-             }
-             country = Request.Params["Country"];
-             if (country == null || country == "")
-             {
-                 country = "";
-             }
-             zipcode = Request.Params["ZipCode"];
-             if (zipcode == null || zipcode == "")
-             {
-                 zipcode = "";
-             }
-             fax = Request.Params["Fax"];
-             if (fax == null || fax == "")
-             {
-                 fax = "";
-             }
+            company = Request.Params["Company"];
+            if (company == null || company == "")
+            {
+                company = "";
+            }
+            phone = Request.Params["Phone"];
+            if (phone == null || phone == "")
+            {
+                phone = "";
+            }
+            secondPhone = Request.Params["SecondPhone"];
+            if (secondPhone == null || secondPhone == "")
+            {
+                secondPhone = "";
+            }
+            address1 = Request.Params["Address1"];
+            if (address1 == null || address1 == "")
+            {
+                address1 = "";
+            }
+            address2 = Request.Params["Address2"];
+            if (address2 == null || address2 == "")
+            {
+                address2 = "";
+            }
+            city = Request.Params["City"];
+            if (city == null || city == "")
+            {
+                city = "";
+            }
+            province = Request.Params["Province"];
+            if (province == null || province == "")
+            {
+                province = "";
+            }
+            country = Request.Params["Country"];
+            if (country == null || country == "")
+            {
+                country = "";
+            }
+            zipcode = Request.Params["ZipCode"];
+            if (zipcode == null || zipcode == "")
+            {
+                zipcode = "";
+            }
+            fax = Request.Params["Fax"];
+            if (fax == null || fax == "")
+            {
+                fax = "";
+            }
 
             requireTime = Request.Params["requireTime"];
 
@@ -120,7 +120,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             eventDetailDto.Address = address1;
             eventDetailDto.Address2 = address2;
             eventDetailDto.City = city;
-            eventDetailDto.Province = province;            
+            eventDetailDto.Province = province;
             eventDetailDto.Country = country;
             eventDetailDto.ZipCode = zipcode;
             eventDetailDto.Fax = fax;
@@ -128,6 +128,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             eventDetailDto.GroupId = int.Parse(groupId);
             eventDetailDto.CountReceivedMail = 0;
             eventDetailDto.LastReceivedMail = DateTime.Now;
+
 
             // Kiem tra dieu kien
             // Check thời gian của sự kiện
@@ -147,7 +148,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                         return;
                     }
                 }
-                
+
             }
 
             // Mot email chi dang ky duoc mot event
@@ -155,7 +156,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             if (checkEmail.Rows.Count > 0)
             {
                 Session["Error"] = "Email đã được sử dụng. Vui lòng chọn email khác !";
-                Response.Redirect("event-register-error.aspx",false);
+                Response.Redirect("event-register-error.aspx", false);
                 return;
             }
 
@@ -177,7 +178,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                 {
                     // Them khach hang vao danh sach khach hang
                     customerBus = new CustomerBUS();
-                    DataTable tblCustomer = customerBus.GetByEmail(email,int.Parse(UserID));
+                    DataTable tblCustomer = customerBus.GetByEmail(email, int.Parse(UserID));
                     int customerId = 0;
                     if (tblCustomer.Rows.Count == 0)
                     {
@@ -196,28 +197,34 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                         customerDto.Country = country;
                         customerDto.Type = "0";
                         customerDto.UserID = int.Parse(UserID);
-                        
+                        customerDto.createBy = int.Parse(UserID);
+                        customerDto.AssignTo = int.Parse(UserID);
+
                         customerId = customerBus.tblCustomer_insert(customerDto);
-                    } else {
+                    }
+                    else
+                    {
                         customerId = int.Parse(tblCustomer.Rows[0]["Id"].ToString());
                     }
 
                     // Them khach hang vao detail group.
                     dgBus = new DetailGroupBUS();
-                    DataTable tblDetailGroup = dgBus.GetByID(int.Parse(groupId),customerId);
+                    DataTable tblDetailGroup = dgBus.GetByID(int.Parse(groupId), customerId);
                     if (tblDetailGroup.Rows.Count <= 0)
-                    {
-                        DetailGroupDTO dgDto = new DetailGroupDTO();
+                    {   DetailGroupDTO dgDto = new DetailGroupDTO();
+                     
                         dgDto.GroupID = int.Parse(groupId);
                         dgDto.CustomerID = customerId;
                         dgDto.CountReceivedMail = 0;
                         dgDto.LastReceivedMail = DateTime.Now;
                         dgBus.tblDetailGroup_insert(dgDto);
                     }
+                    eventBus.tblEventCustomer_Insert(customerId, eventId);
+
                 }
                 catch (Exception)
-                {                    
-                }                
+                {
+                }
 
                 if (tbMailConfig.Rows.Count > 0)
                 {
@@ -226,7 +233,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
 
                     // Xu ly them loi chao trong noi dung mail
                     string body = rEvent["Body"].ToString();
-                    string welcome = (name==""||name==null)?email:name;
+                    string welcome = (name == "" || name == null) ? email : name;
 
                     // Replace with [khachhang] or [email]
                     body = body.Replace("[khachhang]", welcome);
@@ -238,7 +245,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                     //    body, rConfig["Server"].ToString(), int.Parse(rConfig["Port"].ToString()),
                     //    rConfig["Email"].ToString(), rConfig["Password"].ToString(), rConfig["Name"].ToString(),
                     //    email, rConfig["username"].ToString(),bool.Parse(rConfig["isSSL"].ToString()));
-                                        
+
 
                     if (rsSend)
                     {
@@ -267,11 +274,11 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                 }
 
             }
-            
+
         }
         catch (Exception ex)
         {
-            Session["Error"] = "Một số lỗi hệ thống đã xảy ra. Vui lòng kiểm tra lại thông tin !\n"+ex.Message;
+            Session["Error"] = "Một số lỗi hệ thống đã xảy ra. Vui lòng kiểm tra lại thông tin !\n" + ex.Message;
             Response.Redirect("event-register-error.aspx");
         }
     }

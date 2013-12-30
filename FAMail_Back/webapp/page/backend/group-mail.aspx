@@ -29,7 +29,7 @@
                                         <asp:HiddenField ID="GroupId" runat="server" />
                                         <label for="simple-input"> Tên Nhóm email</label>
                                         <asp:TextBox ID="txtGroupName" CssClass="round default-width-input" Width="98%" runat="server"></asp:TextBox>
-                                        <em>Tên nhóm email, Ví dụ: Chomy.com, Người trẻ..</em>
+                                        <em>Tên nhóm email, Ví dụ: FaMail.com, Người trẻ..</em>
                                          <label for="simple-input"> Tài khoản con</label>
                                          <asp:DropDownList ID="dropSubClient" runat="server" CssClass="round default-width-input" style="height: 35px; border: 1px solid #bbbdbe; width:360px;">
                                          </asp:DropDownList>

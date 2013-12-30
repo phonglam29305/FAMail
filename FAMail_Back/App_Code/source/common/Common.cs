@@ -35,7 +35,7 @@ public class Common
         {
             OleDbConnection connection = new OleDbConnection();
             connection = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Extended Properties=Excel 8.0;Data Source=" + fileName); //Excel 97-2003, .xls
-            string excelQuery = @"Select * FROM [Sheet1$]";
+            string excelQuery = @"Select * FROM [Sheet1$] where [Sheet1$].email <> ''";
             connection.Open();
             OleDbCommand cmd = new OleDbCommand(excelQuery, connection);
             OleDbDataAdapter adapter = new OleDbDataAdapter();

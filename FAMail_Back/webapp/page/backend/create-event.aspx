@@ -112,7 +112,7 @@ ValidateRequest="false"  %>
 				    </div>
 				   
 				    <div class="full-width-editor" style="margin-top: 350px;">		
-				          <fieldset>		        
+				         	        
 				            <p>
 					            <label for="Content">Nội dung</label>
 					            <em>Nội dung này sẽ được gửi đến mail của khách hàng khi đăng ký thành công !<br />
@@ -207,19 +207,19 @@ ValidateRequest="false"  %>
                                  </asp:Panel>
                                  <p>
                                  </p>
-                                 <table width="800px">
+                                 <table width="1000px">
                                      <tr>
                                          <td>
                                              <label for="simple-input" 
                                                  style="width: auto; font-weight: bolder; text-transform: none">
                                              Chọn mẫu</label>
                                          </td>
-                                         <td>
+                                         <td style="width: 197px">
                                              <asp:DropDownList ID="drlContent" runat="server" 
-                                                 CssClass="round default-width-dropdown" onchange="templateChange()">
+                                                 CssClass="round default-width-dropdown" onchange="templateChange()"  Height="27px" Width="200px">
                                              </asp:DropDownList>
                                          </td>
-                                         <td>
+                                         <td style="width: 330px">
                                              <label for="simple-input" 
                                                  style="width: auto; font-weight: bolder; text-transform: none">
                                              Thời gian gửi nội dung đi (tính theo hệ số giờ)</label>
@@ -235,11 +235,12 @@ ValidateRequest="false"  %>
                                      <tr>
                                          <td>
                                          </td>
-                                         <td>
+                                         <td style="width: 197px">
+
                                              <asp:LinkButton ID="lbtContentRefresh" runat="server" 
                                                  onclick="lbtContentRefresh_Click">Làm mới danh sách</asp:LinkButton>
                                          </td>
-                                         <td>
+                                         <td style="width: 330px">
                                          </td>
                                          <td>
                                              <asp:LinkButton ID="lbtAddNewContent" runat="server" OnClientClick="openNewWindow()">
@@ -275,7 +276,7 @@ ValidateRequest="false"  %>
                                 CssClass="button round blue image-right ic-refresh text-upper" onclick="btnCreateNew_Click"/>
                             <asp:Button ID="btnGenerate" runat="server" Text="Phát sinh Code HTML" 
                                 CssClass="round blue ic-right-arrow" onclick="btnGenerate_Click"/>       
-				        </fieldset>	
+				        
 				    </div> 
 				    
 				  <div class="stripe-separator"><!--  --></div>  

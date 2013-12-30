@@ -73,6 +73,7 @@ public partial class webapp_page_backend_mail_report : System.Web.UI.Page
 
             String rs = "";
             rs += "<form id=\"form1\" method=\"post\" action=\"http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/register-event.aspx\">\n";
+           //rs += "<form id=\"form1\" method=\"post\" action=\"http://localhost:22914/FAMail_Back/webapp/page/backend/register-event.aspx\">\n";
             rs += String.Format("<input name=\"UserId\" id=\"UserId\" type=\"hidden\" value=\"{0}\" />\n", UserID);
             rs += String.Format("<input name=\"eventId\" id=\"eventId\" type=\"hidden\" value=\"{0}\" />\n", eventId);
             rs += String.Format("<input name=\"visibleField\" id=\"visibleField\" type=\"hidden\" value=\"{0}\" />\n", visibleField.Trim());

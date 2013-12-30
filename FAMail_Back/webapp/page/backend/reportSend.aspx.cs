@@ -158,7 +158,9 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
                 lblDateStart.Text = sendregisteDetail.Rows[0]["StartDate"].ToString();
                 lblDateEnd.Text = sendregisteDetail.Rows[0]["EndDate"].ToString();
                 int groupSend = int.Parse(sendregisteDetail.Rows[0]["GroupTo"].ToString());
-                lblGroupEmailTo.Text = mgBus.GetByID(groupSend).Rows[0]["Name"].ToString();
+                if (groupSend == -3)
+                    lblGroupEmailTo.Text = "Tất cả";
+                else lblGroupEmailTo.Text = mgBus.GetByID(groupSend).Rows[0]["Name"].ToString();
                 if (sendContentBus.GetByID(contentID).Rows.Count > 0)
                 {
                     lblCampianName.Text = sendContentBus.GetByID(contentID).Rows[0]["Subject"].ToString();

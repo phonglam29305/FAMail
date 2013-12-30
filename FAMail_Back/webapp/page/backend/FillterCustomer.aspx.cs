@@ -29,9 +29,9 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
     UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
-            userLogin = getUserLogin();
             try
             {
                 InitBUS();
@@ -436,10 +436,12 @@ public partial class webapp_page_backend_FillterCustomer : System.Web.UI.Page
                             dsgBUS.tblDetailGroup_insert(dsgDTO);
                             count++;
                         }
-                        ConnectionData.OpenMyConnection();
+                        btnFilter_Click(sender, e);
+                        ConnectionData.CloseMyConnection();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logs.Error("FillterCustomer - Save", ex);
                         continue;
                     }
 

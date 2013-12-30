@@ -209,4 +209,38 @@ public class EventDAO
 
 
 
+
+    internal void tblEventCustomer_Insert(int customerId, string eventId)
+    {
+        string sql = @"if not exists(select * from tblEventCustomer where eventid = @eventid and customerid = @customerid) begin
+                    INSERT INTO tblEventCustomer(eventid, customerid, countReceivedMail) values(@eventid, @customerid, 0)
+                    END";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = eventId;
+        cmd.Parameters.Add("@customerid", SqlDbType.Int).Value = customerId;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        cmd.ExecuteNonQuery();
+
+        cmd.Dispose();
+    }
+
+    internal void tblEventCustomer_Insert(EventDTO eventDto)
+    {
+        string sql = @"insert into tblEventCustomer(customerid, eventid, countReceivedMail) select customerid, @eventid, 0 from tblDetailGroup where groupid=@groupid";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = eventDto.EventId;
+        cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = eventDto.GroupId;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        cmd.ExecuteNonQuery();
+
+        cmd.Dispose();
+    }
 }

@@ -195,6 +195,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     string path = string.Concat(Server.MapPath(fileName));
                     fileExcel.SaveAs(path);
                     table = cm.ReadExcelContents(path);
+
                     if (table.Rows.Count < 1000)
                     {
                         string message = checkCreateCustomer(table.Rows.Count);

@@ -74,4 +74,14 @@ public class EventBUS : IEvent
 
 
 
+
+    public void tblEventCustomer_Insert(int customerId, string eventId)
+    {
+        eDao.tblEventCustomer_Insert( customerId,  eventId);
+    }
+
+    public void tblEventCustomer_Insert(EventDTO eventDto)
+    {
+        eDao.tblEventCustomer_Insert(eventDto);
+    }
 }

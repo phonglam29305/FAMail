@@ -136,7 +136,8 @@
                 -moz-border-radius: 4px;
                 border-radius: 4px;
             }
-        </style>    <script src="../js/jquery-1.8.2.min.js"></script>
+        </style>
+    <script src="../js/jquery-1.8.2.min.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -253,7 +254,7 @@
                     <div style="width:100%;padding:2px;height:40px;margin-top:15px;">
                         <asp:CheckBox ID="chkAgree" runat="server" Checked="True" />
                         <span style="font-size: 13px; color: #000000;">Tôi đồng ý với 
-                        <asp:HyperLink ID="HyperLink4" runat="server" Font-Bold="True" Font-Italic="True"><u>Quy định sử dụng</u> </asp:HyperLink>&
+                        <asp:HyperLink ID="HyperLink4" runat="server" Font-Bold="True" Font-Italic="True"  Target="_parent" NavigateUrl="http://emailmarketing.1onlinebusinesssystem.com"><u>Quy định sử dụng</u> </asp:HyperLink>&
                         <asp:HyperLink ID="HyperLink5" runat="server" Font-Bold="True" Font-Italic="True"><u> Chính sách bảo mật của FA MAIL</u></asp:HyperLink></span>
                     </div>
                 </div>
@@ -266,7 +267,8 @@
                 </div>
             </div>
             
-        </div>        </ContentTemplate>
+        </div>
+        </ContentTemplate>
     </asp:UpdatePanel>
     </form>
 </body>
