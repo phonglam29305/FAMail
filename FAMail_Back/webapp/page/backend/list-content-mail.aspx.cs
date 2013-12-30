@@ -40,12 +40,13 @@ public partial class webapp_page_backend_create_content_mail : System.Web.UI.Pag
         DataTable lsContent = new DataTable();
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin.DepartmentId == 1)
-        {
+       {
             lsContent = scBus.GetAll();
         }
         else
         {
-            lsContent = scBus.GetAll(userLogin.UserId);
+            
+            lsContent = scBus.GetAllSendContent(userLogin.UserId);
         }
         
         this.dtlContentMail.DataSource = lsContent;

@@ -110,6 +110,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             {
                 tblGroupMail = mgBUS.GetAllNew(userLogin.UserId);
             }
+            
             dlGroupMail.DataSource = tblGroupMail;
             dlGroupMail.DataBind();
             for (int i = 0; i < tblGroupMail.Rows.Count; i++)

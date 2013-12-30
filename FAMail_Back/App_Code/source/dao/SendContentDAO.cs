@@ -100,6 +100,27 @@ public class SendContentDAO
         adapter.Dispose();
         return table;
     }
+
+    public DataTable GetAllSendContent(int UserID)
+    {
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "SP_GetSendContent";
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
     public DataTable GetByID(int Id)
     {
         SqlCommand cmd = new SqlCommand("SELECT id, createdate, subject, userid, body FROM tblSendContent WHERE Id = @Id", 
