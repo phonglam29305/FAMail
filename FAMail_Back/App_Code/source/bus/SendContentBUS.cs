@@ -48,6 +48,11 @@ public class SendContentBUS:ISendContent
         return scDao.GetByID(Id);
     }
 
+    public DataTable GetAll(int userId)
+    {
+        return scDao.GetAll(userId);
+    }
+
     public DataTable GetAllSendContent(int userId)
     {
         return scDao.GetAllSendContent(userId);
