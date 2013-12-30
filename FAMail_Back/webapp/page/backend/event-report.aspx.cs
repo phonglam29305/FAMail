@@ -117,70 +117,77 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 
     protected void LoadEventReport()
     {
-        mailGroupBus = new MailGroupBUS();
-        eventDetailBus = new EventDetailBUS();
-        UserLoginDTO userLogin = getUserLogin();
-        DataTable dtGroup = new DataTable();
-
-        int eventID = int.Parse(drlNhomMail.SelectedValue.ToString());
-        if (getUserLogin().DepartmentId == 1)
+        try
         {
-            dtGroup = mailGroupBus.GetAllNew();
-        }
-        if (getUserLogin().DepartmentId == 3)
-        {
-            dtGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
-        }
-        if (getUserLogin().DepartmentId == 2)
-        {
-            dtGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
-        }
+            mailGroupBus = new MailGroupBUS();
+            eventDetailBus = new EventDetailBUS();
+            UserLoginDTO userLogin = getUserLogin();
+            DataTable dtGroup = new DataTable();
 
-        rptGroup.DataSource = dtGroup;
-        rptGroup.DataBind();
-        for (int i = 0; i < dtGroup.Rows.Count; i++)
-        {
-
-            DataRow rowGroup = dtGroup.Rows[i];
-            int groupId = int.Parse(rowGroup["Id"].ToString());
-
-
-            DataTable dtEventByGroup = eventDetailBus.GetByGroupIdNew(groupId, eventID);
-            if (dtEventByGroup.Rows.Count > 0)
+            int eventID = int.Parse(drlNhomMail.SelectedValue.ToString());
+            if (getUserLogin().DepartmentId == 1)
             {
-                Label lblGroupName = (Label)rptGroup.Items[i].FindControl("lblGroupName");
-                lblGroupName.Text = rowGroup["Name"].ToString() + " ( Có " + dtEventByGroup.Rows.Count + " khách hàng đăng ký )";
+                dtGroup = mailGroupBus.GetAllNew();
+            }
+            if (getUserLogin().DepartmentId == 3)
+            {
+                dtGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
+            }
+            if (getUserLogin().DepartmentId == 2)
+            {
+                dtGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
             }
 
-            if (dtEventByGroup.Rows.Count > 0)
+            rptGroup.DataSource = dtGroup;
+            rptGroup.DataBind();
+            for (int i = 0; i < dtGroup.Rows.Count; i++)
             {
-                DataList dlEventRegister = (DataList)rptGroup.Items[i].FindControl("dlEventRegister");
-                dlEventRegister.DataSource = dtEventByGroup;
-                dlEventRegister.DataBind();
-                for (int j = 0; j < dtEventByGroup.Rows.Count; j++)
+
+                DataRow rowGroup = dtGroup.Rows[i];
+                int groupId = int.Parse(rowGroup["Id"].ToString());
+
+
+                DataTable dtEventByGroup = eventDetailBus.GetByGroupIdNew(groupId, eventID);
+                if (dtEventByGroup.Rows.Count > 0)
                 {
-                    DataRow rowEventDetail = dtEventByGroup.Rows[j];
-                    Label lblEmail = (Label)dlEventRegister.Items[j].FindControl("lblEmail");
-                    lblEmail.Text = rowEventDetail["EmailID"].ToString();
-
-                    Label lblName = (Label)dlEventRegister.Items[j].FindControl("lblName");
-                    lblName.Text = (rowEventDetail["FullName"].ToString() == null) ? "Không có" : rowEventDetail["FullName"].ToString();
-
-                    Label lblAddress = (Label)dlEventRegister.Items[j].FindControl("lblAddress");
-                    lblAddress.Text = (rowEventDetail["Address"].ToString() == "") ? "Không có" : rowEventDetail["Address"].ToString();
-
-                    Label lblCreateDate = (Label)dlEventRegister.Items[j].FindControl("lblCreateDate");
-                    lblCreateDate.Text = rowEventDetail["CreateDate"].ToString();
-
-                    Label lblGroup = (Label)dlEventRegister.Items[j].FindControl("lblGroupName");
-                    lblGroup.Text = rowGroup["Name"].ToString();//Lay tu group ben tren
-
-                    Label lblEvent = (Label)dlEventRegister.Items[j].FindControl("lblEvent");
-                    lblEvent.Text = rowEventDetail["EventId"].ToString();
+                    Label lblGroupName = (Label)rptGroup.Items[i].FindControl("lblGroupName");
+                    lblGroupName.Text = rowGroup["Name"].ToString() + " ( Có " + dtEventByGroup.Rows.Count + " khách hàng đăng ký )";
                 }
+
+                if (dtEventByGroup.Rows.Count > 0)
+                {
+                    DataList dlEventRegister = (DataList)rptGroup.Items[i].FindControl("dlEventRegister");
+                    dlEventRegister.DataSource = dtEventByGroup;
+                    dlEventRegister.DataBind();
+                    for (int j = 0; j < dtEventByGroup.Rows.Count; j++)
+                    {
+                        DataRow rowEventDetail = dtEventByGroup.Rows[j];
+                        Label lblEmail = (Label)dlEventRegister.Items[j].FindControl("lblEmail");
+                        lblEmail.Text = rowEventDetail["EmailID"].ToString();
+
+                        Label lblName = (Label)dlEventRegister.Items[j].FindControl("lblName");
+                        lblName.Text = (rowEventDetail["FullName"].ToString() == null) ? "Không có" : rowEventDetail["FullName"].ToString();
+
+                        Label lblAddress = (Label)dlEventRegister.Items[j].FindControl("lblAddress");
+                        lblAddress.Text = (rowEventDetail["Address"].ToString() == "") ? "Không có" : rowEventDetail["Address"].ToString();
+
+                        Label lblCreateDate = (Label)dlEventRegister.Items[j].FindControl("lblCreateDate");
+                        lblCreateDate.Text = rowEventDetail["CreateDate"].ToString();
+
+                        Label lblGroup = (Label)dlEventRegister.Items[j].FindControl("lblGroupName");
+                        lblGroup.Text = rowGroup["Name"].ToString();//Lay tu group ben tren
+
+                        Label lblEvent = (Label)dlEventRegister.Items[j].FindControl("lblEvent");
+                        lblEvent.Text = rowEventDetail["EventId"].ToString();
+                    }
+                }
+
+
             }
-
-
+        }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "EventReport - LoadEventReport", ex);
         }
     }
 

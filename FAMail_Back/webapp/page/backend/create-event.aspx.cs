@@ -41,6 +41,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                logs.Error(userLogin.Username + "-Create-Event - Page_Load", ex);
                 pnError.Visible = true;
                 lblError.Text = ex.Message;
             }
@@ -50,50 +51,65 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
     private void LoadContentList()
     {
-        SendContentBUS scBus = new SendContentBUS();
-        DataTable dtContent = scBus.GetAll(getUserLogin().UserId);
-        if (dtContent.Rows.Count > 0)
+        try
         {
-            DataRow row = dtContent.NewRow();
-            row["Subject"] = "[Chọn nội dung]";
-            row["Id"] = "-1";
-            dtContent.Rows.InsertAt(row,0);
-            drlContent.DataSource = dtContent;
-            drlContent.DataTextField = "Subject";
-            drlContent.DataValueField = "Id";
-            drlContent.DataBind();
+            SendContentBUS scBus = new SendContentBUS();
+            DataTable dtContent = scBus.GetAll(getUserLogin().UserId);
+            if (dtContent.Rows.Count > 0)
+            {
+                DataRow row = dtContent.NewRow();
+                row["Subject"] = "[Chọn nội dung]";
+                row["Id"] = "-1";
+                dtContent.Rows.InsertAt(row, 0);
+                drlContent.DataSource = dtContent;
+                drlContent.DataTextField = "Subject";
+                drlContent.DataValueField = "Id";
+                drlContent.DataBind();
+            }
+        }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "-Create-Event - LoadContentList", ex);
         }
     }
 
     private void LoadContentSendEventList(DataTable dataTable)
     {
-        SendContentBUS scBus = new SendContentBUS();
-        if (dataTable.Rows.Count > -1)
+        try
         {
-            dlContentSendEvent.DataSource = dataTable;
-            dlContentSendEvent.DataBind();
-            for (int i = 0; i < dataTable.Rows.Count; i++)
+            SendContentBUS scBus = new SendContentBUS();
+            if (dataTable.Rows.Count > -1)
             {
-                Label lblNo = (Label)dlContentSendEvent.Items[i].FindControl("lblNo");
-                lblNo.Text = (i + 1).ToString();
-
-                LinkButton lbtContent = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContent");
-                String contentId = dataTable.Rows[i]["ContentId"].ToString();
-                DataTable dtContent = scBus.GetByID(int.Parse(contentId));
-                if (dtContent.Rows.Count > 0)
+                dlContentSendEvent.DataSource = dataTable;
+                dlContentSendEvent.DataBind();
+                for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    lbtContent.Text = dtContent.Rows[0]["Subject"].ToString();
+                    Label lblNo = (Label)dlContentSendEvent.Items[i].FindControl("lblNo");
+                    lblNo.Text = (i + 1).ToString();
+
+                    LinkButton lbtContent = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContent");
+                    String contentId = dataTable.Rows[i]["ContentId"].ToString();
+                    DataTable dtContent = scBus.GetByID(int.Parse(contentId));
+                    if (dtContent.Rows.Count > 0)
+                    {
+                        lbtContent.Text = dtContent.Rows[0]["Subject"].ToString();
+                    }
+
+                    Label lblHour = (Label)dlContentSendEvent.Items[i].FindControl("lblHour");
+                    lblHour.Text = dataTable.Rows[i]["HourSend"].ToString() + " Giờ sau";
+
+                    string id = dataTable.Rows[i]["Id"].ToString();
+                    LinkButton lbtDelete = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContentDelete");
+                    lbtDelete.CommandArgument = id;
+
                 }
-
-                Label lblHour = (Label)dlContentSendEvent.Items[i].FindControl("lblHour");
-                lblHour.Text = dataTable.Rows[i]["HourSend"].ToString() + " Giờ sau";
-
-                string id = dataTable.Rows[i]["Id"].ToString();
-                LinkButton lbtDelete = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContentDelete");
-                lbtDelete.CommandArgument = id;
-
             }
         }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "-Create-Event - LoadContentSendEventList", ex);
+        }
+
     }
 
     //private void LoadSignatureList()
@@ -143,10 +159,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 txtContent.Text = txtContent.Text + "\n" + tblSign.Rows[0]["SignatureContent"].ToString();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
-            throw;
+            logs.Error(userLogin.Username + "-Create-Event - lbtInsertSignature_Click", ex);
         }
 
     }
@@ -198,28 +214,36 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            logs.Error(userLogin.Username + "-Client - LoadEventList", ex);
+            logs.Error(userLogin.Username + "-Create-Event - LoadEventList", ex);
         }
 
     }
 
     private void LoadMailConfigList()
     {
-        DataTable dtMailConfig = new DataTable();
-        UserLoginDTO userLogin = getUserLogin();
-        if (userLogin.DepartmentId == 1)
+        try
         {
-            dtMailConfig = mailConfigBus.GetAll();
+            DataTable dtMailConfig = new DataTable();
+            UserLoginDTO userLogin = getUserLogin();
+            if (userLogin.DepartmentId == 1)
+            {
+                dtMailConfig = mailConfigBus.GetAll();
+            }
+            else
+            {
+                dtMailConfig = mailConfigBus.GetByUserId(userLogin.UserId);
+            }
+            drlMailConfig.Items.Clear();
+            drlMailConfig.DataSource = dtMailConfig.DefaultView;
+            drlMailConfig.DataTextField = "Email";
+            drlMailConfig.DataValueField = "Id";
+            drlMailConfig.DataBind();
         }
-        else
+        catch (Exception ex)
         {
-            dtMailConfig = mailConfigBus.GetByUserId(userLogin.UserId);
+
+            logs.Error(userLogin.Username + "-Create-Event - LoadMailConfigList", ex);
         }
-        drlMailConfig.Items.Clear();
-        drlMailConfig.DataSource = dtMailConfig.DefaultView;
-        drlMailConfig.DataTextField = "Email";
-        drlMailConfig.DataValueField = "Id";
-        drlMailConfig.DataBind();
     }
 
 
@@ -260,7 +284,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            logs.Error(userLogin.Username + "-Client - LoadMailGroupLists", ex);
+            logs.Error(userLogin.Username + "-Create-Event - LoadMailGroupLists", ex);
         }
     }
 
@@ -342,6 +366,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - btnSaveEvent_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -362,6 +387,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     }
     protected EventDTO getEvent()
     {
+        
         string subject = txtSubject.Text;
         string voucher = txtVoucher.Text;
         string subscribe = "";
@@ -408,6 +434,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - btnCreateNew_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -493,6 +520,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - lbtEdit_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -521,6 +549,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - lbtDelete_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -552,6 +581,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - btnGenerate_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -612,59 +642,74 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             LoadContentSendEventList(dtContent);
             drlContent.SelectedIndex = 0;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "Create-Event - btnSaveContent_Click", ex);
             PanelHourError.Visible = true;
             lblHourError.Text = "Nhập sai giá trị giờ !";
         }
     }
     protected void lbtContentDelete_Click(object sender, EventArgs e)
     {
-        ContentSendEventBUS cseBus = new ContentSendEventBUS();
-        int contentId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
-        DataTable dtContent = (DataTable)Session["listContentSendEvent"];
-        if (dtContent.Rows.Count > 0)
+        try
         {
-            for (int i = 0; i < dtContent.Rows.Count; i++)
+            ContentSendEventBUS cseBus = new ContentSendEventBUS();
+            int contentId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
+            DataTable dtContent = (DataTable)Session["listContentSendEvent"];
+            if (dtContent.Rows.Count > 0)
             {
-                DataRow row = dtContent.Rows[i];
-                if (row["Id"].Equals(contentId))
+                for (int i = 0; i < dtContent.Rows.Count; i++)
                 {
-                    dtContent.Rows.Remove(row);
-
-                    // Xóa trong db, nếu có tồn tại.
-                    if (hdfEventId.Value != null)
+                    DataRow row = dtContent.Rows[i];
+                    if (row["Id"].Equals(contentId))
                     {
-                        cseBus.tblContentSendEvent_Delete(contentId);
+                        dtContent.Rows.Remove(row);
+
+                        // Xóa trong db, nếu có tồn tại.
+                        if (hdfEventId.Value != null)
+                        {
+                            cseBus.tblContentSendEvent_Delete(contentId);
+                        }
                     }
                 }
             }
+            LoadContentSendEventList(dtContent);
         }
-        LoadContentSendEventList(dtContent);
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "Create-Event - btnSaveContent_Click", ex);
+        }
 
     }
 
     protected void saveContentSendEvent(int eventId)
     {
-        ContentSendEventBUS cseBus = new ContentSendEventBUS();
-        DataTable dtContent = (DataTable)Session["listContentSendEvent"];
-        if (dtContent.Rows.Count > 0)
+        try
         {
-            for (int i = 0; i < dtContent.Rows.Count; i++)
+            ContentSendEventBUS cseBus = new ContentSendEventBUS();
+            DataTable dtContent = (DataTable)Session["listContentSendEvent"];
+            if (dtContent.Rows.Count > 0)
             {
-                DataRow row = dtContent.Rows[i];
-                ContentSendEventDTO cseDto = new ContentSendEventDTO();
-                cseDto.Id = int.Parse(row["Id"].ToString());
-                cseDto.EventId = eventId;
-                cseDto.ContentId = int.Parse(row["ContentId"].ToString());
-                cseDto.HourSend = int.Parse(row["HourSend"].ToString());
-
-                int rsUpdate = cseBus.tblContentSendEvent_Update(cseDto);
-                if (rsUpdate <= 0)
+                for (int i = 0; i < dtContent.Rows.Count; i++)
                 {
-                    cseBus.tblContentSendEvent_insert(cseDto);
+                    DataRow row = dtContent.Rows[i];
+                    ContentSendEventDTO cseDto = new ContentSendEventDTO();
+                    cseDto.Id = int.Parse(row["Id"].ToString());
+                    cseDto.EventId = eventId;
+                    cseDto.ContentId = int.Parse(row["ContentId"].ToString());
+                    cseDto.HourSend = int.Parse(row["HourSend"].ToString());
+
+                    int rsUpdate = cseBus.tblContentSendEvent_Update(cseDto);
+                    if (rsUpdate <= 0)
+                    {
+                        cseBus.tblContentSendEvent_insert(cseDto);
+                    }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "Create-Event - btnSaveContent_Click", ex);
         }
     }
 

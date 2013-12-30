@@ -115,7 +115,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            logs.Error(userLogin.Username + "-Client - LoadData", ex);
+            logs.Error(userLogin.Username + "ListEvent - LoadData", ex);
 
         }
     }
@@ -156,7 +156,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
+            logs.Error(userLogin.Username + "-ListEvent - btnDelete_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -226,7 +226,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex);
+            logs.Error(userLogin.Username + "-ListEvent - btnFilter_Click", ex);
         }
 
 
