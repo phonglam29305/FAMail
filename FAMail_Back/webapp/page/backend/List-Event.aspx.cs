@@ -188,9 +188,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
             }
             else if (getUserLogin().DepartmentId == 2)
             {
-                dtclient = eventBus.GetClientId(getUserLogin().UserId);
-                int clientid = int.Parse(dtclient.Rows[0]["clientId"].ToString());
-                dtEvent = eventBus.GetAllListEventDepart2(txtSubject.Text, clientid, GroupID);
+                dtEvent = eventBus.GetAllListEventDepart2(txtSubject.Text, getUserLogin().UserId, GroupID);
             }
             else if (getUserLogin().DepartmentId == 3)
             {

@@ -133,14 +133,14 @@ public class EventDAO
         return table;
     }
 
-    public DataTable GetAllListEventDepart2(string subject, int clientid, int groupId)
+    public DataTable GetAllListEventDepart2(string subject, int Userid, int groupId)
     {
 
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.CommandText = "pro_get_all_listevent_Depart2";
         cmd.Parameters.Add("@Subject", SqlDbType.NVarChar).Value = subject;
-        cmd.Parameters.Add("@clientid", SqlDbType.Int).Value = clientid;
+        cmd.Parameters.Add("@Userid", SqlDbType.Int).Value = Userid;
         cmd.Parameters.Add("@groupId", SqlDbType.Int).Value = groupId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
