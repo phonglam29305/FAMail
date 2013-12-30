@@ -36,6 +36,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
             }
             catch (Exception)
             {
+                
             }
         }
     }
@@ -155,6 +156,7 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
             pnError.Visible = true;
             lblError.Text = ex.Message;
         }
@@ -167,67 +169,64 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
     }
     protected void btnFilter_Click(object sender, EventArgs e)
     {
-        int AssignUserId = 0;
-        InitialBUS();
-        int ID = 0;
-        int GroupID = 0;
-
-        GroupID = int.Parse(drlMailGroup.SelectedValue.ToString());
-
-        DataTable dtEvent = new DataTable();
-        DataTable dtclient = new DataTable();
-        UserLoginDTO userLogin = getUserLogin();
-
-        if (userLogin.DepartmentId == 1)
+        try
         {
-            dtEvent = eventBus.GetAll();
-        }
-        else if (getUserLogin().DepartmentId == 2)
-        {
-            dtclient = eventBus.GetClientId(getUserLogin().UserId);
-            int clientid =int.Parse(dtclient.Rows[0]["clientId"].ToString());
-            dtEvent = eventBus.GetAllListEventDepart2(txtSubject.Text, clientid, GroupID);
-        }
-        else if (getUserLogin().DepartmentId == 3)
-        {
-            dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
-        }
+            int AssignUserId = 0;
+            InitialBUS();
+            int ID = 0;
+            int GroupID = 0;
 
-        dlEvent.DataSource = dtEvent;
-        dlEvent.DataBind();
-        for (int i = 0; i < dtEvent.Rows.Count; i++)
-        {
-            DataRow row = dtEvent.Rows[i];
+            GroupID = int.Parse(drlMailGroup.SelectedValue.ToString());
 
-            LinkButton lbtSubject = (LinkButton)dlEvent.Items[i].FindControl("lbtSubject");
-            lbtSubject.Text = row["Subject"].ToString();
+            DataTable dtEvent = new DataTable();
+            DataTable dtclient = new DataTable();
+            UserLoginDTO userLogin = getUserLogin();
 
-            Label lblEmailGui = (Label)dlEvent.Items[i].FindControl("lblEmailGui");
-            DataTable config = mailConfigBus.GetByID(int.Parse(row["ConfigId"].ToString()));
-            if (config.Rows.Count > 0)
+            if (userLogin.DepartmentId == 1)
             {
-                lblEmailGui.Text = config.Rows[0]["Email"].ToString();
+                dtEvent = eventBus.GetAll();
+            }
+            else if (getUserLogin().DepartmentId == 2)
+            {
+                dtclient = eventBus.GetClientId(getUserLogin().UserId);
+                int clientid = int.Parse(dtclient.Rows[0]["clientId"].ToString());
+                dtEvent = eventBus.GetAllListEventDepart2(txtSubject.Text, clientid, GroupID);
+            }
+            else if (getUserLogin().DepartmentId == 3)
+            {
+                dtEvent = eventBus.GetAllListEvent(txtSubject.Text, userLogin.UserId, GroupID);
             }
 
-            Label lblStartDate = (Label)dlEvent.Items[i].FindControl("lblStartDate");
-            lblStartDate.Text = row["StartDate"].ToString();
+            dlEvent.DataSource = dtEvent;
+            dlEvent.DataBind();
+            for (int i = 0; i < dtEvent.Rows.Count; i++)
+            {
+                DataRow row = dtEvent.Rows[i];
 
-            Label lblEndDate = (Label)dlEvent.Items[i].FindControl("lblEndDate");
-            lblEndDate.Text = row["EndDate"].ToString();
+                LinkButton lbtSubject = (LinkButton)dlEvent.Items[i].FindControl("lbtSubject");
+                lbtSubject.Text = row["Subject"].ToString();
 
-            Label lblVoucher = (Label)dlEvent.Items[i].FindControl("lblVoucher");
-            lblVoucher.Text = row["Voucher"].ToString();
+                Label lblEmailGui = (Label)dlEvent.Items[i].FindControl("lblEmailGui");
+                DataTable config = mailConfigBus.GetByID(int.Parse(row["ConfigId"].ToString()));
+                if (config.Rows.Count > 0)
+                {
+                    lblEmailGui.Text = config.Rows[0]["Email"].ToString();
+                }
 
-            //LinkButton lbtEdit = (LinkButton)dlEvent.Items[i].FindControl("lbtEdit");
-            //lbtEdit.CssClass = "table-actions-button ic-table-edit";
-            //lbtEdit.CommandArgument = row["EventId"].ToString();
+                Label lblStartDate = (Label)dlEvent.Items[i].FindControl("lblStartDate");
+                lblStartDate.Text = row["StartDate"].ToString();
 
-            //LinkButton lbtDelete = (LinkButton)dlEvent.Items[i].FindControl("lbtDelete");
-            //lbtDelete.CssClass = "table-actions-button ic-table-delete";
-            //lbtDelete.CommandArgument = row["EventId"].ToString();
+                Label lblEndDate = (Label)dlEvent.Items[i].FindControl("lblEndDate");
+                lblEndDate.Text = row["EndDate"].ToString();
 
+                Label lblVoucher = (Label)dlEvent.Items[i].FindControl("lblVoucher");
+                lblVoucher.Text = row["Voucher"].ToString();
 
-
+            }
+        }
+        catch (Exception ex)
+        {
+            logs.Error(userLogin.Username + "-Client - btnFilter_Click", ex);
         }
 
 
