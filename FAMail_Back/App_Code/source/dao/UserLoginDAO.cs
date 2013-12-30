@@ -303,6 +303,34 @@ public class UserLoginDAO
         return table;
     }
 
+    public DataTable GetEmail(string email)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSubClient WHERE  subEmail = @email", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Trim();
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
+    public DataTable GetEmailByUser(int subId, string email)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSubClient WHERE subId != @subId AND subEmail = @email", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@subId", SqlDbType.Int).Value = subId;
+        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Trim();
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetCountSubClient(int ClientId)
     {
         string sql = "SELECT count(*) as numberSub FROM tblSubClient WHERE ClientID = @ClientId";

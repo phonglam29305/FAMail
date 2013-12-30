@@ -90,8 +90,8 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-         
-            logs.Error(userLogin.Username + "-Client - LoadData", ex); 
+
+            logs.Error(userLogin.Username + "-Client - LoadData", ex);
         }
 
     }
@@ -222,31 +222,33 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                     string todays = DateTime.Now.ToString("yyyy-MM-dd");
                     DateTime today = Convert.ToDateTime(todays);
                     DateTime expireDay = Convert.ToDateTime(NgayHetHan);
-
+                    DataTable checkEmail = ulBus.GetEmail(txtEmail.Text.Trim());
                     if (statusclient == 2 || expireDay < today)
                     {
-                       // lblError.Text = "Không cho phép tạo tài khoản con.Liên hệ quản trị!";
-                       // pnSuccess.Visible = false;
-                       // pnError.Visible = true;
                         status = 3;
                     }
                     else
                     {
                         if (countSub < SubAccount)
                         {
-
-                            ulBus.tblUserLoginSubClient_insert(ulDto);
-                            //lay UserID
-                            DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
-                            int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
-                            ulDto.UserId = userID;
-                            ulBus.tblSubClient_insert(ulDto);
-                            status = 1;
+                            if (checkEmail.Rows.Count > 0)
+                            {
+                                status = 5;
+                            }
+                            else
+                            {
+                                ulBus.tblUserLoginSubClient_insert(ulDto);
+                                //lay UserID
+                                DataTable dt = ulBus.GetUserIDByUserName(txtEmail.Text);
+                                int userID = int.Parse(dt.Rows[0]["UserId"].ToString());
+                                ulDto.UserId = userID;
+                                ulBus.tblSubClient_insert(ulDto);
+                                status = 1;
+                            }
                         }
                         else
                         {
                             status = 4;
-                          
                         }
                     }
 
@@ -255,16 +257,23 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 {
 
                     ulDto.SubId = int.Parse(hdfId.Value);
-                    ulBus.tblSubClient_Update(ulDto);
-                    // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
-                    // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
-                    DataTable tablesub = ulBus.GetBySubId(ulDto.SubId);
-                    string Username = tablesub.Rows[0]["subEmail"].ToString();
-                    DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
-                    bool Is_Block_check = chkBlock.Checked;
-
-                    ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
-                    status = 2;
+                    DataTable checkEmail = ulBus.GetEmailByUser(ulDto.SubId, txtEmail.Text.Trim());
+                    if (checkEmail.Rows.Count > 0)
+                    {
+                        status = 5;
+                    }
+                    else
+                    {
+                        ulBus.tblSubClient_Update(ulDto);
+                        // DataTable table1 = ulBus.GetUserIdBySubID(ulDto.SubId);
+                        // int userID = int.Parse(table1.Rows[0]["UserID"].ToString());
+                        DataTable tablesub = ulBus.GetBySubId(ulDto.SubId);
+                        string Username = tablesub.Rows[0]["subEmail"].ToString();
+                        DataTable dtIsBlock = ulBus.GetIsBlockByUserId(Username);
+                        bool Is_Block_check = chkBlock.Checked;
+                        ulBus.tblUserLoginSub_Update(Username, Is_Block_check);
+                        status = 2;
+                    }
 
                 }
 
@@ -273,6 +282,13 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 pnSuccess.Visible = true;
                 pnError.Visible = false;
                 LoadData();
+                if (status == 5)
+                {
+                    pnSuccess.Visible = false;
+                    pnError.Visible = true;
+                    lblError.Text = "Email đã được sử dụng. Vui lòng chọn email khác !";
+                    this.txtEmail.Focus();
+                }
                 if (status == 4)
                 {
                     lblError.Text = "Tạo tài khoản con vượt quá giới hạn cho phép!";
@@ -283,7 +299,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 {
                     lblError.Text = "Không cho phép tạo tài khoản con.Liên hệ quản trị!";
                     pnSuccess.Visible = false;
-                     pnError.Visible = true;
+                    pnError.Visible = true;
                 }
                 if (status == 1)
                 {
@@ -355,7 +371,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
     }
 
 
-  
+
 
     protected bool checkExistUsername(string username)
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -119,6 +120,15 @@ public class UserLoginBUS : IUserLogin
     public System.Data.DataTable GetCountSubClient(int ClientId)
     {
         return ulDao.GetCountSubClient(ClientId);
+    }
+
+    public DataTable GetEmailByUser(int subId, string Email)
+    {
+        return ulDao.GetEmailByUser(subId, Email);
+    }
+    public System.Data.DataTable GetEmail(string Email)
+    {
+        return ulDao.GetEmail(Email);
     }
 
     public System.Data.DataTable GetSubAccountCount(int ClientId)
