@@ -559,6 +559,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
         txtRePassword.Text = "";
         txtEmail.Text = "";
         this.hdfId.Value = "";
+        txtEmail.Enabled = true;
     }
 
 }
