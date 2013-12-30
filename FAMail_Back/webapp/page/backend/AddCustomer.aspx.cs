@@ -781,6 +781,8 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
         this.txtAddress.Text = "";
         this.txtBirthday.Text = "";
         this.hdfCustomerId.Value = "";
+        drlGroup.SelectedIndex = 0;
+        drlGender.SelectedIndex = 0;
 
     }
     protected void btnRefesh_Click(object sender, EventArgs e)
