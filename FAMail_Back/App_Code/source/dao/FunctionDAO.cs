@@ -136,4 +136,41 @@ public class FunctionDAO
         adapter.Dispose();
         return table;
     }
+    public DataTable kiemtraxoa_tblClientFunction(int functionId)
+    {
+
+        string sql = "SELECT * FROM tblClientFunction  where functionId=@functionId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable kiemtraxoa_tblPackageFunction(int functionId)
+    {
+
+        string sql = "SELECT * FROM tblPackageFunction where  functionId=@functionId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        //cmd.Parameters.Add("@packageId", SqlDbType.Int).Value = packageId;
+        cmd.Parameters.Add("@functionId", SqlDbType.Int).Value = functionId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 }

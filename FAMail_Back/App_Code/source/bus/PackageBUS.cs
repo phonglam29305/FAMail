@@ -64,4 +64,13 @@ public class PackageBUS
     {
         return sign.GetAvailablePackage(packageId);
     }
+    public DataTable validata_Namepackage(string packageName)
+    {
+        return sign.validate_PackageName(packageName);
+    }
+    public DataTable check_delete_clientregister(int packageId)
+    {
+        return sign.check_delete_clientregister(packageId);
+    }
+   
 }

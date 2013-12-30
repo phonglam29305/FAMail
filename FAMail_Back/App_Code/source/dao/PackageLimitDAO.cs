@@ -108,4 +108,60 @@ public class PackageLimitDAO
         ConnectionData.CloseMyConnection();
         return table;
     }
+    public DataTable viladate_Packagelimint(string namepackagelimit)
+    {
+        string sql = "select * from tblPackageLimit where namepackagelimit =@namepackagelimit";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar).Value = namepackagelimit;
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        da.Fill(table);
+        cmd.Dispose();
+        da.Dispose();
+        return table;
+
+    }
+    public DataTable check_delete_package(int limitId)
+    {
+
+        string sql = "SELECT * FROM tblPackage  WHERE limitId = @limitId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = limitId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+
+    }
+    public DataTable check_delete_clientregister(int limitId)
+    {
+
+        string sql = "SELECT * FROM tblClientRegister  WHERE limitId = @limitId";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@limitId", SqlDbType.Int).Value = limitId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
 }

@@ -40,4 +40,19 @@ public class PackageLimitBUS
     {
         return sign.GetAvailablePackage(limitId);
     }
+    public DataTable viladate_Packagelimint(string namepackagelimit)
+    {
+        return sign.viladate_Packagelimint(namepackagelimit);
+    }
+    public DataTable check_delete_package(int limitId)
+    {
+        PackageLimitDAO pa = new PackageLimitDAO();
+        return pa.check_delete_package(limitId);
+
+    }
+    public DataTable check_delete_clientregister(int limitId)
+    {
+        return sign.check_delete_clientregister(limitId);
+    }
+
 }

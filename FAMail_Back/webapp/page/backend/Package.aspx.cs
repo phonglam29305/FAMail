@@ -144,6 +144,10 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             masseng = "Nhập số email quản lý không đúng định dạng";
         }
+        else if (validate_name(txtname.Text))
+        {
+            masseng = " Chức năng này đã tồn tại trong hệ thống";
+        }
         else
         {
             int i = 0;
@@ -152,6 +156,15 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 masseng = "Giới hạn mail quản lý phải lớn hơn 0";
         }
         return masseng;
+    }
+    protected bool validate_name(string packageName)
+    {
+        DataTable table = packageBus.validata_Namepackage(packageName);
+        if (table.Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
     }
     private void LoadData()
     {
@@ -220,24 +233,40 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
-        try
+        int packageId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        DataTable table = packageBus.check_delete_clientregister(packageId);
+        int dem = 0;
+        for (int i = 0; i < table.Rows.Count; i++)
         {
-
-            int packageId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-            if (packageBus.tblPackage_delete(packageId))
+            int tam = int.Parse(table.Rows[i]["packageId"].ToString());
+            if (tam == packageId)
             {
-                LoadData();
-                pnError.Visible = false;
-                pnSuccess.Visible = true;
-                lblSuccess.Text = "Bạn vừa xóa thành công gói dịch vụ!";
-            }
+                dem++;
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = "Không thể xóa chức chức năng này hiện tại có user đang tồn tại ";
 
+            }
         }
-        catch (Exception ex)
+        if (dem == 0)
         {
-            pnError.Visible = true;
-            lblError.Text = "Không thể xóa !</br>" + ex.Message;
-            logs.Error(userLogin.Username + "-Package - Delete", ex);
+            try
+            {
+
+                if (packageBus.tblPackage_delete(packageId))
+                {
+                    LoadData();
+                    pnError.Visible = false;
+                    pnSuccess.Visible = true;
+                    lblSuccess.Text = "Xóa thành công";
+                }
+            }
+            catch (Exception ex)
+            {
+                pnError.Visible = true;
+                lblError.Text = "Không thể xóa !</br>" + ex.Message;
+                logs.Error(userLogin.Username + "-Function-Delete-", ex);
+            }
         }
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)

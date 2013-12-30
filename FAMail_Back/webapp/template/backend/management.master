@@ -61,7 +61,10 @@
                         <li>
                             <asp:HyperLink ID="HyperLink8" href="FillterCustomer.aspx" roleId="18" runat="server">Phân loại nhóm Email</asp:HyperLink>
                         </li>
-
+                        
+                        <li>
+                            <asp:HyperLink ID="HyperLink3" href="post.aspx" roleId="34" runat="server">Quản lý bài viết</asp:HyperLink>
+                        </li>
                     </asp:Panel>
                 </ul>
             </div>

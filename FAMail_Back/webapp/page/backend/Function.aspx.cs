@@ -46,7 +46,20 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập diễn giải";
         }
+        else if (validate_name(txtfunctionName.Text))
+        {
+            masseng = "Chức năng đã tồn tại trong hệ thống";
+        }
         return masseng;
+    }
+    protected bool validate_name(string functionName)
+    {
+        DataTable table = functionBus.tblFunction_GetByID(functionName);
+        if (table.Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
     }
     private UserLoginDTO getUserLogin()
     {
@@ -194,24 +207,61 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     }
     protected void btnDelete_Click2(object sender, ImageClickEventArgs e)
     {
-        try
+        int functionId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        //int packeId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        int dem = 0;
+        DataTable table_Client = functionBus.kiemtraxoa_tblClientFunction(functionId);
+
+        for (int i = 0; i < table_Client.Rows.Count; i++)
         {
-            int functionId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-            if (functionBus.tblFunction_Delete(functionId))
+            int tam = int.Parse(table_Client.Rows[i]["functionId"].ToString());
+
+            if (tam == functionId)
             {
-                LoadData();
-                pnError.Visible = false;
-                pnSuccess.Visible = true;
-                lblSuccess.Text = "Bạn vừa xóa chữ ký thành công !";
+                dem++;
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = "Khong xóa được vì hiện tại có khách hàng tồn tại trong gói này";
+
             }
         }
-        catch (Exception ex)
+
+        DataTable table_Package = functionBus.kiemtraxoa_tblPackageFunction(functionId);
+        for (int i = 0; i < table_Package.Rows.Count; i++)
         {
-            pnError.Visible = true;
-            lblError.Text = "Không thể xóa !</br>" + ex.Message;
-            logs.Error(userLogin.Username + "-Function-Delete-", ex);
+            int tam1 = int.Parse(table_Package.Rows[i]["functionId"].ToString());
+            if (tam1 == functionId)
+            {
+                dem++;
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = "Chức năng này đang được chức năng khác kế thừa ";
+
+
+            }
+
         }
 
+        if (dem == 0)
+        {
+            try
+            {
+
+                if (functionBus.tblFunction_Delete(functionId))
+                {
+                    LoadData();
+                    pnError.Visible = false;
+                    pnSuccess.Visible = true;
+                    lblSuccess.Text = "Xóa thành công";
+                }
+            }
+            catch (Exception ex)
+            {
+                pnError.Visible = true;
+                lblError.Text = "Không thể xóa !</br>" + ex.Message;
+                logs.Error(userLogin.Username + "-Function-Delete-", ex);
+            }
+        }
     }
     protected void dtfunction_SelectedIndexChanged(object sender, EventArgs e)
     {

@@ -68,4 +68,14 @@ public class FunctionBUS
     {
         return sign.GetbyPackage(packageId);
     }
+    public DataTable kiemtraxoa_tblClientFunction(int functionId)
+    {
+        return sign.kiemtraxoa_tblClientFunction(functionId);
+
+    }
+    public DataTable kiemtraxoa_tblPackageFunction(int functionId)
+    {
+        return sign.kiemtraxoa_tblPackageFunction(functionId);
+    }
+
 }

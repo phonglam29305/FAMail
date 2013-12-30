@@ -53,6 +53,10 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập số giới hạn mail";
         }
+        else if (validate_namepackagelimit(txtnamepackagelimit.Text))
+        {
+            masseng = "Chức năng này đã tồn tại trong hệ thống";
+        }
         else
         {
             int.TryParse(txtunder.Text + "", out i);
@@ -61,7 +65,15 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         }
         return masseng;
     }
-
+    protected bool validate_namepackagelimit(string namepackagelimit)
+    {
+        DataTable table = packageBus.viladate_Packagelimint(namepackagelimit);
+        if (table.Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
     private bool kiemtraso(string chuoi)
     {
         foreach (char k in chuoi)
@@ -161,21 +173,55 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
-        try
-        {
-            int limitId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        int limitId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        
+        int dem = 0;
+        DataTable table_package = packageBus.check_delete_package(limitId);
 
-            packageBus.tblPackageLimit_Delete(limitId);
-            LoadData();
-            pnError.Visible = false;
-            pnSuccess.Visible = true;
-            lblSuccess.Text = "Bạn vừa xóa chữ ký thành công !";
+        for (int i = 0; i < table_package.Rows.Count; i++)
+        {
+            int tam = int.Parse(table_package.Rows[i]["limitId"].ToString());
+
+            if (tam == limitId)
+            {
+                dem++;
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = "Không xóa được vì có chức năng khác đăng sử dụng";
+
+            }
         }
-        catch (Exception ex)
+        DataTable table_clientregister = packageBus.check_delete_clientregister(limitId);
+        for (int i = 0; i < table_clientregister.Rows.Count; i++)
         {
+            int tam1 = int.Parse(table_clientregister.Rows[i]["limitId"].ToString());
+            if (tam1 == limitId)
+            {
+                dem++;
+                pnSuccess.Visible = false;
+                pnError.Visible = true;
+                lblError.Text = "Không xóa được vì có chức năng khác đăng sử dụng";
 
-            pnError.Visible = true;
-            lblError.Text = "Không thể xóa !</br>" + ex.Message;
+            }
+        }
+        if (dem == 0)
+        {
+            try
+            {
+
+
+                packageBus.tblPackageLimit_Delete(limitId);
+                LoadData();
+                pnError.Visible = false;
+                pnSuccess.Visible = true;
+                lblSuccess.Text = "Bạn vừa xóa chữ ký thành công !";
+            }
+            catch (Exception ex)
+            {
+
+                pnError.Visible = true;
+                lblError.Text = "Không thể xóa !</br>" + ex.Message;
+            }
         }
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)

@@ -20,7 +20,7 @@
          <div class="side-menu fl">				
 				    <h3>Báo cáo</h3>				    
 		            <ul>			    
-                        <li><a href="mail-report.aspx">Thống kê</a></li>
+                        <li><a href="reportsend.aspx">Thống kê</a></li>
 			            <li><a href="Mail-Send.aspx">Thư đã gửi</a></li>			    
 			            <li><a href="Mail-Error.aspx">Thư gửi lỗi</a></li>						
 		            </ul>	

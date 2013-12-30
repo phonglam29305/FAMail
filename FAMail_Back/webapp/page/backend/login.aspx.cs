@@ -16,6 +16,9 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
 {
     UserLoginBUS ulBus = new UserLoginBUS();
     RoleDetailBUS rdBus = new RoleDetailBUS();
+
+    log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs_info = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -23,18 +26,18 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
             Session["us-login"] = null;
         }
         catch (Exception)
-        {}
+        { }
     }
 
-    private UserLoginDTO getUserLogin()
-    {
-        if (Session["us-login"] != null)
-        {
-            return (UserLoginDTO)Session["us-login"];
-        }
-        else Response.Redirect("~");//test confict
-        return null;
-    }
+    //private UserLoginDTO getUserLogin()
+    //{
+    //    if (Session["us-login"] != null)
+    //    {
+    //        return (UserLoginDTO)Session["us-login"];
+    //    }
+    //    else Response.Redirect("~");//test confict
+    //    return null;
+    //}
     protected void lbtSubmit_Click(object sender, EventArgs e)
     {
         DataTable table = null;
@@ -64,73 +67,77 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     tableStatus = ulBus.GetClientId(clienID);
                     status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
                 }
-               
-               
-               
 
-             //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
-              //  string todays = DateTime.Now.ToString("yyyy-MM-dd");
-             //  DateTime today = Convert.ToDateTime(todays);
-             //   DateTime expireDay = Convert.ToDateTime(NgayHetHan);
-                          
 
-                if(status != 1)
+
+
+                //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                //  string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                //  DateTime today = Convert.ToDateTime(todays);
+                //   DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+
+
+                if (status != 1)
                 {
-                 
-                        try
-                        {
-                            userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
-                        }
-                        catch (Exception)
-                        {
-                            userLogin.hasSendMail = 0;
-                        }
-                        int hasCreatedCustomer = Common.countHasCreateMailByUserId(int.Parse(tbResult.Rows[0]["UserId"].ToString()));
-                        userLogin.hasCreatedCustomer = hasCreatedCustomer;
 
-                        // Tạo session user login
-                        Session["us-login"] = userLogin;
-                        Session["UserName"] = userLogin.Username;
-                        Session["UserId"] = userLogin.UserId;
-                        // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
-                        DataTable tblRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, userLogin.DepartmentId);
-                        if (tblRoleDetail.Rows.Count > 0)
-                        {
-                            RoleDetailDTO rdDto = new RoleDetailDTO();
-                            rdDto.roleId = int.Parse(tblRoleDetail.Rows[0]["roleId"].ToString());
-                            rdDto.departmentId = int.Parse(tblRoleDetail.Rows[0]["departmentId"].ToString());
-                            rdDto.limitSendMail = int.Parse(tblRoleDetail.Rows[0]["limitSendMail"].ToString());
-                            rdDto.limitCreateCustomer = int.Parse(tblRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
-                            rdDto.toDate = DateTime.Parse(tblRoleDetail.Rows[0]["toDate"].ToString());
-                            // Tạo session limit
-                            Session["limitWithUser"] = rdDto;
-                        }
+                    try
+                    {
+                        userLogin.hasSendMail = int.Parse(tbResult.Rows[0]["hasSendMail"].ToString());
+                    }
+                    catch (Exception)
+                    {
+                        userLogin.hasSendMail = 0;
+                    }
+                    int hasCreatedCustomer = Common.countHasCreateMailByUserId(int.Parse(tbResult.Rows[0]["UserId"].ToString()));
+                    userLogin.hasCreatedCustomer = hasCreatedCustomer;
 
-                        Session["ID"] = 25;
-                    if(userLogin.UserType==0)
+                    // Tạo session user login
+                    Session["us-login"] = userLogin;
+                    Session["UserName"] = userLogin.Username;
+                    Session["UserId"] = userLogin.UserId;
+                    // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
+                    DataTable tblRoleDetail = rdBus.GetByDepartmentIdAndRole(-1, userLogin.DepartmentId);
+                    if (tblRoleDetail.Rows.Count > 0)
+                    {
+                        RoleDetailDTO rdDto = new RoleDetailDTO();
+                        rdDto.roleId = int.Parse(tblRoleDetail.Rows[0]["roleId"].ToString());
+                        rdDto.departmentId = int.Parse(tblRoleDetail.Rows[0]["departmentId"].ToString());
+                        rdDto.limitSendMail = int.Parse(tblRoleDetail.Rows[0]["limitSendMail"].ToString());
+                        rdDto.limitCreateCustomer = int.Parse(tblRoleDetail.Rows[0]["limitCreateCustomer"].ToString());
+                        rdDto.toDate = DateTime.Parse(tblRoleDetail.Rows[0]["toDate"].ToString());
+                        // Tạo session limit
+                        Session["limitWithUser"] = rdDto;
+                    }
+                    logs_info.Info("user login: " + userLogin.Username);
+                    Session["ID"] = 25;
+                    if (userLogin.UserType == 0)
                         Response.Redirect("clientregister.aspx");
                     else
                         Response.Redirect("mail-send.aspx");
-     
+
                 }
                 else
                 {
                     pnError.Visible = true;
                     lblMessage.Text = "Tài khoản đăng nhập đã bị khóa.";
+
+                    logs.Error("user locked: " + userLogin.Username);
                 }
-                
+
             }
             else
             {
                 pnError.Visible = true;
                 lblMessage.Text = "Email hoặc mật khẩu không đúng.";
+                logs.Error("user worng: "+txtUsername.Text);
             }
         }
         catch (Exception ex)
         {
             pnError.Visible = true;
             lblMessage.Text = ex.Message;
+            logs.Error("user login exception: " + txtUsername.Text, ex);
         }
-        
+
     }
 }
