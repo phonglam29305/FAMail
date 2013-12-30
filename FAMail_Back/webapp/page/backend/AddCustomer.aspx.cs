@@ -603,6 +603,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 
                                     // Update limit send and create.
                                     updateLimitSendAndCreate(1, 0);
+                                    setTextDefault();
                                 }
                             }
                         }
@@ -738,7 +739,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 //   }
                 //}
                 ConnectionData.CloseMyConnection();
-                setTextDefault();
+                //setTextDefault();
             }
         }
         catch (Exception ex)
