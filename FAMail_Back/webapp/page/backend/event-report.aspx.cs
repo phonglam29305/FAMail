@@ -129,12 +129,13 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
             {
                 dtGroup = mailGroupBus.GetAllNew();
             }
+
             if (getUserLogin().DepartmentId == 3)
             {
                 dtGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
             }
-            if (getUserLogin().DepartmentId == 2)
-            {
+           if (getUserLogin().DepartmentId == 2)
+           {
                 dtGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
             }
 
