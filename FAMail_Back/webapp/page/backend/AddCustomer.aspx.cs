@@ -178,6 +178,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             Common cm = new Common();
             InitBUS();
             table = new DataTable();
+            long countEmail = 0;
             string excelContent = "application/vnd.ms-excel";
             string excelContent2010 = "application/openxmlformats-officedocument-spreadsheetml.sheet";
             if (fileExcel.HasFile)
@@ -191,32 +192,51 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 }
                 else
                 {
+                    if (getUserLogin().DepartmentId == 2)
+                    {
+                        table = ctBUS.GetClientId(getUserLogin().UserId);
+                    }
+                    else
+                    {
+                        table = ctBUS.GetClientIdSub(getUserLogin().UserId);
+                    }
+
+                    if (table.Rows.Count > 0)
+                    {
+                        int clienID = int.Parse(table.Rows[0]["clientId"].ToString());
+                        DataTable dtCountEmail = ctBUS.GetCountEmail(clienID);
+                        if (dtCountEmail.Rows[0]["isUnLimit"] + "" != "" && Convert.ToBoolean(dtCountEmail.Rows[0]["isUnLimit"])) countEmail = 1000000000000000000;
+                        else countEmail = int.Parse(dtCountEmail.Rows[0]["under"].ToString());
+                    }
+
                     fileName = "~/database/" + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + fileExcel.FileName;
                     string path = string.Concat(Server.MapPath(fileName));
                     fileExcel.SaveAs(path);
                     table = cm.ReadExcelContents(path);
 
-                    if (table.Rows.Count < 1000)
+                    if (table.Rows.Count < countEmail)
                     {
-                        string message = checkCreateCustomer(table.Rows.Count);
-                        if (message == "")
-                        {
+                       // string message = checkCreateCustomer(table.Rows.Count);
+                       // if (message == "")
+                      //  {
                             this.dtlCustomer.DataSource = table;
                             this.dtlCustomer.DataBind();
                             LoadMailGroupLists();
-                        }
-                        else
-                        {
-                            Visible(false);
-                            pnError.Visible = true;
-                            lblError.Text = message;
-                        }
+                       // }
+                      //  else
+                      //  {
+                     //       Visible(false);
+                      //      pnError.Visible = true;
+                       //     lblError.Text = message;
+                      //  }
                     }
                     else
                     {
+               
                         Visible(false);
                         pnError.Visible = true;
-                        lblError.Text = "Số lương dữ liệu quá lớn ! Vui lòng chọn file bé hơn < 1000 khách hàng";
+                        lblError.Text = "Vượt quá hạng ngạch tạo khách hàng!";
+
                     }
 
                 }
