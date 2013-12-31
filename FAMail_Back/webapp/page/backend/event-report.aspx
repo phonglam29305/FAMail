@@ -12,13 +12,10 @@ CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title
             <asp:Label ID="lblSuccess"  runat="server" Text=""></asp:Label> 
         </div>
       </asp:Panel>
+        <div class="side-content fr"> 
         <asp:Panel ID="pnSearch" runat="server">
             <table id="FilterTable">
-                               
                                 <tr>
-                                    
-                                    
-                                    
                                     <td align="right">
                                         Sự kiện:
                                         <asp:DropDownList ID="drlNhomMail" runat="server" Height="30px" Width="200px">
@@ -31,6 +28,7 @@ CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title
                                 
                             </table>
         </asp:Panel>
+            </div>
     <asp:Repeater ID="rptGroup" runat="server">
         <ItemTemplate>      
 	     
