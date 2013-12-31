@@ -503,7 +503,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblCountCustomer.Text = "Yêu cầu chọn nhóm mail nhận";
+            lblCountCustomer.Text = "";
         }
     }
     protected int calcTimeForGroup(int groupid)
