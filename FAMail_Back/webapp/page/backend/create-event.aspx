@@ -60,10 +60,10 @@ ValidateRequest="false"  %>
 					    <fieldset>    	
                                 <asp:HiddenField ID="hdfEventId" runat="server" />					
     						    <p>
-								    <label for="simple-input">Tiêu đề mail</label>    								
+								    <label for="simple-input">Tiêu đề sự kiện</label>    								
                                     <asp:TextBox ID="txtSubject" CssClass="round default-width-input" 
                                         runat="server"></asp:TextBox>
-                                    <em>Tiêu đề mail gửi đến khách hàng</em>
+                                    <em>Tiêu đề sự kiện</em>
 							    </p>
     							
 						        <p>
