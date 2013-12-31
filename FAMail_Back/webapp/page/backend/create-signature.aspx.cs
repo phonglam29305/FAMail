@@ -237,5 +237,6 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
     {
         hdfId.Value = null;
         txtBody.Text = "";
+        txtSignatureName.Text = "";
     }
 }

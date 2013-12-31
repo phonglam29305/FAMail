@@ -503,7 +503,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblCountCustomer.Text = ex.Message;
+            lblCountCustomer.Text = "Yêu cầu chọn nhóm mail nhận";
         }
     }
     protected int calcTimeForGroup(int groupid)
@@ -881,5 +881,16 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         string ContentMail = this.txtBody.Text;
         Session["Content"] = ContentMail;
         Response.Redirect("PreviewContent.aspx");
+    }
+    protected void btnRefesh_Click(object sender, EventArgs e)
+    {
+        drlMailConfig.SelectedIndex = 0;
+        drlMailGroup.SelectedIndex = 0;
+        chkNow.Checked = true;
+        chkSet.Checked = false;
+        txtSubject.Text = "";
+        drlContent.SelectedIndex = 0;
+        drlSign.SelectedIndex = 0;
+        txtBody.Text = "";
     }
 }

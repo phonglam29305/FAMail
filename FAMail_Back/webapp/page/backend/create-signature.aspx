@@ -2,7 +2,11 @@
  CodeFile="create-signature.aspx.cs" Inherits="webapp_page_backend_CreateContentMail" Title="FASTAUTOMATICMAIL"
   ValidateRequest="false"  %>
 
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
 <div class="side-content fr">
   <div class="content-module">
@@ -26,6 +30,7 @@
                         <asp:Label ID="lblSuccess"  runat="server" Text=""></asp:Label> 
                     </div>
                   </asp:Panel>
+                  
 			      <div class="content-module-main cf">
 			                				  
         				<asp:HiddenField ID="hdfId" runat="server" />       				
@@ -76,11 +81,13 @@
                                                 <asp:LinkButton ID="lbtSubject" runat="server" Width="200px"></asp:LinkButton>
 								            </td>                                            			            
 								            <td>
+           
 								                <asp:LinkButton ID="lbtEdit" runat="server" Height="15px" 
                                                      Width="15px" onclick="lbtEdit_Click"></asp:LinkButton>
 								                <asp:LinkButton ID="lbtDelete" runat="server" Height="15px" 
 								                OnClientClick="return confirmDelete('Nếu tiếp tục dữ liệu sẽ bị xóa khỏi hệ thống ?')"
                                                     Width="15px" onclick="lbtDelete_Click"></asp:LinkButton>
+     
 								            </td>
 								            
 							            </tr>             						
@@ -99,10 +106,11 @@
                    </table>
 				  </div>
 			      </div>
-			      
+ 
 	        </div>
 	        </div>    	      
 </div>	  
-                           
+                     
 </asp:Content>
+
 
