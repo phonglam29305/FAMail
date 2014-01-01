@@ -60,7 +60,6 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail"
                                     Display="Dynamic" ErrorMessage="Email không hợp lệ" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
                                     ValidationGroup="CheckInput_Email"></asp:RegularExpressionValidator>
-                                
                                 <em>Email của khách hàng! </em>
                             </p>
                             <asp:Button ID="btnAdd" runat="server" Text="Lưu" ValidationGroup="CheckInput_Email" CssClass="button round blue image-right ic-add text-upper"
