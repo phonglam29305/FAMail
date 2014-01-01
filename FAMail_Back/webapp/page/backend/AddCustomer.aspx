@@ -56,10 +56,14 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                             <p>
                                 <label for="full-width-input">
                                     Email</label>
-                                <asp:TextBox ID="txtEmail" CssClass="round default-width-input" runat="server"> </asp:TextBox>
+                                <asp:TextBox ID="txtEmail" CssClass="round default-width-input" runat="server"> </asp:TextBox><br>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail"
+                                    Display="Dynamic" ErrorMessage="Email không hợp lệ" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                    ValidationGroup="CheckInput_Email"></asp:RegularExpressionValidator>
+                                
                                 <em>Email của khách hàng! </em>
                             </p>
-                            <asp:Button ID="btnAdd" runat="server" Text="Lưu" CssClass="button round blue image-right ic-add text-upper"
+                            <asp:Button ID="btnAdd" runat="server" Text="Lưu" ValidationGroup="CheckInput_Email" CssClass="button round blue image-right ic-add text-upper"
                                 OnClick="btnAdd_Click" />
                             <asp:Button ID="btnRefesh" runat="server" Text="Nhập lại" CssClass="button round blue image-right ic-refresh text-upper"
                                 OnClick="btnRefesh_Click" />
