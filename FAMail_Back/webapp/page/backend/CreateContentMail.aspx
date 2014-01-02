@@ -1,9 +1,9 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/webapp/template/backend/SendMail.master" AutoEventWireup="true"
  CodeFile="createcontentmail.aspx.cs" Inherits="webapp_page_backend_CreateContentMail" Title="FASTAUTOMATICMAIL"
   ValidateRequest="false"  %>
-
+<%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 <div class="side-content fr">
   <div class="content-module">
 		        <div class="content-module-heading cf">				
@@ -44,7 +44,8 @@
                             </div>
                         </em>
                     </p>
-                    
+                      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                      <ContentTemplate>
                     <p>
                         <asp:TextBox ID="txtWelcome" CssClass="round default-width-input" Width="15%" runat="server" ToolTip="Nhập lời chào cho bức thư!">Chào</asp:TextBox>
                         <asp:RadioButton ID="rdoCustomerName" Checked="true" GroupName="groupWelcome" runat="server" />Tên khách hàng
@@ -54,11 +55,15 @@
                             class="round button dark menu-user image-left" runat="server" 
                             onclick="lbtAddWelcome_Click" ToolTip="Click thêm lời chào vào nội dung">Thêm lời chào</asp:LinkButton>                             
                     </p>
-                    
+                  
                     <p>
-			                <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>
+                        <CKEditor:CKEditorControl ID="txtBody" runat="server" CausesValidation="True" ResizeEnabled="False"></CKEditor:CKEditorControl>
+			              <%--  <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                             <%--<asp:TextBox ID="txtBody" rows="15" style="width: 100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-                    </p>             
+                      
+                    </p>     
+                          
+                           
                    <p>			                                                
                        <ul id="nav" class="fr">				            
 			                <li>
@@ -86,7 +91,7 @@
 		                </ul>                         
          
 			        </p>                    
-			        
+			      
                     <p>					
                         <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" 
                             CssClass="button round blue image-right ic-add text-upper" 
@@ -106,6 +111,8 @@
                             CssClass="round blue ic-right-arrow" onclick="btnCancel_Click" 
                           PostBackUrl="~/webapp/page/backend/list-content-mail.aspx"/>	
                            
+                          </ContentTemplate>
+          </asp:UpdatePanel>
                     </p>
                     <div class="stripe-separator"><!--  --></div> 
 			      </div>

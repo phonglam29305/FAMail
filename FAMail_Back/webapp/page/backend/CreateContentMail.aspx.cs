@@ -23,12 +23,14 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         try
         {
 
+
             if (!IsPostBack)
             {
                 LoadContentMail();
                 LoadSignatureList();
 
             }
+          
         }
         catch (Exception)
         {
