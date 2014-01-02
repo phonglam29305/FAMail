@@ -3,10 +3,10 @@
   ValidateRequest="false"  %>
 
 
-
+<%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
+     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 <div class="side-content fr">
   <div class="content-module">
 	         
@@ -33,7 +33,7 @@
 			      <div class="content-module-main cf">
 			                				  
         				<asp:HiddenField ID="hdfId" runat="server" />       				
-
+                     
                     <p>
                         <label for="full-width-input">Tên chữ ký:</label>
                         <asp:TextBox ID="txtSignatureName" CssClass="round default-width-input" 
@@ -44,7 +44,7 @@
                     </p>
 			         <p>
                          <label for="full-width-input">Nội dung chữ ký</label>			     
-			                <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine" OnTextChanged="txtBody_TextChanged"></asp:TextBox><br>
+                         <CKEditor:CKEditorControl ID="txtBody" runat="server" CausesValidation="True" ResizeEnabled="False"></CKEditor:CKEditorControl>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                                                                     ControlToValidate="txtBody" Display="Dynamic" ErrorMessage="Vui lòng nhập vào nội dung chữ ký !" 
                                                                     ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
@@ -59,7 +59,7 @@
                           onclick="btnSaveContent_Click" />	 
                            
                           </p>
-
+                         
                     <div class="full-width-editor">
 				       <table>	                
 				    <asp:DataList ID="dlSignature" runat="server" 

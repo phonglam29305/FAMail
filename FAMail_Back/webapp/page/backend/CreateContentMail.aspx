@@ -44,7 +44,7 @@
                             </div>
                         </em>
                     </p>
-                      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                      <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
                       <ContentTemplate>
                     <p>
                         <asp:TextBox ID="txtWelcome" CssClass="round default-width-input" Width="15%" runat="server" ToolTip="Nhập lời chào cho bức thư!">Chào</asp:TextBox>
@@ -57,10 +57,15 @@
                     </p>
                   
                     <p>
+                           <table ID="No_can_desc_tbl" style="margin-right: 0px" width="100%">
+                                        <tr>
+                                            <td>
                         <CKEditor:CKEditorControl ID="txtBody" runat="server" CausesValidation="True" ResizeEnabled="False"></CKEditor:CKEditorControl>
 			              <%--  <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                             <%--<asp:TextBox ID="txtBody" rows="15" style="width: 100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-                      
+                        </td>
+                                            </tr>
+                               </table>
                     </p>     
                           
                            
