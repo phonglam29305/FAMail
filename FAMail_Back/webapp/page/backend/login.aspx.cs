@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using System.Threading;
 
 public partial class webapp_page_backend_login : System.Web.UI.Page
 {
@@ -111,9 +112,9 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     logs_info.Info("user login: " + userLogin.Username);
                     Session["ID"] = 25;
                     if (userLogin.UserType == 0)
-                        Response.Redirect("clientregister.aspx");
+                        Response.Redirect("clientregister.aspx", false);
                     else
-                        Response.Redirect("mail-send.aspx");
+                        Response.Redirect("mail-send.aspx", false);
 
                 }
                 else
@@ -129,10 +130,10 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
             {
                 pnError.Visible = true;
                 lblMessage.Text = "Email hoặc mật khẩu không đúng.";
-                logs.Error("user worng: "+txtUsername.Text);
+                logs.Error("user worng: " + txtUsername.Text);
             }
         }
-        catch (Exception ex)
+        catch (ThreadAbortException ex)
         {
             pnError.Visible = true;
             lblMessage.Text = ex.Message;
