@@ -53,7 +53,7 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập số giới hạn mail";
         }
-        else if (validate_namepackagelimit(txtnamepackagelimit.Text))
+        else if (validate_namepackagelimit(txtnamepackagelimit.Text,hdfId.Value))
         {
             masseng = "Chức năng này đã tồn tại trong hệ thống";
         }
@@ -65,9 +65,9 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         }
         return masseng;
     }
-    protected bool validate_namepackagelimit(string namepackagelimit)
+    protected bool validate_namepackagelimit(string namepackagelimit,object id)
     {
-        DataTable table = packageBus.viladate_Packagelimint(namepackagelimit);
+        DataTable table = packageBus.viladate_Packagelimint(namepackagelimit,id);
         if (table.Rows.Count > 0)
         {
             return true;
@@ -101,10 +101,11 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
         sign.limitId = id;
         sign.namepackagelimit = txtnamepackagelimit.Text;
         if (!ceUnLimit.Checked)
-            sign.under = Int64.Parse(txtunder.Text);
+            sign.under = Int32.Parse(txtunder.Text);
         sign.cost = float.Parse(txtcode.Text);
         sign.isUnLimit = ceUnLimit.Checked;
         sign.isActive = ceIsActive.Checked;
+        
 
         return sign;
 
@@ -170,6 +171,9 @@ public partial class webapp_page_backend_PackageLimit : System.Web.UI.Page
             logs.Error(userLogin.Username + "- PLimit - Update", ex);
         }
         LoadData();
+        txtcode.Text = "";
+        txtnamepackagelimit.Text = "";
+        txtunder.Text = "";
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {

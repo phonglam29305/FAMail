@@ -38,4 +38,8 @@ public class RegisterBUS
     {
         return dangky.CheckExistByEmail(Email);
     }
+    public DataTable kiemtramail(string email)
+    {
+        return dangky.kientratrungemail(email);
+    }
 }

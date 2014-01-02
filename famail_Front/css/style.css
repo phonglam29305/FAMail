@@ -50,6 +50,7 @@ table {
 }
 a img {
 	border: none;
+    margin-left:4px;
 }
 
 /*Solid Cactus Styles*/
@@ -64,7 +65,7 @@ body {text-align: center; font: normal 11px Arial, Helvetica, sans-serif; backgr
 #container {width: 974px; margin: 0 auto; text-align: left; position: relative;}
 
 /*Header*/
-#header {width: 974px; height: 140px; position: relative;}
+#header {width: 974px; height: 120px; position: relative;}
 
 #logo {position: absolute; top: 18px; left: 0; width: 270px; height: 58px; display: block; text-indent: -1200em; background-image: url(images/logofamail.png); background-repeat: no-repeat; background-position: 0 0;}
 
@@ -75,24 +76,26 @@ body {text-align: center; font: normal 11px Arial, Helvetica, sans-serif; backgr
 .headerlinks {background: url(images/headerlinkbg.png) no-repeat top left; padding-left: 7px; position: absolute; top: 15px; right: 180px; width: 500px; min-height:30px;}
 .headerlinks ul {margin: 0; padding: 0; background: url(images/headerlinkbg.png) no-repeat top right; padding-right: 7px; float: right;}
 .headerlinks ul li {list-style: none; float: left;}
-.headerlinks ul li a {color: #626262; font-size: 13px; padding: 7px 12px; display: block;}
-
+.headerlinks ul li a {color: #626262; font-size: 13px; padding: 7px 12px; display: block;text-decoration:none;}
 /*Social Icons in header*/
-ul.headsocial {position: absolute; right: 0px; top: 60px; margin: 0; padding: 0;}
+ul.headsocial {position: absolute; right: 0px; top: 50px; margin: 0; padding: 0;}
 ul.headsocial li {font-size: 12px; font-weight: bold; color: #7E7E7E; float: left; list-style: none; padding: 3px 12px 3px 0;}
 ul.headsocial li.twitter {background: url(images/twitter-icon.png) no-repeat 0 50%; padding: 3px 12px 3px 30px;}
 ul.headsocial li.facebook {background: url(images/facebook-icon.png) no-repeat 0 50%; padding: 3px 12px 3px 30px;} 
-ul.headsocial li a {font-weight: normal; color: #626262;}
-
+ul.headsocial li a {font-weight: normal; color: #626262;text-decoration:none;}
+.icon {margin-top:-5px;margin-right:5px;margin-bottom: -5px;}
 /*Phone number styles in the header*/
 .headhtml {position: absolute; right: 495px; top: 64px; font-size: 12px; font-weight: bold; color: #626262;}
 .headhtml span {font-size: 20px; color: #4C89BD; vertical-align: middle;}
-
+.more {display:inline !important; font-size:10px !important;font-weight:lighter !important;text-decoration:none;color:#4E8ABE !important;margin:0px !important}
+.list {float:left;width:50%;height:13px;text-align:center;font-size:15px;font-weight:bold;font-style:italic;color:#0013a5;}
+.downarrow {height:100px;width:100px;float:left;margin-top:28px;}
+.left {margin-left: -10px;margin-right: 10px;}
 /*Main sections in the header*/
 ul.headsects {
     position: absolute;
     left: 0;
-    top: 100px;
+    top:85px;
     margin: 0;
     padding: 14px 0 12px;
     width: 974px; /* text-align: center; */
@@ -206,6 +209,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 	padding-right: 0;
 	padding-bottom: 14px;
 	padding-left: 0;
+   
 }
 .general-badges img {
 	vertical-align: middle;
@@ -214,7 +218,16 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 	margin-bottom: 0;
 	margin-left: 5px;
 }
-
+.general-badges1 {
+    margin-left:100px;
+  
+   width:504px;
+   margin-top:-25px;
+}
+    .general-badges1 a {
+        font-weight:bold;
+        
+    }
 /*Home Page*/
 /*Tagline on home page - large orange text*/
 #home-container .tagline {padding: 8px 0 20px; text-align: center; color: #f8842d; font-size: 32px; line-height: normal;}
@@ -281,7 +294,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 .menu-content-1
 {
 	float: left;
-	width: 320px;
+	width: 665px;
 	margin-bottom: 20px;
 	margin-left: 15px;
 	margin-right: 10px;
@@ -315,16 +328,16 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 .menu-content-2 {
     float: left;
     width: 278px;
-    background-image: url('../images/boder_top.gif');
+    /*background-image: url('../images/boder_top.gif');*/
     background-position: left top;
     background-repeat: no-repeat;
     margin-top: 20px;
     margin-left: 0px;
 }
 .menu-content-2 .boder_bottom {
-    background-image: url('../images/boder_bottom.gif');
+    /*background-image: url('../images/boder_bottom.gif');
     background-repeat: no-repeat;
-    background-position: right bottom;
+    background-position: right bottom;*/
 }
 .menu-content-2 .boder_bottom .tittle_support span
 {
@@ -335,6 +348,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
     padding-bottom: 10px;
     padding-left: 29px;
     padding-top: 20px;
+    text-align:center;
 }
 .menu-content-2 .boder_bottom .center_support {
     background-image: url('../images/content_support.gif');
@@ -363,7 +377,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
     padding-left:0px;
 	padding-top:14px;
 	border-bottom:solid 1px #e7e7e7;
-	padding-bottom:8px;
+	padding-bottom:30px;
 }
 .menu-content-2 .boder_bottom .center_support ul li .staff-img
 {
@@ -544,19 +558,19 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 	padding-right: 0;
 	padding-bottom: 0;
 	padding-left: 0;
-	min-height:300px;
+	min-height:154px;
 }
 .footer_cl1 
 {
 	width: 170px;
 	float: left;
-	min-height: 250px;
+	min-height: 135px;
 	list-style: none outside none;
 	list-style-type: none;
 	list-style-image: none;
 	list-style-position: outside;
 	margin-top: 0px;
-	margin-right: 10px;
+	margin-right: 49px;
 	margin-bottom: 0px;
 	margin-left: 0px;
 }
@@ -588,7 +602,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 .footer_cl2 
 {
 	width: 220px;
-	min-height: 250px;
+	min-height: 135px;
 	float: right;
 	padding-left: 20px;
 	border-left-width: 1px;
@@ -619,13 +633,13 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 }
 .share
 {
-	height: 50px;
-	line-height: 10px;
+	
+
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #FFFFFF;
 	clear: both;
-	padding-top: 15px;
+	
 	width: 974px;
 }
 .share span
@@ -712,9 +726,10 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 
 #cssmenu a {
   color: #2c5578; 
-  font-size: 14px;
+  font-size: 12px;
   padding: 10px 10px 9px 16px;
   display: block;
+  width:203px;
 }
 #cssmenu a:hover {
     background: url('../images/subsection-link-hover.png') no-repeat left center;
@@ -2209,19 +2224,22 @@ code {
 div.speech {padding: 20px 15px; background: #f5f5f5 url(/wp-content/uploads/speech.gif) no-repeat left bottom; display: block; width: 695px;}
 div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 6px 0 20px; clear: both;}
 
+
+
 /*css dinh dang laod ban gia chuc nang*/
 
        
         #logo1 {
-            width:100px;
+            width:131px;
             height:100px;
-            background-color:red;
+           
             margin-top:7px;
             margin-left:60px;
         }
             #logo1 img {
                 height: 127px;
                 width: 130px;
+                margin-top:62px;
             }
         #goimail {
            /*width:90%*/
@@ -2251,7 +2269,7 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
             }
             #goimail .pricing sup {font-size: 26px;}
         #goidichvu {
-            margin-top:-150px;
+            margin-top:-159px;
         }
             #goidichvu div:nth-child(1) {
                 border-left:none !important;
@@ -2259,9 +2277,13 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
                 height:38px;
             }
             #goidichvu div {
+                border-top: 1px solid #C3D5DF;
+                border-left: 1px solid #C3D5DF;
+                height: 38px;
+            }
+            #goidichvu div {
                 border-top:1px solid #C3D5DF;
                 border-left:1px solid #C3D5DF;
-                height:38px;
                 vertical-align:middle;
             }
             #goidichvu div:last-child {
@@ -2272,26 +2294,25 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
 
         #goidichvu td.column-1 {font-size:14px; text-align: left; padding-left: 10px; line-height: 190%; margin-top:20px;}
        
-        /*#chucnang {
-            margin-top:-350px;
-            margin-left:276px;
-            line-height:330%;
-            
-        }
-
-      #chucnang #dangky{
-                margin-left:-35px;
-             
-              
-            }
-            #chucnang #dangky #bakground{
-                background-image: url('../images/column1bottom.png');
-                background-position: center top;
-                background-repeat: no-repeat;
-                height: 60px;
-                width:200px;
-               margin-left:-51px;
-               margin-top:-52px;
-
-                 
-            }*/
+ /*====================================================*/
+ .headsects li:first-child {
+        margin-left:4px !important;
+    }
+    .headsects li:last-child {
+        margin-left:94px !important;
+    }
+    .imgleft {
+    float:left
+    }
+    .auto-style1 {
+        width: 100%;
+    }
+    .auto-style2 {
+        height: 22px;
+    }
+    .menu-content-1 ul:nth-child(2n+2){
+        margin-right:0px !important;
+    }
+    .right-ul {
+        margin-right:0px !important;
+    }

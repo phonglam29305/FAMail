@@ -1,0 +1,75 @@
+﻿#support {
+    margin-left:567px;
+    background: #FFFFFC; 
+    border: 2px solid #FFFFFF; 
+    border-radius: 10px 10px 10px 10px; 
+    font-size: 30px; 
+    width: 350px; 
+    padding-top: 80px; 
+    text-align: center; 
+    color: #FFFFFF; 
+    box-shadow: #BABABA 2px 1px 30px 1px;
+    margin-top:47px;
+    height: 328px;
+}
+.LH_voichungtoi {
+    margin-top:-62px;
+}
+.firstname {
+    margin-right: 145px;
+    margin-top:21px;
+}
+.lastname {
+    margin-left: 152px;
+    margin-top:-41px;
+}
+.email {
+ margin-left:4px;
+ margin-top:6px;
+
+}
+.phone {
+ margin-left:4px;
+  margin-top:6px;
+
+}
+.conten {
+    margin-top:25px;
+    margin-left:4px;
+
+}
+  #image{
+    width:100px;
+    height:40px;
+    background-color:#2e4fea;
+}
+#btdangky {
+    margin-top:10px;
+
+}
+#Contact {
+    width:500px;
+    height:400px;
+   margin-left:30px;
+   margin-top:-374px;
+}
+.image {
+    margin-left:104px;
+    margin-top:-36px;
+}
+.truso {
+    margin-left:10px;
+    margin-top:40px;
+}
+.thongtin {
+    margin-top:20px;
+}
+.diachi {
+    margin-top:20px;
+}
+.hotro {
+    margin-top:20px;
+}
+.lienhe {
+    margin-top:10px;
+}

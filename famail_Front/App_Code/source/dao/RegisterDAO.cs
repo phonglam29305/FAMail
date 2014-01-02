@@ -180,4 +180,18 @@ public class RegisterDAO
         adapter.Dispose();
         return table == null || table.Rows.Count == 0;
     }
+    public DataTable kientratrungemail(string email)
+    {
+        SqlCommand cmd = new SqlCommand("select * from tblClient where email=@email",ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;    
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+
+
+    }
 }

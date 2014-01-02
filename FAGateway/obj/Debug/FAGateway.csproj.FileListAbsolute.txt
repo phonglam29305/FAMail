@@ -1,0 +1,11 @@
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.csprojResolveAssemblyReference.cache
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.frmCheckMail.resources
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.Properties.Resources.resources
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.csproj.GenerateResource.Cache
+D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.exe.config
+D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.exe
+D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.pdb
+D:\Working\web\FAMail\FAGateway\bin\Debug\AWSSDK.dll
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.exe
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.pdb
+D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.frmMail.resources

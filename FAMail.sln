@@ -24,7 +24,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "FAMail_Back\
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Front", "FAMail_Front\", "{5E44C0DF-5609-4515-836A-06F886C07CA2}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/FAMail_Front"
 		Debug.AspNetCompiler.PhysicalPath = "FAMail_Front\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Front\"
@@ -42,11 +42,16 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Front", "FAMail_Fron
 		VWDPort = "37758"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAGateway", "FAGateway\FAGateway.csproj", "{8C0015E3-4D03-4349-AC6E-425B5C55AE58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|.NET.ActiveCfg = Debug|Any CPU
@@ -54,11 +59,31 @@ Global
 		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Release|.NET.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
 		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Release|.NET.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5E44C0DF-5609-4515-836A-06F886C07CA2}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Release|.NET.ActiveCfg = Release|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8C0015E3-4D03-4349-AC6E-425B5C55AE58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

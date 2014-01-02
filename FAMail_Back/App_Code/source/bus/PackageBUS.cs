@@ -64,9 +64,9 @@ public class PackageBUS
     {
         return sign.GetAvailablePackage(packageId);
     }
-    public DataTable validata_Namepackage(string packageName)
+    public DataTable validata_Namepackage(string packageName,object id)
     {
-        return sign.validate_PackageName(packageName);
+        return sign.validate_PackageName(packageName,id);
     }
     public DataTable check_delete_clientregister(int packageId)
     {

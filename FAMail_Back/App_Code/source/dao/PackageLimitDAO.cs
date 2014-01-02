@@ -108,9 +108,10 @@ public class PackageLimitDAO
         ConnectionData.CloseMyConnection();
         return table;
     }
-    public DataTable viladate_Packagelimint(string namepackagelimit)
+    public DataTable viladate_Packagelimint(string namepackagelimit ,object id)
     {
         string sql = "select * from tblPackageLimit where namepackagelimit =@namepackagelimit";
+        if (id + "" != "") sql = "select * from tblPackageLimit where namepackagelimit=@namepackagelimit and limitId <>" + id;
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@namepackagelimit", SqlDbType.NVarChar).Value = namepackagelimit;

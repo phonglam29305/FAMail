@@ -1,0 +1,195 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>FASTAUTOMATICMAIL.COM</title>
+    <meta name="description" content="FASTAUTOMATICMAIL.COM"/>
+    <link href="css/pricetable.css" rel="stylesheet" />
+    <link href="css/jquery.fancybox.css" rel="stylesheet" />
+    <link href="css/custom-theme/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+    <link href="css/custom-theme/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/custom-theme/docs.css" rel="stylesheet" />
+    <link href="css/custom-theme/prettify.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/support.css" rel="stylesheet" />
+    <link href="colorbox.css" rel="stylesheet" />
+    <!-- Google+ -->
+	<meta name="google-site-verification" content="a5wY9kTPtBEzXLcoZyOMCD6BucrSH193SPgYFXgfIQs" />
+    <!-- END Google+ -->
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/jquery.colorbox.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Examples of how to assign the Colorbox event to elements
+            $(".group1").colorbox({ rel: 'group1' });
+            $(".group2").colorbox({ rel: 'group2', transition: "fade" });
+            $(".group3").colorbox({ rel: 'group3', transition: "none", width: "75%", height: "75%" });
+            $(".group4").colorbox({ rel: 'group4', slideshow: true });
+            $(".ajax").colorbox();
+            $(".register").colorbox({ iframe: true, innerWidth: 550, innerHeight: 580, fixed: false, height: "625px" });
+            //$(".ajax").colorbox({ width: "51%", height: "100%" });
+            $(".youtube").colorbox({ iframe: true, innerWidth: 640, innerHeight: 390 });
+            $(".vimeo").colorbox({ iframe: true, innerWidth: 500, innerHeight: 409 });
+            $(".iframe").colorbox({ iframe: true, width: "80%", height: "100%" });
+            $(".inline").colorbox({ inline: true, width: "50%" });
+            $(".callbacks").colorbox({
+                onOpen: function () { alert('onOpen: colorbox is about to open'); },
+                onLoad: function () { alert('onLoad: colorbox has started to load the targeted content'); },
+                onComplete: function () { alert('onComplete: colorbox has displayed the loaded content'); },
+                onCleanup: function () { alert('onCleanup: colorbox has begun the close process'); },
+                onClosed: function () { alert('onClosed: colorbox has completely closed'); }
+            });
+            $('.non-retina').colorbox({ rel: 'group5', transition: 'none' })
+            $('.retina').colorbox({ rel: 'group5', transition: 'none', retinaImage: true, retinaUrl: true });
+
+            //Example of preserving a JavaScript event for inline calls.
+            $("#click").click(function () {
+                $('#click').css({ "background-color": "#f00", "color": "#fff", "cursor": "inherit" }).text("Open this window again and this message will still be here.");
+                return false;
+            });
+        });
+		</script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="container">
+        <!-- ===============Header==================-->
+        <div id="header">
+            <a href="http://famail.1onlinebusinesssystem.com/" id="logo" title="">Fastautomaticmail.com</a>
+		    <ul class="headsocial">
+                <li><a href="#">
+                      <img src="images/Businessman.png" class="icon" style="width:28px;margin-bottom:-10px;" />Hỗ trợ khách hàng
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                      <img src="images/email_icon.jpg" class="icon"/>Liên hệ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                      <img src="images/Login.png" class="icon" style="width:28px;margin-bottom:-10px;"/> Khách hàng đăng nhập
+                    </a>
+                </li>
+            </ul>				
+            <ul class="headsects">
+                <asp:Repeater ID="rptListPost" runat="server">
+                  <ItemTemplate>
+                    <li style="margin-left:90px;"><a href='<%#Eval("link") %>' class=""><%#Eval("keyName") %></a></li>
+                  </ItemTemplate>
+              </asp:Repeater>				
+            </ul>
+        </div>
+        <!-- ===============End Header==================-->
+        <!-- ===============Body==================-->
+        <div id="main">
+            
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+            </asp:ContentPlaceHolder>
+        </div>
+        <!-- ===============End Body==================-->
+    </div>
+    <div class="clear"></div>
+    <!-- ===============Logo==================-->
+    <div class="top-footer"> 
+          <div class="general-badges">      
+          <div class="logo-doitac clear">
+              <div class="doitac"><asp:Image ID="Image2" runat="server" BorderWidth="0" ImageUrl="~/images/amazon.jpg" /></div>
+              <div class="doitac"><asp:Image ID="Image3" runat="server" BorderWidth="0" ImageUrl="~/images/Famail.jpg" /></div>
+              <div class="doitac"><asp:Image ID="Image4" runat="server" BorderWidth="0" ImageUrl="~/images/amazon.jpg" /></div>
+              <div class="doitac"><asp:Image ID="Image5" runat="server" BorderWidth="0" ImageUrl="~/images/Famail.jpg" /></div>
+              <div class="doitac"><asp:Image ID="Image6" runat="server" BorderWidth="0" ImageUrl="~/images/amazon.jpg" /></div>
+        
+              </div>     
+          </div>	
+    </div>
+    <!-- ===============End Logo==================-->
+    <!-- ===============Footer==================-->
+    <div id="footer_us" role="contentinfo">
+       <div class="footer-inner_us">
+            <div style="float:left;margin-left:75px;"">
+                <asp:Repeater ID="rptFooter" runat="server">
+                     <ItemTemplate>
+                       <div class="footer_cl1">
+        		            <div> 
+            		            <ul class="footer_cl1_ul">
+            			            <li class="tittle_footer">
+            				            <span>
+            					            <%#Eval("groupName") %>
+            				            </span>
+            			            </li>
+            		            </ul> 
+                                <asp:Repeater ID="rptListChild" runat="server" DataSource='<%# view.GetAllChild(Convert.ToString(Eval("idGroup"))) %>'>
+                                    <ItemTemplate>
+                                        <ul class="footer_cl1_ul">
+            		                      <li class="content_footer">
+            			                    <a class="afooter" href='<%#Eval("link") %>' target=""><%#Eval("keyName") %></a>            				         				
+            		                    </ul>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+            	             </div>
+                       </div>
+                   </ItemTemplate>
+                </asp:Repeater>  
+            </div> 
+            <div class="footer_cl2">
+                 <div>
+                    <ul class="footer_cl2_ul">
+                        <li class="tittle_footer_cl2">
+                            <span>
+                               Kết nối với chúng tôi
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="footer_cl2_ul">
+                           <li class="content_footer_cl2">
+                               <span style="text-align: justify;">
+                                  <a href="#"> <asp:Image ID="Image7" runat="server" ImageUrl="~/images/youtube.gif" /> </a>
+                                  <a href="#"> <asp:Image ID="Image8" runat="server" ImageUrl="~/images/tiwnter.gif" /> </a>
+                                  <a href="#"> <asp:Image ID="Image9" runat="server" ImageUrl="~/images/fb.gif" /> </a>
+                                  <a href="#"> <asp:Image ID="Image10" runat="server" ImageUrl="~/images/G.gif" /> </a>
+                                  <a href="#"> <asp:Image ID="Image11" runat="server" ImageUrl="~/images/linkedin.png" /> </a>
+                                  <div class="footer_register_rpt_news_1">
+                                      <span> Đăng ký nhận bản tin</span>
+                                      <input class="text" id="email" name="email" type="text">
+				                  </div>
+                               </span>                            
+                            </li>
+                     </ul>
+                 </div>
+             </div>
+            <div class="share">
+                <div class="footer_register_rpt_news_2">
+                          
+                </div>  
+            </div>
+       </div>    
+    </div>
+    <div class="general-badges1" style="float:left; margin-left:372px;">      
+        <a href="quy-dinh-ve-su-dung-dich-vu.aspx">Quy định sử dụng</a>  - <a href="chinh-sach-bao-mat.aspx">Chính sách bảo mật</a> © 2012 - 2013 FA Mail. All Rights Reserved         
+    </div>
+    <!-- ===============End Footer==================-->
+    </form>
+    
+    <script type="text/javascript">
+
+        var analyticsFileTypes = [''];
+        var analyticsEventTracking = 'enabled';
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-1905629-1']);
+        _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google 
+
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>

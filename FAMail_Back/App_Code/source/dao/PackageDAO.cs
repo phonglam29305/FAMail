@@ -165,9 +165,10 @@ public class PackageDAO
         adapter.Dispose();
         return table;
     }
-    public DataTable validate_PackageName(string packageName)
+    public DataTable validate_PackageName(string packageName,object id)
     {
         string sql = "select * from tblPackage where packageName=@packageName";
+        if (id + "" != "") sql = "select * from tblPackage where packageName=@packageName and packageId <>"+id;
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@packageName", SqlDbType.NVarChar).Value = packageName;

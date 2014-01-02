@@ -46,15 +46,15 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         {
             masseng = "Vui lòng nhập diễn giải";
         }
-        else if (validate_name(txtfunctionName.Text))
+        else if (validate_name(txtfunctionName.Text,hdfId.Value))
         {
             masseng = "Chức năng đã tồn tại trong hệ thống";
         }
         return masseng;
     }
-    protected bool validate_name(string functionName)
+    protected bool validate_name(string functionName, object id)
     {
-        DataTable table = functionBus.tblFunction_GetByID(functionName);
+        DataTable table = functionBus.tblFunction_GetByID(functionName,id);
         if (table.Rows.Count > 0)
         {
             return true;
@@ -75,12 +75,12 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         FunctionDTO sign = new FunctionDTO();
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin != null)
-        {
-            //sign.functionId = Convert.ToInt32(hdfId.Value);
+        {     
             sign.functionId = userLogin.UserId;
             sign.functionName = txtfunctionName.Text;
             sign.description = txtdescription.Text;
             sign.cost = float.Parse(txtcode.Text);
+            sign.isDefault = checkisDefault.Checked;
 
         }
         return sign;
@@ -93,11 +93,12 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         UserLoginDTO userLogin = getUserLogin();
         if (userLogin != null)
         {
-            sign.functionId = Convert.ToInt32(hdfId.Value);
-            //sign.functionId = userLogin.UserId;
+            sign.functionId = Convert.ToInt32(hdfId.Value);          
             sign.functionName = txtfunctionName.Text;
             sign.description = txtdescription.Text;
             sign.cost = float.Parse(txtcode.Text);
+            sign.isDefault = checkisDefault.Checked;
+          
 
         }
         return sign;
@@ -121,11 +122,11 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             int status = 0;
             if (message == "")
             {
-                //cho nay co van de ne
+               
                 FunctionDTO funDto = getfunctionDTO();
 
                 ConnectionData.OpenMyConnection();
-                if (hdfId.Value == null || hdfId.Value == "")//them moi
+                if (hdfId.Value == null || hdfId.Value == "")
                 {
                     functionBus.tblFunction_insert(funDto);
                     status = 1;
@@ -135,6 +136,9 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
                     FunctionDTO funDtoup = getfunctionupdateDTO();
                     functionBus.tblSignature_Update(funDtoup);
                     status = 2;
+                    hdfId.Value = null;
+                   
+                 
                 }
                 ConnectionData.CloseMyConnection();
                 pnSuccess.Visible = true;
@@ -172,14 +176,7 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
         LoadData();
 
     }
-    protected void btnDelete_Click(object sender, ImageClickEventArgs e)
-    {
-
-    }
-    protected void btnDelete_Click1(object sender, ImageClickEventArgs e)
-    {
-
-    }
+   
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -208,7 +205,6 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
     protected void btnDelete_Click2(object sender, ImageClickEventArgs e)
     {
         int functionId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-        //int packeId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
         int dem = 0;
         DataTable table_Client = functionBus.kiemtraxoa_tblClientFunction(functionId);
 
@@ -263,38 +259,6 @@ public partial class webapp_page_backend_Default : System.Web.UI.Page
             }
         }
     }
-    protected void dtfunction_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void btnCreateNew_Click(object sender, EventArgs e)
-    {
-
-
-        //FunctionDTO funDto = getfunctionDTO();
-        //ConnectionData.OpenMyConnection();
-        //functionBus.tblSignature_Update(funDto);
-        //    LoadData();
-        FunctionDTO functionDto = new FunctionDTO();
-
-        functionDto.functionName = txtfunctionName.Text;
-        functionDto.cost = float.Parse(txtcode.Text);
-        if (functionBus.tblFunction_GetByID(txtfunctionName.Text).Rows.Count > 0)
-        {
-            functionBus.tblSignature_Update(functionDto);
-        }
-
-
-        LoadData();
-    }
-
-
-    protected void txtdescription_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void txtfunctionName_TextChanged(object sender, EventArgs e)
-    {
-
-    }
+  
+  
 }

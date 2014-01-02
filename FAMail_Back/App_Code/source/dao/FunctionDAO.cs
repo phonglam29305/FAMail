@@ -57,10 +57,11 @@ public class FunctionDAO
         adapter.Dispose();
         return table;
     }
-    public DataTable tblFunction_GetByID(string functionName)
+    public DataTable tblFunction_GetByID(string functionName,object id)
     {
 
         string sql = "SELECT * FROM tblFunction WHERE functionName= @functionName";
+        if (id + "" != "") sql = "SELECT * FROM tblFunction WHERE functionName= @functionName and functionid <> " + id;
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@functionName", SqlDbType.NVarChar).Value = functionName;

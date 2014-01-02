@@ -93,7 +93,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     userLogin.hasCreatedCustomer = hasCreatedCustomer;
 
                     // Tạo session user login
-                    Session["us-login"] = userLogin;
+                    Session["us-login"] = userLogin;                    
                     Session["UserName"] = userLogin.Username;
                     Session["UserId"] = userLogin.UserId;
                     // Kiểm tra user này có thuộc phân quyền nâng cao hay không 

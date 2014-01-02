@@ -53,7 +53,6 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         if (userLogin != null)
         {
             int temp = 0;
-            //sign.functionId = Convert.ToInt32(hdfId.Value);
             sign.packageId = userLogin.UserId;
             sign.packageName = txtname.Text;
             sign.description = txtdescription.Text;
@@ -83,7 +82,6 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         if (userLogin != null)
         {
             sign.packageId = Convert.ToInt32(hdfId.Value);
-            //sign.packageId = userLogin.UserId;
             sign.packageName = txtname.Text;
             sign.description = txtdescription.Text;
             int temp = 0;
@@ -99,11 +97,8 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
             sign.isUnLimit = ceIsUnlimit.Checked;
             sign.isActive = ceIsActive.Checked;
             sign.isTry = ceTry.Checked;
-
         }
         return sign;
-
-
     }
     private void package()
     {
@@ -144,7 +139,7 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         {
             masseng = "Nhập số email quản lý không đúng định dạng";
         }
-        else if (validate_name(txtname.Text))
+        else if (validate_name(txtname.Text,hdfId.Value))
         {
             masseng = " Chức năng này đã tồn tại trong hệ thống";
         }
@@ -157,9 +152,9 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
         }
         return masseng;
     }
-    protected bool validate_name(string packageName)
+    protected bool validate_name(string packageName,object id)
     {
-        DataTable table = packageBus.validata_Namepackage(packageName);
+        DataTable table = packageBus.validata_Namepackage(packageName,id);
         if (table.Rows.Count > 0)
         {
             return true;
@@ -173,19 +168,16 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-
-
         try
         {
             string message = checkInput();
             int status = 0;
             if (message == "")
-            {
-                //cho nay co van de ne
+            {             
                 PackageDTO packDto = getpackge_insert();
                 ConnectionData.OpenMyConnection();
 
-                if (hdfId.Value == null || hdfId.Value == "")//them moi
+                if (hdfId.Value == null || hdfId.Value == "")
                 {
                     packageBus.tblPackage_insert(packDto);
                     status = 1;
@@ -288,14 +280,11 @@ public partial class webapp_page_backend_Package : System.Web.UI.Page
                 ceIsActive.Checked = Convert.ToBoolean(table.Rows[0]["isactive"]);
                 ceTry.Checked = Convert.ToBoolean(table.Rows[0]["isTry"]);
             }
-
-
         }
         catch (Exception ex)
         {
             pnError.Visible = false;
             pnSuccess.Visible = false;
-
             logs.Error(userLogin.Username + "-Package - Edit", ex);
         }
     }

@@ -58,9 +58,9 @@ public class FunctionBUS
     }
    
 
-    public DataTable tblFunction_GetByID(string functionName)
+    public DataTable tblFunction_GetByID(string functionName,object id)
     {
-        return sign.tblFunction_GetByID(functionName);
+        return sign.tblFunction_GetByID(functionName,id);
     }
 
 

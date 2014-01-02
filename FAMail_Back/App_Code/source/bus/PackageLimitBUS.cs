@@ -40,9 +40,9 @@ public class PackageLimitBUS
     {
         return sign.GetAvailablePackage(limitId);
     }
-    public DataTable viladate_Packagelimint(string namepackagelimit)
+    public DataTable viladate_Packagelimint(string namepackagelimit,object id)
     {
-        return sign.viladate_Packagelimint(namepackagelimit);
+        return sign.viladate_Packagelimint(namepackagelimit,id);
     }
     public DataTable check_delete_package(int limitId)
     {

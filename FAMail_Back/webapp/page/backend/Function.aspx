@@ -31,12 +31,12 @@
 						        <p>
 								    <label for="full-width-input">Tên chức năng </label>
 						         	<asp:TextBox ID="txtfunctionName" CssClass="round default-width-input" 
-                                        runat="server" OnTextChanged="txtfunctionName_TextChanged"></asp:TextBox>							
+                                        runat="server" ></asp:TextBox>							
 							    </p>	
                           <p>
 							    <label for="simple-input">Diễn giải</label>								
                                 <asp:TextBox ID="txtdescription" CssClass="round default-width-input"  Width="92%"  TextMode="MultiLine" 
-                                    runat="server" OnTextChanged="txtdescription_TextChanged"></asp:TextBox>
+                                    runat="server" ></asp:TextBox>
                                 <em>Giải thích về chức năng gói dịch vụ </em>
 						    </p>	
                              <p>
@@ -81,7 +81,7 @@
 			    </div> <!-- end content-module-heading -->	
 				   <%--<table>	                --%>
 				  <%--  <table>--%>
-                                    <asp:DataList ID="dtfunction" runat="server" RepeatColumns="1" Width="100%" OnSelectedIndexChanged="dtfunction_SelectedIndexChanged">
+                                    <asp:DataList ID="dtfunction" runat="server" RepeatColumns="1" Width="100%">
                                         <HeaderTemplate>
                                             <thead>
                                                 <tr>
