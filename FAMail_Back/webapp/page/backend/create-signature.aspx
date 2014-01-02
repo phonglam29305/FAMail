@@ -6,7 +6,6 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
 <div class="side-content fr">
   <div class="content-module">
@@ -38,20 +37,26 @@
                     <p>
                         <label for="full-width-input">Tên chữ ký:</label>
                         <asp:TextBox ID="txtSignatureName" CssClass="round default-width-input" 
-                                        runat="server"></asp:TextBox>
+                                        runat="server"></asp:TextBox><br>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                                                    ControlToValidate="txtSignatureName" Display="Dynamic" ErrorMessage="Vui lòng nhập vào tên chữ ký !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
                     </p>
 			         <p>
                          <label for="full-width-input">Nội dung chữ ký</label>			     
-			                <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>
+			                <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine" OnTextChanged="txtBody_TextChanged"></asp:TextBox><br>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                                                    ControlToValidate="txtBody" Display="Dynamic" ErrorMessage="Vui lòng nhập vào nội dung chữ ký !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
                           <%--<asp:TextBox ID="txtBody" rows="15" style="width: 100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                      </p>
                 
                     <p>
                          <div class="stripe-separator"><!--  --></div>    	
                 							
-                        <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" 
+                        <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" ValidationGroup="Check_Input_Insert"
                             CssClass="button round blue image-right ic-add text-upper" 
-                          onclick="btnSaveContent_Click"/>	 
+                          onclick="btnSaveContent_Click" />	 
                            
                           </p>
 

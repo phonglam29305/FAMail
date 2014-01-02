@@ -58,15 +58,15 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
     {
         try
         {
-            string message = checkInput();
-            if (message!="")
-            {
-                pnError.Visible = true;
-                lblError.Text = message;
-                pnSuccess.Visible = false;
-                return;
+            //string message = checkInput();
+            //if (message!="")
+            //{
+            //    pnError.Visible = true;
+            //    lblError.Text = message;
+            //    pnSuccess.Visible = false;
+            //    return;
 
-            }
+            //}
             int status = 0;
             InitialBUS();
             SignatureDTO signDto = getSignatureDTO();
@@ -238,5 +238,12 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
         hdfId.Value = null;
         txtBody.Text = "";
         txtSignatureName.Text = "";
+    }
+    protected void txtBody_TextChanged(object sender, EventArgs e)
+    {
+        if (txtBody.Text != "")
+        {
+            RequiredFieldValidator1.Text = "";
+        }
     }
 }
