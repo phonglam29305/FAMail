@@ -53,10 +53,7 @@
                             CssClass="button round blue image-right ic-add text-upper" 
                           onclick="btnSaveContent_Click"/>	 
                            
-                          <asp:Button ID="btnCreateNew" runat="server" Text="Tạo mới" 
-                            CssClass="button round blue image-right ic-add text-upper" onclick="btnCreateNew_Click" 
-                          />	                            
-                    </p>
+                          </p>
 
                     <div class="full-width-editor">
 				       <table>	                

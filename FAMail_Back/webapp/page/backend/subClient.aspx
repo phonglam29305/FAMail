@@ -42,7 +42,10 @@ Inherits="webapp_page_backend_subClient" Title="FASTAUTOMATICMAIL" %>
 				          <p>
 				            <label for="full-width-input">Email</label>
 				            <asp:TextBox ID="txtEmail" CssClass="round default-width-input" 
-                                        runat="server"></asp:TextBox>
+                                        runat="server"></asp:TextBox><br>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail"
+                                    Display="Dynamic" ErrorMessage="Email không hợp lệ" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                    ValidationGroup="CheckInput_Email"></asp:RegularExpressionValidator>
     
 				        </p>
 				        <p>
@@ -64,7 +67,7 @@ Inherits="webapp_page_backend_subClient" Title="FASTAUTOMATICMAIL" %>
 						    </p>
                          <p>
 				             <asp:Button ID="btnSave" runat="server" Text="Lưu" 
-                                CssClass="button round blue image-right ic-add text-upper" onclick="btnSave_Click" />
+                                CssClass="button round blue image-right ic-add text-upper" ValidationGroup="CheckInput_Email" onclick="btnSave_Click" />
                            
                              <asp:Button ID="btnRefesh" runat="server" Text="Làm mới" 
                             CssClass="button round blue image-right ic-refresh text-upper" 
