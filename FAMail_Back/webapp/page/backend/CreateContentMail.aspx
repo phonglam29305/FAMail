@@ -96,7 +96,8 @@
 		                </ul>                         
          
 			        </p>                    
-			      
+			         </ContentTemplate>
+          </asp:UpdatePanel>
                     <p>					
                         <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" 
                             CssClass="button round blue image-right ic-add text-upper" 
@@ -116,8 +117,7 @@
                             CssClass="round blue ic-right-arrow" onclick="btnCancel_Click" 
                           PostBackUrl="~/webapp/page/backend/list-content-mail.aspx"/>	
                            
-                          </ContentTemplate>
-          </asp:UpdatePanel>
+                       
                     </p>
                     <div class="stripe-separator"><!--  --></div> 
 			      </div>
