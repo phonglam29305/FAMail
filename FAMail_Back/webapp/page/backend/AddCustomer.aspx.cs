@@ -81,11 +81,11 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
     {
         try
         {
-            string CustomerId = Request.QueryString["CustomerId"].ToString();
+            object CustomerId = Request.QueryString["CustomerId"];
             this.hdfCustomerId.Value = CustomerId + "";
             if (CustomerId != null)
             {
-                int ID = int.Parse(CustomerId);
+                int ID = int.Parse(CustomerId+"");
                 this.CustomerID.Value = ID.ToString();
                 DataTable dt = ctBUS.GetByID(ID);
                 // int AssignTo = int.Parse(dt.Rows[0]["AssignTo"].ToString());

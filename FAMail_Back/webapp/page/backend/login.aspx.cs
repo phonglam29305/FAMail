@@ -19,7 +19,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
     RoleDetailBUS rdBus = new RoleDetailBUS();
 
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
-    log4net.ILog logs_info = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
         try

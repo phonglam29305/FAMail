@@ -22,17 +22,18 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     SignatureBUS signBus = null;
     UserLoginDTO userLogin = null;
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
+            userLogin = getUserLogin();
         if (!IsPostBack)
         {
-            userLogin = getUserLogin();
             try
             {
                 InitialBUS();
                 LoadMailGroupLists();
                 LoadMailConfigList();
-                LoadEventList();
+                //LoadEventList();
                 // Khoi tao session for store contentSendEvent
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);
@@ -145,6 +146,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
     protected void lbtInsertSignature_Click(object sender, EventArgs e)
@@ -339,7 +341,9 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 // Store for ContentSendEvent table.
                 saveContentSendEvent(eId);
 
+                DataTable dtContent = (DataTable)Session["listContentSendEvent"];
                 eventBus.tblEventCustomer_Insert(eventDto);
+                logs_info.Info(userLogin.Username + " create event(" + eId + ") with " + dtContent.Rows.Count + " send times");
             }
             else //update
             {
@@ -387,7 +391,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     }
     protected EventDTO getEvent()
     {
-        
+
         string subject = txtSubject.Text;
         string voucher = txtVoucher.Text;
         string subscribe = "";
@@ -640,6 +644,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             dtContent.Rows.Add(row);
 
             LoadContentSendEventList(dtContent);
+            txtContent.Text = "";
             drlContent.SelectedIndex = 0;
         }
         catch (Exception ex)

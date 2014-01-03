@@ -34,6 +34,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
 
     #endregion
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
+    log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
     UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -70,7 +71,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             {
                 DataRow rowE = SignIn.NewRow();
                 rowE["Id"] = 0;
-                rowE["SignatureName"] = "Chọn nội chữ ký";
+                rowE["SignatureName"] = "Chọn chữ ký";
                 SignIn.Rows.Add(rowE);
                 foreach (DataRow RowItem in tblSignList.Rows)
                 {
@@ -399,6 +400,8 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
 
                 //checkAndInsertPartSend();
                 Insert(timeStart);
+
+                logs.Info(userLogin.Username + " sent " + hdfCountCustomer.Value + " emails");
             }
         }
         catch (Exception ex)

@@ -45,7 +45,7 @@ AutoEventWireup="true" CodeFile="AddCustomer.aspx.cs" Inherits="webapp_page_back
                                     <asp:ListItem Value="Nam">Nam</asp:ListItem>
                                     <asp:ListItem Value="Nu">Nữ</asp:ListItem>
                                 </asp:DropDownList>
-                                <em>Giới tính666</em>
+                                <em>Giới tính</em>
                             </p>
                             <p>
                                 <label for="simple-input">

@@ -19,6 +19,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
     MailConfigBUS mailConfigBus = null;
     CustomerBUS customerBus = null;
     DetailGroupBUS dgBus = null;
+    log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -201,6 +202,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                         customerDto.AssignTo = int.Parse(UserID);
 
                         customerId = customerBus.tblCustomer_insert(customerDto);
+                        logs_info.Info("Email Register: "+email);
                     }
                     else
                     {
