@@ -71,7 +71,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
             dlPager.BindToControl = dlReport;
             this.dlReport.DataSource = dlPager.DataSourcePaged;
             this.dlReport.DataBind();
-            int count = 0;
+           /* int count = 0;
             for (int i = 0; i < tblSendDetail.Rows.Count; i++)
             {
                 count++;
@@ -101,7 +101,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
                 {
                     ibtStatus.ImageUrl = "~/webapp/resource/images/warning.png";
                 }
-            }
+            }*/
         }
     }
 

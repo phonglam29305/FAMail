@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2AE13B56-D00C-4EEC-8D61-140755627712}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BatchSendMail</RootNamespace>
+    <AssemblyName>BatchSendMail</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK, Version=1.5.34.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="irisskin, Version=2006.3.22.45, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\irisskin.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ext\bus\CategoryBUS.cs" />
+    <Compile Include="ext\bus\ContentSendEventBUS.cs" />
+    <Compile Include="ext\bus\CountBuyBUS.cs" />
+    <Compile Include="ext\bus\CustomerBUS.cs" />
+    <Compile Include="ext\bus\DepartmentBUS.cs" />
+    <Compile Include="ext\bus\DetailGroupBUS.cs" />
+    <Compile Include="ext\bus\EventBUS.cs" />
+    <Compile Include="ext\bus\EventDetailBUS.cs" />
+    <Compile Include="ext\bus\HtmlMailRuleBUS.cs" />
+    <Compile Include="ext\bus\MailConfigBUS.cs" />
+    <Compile Include="ext\bus\MailGroupBUS.cs" />
+    <Compile Include="ext\bus\OrderBUS.cs" />
+    <Compile Include="ext\bus\OrderDatailBUS.cs" />
+    <Compile Include="ext\bus\PartSendBUS.cs" />
+    <Compile Include="ext\bus\ProductBUS.cs" />
+    <Compile Include="ext\bus\RoleDetailBUS.cs" />
+    <Compile Include="ext\bus\RoleListBUS.cs" />
+    <Compile Include="ext\bus\SendContentBUS.cs" />
+    <Compile Include="ext\bus\SendRegisterBUS.cs" />
+    <Compile Include="ext\bus\SendRegisterDetailBUS.cs" />
+    <Compile Include="ext\bus\SignatureBUS.cs" />
+    <Compile Include="ext\bus\SpamRuleBUS.cs" />
+    <Compile Include="ext\bus\SurveyBUS.cs" />
+    <Compile Include="ext\bus\SurveyDetailBUS.cs" />
+    <Compile Include="ext\bus\UserLoginBUS.cs" />
+    <Compile Include="ext\common\Commander.cs" />
+    <Compile Include="ext\common\Common.cs" />
+    <Compile Include="ext\common\ConnectionData.cs" />
+    <Compile Include="ext\common\EmailSend.cs" />
+    <Compile Include="ext\common\EmailVerifier.cs" />
+    <Compile Include="ext\common\MXServer.cs" />
+    <Compile Include="ext\common\ProcessSendEmail.cs" />
+    <Compile Include="ext\common\VerifyEmail.cs" />
+    <Compile Include="ext\dao\CategoryDAO.cs" />
+    <Compile Include="ext\dao\ContentSendEventDAO.cs" />
+    <Compile Include="ext\dao\CountBuyDAO.cs" />
+    <Compile Include="ext\dao\CustomerDAO.cs" />
+    <Compile Include="ext\dao\DepartmentDAO.cs" />
+    <Compile Include="ext\dao\DetailGroupDAO.cs" />
+    <Compile Include="ext\dao\EventDAO.cs" />
+    <Compile Include="ext\dao\EventDetailDAO.cs" />
+    <Compile Include="ext\dao\HtmlMailRuleDAO.cs" />
+    <Compile Include="ext\dao\MailConfigDAO.cs" />
+    <Compile Include="ext\dao\MailGroupDAO.cs" />
+    <Compile Include="ext\dao\OrderDAO.cs" />
+    <Compile Include="ext\dao\OrderDatailDAO.cs" />
+    <Compile Include="ext\dao\PartSendDAO.cs" />
+    <Compile Include="ext\dao\ProductDAO.cs" />
+    <Compile Include="ext\dao\RoleDetailDAO.cs" />
+    <Compile Include="ext\dao\RoleListDAO.cs" />
+    <Compile Include="ext\dao\SendContentDAO.cs" />
+    <Compile Include="ext\dao\SendRegisterDAO.cs" />
+    <Compile Include="ext\dao\SendRegisterDetailDAO.cs" />
+    <Compile Include="ext\dao\SignatureDAO.cs" />
+    <Compile Include="ext\dao\SpamRuleDAO.cs" />
+    <Compile Include="ext\dao\SurveyDAO.cs" />
+    <Compile Include="ext\dao\SurveyDetailDAO.cs" />
+    <Compile Include="ext\dao\UserLoginDAO.cs" />
+    <Compile Include="ext\dto\ContentSendEventDTO.cs" />
+    <Compile Include="ext\dto\SendMailDTO.cs" />
+    <Compile Include="ext\dto\CountBuyDTO.cs" />
+    <Compile Include="ext\dto\CustomerDTO.cs" />
+    <Compile Include="ext\dto\DepartmentDTO.cs" />
+    <Compile Include="ext\dto\DetailGroupDTO.cs" />
+    <Compile Include="ext\dto\EmailDTO.cs" />
+    <Compile Include="ext\dto\EventDetailDTO.cs" />
+    <Compile Include="ext\dto\EventDTO.cs" />
+    <Compile Include="ext\dto\HtmlMailRuleDTO.cs" />
+    <Compile Include="ext\dto\MailConfigDTO.cs" />
+    <Compile Include="ext\dto\MailGroupDTO.cs" />
+    <Compile Include="ext\dto\MailToDTO.cs" />
+    <Compile Include="ext\dto\OrderDatailDTO.cs" />
+    <Compile Include="ext\dto\OrderDTO.cs" />
+    <Compile Include="ext\dto\PartSendDTO.cs" />
+    <Compile Include="ext\dto\ProductDTO.cs" />
+    <Compile Include="ext\dto\RoleDetailDTO.cs" />
+    <Compile Include="ext\dto\RoleListDTO.cs" />
+    <Compile Include="ext\dto\SendContentDTO.cs" />
+    <Compile Include="ext\dto\SendRegisterDetailDTO.cs" />
+    <Compile Include="ext\dto\SendRegisterDTO.cs" />
+    <Compile Include="ext\dto\SignatureDTO.cs" />
+    <Compile Include="ext\dto\SpamRuleDTO.cs" />
+    <Compile Include="ext\dto\SurveyDetailDTO.cs" />
+    <Compile Include="ext\dto\SurveyDTO.cs" />
+    <Compile Include="ext\dto\UserLoginDTO.cs" />
+    <Compile Include="ext\interface\ICategory.cs" />
+    <Compile Include="ext\interface\IContentSendEvent.cs" />
+    <Compile Include="ext\interface\ICountBuy.cs" />
+    <Compile Include="ext\interface\ICustomer.cs" />
+    <Compile Include="ext\interface\IDepartment.cs" />
+    <Compile Include="ext\interface\IDetailGroup.cs" />
+    <Compile Include="ext\interface\IEvent.cs" />
+    <Compile Include="ext\interface\IEventDetail.cs" />
+    <Compile Include="ext\interface\IHtmlMailRule.cs" />
+    <Compile Include="ext\interface\IMailConfig.cs" />
+    <Compile Include="ext\interface\IMailGroup.cs" />
+    <Compile Include="ext\interface\IOrder.cs" />
+    <Compile Include="ext\interface\IOrderDetail.cs" />
+    <Compile Include="ext\interface\IPartSend.cs" />
+    <Compile Include="ext\interface\IProduct.cs" />
+    <Compile Include="ext\interface\IRoleDetail.cs" />
+    <Compile Include="ext\interface\IRoleList.cs" />
+    <Compile Include="ext\interface\ISendContent.cs" />
+    <Compile Include="ext\interface\ISendRegister.cs" />
+    <Compile Include="ext\interface\ISendRegisterDetail.cs" />
+    <Compile Include="ext\interface\ISignature.cs" />
+    <Compile Include="ext\interface\ISpamRule.cs" />
+    <Compile Include="ext\interface\ISurvey.cs" />
+    <Compile Include="ext\interface\ISurveyDetail.cs" />
+    <Compile Include="ext\interface\IUserLogin.cs" />
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="obj\x86\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\x86\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\x86\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="obj\x86\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\x86\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\x86\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="obj\x86\Debug\BatchSendMail.frmMain.resources" />
+    <EmbeddedResource Include="obj\x86\Debug\BatchSendMail.Properties.Resources.resources" />
+    <EmbeddedResource Include="obj\x86\Release\BatchSendMail.frmMain.resources" />
+    <EmbeddedResource Include="obj\x86\Release\BatchSendMail.Properties.Resources.resources" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ext\properties\message.properties" />
+    <None Include="obj\x86\Debug\BatchSendMail.csproj.GenerateResource.Cache" />
+    <None Include="obj\x86\Debug\BatchSendMail.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\x86\Debug\BatchSendMail.exe.r6" />
+    <None Include="obj\x86\Debug\BatchSendMail.exe.r7" />
+    <None Include="obj\x86\Debug\BatchSendMail.pdb.r6" />
+    <None Include="obj\x86\Debug\BatchSendMail.pdb.r7" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferences.cache.r8" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferences.cache.r9" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\GenerateResource.read.1.tlog" />
+    <None Include="obj\x86\Debug\GenerateResource.write.1.tlog" />
+    <None Include="obj\x86\Debug\ResolveAssemblyReference.cache" />
+    <None Include="obj\x86\Release\BatchSendMail.csproj.GenerateResource.Cache" />
+    <None Include="obj\x86\Release\BatchSendMail.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\x86\Release\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\x86\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\AWSSDK.dll" />
+    <Content Include="bin\irisskin.dll" />
+    <Content Include="obj\x86\Debug\BatchSendMail.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\x86\Debug\BatchSendMail.exe" />
+    <Content Include="obj\x86\Debug\BatchSendMail.pdb" />
+    <Content Include="obj\x86\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
+    <Content Include="obj\x86\Release\BatchSendMail.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\x86\Release\BatchSendMail.exe" />
+    <Content Include="obj\x86\Release\BatchSendMail.pdb" />
+    <Content Include="obj\x86\Release\TempPE\Properties.Resources.Designer.cs.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

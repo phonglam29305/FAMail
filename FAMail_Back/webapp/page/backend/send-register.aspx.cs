@@ -118,7 +118,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("login.aspx");
+            Response.Redirect("login.aspx",false);
         }
         drlMailConfig.Items.Clear();
         drlMailConfig.DataSource = dtMailConfig.DefaultView;
@@ -347,7 +347,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     }
     protected void btnClose_Click(object sender, EventArgs e)
     {
-        Response.Redirect("list-content-mail.aspx");
+        Response.Redirect("list-content-mail.aspx",false);
     }
     protected SendRegisterDTO getSendRegister()
     {
@@ -597,7 +597,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             srBUS.tblSendRegister_insert(srDto);
         }
 
-        Response.Redirect("wait-send.aspx");
+        Response.Redirect("wait-send.aspx",false);
 
     }
     private SendContentDTO getContentDTO()
@@ -883,7 +883,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     {
         string ContentMail = this.txtBody.Text;
         Session["Content"] = ContentMail;
-        Response.Redirect("PreviewContent.aspx");
+        Response.Redirect("PreviewContent.aspx",false);
     }
     protected void btnRefesh_Click(object sender, EventArgs e)
     {
