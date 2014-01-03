@@ -106,7 +106,11 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             {
                 tblGroupMail = mgBUS.GetAllNew();
             }
-            else// if (userLogin.DepartmentId == 2)
+            else if (userLogin.DepartmentId == 2)
+            {
+                tblGroupMail = mgBUS.GetGroupMailDepart2(userLogin.UserId);
+            }
+            else
             {
                 tblGroupMail = mgBUS.GetAllNew(userLogin.UserId);
             }
