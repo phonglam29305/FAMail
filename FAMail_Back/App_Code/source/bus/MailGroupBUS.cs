@@ -58,6 +58,13 @@ public class MailGroupBUS : IMailGroup
         return mgDao.GetAll(userid);
     }
 
+    public DataTable GetGroupMailDepart2(int userid)
+    {
+        return mgDao.GetGroupMailDepart2(userid);
+    }
+
+    
+
     public DataTable GetAllAssignTo(int MailConfigID)
     {
         return mgDao.GetAllAssignTo(MailConfigID);

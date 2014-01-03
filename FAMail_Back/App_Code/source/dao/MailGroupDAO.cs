@@ -176,6 +176,27 @@ public class MailGroupDAO
     }
 
 
+    public DataTable GetGroupMailDepart2(int UserID)
+    {
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "SP_GetMailGroupByUserId";
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+
+
     public DataTable GetAllNewDepart(int UserID)
     {
         SqlCommand cmd = new SqlCommand();
@@ -222,6 +243,8 @@ public class MailGroupDAO
         adapter.Dispose();
         return table;
     }
+
+
 
 
 
