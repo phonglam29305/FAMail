@@ -3,11 +3,10 @@
   ValidateRequest="false"  %>
 
 
-
+<%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-
+     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 <div class="side-content fr">
   <div class="content-module">
 	         
@@ -34,27 +33,33 @@
 			      <div class="content-module-main cf">
 			                				  
         				<asp:HiddenField ID="hdfId" runat="server" />       				
-
+                     
                     <p>
                         <label for="full-width-input">Tên chữ ký:</label>
                         <asp:TextBox ID="txtSignatureName" CssClass="round default-width-input" 
-                                        runat="server"></asp:TextBox>
+                                        runat="server"></asp:TextBox><br>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                                                    ControlToValidate="txtSignatureName" Display="Dynamic" ErrorMessage="Vui lòng nhập vào tên chữ ký !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
                     </p>
 			         <p>
                          <label for="full-width-input">Nội dung chữ ký</label>			     
-			                <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>
+                         <CKEditor:CKEditorControl ID="txtBody" runat="server" CausesValidation="True" ResizeEnabled="False"></CKEditor:CKEditorControl>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                                                    ControlToValidate="txtBody" Display="Dynamic" ErrorMessage="Vui lòng nhập vào nội dung chữ ký !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
                           <%--<asp:TextBox ID="txtBody" rows="15" style="width: 100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                      </p>
                 
                     <p>
                          <div class="stripe-separator"><!--  --></div>    	
                 							
-                        <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" 
+                        <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" ValidationGroup="Check_Input_Insert"
                             CssClass="button round blue image-right ic-add text-upper" 
-                          onclick="btnSaveContent_Click"/>	 
+                          onclick="btnSaveContent_Click" />	 
                            
                           </p>
-
+                         
                     <div class="full-width-editor">
 				       <table>	                
 				    <asp:DataList ID="dlSignature" runat="server" 
