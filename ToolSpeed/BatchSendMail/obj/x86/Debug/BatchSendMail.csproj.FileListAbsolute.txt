@@ -31,3 +31,16 @@ C:\Users\phonglam\Desktop\huan\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMa
 C:\Users\phonglam\Desktop\huan\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.frmMain.resources
 C:\Users\phonglam\Desktop\huan\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.Properties.Resources.resources
 C:\Users\phonglam\Desktop\huan\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.csproj.GenerateResource.Cache
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\BatchSendMail.exe.config
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\BatchSendMail.exe
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\BatchSendMail.pdb
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\AWSSDK.dll
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\irisskin.dll
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\log4net.dll
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Debug\log4net.xml
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.csprojResolveAssemblyReference.cache
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.frmMain.resources
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.Properties.Resources.resources
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.csproj.GenerateResource.Cache
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.exe
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.pdb

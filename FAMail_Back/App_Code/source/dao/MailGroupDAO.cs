@@ -140,11 +140,11 @@ public class MailGroupDAO
         adapter.Dispose();
         return table;
     }
-    public DataTable GetAllNew(int userId)
+    public DataTable GetMailGroupByUserId(int userId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblMailGroup where UserID =@UserID",
+        SqlCommand cmd = new SqlCommand("SP_GetMailGroupByUserId",
             ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)

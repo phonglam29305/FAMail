@@ -42,6 +42,10 @@ public class CustomerBUS : ICustomer
     {
         return ctDao.GetAllFilterCustomer(Name, address, assignTo, phone);
     }
+    public DataTable Search(int userId, string Name, string phone, string email, int groupid)
+    {
+        return ctDao.Search(userId, Name, phone, email, groupid);
+    }
     public DataTable GetByID(int Id)
     {
         return ctDao.GetByID(Id);

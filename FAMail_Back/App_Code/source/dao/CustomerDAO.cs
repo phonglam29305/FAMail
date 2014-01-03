@@ -265,7 +265,28 @@ public class CustomerDAO
 
     }
 
-
+    public DataTable Search(int userId, string Name, string phone, string email, int groupid)
+    {
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "[SP_Customer_Filter]";
+        cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
+        cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = Name;
+        cmd.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+        cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+        cmd.Parameters.Add("@GroupId", SqlDbType.Int).Value = groupid;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        cmd.Connection = ConnectionData._MyConnection;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 
     public DataTable GetAllCustomerDepart3(int UserID, int assignTo)
     {

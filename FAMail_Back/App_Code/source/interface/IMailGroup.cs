@@ -21,6 +21,6 @@ public interface IMailGroup
     DataTable GetAll();
     DataTable GetByID(int Id);
     DataTable GetAll(int userId);
-    DataTable GetAllNew(int userId);
+    DataTable GetMailGroupByUserId(int userId);
     DataTable GetAllNew();
 }

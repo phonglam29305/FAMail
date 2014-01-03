@@ -112,7 +112,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             }
             else
             {
-                tblGroupMail = mgBUS.GetAllNew(userLogin.UserId);
+                tblGroupMail = mgBUS.GetMailGroupByUserId(userLogin.UserId);
             }
             
             dlGroupMail.DataSource = tblGroupMail;

@@ -74,13 +74,13 @@ public partial class webapp_page_backend_List_Event : System.Web.UI.Page
                 {
                     MailGroup = mgBUS.GetAllNew();
                 }
-                if (getUserLogin().DepartmentId == 3)
-                {
-                    MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
-                }
-                if (getUserLogin().DepartmentId == 2)
-                {
-                    MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
+                //if (getUserLogin().DepartmentId == 3)
+                //{
+                //    MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
+                //}
+                //if (getUserLogin().DepartmentId == 2)
+                else {
+                    MailGroup = mgBUS.GetMailGroupByUserId(getUserLogin().UserId);
                 }
                 if (MailGroup.Rows.Count > 0)
                 {

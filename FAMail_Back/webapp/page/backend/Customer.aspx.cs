@@ -62,47 +62,25 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             // row = customer.Select(expresion);
             // LoadCustomer();
             DataTable MailGroup = new DataTable();
-            if (Session["us-login"] != null)
+            if (getUserLogin().DepartmentId == 1)
             {
-                if (getUserLogin().DepartmentId == 1)
-                {
-                    MailGroup = mgBUS.GetAllNew();
-                }
-                if (getUserLogin().DepartmentId == 3)
-                {
-                    MailGroup = mgBUS.GetAllNewDepart3(getUserLogin().UserId);
-                }
-                if (getUserLogin().DepartmentId == 2)
-                {
-                    MailGroup = mgBUS.GetAllNew(getUserLogin().UserId);
-                }
-                if (MailGroup.Rows.Count > 0)
-                {
-                    createTableMail();
-                    DataRow rowE = null;
-                    if (getUserLogin().DepartmentId == 1)
-                    {
-                        rowE = group.NewRow();
-                        rowE["Id"] = 0;
-                        rowE["Name"] = "Tất cả";
-                        group.Rows.Add(rowE);
-                    }
-                    foreach (DataRow rowItem in MailGroup.Rows)
-                    {
-                        rowE = group.NewRow();
-                        rowE["Id"] = rowItem["Id"];
-                        rowE["Name"] = rowItem["Name"];
-                        group.Rows.Add(rowE);
-                    }
-                } DataRow dr = group.NewRow();
-                dr["Name"] = "---------------[Tất cả]-----------------";
-                dr["Id"] = "-1";
-                group.Rows.InsertAt(dr, 0);
-                this.drlNhomMail.DataSource = group;
-                this.drlNhomMail.DataTextField = "Name";
-                this.drlNhomMail.DataValueField = "Id";
-                this.drlNhomMail.DataBind();
+                MailGroup = mgBUS.GetAllNew();
             }
+
+            else
+            {
+                MailGroup = mgBUS.GetMailGroupByUserId(getUserLogin().UserId);
+            }
+
+            DataRow dr = MailGroup.NewRow();
+            dr["Name"] = "---------------[Tất cả]-----------------";
+            dr["Id"] = "-1";
+            MailGroup.Rows.InsertAt(dr, 0);
+            this.drlNhomMail.DataSource = MailGroup;
+            this.drlNhomMail.DataTextField = "Name";
+            this.drlNhomMail.DataValueField = "Id";
+            this.drlNhomMail.DataBind();
+
             pnSearch.Visible = true;
             btnSearch.Visible = false;
         }
@@ -143,14 +121,15 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
 
                 customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
             }
-            if (getUserLogin().DepartmentId == 2)
-            {
-                customer = ctBUS.GetAllByAssignToCustomer(getUserLogin().UserId, txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
-            }
-            if (getUserLogin().DepartmentId == 3)
-            {
-                customer = ctBUS.GetAllCustomerDepart3AssignTo(getUserLogin().UserId, txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
-            }
+            else customer = ctBUS.Search(userLogin.UserId, txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            //if (getUserLogin().DepartmentId == 2)
+            //{
+            //    customer = ctBUS.GetAllByAssignToCustomer(getUserLogin().UserId, txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            //}
+            //if (getUserLogin().DepartmentId == 3)
+            //{
+            //    customer = ctBUS.GetAllCustomerDepart3AssignTo(getUserLogin().UserId, txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
+            //}
 
             //  customer = ctBUS.GetAll(txtName.Text.Trim(), txtPhone.Text.Trim(), txtEmail.Text.Trim(), GroupID);
             //  }
@@ -272,7 +251,7 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
         }
         else
         {
-            customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim(),txtPhone.Text.Trim());
+            customerBySelect = ctBUS.GetAllByUserAssignTo(getUserLogin().UserId, GroupID, txtName.Text.Trim(), txtEmail.Text.Trim(), txtPhone.Text.Trim());
         }
         try
         {

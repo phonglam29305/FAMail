@@ -5,7 +5,6 @@ D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.csproj.GenerateResource.Cach
 D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.exe.config
 D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.exe
 D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.pdb
-D:\Working\web\FAMail\FAGateway\bin\Debug\AWSSDK.dll
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.exe
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.pdb
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.frmMail.resources

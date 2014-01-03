@@ -69,9 +69,9 @@ public class MailGroupBUS : IMailGroup
     {
         return mgDao.GetAllAssignTo(MailConfigID);
     }
-    public DataTable GetAllNew(int userId)
+    public DataTable GetMailGroupByUserId(int userId)
     {
-        return mgDao.GetAllNew(userId);
+        return mgDao.GetMailGroupByUserId(userId);
     }
 
     public DataTable GetAllNewDepart3(int AssignTouserId)

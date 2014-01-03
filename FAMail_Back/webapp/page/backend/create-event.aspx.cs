@@ -260,14 +260,14 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             {
                 dtMailGroup = mailGroupBus.GetAllNew();
             }
-            if (getUserLogin().DepartmentId == 2)
+            else //if (getUserLogin().DepartmentId == 2)
             {
-                dtMailGroup = mailGroupBus.GetAllNew(getUserLogin().UserId);
+                dtMailGroup = mailGroupBus.GetMailGroupByUserId(getUserLogin().UserId);
             }
-            if (getUserLogin().DepartmentId == 3)
-            {
-                dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
-            }
+            //if (getUserLogin().DepartmentId == 3)
+            //{
+            //    dtMailGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
+            //}
 
             if (dtMailGroup.Rows.Count > 0)
             {
