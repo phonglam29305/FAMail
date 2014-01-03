@@ -4,7 +4,8 @@
 
 
 <%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
-
+    <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                      <ContentTemplate>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 <div class="side-content fr">
@@ -112,7 +113,8 @@
 	        </div>
 	        </div>    	      
 </div>	  
-                     
+           </ContentTemplate>
+        </asp:UpdatePanel>          
 </asp:Content>
 
 

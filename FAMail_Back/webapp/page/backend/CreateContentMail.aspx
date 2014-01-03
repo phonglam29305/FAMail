@@ -4,6 +4,8 @@
 <%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                      <ContentTemplate>
 <div class="side-content fr">
   <div class="content-module">
 		        <div class="content-module-heading cf">				
@@ -34,6 +36,10 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                         <asp:TextBox ID="txtSubject" CssClass="round default-width-input" runat="server" 
                              Width="98.5%" ToolTip="Nhập tiêu đề bức thư của bạn"></asp:TextBox>
+                         <br>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                                                    ControlToValidate="txtSubject" Display="Dynamic" ErrorMessage="Vui lòng nhập vào tiêu đề !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
 			        </p>			        
 			         
 			       <p>
@@ -44,8 +50,7 @@
                             </div>
                         </em>
                     </p>
-                      <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
-                      <ContentTemplate>
+                      
                     <p>
                         <asp:TextBox ID="txtWelcome" CssClass="round default-width-input" Width="15%" runat="server" ToolTip="Nhập lời chào cho bức thư!">Chào</asp:TextBox>
                         <asp:RadioButton ID="rdoCustomerName" Checked="true" GroupName="groupWelcome" runat="server" />Tên khách hàng
@@ -61,6 +66,10 @@
                                         <tr>
                                             <td>
                         <CKEditor:CKEditorControl ID="txtBody" runat="server" CausesValidation="True" ResizeEnabled="False"></CKEditor:CKEditorControl>
+                                                    <br>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                                                    ControlToValidate="txtBody" Display="Dynamic" ErrorMessage="Vui lòng nhập vào nội dung !" 
+                                                                    ValidationGroup="Check_Input_Insert"></asp:RequiredFieldValidator>
 			              <%--  <asp:TextBox ID="txtBody" CssClass="ckeditor" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                             <%--<asp:TextBox ID="txtBody" rows="15" style="width: 100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
                         </td>
@@ -96,10 +105,9 @@
 		                </ul>                         
          
 			        </p>                    
-			         </ContentTemplate>
-          </asp:UpdatePanel>
+			  
                     <p>					
-                        <asp:Button ID="btnSaveContent" runat="server" Text="Lưu" 
+                        <asp:Button ID="btnSaveContent" runat="server" ValidationGroup="Check_Input_Insert" Text="Lưu" 
                             CssClass="button round blue image-right ic-add text-upper" 
                           onclick="btnSaveContent_Click"/>	
                             <asp:Button ID="btnRefesh" runat="server" Text="Làm mới" 
@@ -124,7 +132,8 @@
 	        </div>
     </div>    		     	      
  </div>	  
-
+           </ContentTemplate>
+          </asp:UpdatePanel>
 
 </asp:Content>
 
