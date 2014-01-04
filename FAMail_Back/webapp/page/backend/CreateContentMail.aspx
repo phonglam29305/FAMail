@@ -4,6 +4,42 @@
 <%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+      <script type="text/javascript">
+          function insertHello() {
+              var firtHello = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtWelcome");
+              var lastHello = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtAfterWelcome");
+              var customerName = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_rdoCustomerName");
+              var Wellcome = firtHello.value + " " + "[khachhang]" + " " + lastHello.value;
+              if (customerName.checked == true) {
+                  Wellcome;
+              }
+
+              var currentData = CKEDITOR.instances.ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBody.getData();
+              var displayData = Wellcome + "</br>" + currentData;
+              CKEDITOR.instances.ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBody.setData(displayData);
+          }
+
+          function signatureChange() {
+              var SignId = $('select#<%=drlSign.ClientID%> option:selected').val();
+              $.ajax({
+                  type: "POST",
+                  url: "send-register.aspx/getSign",
+                  data: '{SignId: "' + SignId + '" }',
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: signatureChangeSuccess,
+                  failure: function (response) {
+                      alert("Chữ ký không tồn tại!");
+                  }
+              });
+          }
+          function signatureChangeSuccess(response) {
+              var dataResponse = response.d;
+              var currentData = CKEDITOR.instances.ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBody.getData();
+              var displayData = currentData + "</br>" + dataResponse;
+              CKEDITOR.instances.ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBody.setData(displayData);
+          }
+        </script>
     <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
                       <ContentTemplate>
 <div class="side-content fr">
@@ -56,9 +92,11 @@
                         <asp:RadioButton ID="rdoCustomerName" Checked="true" GroupName="groupWelcome" runat="server" />Tên khách hàng
                         <asp:RadioButton ID="rdoCustomerEmail" GroupName="groupWelcome" runat="server" />Mail khách hàng
                         <asp:TextBox ID="txtAfterWelcome" CssClass="round default-width-input" Width="35%" runat="server">thân mến !</asp:TextBox>
-                        <asp:LinkButton ID="lbtAddWelcome" 
+                       <%-- <asp:LinkButton ID="lbtAddWelcome" 
                             class="round button dark menu-user image-left" runat="server" 
-                            onclick="lbtAddWelcome_Click" ToolTip="Click thêm lời chào vào nội dung">Thêm lời chào</asp:LinkButton>                             
+                            onclick="lbtAddWelcome_Click" ToolTip="Click thêm lời chào vào nội dung">Thêm lời chào</asp:LinkButton>                             --%>
+
+                          <input type="button" value="Thêm lời chào" onclick="insertHello()" class="round button dark menu-user image-left"/ >
                     </p>
                   
                     <p>
@@ -77,35 +115,18 @@
                                </table>
                     </p>     
                           
-                           
-                   <p>			                                                
-                       <ul id="nav" class="fr">				            
-			                <li>
-		                    <asp:LinkButton ID="lbtInsertSignature" class="round button dark menu-user image-left" runat="server" ToolTip="Thêm chữ ký của bạn vào nội dung thư">Thêm chữ ký</asp:LinkButton>                             
-				                <ul>
-				                    <asp:DataList ID="dlSignature" runat="server" 
-                                         RepeatColumns="1"  Width="100%" BorderStyle="None" 
-                                       >  
-                                         <HeaderTemplate>                                               
-                                         </HeaderTemplate>                      
-                                         <ItemTemplate>  
-                                                <li> 
-                                                    <%--<asp:Label ID="lblSignatureName" runat="server" Text="Signature"></asp:Label>--%>
-                                                    <asp:LinkButton ID="lbtInsert" runat="server" onclick="lbtInsertSignature_Click" >Thêm</asp:LinkButton>                                                    
-                                                </li>          
-                                             
-                                         </ItemTemplate>
-                                         <FooterTemplate>
-                                                       
-                                         </FooterTemplate>
-                                     </asp:DataList>
-					                
-				                </ul> 
-			                </li>            			
-		                </ul>                         
-         
-			        </p>                    
-			  
+                       <p>  
+                     <td>
+                                    <label for="simple-input" style="width: auto; font-weight: bolder; text-transform: none">
+                                        Thêm chữ ký</label>
+                                </td>
+                                <td>
+                                    <asp:DropDownList ID="drlSign" CssClass="round default-width-dropdown" runat="server"
+                                        AutoPostBack="false" onchange="signatureChange()">
+                                    </asp:DropDownList>
+                                </td>
+                      <br>
+                           </p>
                     <p>					
                         <asp:Button ID="btnSaveContent" runat="server" ValidationGroup="Check_Input_Insert" Text="Lưu" 
                             CssClass="button round blue image-right ic-add text-upper" 
