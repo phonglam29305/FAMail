@@ -15,6 +15,7 @@ using Email;
 public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
 {
     SendContentBUS scBUS = null;
+    DataTable SignIn = null;
     SignatureBUS signBus = null;
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     UserLoginDTO userLogin = null;
@@ -29,15 +30,14 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
                 LoadContentMail();
                 LoadSignatureList();
 
-        
+
             }
-          
+
         }
         catch (Exception)
         {
         }
     }
-
 
 
     private void LoadSignatureList()
@@ -48,25 +48,43 @@ public partial class webapp_page_backend_CreateContentMail : System.Web.UI.Page
             signBus = new SignatureBUS();
             UserLoginDTO userLogin = getUserLogin();
             DataTable tblSignList = signBus.GetByUserId(userLogin.UserId);
+            createTableSign();
             if (tblSignList.Rows.Count > 0)
             {
-                dlSignature.DataSource = tblSignList;
-                dlSignature.DataBind();
-
-                for (int i = 0; i < tblSignList.Rows.Count; i++)
+                DataRow rowE = SignIn.NewRow();
+                rowE["Id"] = 0;
+                rowE["SignatureName"] = "Chọn chữ ký";
+                SignIn.Rows.Add(rowE);
+                foreach (DataRow RowItem in tblSignList.Rows)
                 {
-
-                    LinkButton lbtInsert = (LinkButton)dlSignature.Items[i].FindControl("lbtInsert");
-                    lbtInsert.CommandArgument = tblSignList.Rows[i]["id"].ToString();
-                    lbtInsert.Text = tblSignList.Rows[i]["SignatureName"].ToString();
-                    //lbtInsert.ToolTip = tblSignList.Rows[i]["SignatureContent"].ToString();
+                    rowE = SignIn.NewRow();
+                    rowE["Id"] = RowItem["id"];
+                    rowE["SignatureName"] = RowItem["SignatureName"];
+                    SignIn.Rows.Add(rowE);
                 }
+                drlSign.DataSource = SignIn;
+                drlSign.DataTextField = "SignatureName";
+                drlSign.DataValueField = "id";
+                drlSign.DataBind();
             }
         }
         catch (Exception)
         {
         }
     }
+
+    private void createTableSign()
+    {
+        SignIn = new DataTable("SignIn");
+        DataColumn Id = new DataColumn("Id");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn SignatureName = new DataColumn("SignatureName");
+        DataColumn[] key = { Id };
+        SignIn.Columns.Add(Id);
+        SignIn.Columns.Add(SignatureName);
+        SignIn.PrimaryKey = key;
+    }
+
 
     private void LoadContentMail()
     {
