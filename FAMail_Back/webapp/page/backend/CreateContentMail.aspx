@@ -4,13 +4,6 @@
 <%@Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <style type="text/css">
-        .heartbeat {
-            display: none;
-            margin: 5px;
-            color: blue;
-        }
-    </style>
       <script type="text/javascript">
           function insertHello() {
               var firtHello = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtWelcome");
@@ -47,26 +40,6 @@
               CKEDITOR.instances.ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_txtBody.setData(displayData);
           }
         </script>
-    <script language="javascript" type="text/javascript">
-        $(function () {
-            setInterval(KeepSessionAlive, 10000);
-        });
-
-        function KeepSessionAlive() {
-            $.post("/FAMail_Back/webapp/page/backend/KeepSessionAlive.ashx", null, function () {
-                //$("#result").append("<p>Session is alive and kicking!<p/>");
-                setInterval(function () { beatHeart(5); }, 10000);
-            });
-        }
-        function beatHeart(times) {
-            var interval = setInterval(function () {
-                $(".heartbeat").fadeIn(500, function () {
-                    $(".heartbeat").fadeOut(500);
-                });
-            }, 1000);
-            setTimeout(function () { clearInterval(interval); }, (2000 * times) + 500);
-        }
-    </script>
     <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
                       <ContentTemplate>
 <div class="side-content fr">
@@ -178,8 +151,7 @@
                     <div class="stripe-separator"><!--  --></div> 
 			      </div>
 	        </div>
-    </div> 
-    <div class="heartbeat">&hearts;</div>   		     	      
+    </div>    		     	      
  </div>	  
            </ContentTemplate>
           </asp:UpdatePanel>

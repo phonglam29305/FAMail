@@ -1,35 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="Post.aspx.cs" Inherits="webapp_Post" ValidateRequest="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <style type="text/css">
-        .heartbeat {
-            display: none;
-            margin: 5px;
-            color: blue;
-        }
-    </style>
-    <script language="javascript" type="text/javascript">
-        $(function () {
-            setInterval(KeepSessionAlive, 10000);
-        });
-
-        function KeepSessionAlive() {
-            $.post("/FAMail_Back/webapp/page/backend/KeepSessionAlive.ashx", null, function () {
-                //$("#result").append("<p>Session is alive and kicking!<p/>");
-                setInterval(function () { beatHeart(5); }, 10000);
-            });
-        }
-        function beatHeart(times) {
-            var interval = setInterval(function () {
-                $(".heartbeat").fadeIn(500, function () {
-                    $(".heartbeat").fadeOut(500);
-                });
-            }, 1000); // beat every second
-
-            // after n times, let's clear the interval (adding 100ms of safe gap)
-            setTimeout(function () { clearInterval(interval); }, (2000 * times) + 500);
-        }
-   </script>
     <div class="side-content fr">
         <div class="content-module">
             <div class="content-module-heading cf">
@@ -70,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <asp:TextBox ID="txtDescription" runat="server" Width="1096px" TextMode="MultiLine" Rows="5"></asp:TextBox>
+                                    <asp:TextBox ID="txtDescription" runat="server" Width="500px" TextMode="MultiLine" Rows="5"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
@@ -101,7 +72,7 @@
                         
                     </div>
                 </div>
-            <asp:DataList ID="dtbaiviet" runat="server" RepeatColumns="1" Width="100%">
+            <asp:DataList ID="dtbaiviet" runat="server" RepeatColumns="1" Width="100%" >
                                         <HeaderTemplate>
                                             <thead>
                                                 <tr>
@@ -150,7 +121,6 @@
                                         </ItemTemplate>
                                     </asp:DataList>
         </div>
-        <div class="heartbeat">&hearts;</div>
     </div>
     
 </asp:Content>

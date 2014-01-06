@@ -3,33 +3,6 @@ CodeFile="create-event.aspx.cs" Inherits="webapp_page_backend_create_event" Titl
 ValidateRequest="false"  %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<style type="text/css">
-    .heartbeat {
-        display: none;
-        margin: 5px;
-        color: blue;
-    }
-</style>
-<script language="javascript" type="text/javascript">
-    $(function () {
-        setInterval(KeepSessionAlive, 10000);
-    });
-
-    function KeepSessionAlive() {
-        $.post("/FAMail_Back/webapp/page/backend/KeepSessionAlive.ashx", null, function () {
-            //$("#result").append("<p>Session is alive and kicking!<p/>");
-            setInterval(function () { beatHeart(5); }, 10000);
-        });
-    }
-    function beatHeart(times) {
-        var interval = setInterval(function () {
-            $(".heartbeat").fadeIn(500, function () {
-                $(".heartbeat").fadeOut(500);
-            });
-        }, 1000);
-        setTimeout(function () { clearInterval(interval); }, (2000 * times) + 500);
-    }
-</script>
 <script type="text/javascript">
     function templateChange() {
 
@@ -377,7 +350,6 @@ ValidateRequest="false"  %>
 			</div>			
 		</div>
 		<!--end content 01-->
-    <div class="heartbeat">&hearts;</div>
  </div>
  
 <!-- ============= datetime picker -->
