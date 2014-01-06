@@ -8,3 +8,13 @@ D:\Working\web\FAMail\FAGateway\bin\Debug\FAGateway.pdb
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.exe
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.pdb
 D:\Working\web\FAMail\FAGateway\obj\Debug\FAGateway.frmMail.resources
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\bin\Debug\FAGateway.exe.config
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\bin\Debug\FAGateway.exe
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\bin\Debug\FAGateway.pdb
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.csprojResolveAssemblyReference.cache
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.frmCheckMail.resources
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.frmMail.resources
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.Properties.Resources.resources
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.csproj.GenerateResource.Cache
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.exe
+C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.pdb

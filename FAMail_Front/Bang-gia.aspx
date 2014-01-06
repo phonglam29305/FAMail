@@ -9,6 +9,9 @@
             $("#goidichvu div div").removeClass('last-child');
             if (/*@cc_on!@*/false) {/*IE 10 detect*/
                 $("div#goimail .pricing").addClass('ie10');
+            };
+            if ($.browser.msie && parseFloat($.browser.version) == 9) {
+                $("div#chucnang div:first-child").addClass("ie9");
             }
         });
     </script>
@@ -39,7 +42,10 @@
     <!--[if ie]>
        <style>
             #chucnang div:first-child{
-                margin-left:-1px; 
+                margin-left:-1px;
+            }
+            .ie9{
+                margin-left:0px !important;
             }
 			#goimail .pricing {
                 font-size: 15px;
@@ -48,8 +54,8 @@
                 line-height: 55px;
                 padding: 60px 0 23px;
             }
-            #chucnang div{
-                
+            #goidichvu div:first-child{
+                margin-top:9px !important;
             }
             .nth-child-2n1 {
                 height:39px !important;
@@ -63,6 +69,9 @@
             .first-div{
                 border-top:1px solid white;
                 border-left:none !important;
+            }
+            .menu-content-1{
+                width:667px !important;
             }
        </style> 
     <![endif]-->
@@ -85,10 +94,14 @@
                 border-left:none !important;
             }
             #goidichvu div:first-child{
-                margin-top:9px !important;
+                margin-top:10px !important;
+            }
+            #goimail .column-5:first-child{
+                width:151px;
             }
         </style>
-    <!--[end if]-->
+    <!--[end if]--> 
+
     <div class="topPage" style="width: auto; height: auto;">
         <h1 class="entry-title pricing">Bảng giá các gói dịch vụ</h1>
     </div>

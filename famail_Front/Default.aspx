@@ -42,7 +42,7 @@
       <div style="padding-top:20px;">
       <asp:Repeater ID="rptListPost" runat="server">
           <ItemTemplate>
-            <ul style="float:left;margin-right:34px;margin-top:-10px;">
+            <ul style="float:left;margin-right:24px;">
                 <li class="icon-content">
                    <a href='<%#Eval("link") %>'  class=""><%#Eval("keyName") %></a>
                     <%--<asp:Image ID="Image1"  runat="server" ImageUrl="~/images/iconbaiviet/autoresponders.gif" CssClass="imgleft" Width="46px" />--%>

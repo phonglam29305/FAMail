@@ -63,12 +63,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="Contact.aspx">
                       <img src="images/email_icon.jpg" class="icon"/>Liên hệ
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="http://emailmarketing.1onlinebusinesssystem.com/webapp/page/backend/login.aspx">
                       <img src="images/Login.png" class="icon" style="width:28px;margin-bottom:-10px;"/> Khách hàng đăng nhập
                     </a>
                 </li>

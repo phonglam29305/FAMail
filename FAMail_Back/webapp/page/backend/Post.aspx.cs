@@ -18,6 +18,10 @@ public partial class webapp_Post : System.Web.UI.Page
             LoadDDl();
         }
         btncapnhat.Visible = false;
+        lblError.Visible = false;
+        lblSuccess.Visible = false;
+        successbox.Visible = false;
+        errorbox.Visible = false;
     }
     private void LoadDDl()
     {
@@ -34,73 +38,103 @@ public partial class webapp_Post : System.Web.UI.Page
         ddlGroup.DataBind();
         dtbaiviet.DataSource = bv.getallconfig().DefaultView;
         dtbaiviet.DataBind();
-        
+
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        if (fUlIcon.HasFile)
+        if (txtTitle.Text.Trim() == "")
         {
-            string Title = txtTitle.Text.Trim();
-            string fileName = fUlIcon.PostedFile.FileName;
-            string path = Server.MapPath("../../../images/");
-            fUlIcon.SaveAs(path + fileName);
-            string Desc = txtDescription.Text;
-            string Content = txtContent.Text;
-            string idGroup = ddlGroup.SelectedValue.ToString();
-            string key = GenerateRandomPassword(6);
-            string today = DateTime.Now.ToShortDateString();
-            string link = txtLink.Text;
-            if (link.Length <= 0)
-            {
-                link = GenerateURL(ConvertTitle(Title), key).ToString();
-            }
-            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
-            {
-                ConnectionData._MyConnection.Open();
-            }
-            string sql = "Insert Into tblConfig ([key],keyName,keyDescription,keyImage,value,link,idGroup,createDate) values (@key,@keyName,@keyDescription,@keyImage,@value,@link,@idGroup,@createDate) ";
-            SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
-            cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
-            cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
-            cmd.Parameters.Add("@keyImage",SqlDbType.NVarChar).Value ="/images/"+ fileName;
-            cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
-            cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
-            cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
-            cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
-            cmd.ExecuteNonQuery();
-            Response.Redirect("Post.aspx");
+            lblError.Visible = true;
+            errorbox.Visible = true;
+            txtTitle.Focus();
+            lblError.Text = "Bạn chưa nhập tiêu đề bài viết";
+        }
+        else if (ddlGroup.SelectedIndex == 0)
+        {
+            lblError.Visible = true;
+            errorbox.Visible = true;
+            ddlGroup.Focus();
+            lblError.Text = "Bạn chưa chọn nhóm hiển thị của bài viết";
+        }
+        else if (ddlIsShow.SelectedIndex == 0)
+        {
+            lblError.Visible = true;
+            errorbox.Visible = true;
+            ddlIsShow.Focus();
+            lblError.Text = "Bạn chưa chọn nhóm hiển thị";
         }
         else
         {
-            string Title = txtTitle.Text.Trim();
-            string Desc = txtDescription.Text;
-            string Content = txtContent.Text;
-            string idGroup = ddlGroup.SelectedValue.ToString();
-            string key = GenerateRandomPassword(6);
-            string today = DateTime.Now.ToShortDateString();
-            string link = txtLink.Text;
-            if (link.Length <= 0)
+            #region Save
+            if (fUlIcon.HasFile)
             {
-                link = GenerateURL(ConvertTitle(Title), key).ToString();
+                string Title = txtTitle.Text.Trim();
+                string fileName = fUlIcon.PostedFile.FileName;
+                string path = Server.MapPath("../../../images/");
+                fUlIcon.SaveAs(path + fileName);
+                string Desc = txtDescription.Text;
+                string Content = txtContent.Text;
+                string idGroup = ddlGroup.SelectedValue.ToString();
+                string key = GenerateRandomPassword(6);
+                string isShow = ddlIsShow.SelectedValue.ToString();
+                string today = DateTime.Now.ToShortDateString();
+                string link = txtLink.Text;
+                if (link.Length <= 0)
+                {
+                    link = GenerateURL(ConvertTitle(Title), key).ToString();
+                }
+                if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+                {
+                    ConnectionData._MyConnection.Open();
+                }
+                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,keyImage,value,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@keyImage,@value,@link,@idGroup,@isShow,@createDate) ";
+                SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
+                cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
+                cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
+                cmd.Parameters.Add("@keyImage", SqlDbType.NVarChar).Value = "/images/" + fileName;
+                cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+                cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
+                cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
+                cmd.Parameters.Add("isShow", SqlDbType.Bit).Value = isShow;
+                cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
+                cmd.ExecuteNonQuery();
+                Success();
             }
-            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+            else
             {
-                ConnectionData._MyConnection.Open();
+                string Title = txtTitle.Text.Trim();
+                string Desc = txtDescription.Text;
+                string Content = txtContent.Text;
+                string idGroup = ddlGroup.SelectedValue.ToString();
+                string key = GenerateRandomPassword(6);
+                string today = DateTime.Now.ToShortDateString();
+                string isShow = ddlIsShow.SelectedValue.ToString();
+                string link = txtLink.Text;
+                if (link.Length <= 0)
+                {
+                    link = GenerateURL(ConvertTitle(Title), key).ToString();
+                }
+                if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+                {
+                    ConnectionData._MyConnection.Open();
+                }
+                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,value,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@value,@link,@idGroup,@isShow,@createDate) ";
+                SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
+                cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
+                cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
+                cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+                cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
+                cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
+                cmd.Parameters.Add("isShow", SqlDbType.Bit).Value = isShow;
+                cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
+                cmd.ExecuteNonQuery();
+                Success();
             }
-            string sql = "Insert Into tblConfig ([key],keyName,keyDescription,value,link,idGroup,createDate) values (@key,@keyName,@keyDescription,@value,@link,@idGroup,@createDate) ";
-            SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
-            cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
-            cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
-            cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
-            cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
-            cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
-            cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
-            cmd.ExecuteNonQuery();
-            Response.Redirect("Post.aspx");
+            #endregion
         }
     }
     public static string GenerateRandomPassword(int length)
@@ -188,7 +222,7 @@ public partial class webapp_Post : System.Web.UI.Page
         strTitle = strTitle.Trim('-');
         #endregion
         //Append ID at the end of SEO Friendly URL
-        strTitle =  strTitle + "-" + strId + ".html";
+        strTitle = strTitle + "-" + strId + ".html";
         return strTitle;
     }
     protected void btnEdit_Click(object sender, ImageClickEventArgs e)
@@ -204,13 +238,15 @@ public partial class webapp_Post : System.Web.UI.Page
             txtDescription.Text = table.Rows[0]["keyDescription"].ToString();
             txtContent.Text = table.Rows[0]["value"].ToString();
             Label1.Text = table.Rows[0]["key"].ToString();
+            ddlGroup.SelectedValue = table.Rows[0]["idGroup"].ToString();
+            ddlIsShow.SelectedValue = table.Rows[0]["isShow"].ToString();
         }
         btnSubmit.Visible = false;
         btncapnhat.Visible = true;
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
-        string  key = ((ImageButton)sender).CommandArgument.ToString();
+        string key = ((ImageButton)sender).CommandArgument.ToString();
         int i = 0;
         try
         {
@@ -221,7 +257,7 @@ public partial class webapp_Post : System.Web.UI.Page
             SqlCommand cmd = new SqlCommand("DELETE FROM tblconfig WHERE [key] =@key",
                 ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
-            cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value =key;
+            cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
             i = cmd.ExecuteNonQuery();
             cmd.Dispose();
         }
@@ -239,31 +275,6 @@ public partial class webapp_Post : System.Web.UI.Page
     }
     protected void btncapnhat_Click(object sender, EventArgs e)
     {
-        //string sql = "update tblConfig set (keyName,keyDescription,value,link,idGroup,createDate) values (@key,@keyName,@keyDescription,@value,@link,@idGroup,@createDate) ";
-        //string Title = txtTitle.Text.Trim();
-        //string Desc = txtDescription.Text;
-        //string Content = txtContent.Text;
-        //string idGroup = ddlGroup.SelectedValue.ToString();
-        //string key = GenerateRandomPassword(6);
-        //string today = DateTime.Now.ToShortDateString();
-        //string link = txtLink.Text;
-        //string sql = "update tblConfig set " +
-        //    "keyName=@keyName," +
-        //    "keyDescription=@keyDescription," +
-        //    "value=@value," +
-        //    "link=@link," +
-        //    "idGroup=@idGroup," +
-        //    "where [key]=@key";
-        //SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        //cmd.CommandType = CommandType.Text;
-        //cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
-        //cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
-        //cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
-        //cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
-        //cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
-        //cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
-        //cmd.ExecuteNonQuery();
-        //Response.Redirect("Post.aspx");
         if (fUlIcon.HasFile)
         {
             string Title = txtTitle.Text.Trim();
@@ -275,12 +286,13 @@ public partial class webapp_Post : System.Web.UI.Page
             string idGroup = ddlGroup.SelectedValue.ToString();
             string key = Label1.Text;
             string today = DateTime.Now.ToShortDateString();
+            string isShow = ddlIsShow.SelectedValue.ToString();
             string link = txtLink.Text;
             if (link.Length <= 0)
             {
                 link = GenerateURL(ConvertTitle(Title), key).ToString();
             }
-            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup where [key]=@key";
+            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
@@ -290,9 +302,10 @@ public partial class webapp_Post : System.Web.UI.Page
             cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
             cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
             cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
+            cmd.Parameters.Add("@isShow", SqlDbType.Bit).Value = isShow;
             cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
             cmd.ExecuteNonQuery();
-            Response.Redirect("Post.aspx");
+            Success();
         }
         else
         {
@@ -302,12 +315,13 @@ public partial class webapp_Post : System.Web.UI.Page
             string idGroup = ddlGroup.SelectedValue.ToString();
             string key = Label1.Text;
             string today = DateTime.Now.ToShortDateString();
+            string isShow = ddlIsShow.SelectedValue.ToString();
             string link = txtLink.Text;
             if (link.Length <= 0)
             {
                 link = GenerateURL(ConvertTitle(Title), key).ToString();
             }
-            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup where [key]=@key";
+            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
@@ -316,9 +330,22 @@ public partial class webapp_Post : System.Web.UI.Page
             cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
             cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
             cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
+            cmd.Parameters.Add("@isShow", SqlDbType.Bit).Value = isShow;
             cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
             cmd.ExecuteNonQuery();
-            Response.Redirect("Post.aspx");
+            Success();
         }
+    }
+    private void Success()
+    {
+        txtTitle.Text = "";
+        txtLink.Text = "";
+        ddlIsShow.SelectedIndex = 0;
+        ddlGroup.SelectedIndex = 0;
+        txtDescription.Text = "";
+        txtContent.Text = "";
+        successbox.Visible = true;
+        lblSuccess.Visible = true;
+        lblSuccess.Text = "Lưu bài viết thành công !!!";
     }
 }

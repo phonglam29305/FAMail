@@ -46,8 +46,6 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
             DataTable dtClient = new DataTable();
             dtClient = clientbus.GetByID(user);
             string email = dtClient.Rows[0]["email"] + "";
-
-
             int registerId = Convert.ToInt32(dtClient.Rows[0]["registerId"].ToString());
             int clientId = Convert.ToInt32(dtClient.Rows[0]["clientId"].ToString());
             clientRegister = new ClientRegisterBUS();

@@ -48,8 +48,6 @@ public partial class Register : System.Web.UI.Page
         double b = Convert.ToDouble(lbtotalfree.Text);
         if (a > 1)
         {
-
-
             string sql = "SELECT * FROM tblpackageTime Where monthCount='" + a + "'";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
@@ -61,7 +59,7 @@ public partial class Register : System.Web.UI.Page
             foreach (DataRow dr in table.Rows)
             {
                 discount = Convert.ToInt32(dr["disCount"].ToString());
-                sum = (b - (b * discount) / 100);
+                sum = ((b - (b * discount) / 100)*a);
             }
         }
         else
@@ -165,7 +163,7 @@ public partial class Register : System.Web.UI.Page
                 MailMessage mail = new MailMessage();
                 String[] addr = txtEmail.Text.Split(' ');
                 mail.From = new MailAddress("customersevices@fastautomaticmail.com",
-                "Xác Nhận Từ Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
                 Byte i;
                 for (i = 0; i < addr.Length; i++)
                     mail.To.Add(addr[i]);
@@ -176,7 +174,7 @@ public partial class Register : System.Web.UI.Page
                 mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
                 mail.ReplyTo = new MailAddress(txtEmail.Text);
                 SmtpServer.Send(mail);
-                Response.Redirect("event-register-success.aspx");
+                Response.Redirect("success.aspx?id=" + idpackage);
             }
         }
         else
@@ -218,11 +216,6 @@ public partial class Register : System.Web.UI.Page
             this.txtUserName.Focus();
             return "Bạn chưa nhập tên";
         }
-        else if (email == "" || email == null)
-        {
-            this.txtEmail.Focus();
-            return "Bạn chưa nhập Email";
-        }
         else if (password == "" || password == null)
         {
             this.txtPass.Focus();
@@ -233,15 +226,26 @@ public partial class Register : System.Web.UI.Page
             this.txtConfirmPass.Focus();
             return "Bạn chưa xác nhận lại mật khẩu";
         }
-        else if (Phone == "" || Phone == null)
+        else if (password.Equals(confilmPass) == false)
         {
-            this.txtPhone.Focus();
-            return "Bạn chưa nhập số điện thoại";
+            this.txtConfirmPass.Focus(); ;
+            return "Hai mật khẩu không trùng nhau!";
+
+        }
+        else if (email == "" || email == null)
+        {
+            this.txtEmail.Focus();
+            return "Bạn chưa nhập Email";
         }
         else if (address == "" || address == null)
         {
             this.txtDiaChi.Focus();
             return "Bạn chưa nhập địa chỉ";
+        }
+        else if (Phone == "" || Phone == null)
+        {
+            this.txtPhone.Focus();
+            return "Bạn chưa nhập số điện thoại";
         }
         else if (captcha == "" || captcha == null)
         {
@@ -258,12 +262,7 @@ public partial class Register : System.Web.UI.Page
             this.txtPhone.Focus();
             return "Bạn nhập số điện thoại không đúng định dạng";
         }
-        else if (password.Equals(confilmPass) == false)
-        {
-            this.txtConfirmPass.Focus(); ;
-            return "Hai mật khẩu không trùng nhau!";
-
-        }
+        
         else if (checkemail(txtEmail.Text))
         {
             return "Tên " + txtEmail.Text + " này đã tồn tại trong hệ thống  ";

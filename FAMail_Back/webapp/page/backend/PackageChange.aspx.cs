@@ -538,6 +538,11 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 {
                     expiredays = expiredays.AddDays(Convert.ToInt32(dayleft));
                     double daybonus = (finalFeeRemain / costperday);
+                    string temp = daybonus.ToString();
+                    if (temp == "NaN")
+                    {
+                        daybonus = 0;
+                    }
                     expiredays = expiredays.AddDays(Math.Round(daybonus));
                     if (daybonus > 0)
                     {

@@ -71,7 +71,9 @@ body {text-align: center; font: normal 11px Arial, Helvetica, sans-serif; backgr
 
 .login-btn {position: absolute; top: 15px; right: 0px;}
 /*.login-btn {position: absolute; top: 16px; right: 0;}*/
-
+.icon-content {
+    font: normal 16px Arial, Helvetica, sans-serif !important;
+}
 /*Links in gray bar of header*/
 .headerlinks {background: url(images/headerlinkbg.png) no-repeat top left; padding-left: 7px; position: absolute; top: 15px; right: 180px; width: 500px; min-height:30px;}
 .headerlinks ul {margin: 0; padding: 0; background: url(images/headerlinkbg.png) no-repeat top right; padding-right: 7px; float: right;}
@@ -89,6 +91,7 @@ ul.headsocial li a {font-weight: normal; color: #626262;text-decoration:none;}
 .headhtml span {font-size: 20px; color: #4C89BD; vertical-align: middle;}
 .more {display:inline !important; font-size:10px !important;font-weight:lighter !important;text-decoration:none;color:#4E8ABE !important;margin:0px !important}
 .list {float:left;width:50%;height:13px;text-align:center;font-size:15px;font-weight:bold;font-style:italic;color:#0013a5;}
+    .list img {width:40px !important;height:40px !important}
 .downarrow {height:100px;width:100px;float:left;margin-top:28px;}
 .left {margin-left: -10px;margin-right: 10px;}
 /*Main sections in the header*/
@@ -294,7 +297,7 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 .menu-content-1
 {
 	float: left;
-	width: 665px;
+	width: 670px;
 	margin-bottom: 20px;
 	margin-left: 15px;
 	margin-right: 10px;
@@ -322,6 +325,10 @@ ul.general-footer-links li a {color: #5b91c0; padding: 0 25px;}
 	margin-top: 20px;
 	margin-bottom: 10px;
 }
+    .menu-content-1 .icon-content img {
+        width:46px !important;
+        height:46px !important;
+    }
 .menu-content-1 .icon-content a:hover{
 	color:#00abc9;
 }

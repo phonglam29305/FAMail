@@ -1,6 +1,35 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/webapp/template/backend/management.master" AutoEventWireup="true" CodeFile="Post.aspx.cs" Inherits="webapp_Post" ValidateRequest="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <style type="text/css">
+        .heartbeat {
+            display: none;
+            margin: 5px;
+            color: blue;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            setInterval(KeepSessionAlive, 10000);
+        });
+
+        function KeepSessionAlive() {
+            $.post("/FAMail_Back/webapp/page/backend/KeepSessionAlive.ashx", null, function () {
+                //$("#result").append("<p>Session is alive and kicking!<p/>");
+                setInterval(function () { beatHeart(5); }, 10000);
+            });
+        }
+        function beatHeart(times) {
+            var interval = setInterval(function () {
+                $(".heartbeat").fadeIn(500, function () {
+                    $(".heartbeat").fadeOut(500);
+                });
+            }, 1000); // beat every second
+
+            // after n times, let's clear the interval (adding 100ms of safe gap)
+            setTimeout(function () { clearInterval(interval); }, (2000 * times) + 500);
+        }
+   </script>
     <div class="side-content fr">
         <div class="content-module">
             <div class="content-module-heading cf">
@@ -8,6 +37,12 @@
                 <span class="fr expand-collapse-text">Thu vào</span> <span class="fr expand-collapse-text initial-expand">Mở ra</span> 
             </div>
             <div class="content-module-main">
+                    <div id="errorbox" runat="server" class="error-box round">
+                        <asp:Label ID="lblError"  runat="server" Text=""></asp:Label> 
+                    </div>
+                    <div id="successbox" runat="server" class="confirmation-box round">
+                        <asp:Label ID="lblSuccess"  runat="server" Text=""></asp:Label> 
+                    </div>
                     <div class="full-width-editor">
                         <table>
                             <tr>
@@ -37,11 +72,21 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Hiển thị</td>
+                                <td>
+                                    <asp:DropDownList ID="ddlIsShow" runat="server">
+                                        <asp:ListItem>--------------Chọn 1 mục--------------</asp:ListItem>
+                                        <asp:ListItem Value="True">Hiển thị</asp:ListItem>
+                                        <asp:ListItem Value="False">Không hiển thị</asp:ListItem>
+                                    </asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Tóm tắt</td><td></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <asp:TextBox ID="txtDescription" runat="server" Width="500px" TextMode="MultiLine" Rows="5"></asp:TextBox>
+                                    <asp:TextBox ID="txtDescription" runat="server" Width="1096px" TextMode="MultiLine" Rows="5"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
@@ -68,8 +113,6 @@
                              
                             </tr>
                         </table>
-                        
-                        
                     </div>
                 </div>
             <asp:DataList ID="dtbaiviet" runat="server" RepeatColumns="1" Width="100%" >
@@ -121,6 +164,7 @@
                                         </ItemTemplate>
                                     </asp:DataList>
         </div>
+        <div class="heartbeat">&hearts;</div>
     </div>
     
 </asp:Content>
