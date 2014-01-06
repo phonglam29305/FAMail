@@ -40,7 +40,7 @@ public class baivietDao
     }
     public DataTable Getalltblconfig_idgroup(string idGroup)  
     {
-        SqlCommand cmd = new SqlCommand("select * from tblconfig where idGroup=@idGroup ",ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("select * from tblconfig where idGroup=@idGroup  and isShow='True'", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
         SqlDataAdapter da = new SqlDataAdapter(cmd);

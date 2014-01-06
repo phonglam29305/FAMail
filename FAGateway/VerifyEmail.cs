@@ -37,7 +37,6 @@ public class VerifyEmail
         List<String> verifiedEmailAddresses = ListVerifiedEmailAddresses();
         VerifyEmailAddressRequest request = new VerifyEmailAddressRequest();
         VerifyEmailAddressResponse response = new VerifyEmailAddressResponse();
-
         VerifyEmailIdentityRequest Irequest = new VerifyEmailIdentityRequest();
         VerifyEmailIdentityResponse Iresponse = new VerifyEmailIdentityResponse();
         if (IsValidMail(email) == true)
@@ -79,7 +78,7 @@ public class VerifyEmail
         return result;
     }
 
-   public List<string> ListVerifiedEmailAddresses()
+    public List<string> ListVerifiedEmailAddresses()
     {
     
         Amazon.SimpleEmail.Model.ListVerifiedEmailAddressesRequest request = new Amazon.SimpleEmail.Model.ListVerifiedEmailAddressesRequest();

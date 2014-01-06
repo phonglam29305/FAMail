@@ -3,6 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FAMail_Back", "FAMail_Back\", "{1D24F0D7-31D4-4C62-9D5A-EFF48BABBE18}"
 	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/FAMail_Back"
+		Debug.AspNetCompiler.PhysicalPath = "FAMail_Back\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Back\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/FAMail_Back"
+		Release.AspNetCompiler.PhysicalPath = "FAMail_Back\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\FAMail_Back\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "40023"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		Debug.AspNetCompiler.VirtualPath = "/FAMail_Back"
 		Debug.AspNetCompiler.PhysicalPath = "FAMail_Back\"
