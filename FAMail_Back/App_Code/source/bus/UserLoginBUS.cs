@@ -122,11 +122,11 @@ public class UserLoginBUS : IUserLogin
         return ulDao.GetCountSubClient(ClientId);
     }
 
-    public DataTable GetEmailByUser(int subId, string Email)
+    public DataTable GetEmailByUser( string Email)
     {
-        return ulDao.GetEmailByUser(subId, Email);
+        return ulDao.GetEmailByUser( Email);
     }
-    public System.Data.DataTable GetEmail(string Email)
+    public System.Data.DataTable GetEmail1(string Email)
     {
         return ulDao.GetEmail(Email);
     }

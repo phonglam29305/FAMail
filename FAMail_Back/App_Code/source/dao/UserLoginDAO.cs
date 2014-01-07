@@ -317,7 +317,7 @@ public class UserLoginDAO
     }
 
 
-    public DataTable GetEmailByUser(int subId, string email)
+    public DataTable GetEmailByUser( string email)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tbluserlogin WHERE username = @email and deleted <> 1", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;

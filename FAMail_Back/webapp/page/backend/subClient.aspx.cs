@@ -222,7 +222,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                     string todays = DateTime.Now.ToString("yyyy-MM-dd");
                     DateTime today = Convert.ToDateTime(todays);
                     DateTime expireDay = Convert.ToDateTime(NgayHetHan);
-                    DataTable checkEmail = ulBus.GetEmail(txtEmail.Text.Trim());
+                    DataTable checkEmail = ulBus.GetEmailByUser(txtEmail.Text.Trim());
                     if (statusclient == 2 || expireDay < today)
                     {
                         status = 3;
@@ -257,7 +257,7 @@ public partial class webapp_page_backend_subClient : System.Web.UI.Page
                 {
 
                     ulDto.SubId = int.Parse(hdfId.Value);
-                    DataTable checkEmail = ulBus.GetEmailByUser(ulDto.SubId, txtEmail.Text.Trim());
+                    DataTable checkEmail = ulBus.GetEmailByUser(txtEmail.Text.Trim());
                     if (checkEmail.Rows.Count > 0)
                     {
                         status = 5;
