@@ -155,6 +155,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
                 extendbox.Visible = false;
                 upgradeservices.Visible = true;
                 ddlUpgradeTime.Enabled = false;
+                optionchkbox.Attributes.Add("disabled","true");
                 if (userid != null)
                 {
                     int user = userid;
@@ -701,6 +702,7 @@ public partial class webapp_page_backend_PackageChange : System.Web.UI.Page
             }
         }
         int value2 = Convert.ToInt32(dtTemp.Rows[0]["cost"].ToString());
+        lblSumCost.Text = (value + value2).ToString();
         if (numberoftime == 0)
         { 
             lblFee.Text = (value + value2).ToString();

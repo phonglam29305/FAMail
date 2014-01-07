@@ -22,10 +22,6 @@
                                     <td>
                                         <asp:DropDownList ID="ddlExtend" runat="server" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlExtend_SelectedIndexChanged">
                                             <asp:ListItem Value="0">-------------Chọn thời hạn-------------</asp:ListItem>
-                                           <%-- <asp:ListItem Value="30">1 tháng</asp:ListItem>
-                                            <asp:ListItem Value="90">3 tháng</asp:ListItem>
-                                            <asp:ListItem Value="180">6 tháng</asp:ListItem>
-                                            <asp:ListItem Value="365">1 năm</asp:ListItem>--%>
                                         </asp:DropDownList>
                                         
                                     </td>
@@ -49,8 +45,9 @@
                         
                         </div>
                         <div id="upgradeservices" class="full-width-editor" runat="server" visible="false">
-
-                            <table class="full-width-editor">
+                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                            <ContentTemplate>
+                                <table class="full-width-editor">
                                 <tr>
                                     <td>Gói dịch vụ hiện tại:</td>
                                     <td style="text-align:left !important;">
@@ -104,17 +101,19 @@
                                 <tr>
                                     <td>Chức năng:</td>
                                     <td style="text-align:left !important;">
+                                        <div id="optionchkbox" runat="server">
                                         <asp:Repeater ID="rptListOptionsUpgrade" runat="server" OnItemDataBound="rptListOptionsUpgrade_ItemDataBound">
                                             <ItemTemplate>
                                                 <div class="confirmation-box" style="float:left;border:none !important">
                                                     <asp:CheckBox ID="chkOptionsUpgrade" runat="server" AutoPostBack="true" OnCheckedChanged="chkOptionsUpgrade_CheckedChanged" />
                                                     <%#Eval("functionName") %>
                                                     <asp:Label ID="lblIDUpgrade" runat="server" style="display:none;" Text='<%#Eval("functionId") %>' Visible="false"></asp:Label>
-                                                    <asp:Label ID="lblCostUpgrade" runat="server" style="display:none;" Text='<%#Eval("cost") %>' Visible="False"></asp:Label>
+                                                    <asp:Label ID="lblCostUpgrade" runat="server" style="" Text='<%#Eval("cost") %>' Visible="false"></asp:Label>
                                                     <asp:Label ID="lblCheckUpgrade" runat="server" style="display:none;" Text='<%#Eval("isDefault") %>' Visible="false"></asp:Label>
                                                 </div>
                                             </ItemTemplate>
                                         </asp:Repeater>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -130,7 +129,8 @@
                                     </td>
                                 </tr>
                             </table>
-
+                            </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                         <div id="changeoptionbox" class="full-width-editor" runat="server" visible="false">
                             <asp:UpdatePanel ID="UpdatePanel1" runat="server">

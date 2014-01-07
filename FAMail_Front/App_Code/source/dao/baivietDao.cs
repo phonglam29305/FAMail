@@ -28,7 +28,7 @@ public class baivietDao
     }
     public DataTable GetalltblConfig_id(string key)
     {
-        SqlCommand cmd = new SqlCommand("select * from tblConfig where [key]=@key AND isShow='True'", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("select * from tblConfig where [key]=@key ", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value =key;
         SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -40,7 +40,7 @@ public class baivietDao
     }
     public DataTable Getalltblconfig_idgroup(string idGroup)  
     {
-        SqlCommand cmd = new SqlCommand("select * from tblconfig where idGroup=@idGroup ",ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("select * from tblconfig where idGroup=@idGroup AND isShow='True'", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
         SqlDataAdapter da = new SqlDataAdapter(cmd);
