@@ -580,7 +580,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                     //string todays = DateTime.Now.ToString("yyyy-MM-dd");
                     DateTime today = DateTime.Now.Date;
                     DateTime expireDay = Convert.ToDateTime(NgayHetHan);
-                    DataTable checkEmail = ctBUS.GetEmail(txtEmail.Text.Trim());
+                    DataTable checkEmail = ctBUS.GetCheckEmailByUserId(txtEmail.Text.Trim(), userLogin.UserId);
 
                     if (statusclient == 2 || expireDay < today)
                     {

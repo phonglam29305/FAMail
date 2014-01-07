@@ -61,15 +61,15 @@ public partial class webapp_page_backend_user_manage : System.Web.UI.Page
         {
             DataTable dtLogin = null;
             ulBus = new UserLoginBUS();
-            if (getUserLogin().DepartmentId == 1)
-            {
+            //if (getUserLogin().DepartmentId == 1)
+            //{
                 dtLogin = ulBus.GetAll();
-            }
-            else
-            {
-                dtLogin = ulBus.GetAllByUserId(getUserLogin().UserId);
+            //}
+            //else
+            //{
+            //    dtLogin = ulBus.GetAllByUserId(getUserLogin().UserId);
 
-            }
+            //}
             dlMember.DataSource = dtLogin;
             dlMember.DataBind();
 

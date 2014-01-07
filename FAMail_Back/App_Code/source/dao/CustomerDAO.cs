@@ -361,6 +361,20 @@ public class CustomerDAO
         return table;
     }
 
+    public DataTable GetCheckEmailByUserId(string email, int userid)
+    {
+        SqlCommand cmd = new SqlCommand("[SP_CheckCustomer_ByUserId]", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Trim();
+        cmd.Parameters.Add("@userId", SqlDbType.VarChar).Value = userid;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
     public DataTable GetEmailByUser(int UserId, string email)
     {
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE ID != @UserId AND Email = @email", ConnectionData._MyConnection);

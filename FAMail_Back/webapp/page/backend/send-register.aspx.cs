@@ -184,13 +184,9 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         {
             dtMailGroup = mailGroupBus.GetAll();
         }
-        if (userLogin.DepartmentId == 3)
+        else //if (getUserLogin().DepartmentId == 2)
         {
-            dtMailGroup = mailGroupBus.GetAllAssignTo(userLogin.UserId);
-        }
-        if (userLogin.DepartmentId == 2)
-        {
-            dtMailGroup = mailGroupBus.GetAll(userLogin.UserId);
+            dtMailGroup = mailGroupBus.GetMailGroupByUserId(getUserLogin().UserId);
         }
 
         if (dtMailGroup.Rows.Count > 0)

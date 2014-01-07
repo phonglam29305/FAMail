@@ -198,7 +198,7 @@ public class UserLoginDAO
     }
     public DataTable GetAll()
     {
-        string sql = "SELECT * FROM vw_tblUserLogin";
+        string sql = "SELECT * FROM tblUserLogin where departmentid=1";
         SqlDataAdapter adapter = new SqlDataAdapter(sql, ConnectionData._MyConnection);
         DataTable table = new DataTable();
         adapter.Fill(table);
@@ -319,9 +319,9 @@ public class UserLoginDAO
 
     public DataTable GetEmailByUser(int subId, string email)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSubClient WHERE subId != @subId AND subEmail = @email", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tbluserlogin WHERE username = @email and deleted <> 1", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@subId", SqlDbType.Int).Value = subId;
+        //cmd.Parameters.Add("@subId", SqlDbType.Int).Value = subId;
         cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Trim();
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
@@ -333,7 +333,7 @@ public class UserLoginDAO
 
     public DataTable GetCountSubClient(int ClientId)
     {
-        string sql = "SELECT count(*) as numberSub FROM tblSubClient WHERE ClientID = @ClientId";
+        string sql = "SELECT count(*) as numberSub FROM tblSubClient WHERE ClientID = @ClientId and deleted <> 1";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@ClientId", SqlDbType.Int).Value = ClientId;

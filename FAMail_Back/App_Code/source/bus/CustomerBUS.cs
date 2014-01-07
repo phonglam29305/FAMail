@@ -86,6 +86,10 @@ public class CustomerBUS : ICustomer
     {
         return ctDao.GetEmail(Email);
     }
+    public DataTable GetCheckEmailByUserId(string Email, int UserId)
+    {
+        return ctDao.GetCheckEmailByUserId(Email, UserId);
+    }
     public DataTable GetEmailByUser(int UserID, string Email)
     {
         return ctDao.GetEmailByUser(UserID, Email);

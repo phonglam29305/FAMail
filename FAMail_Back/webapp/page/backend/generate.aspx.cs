@@ -156,4 +156,9 @@ public partial class webapp_page_backend_mail_report : System.Web.UI.Page
     {
         Response.Redirect("create-event.aspx");
     }
+
+    public string bankimage(string email)
+    {
+        return "";
+    }
 }
