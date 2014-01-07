@@ -311,7 +311,20 @@ public class Common
         MailGroupDAO mailGroupDao = new MailGroupDAO();
         return mailGroupDao.countCustomerByUserId(userId);
     }
-
+    public static DataTable GetRoleIdByName(string Name)
+    {
+        string sql = "Select * From tblRoleList Where roleLink=@roleLink";
+        SqlCommand cmd = new SqlCommand(sql,
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@roleLink", SqlDbType.NVarChar).Value = Name;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
     public static DataTable GetSendRegisterByUserId(int userId)
     {
         string sql = "";

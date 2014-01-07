@@ -17,7 +17,7 @@ public partial class webapp_page_backend_CustomerDetail : System.Web.UI.Page
     FunctionBUS function;
     UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
-    {
+    { 
         userLogin = getUserLogin();
         if (!IsPostBack)
         {
