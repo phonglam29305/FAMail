@@ -51,7 +51,6 @@ public partial class webapp_template_backend_SendMail : System.Web.UI.MasterPage
         if (dt.Rows.Count > 0)
         {
             role = dt.Rows[0]["roleId"].ToString();
-
             int DepartmentId = ulDto.DepartmentId;
             bool isAllowed = Common.checkRoleByRoleId(int.Parse(role), DepartmentId);
             if (isAllowed == false)

@@ -2323,3 +2323,94 @@ div.hr {height: 1px; background: #E7E7E7; font-size: 0; line-height: 0; margin: 
     .right-ul {
         margin-right:0px !important;
     }
+
+ /*=====================Tags=====================*/
+ div.stripe-separator {
+    background: transparent url('../images/separator-bg.png') repeat-x left center;
+    height: 0.562em;
+    display: block;
+    margin: 1.25em 0;
+}
+.tags {
+    display: inline-block;
+    background: #fff;
+    border-radius: 3px;
+    margin-right: 5px;
+    padding: 5px 5px;
+    margin-bottom: 4px;
+}
+.tags a {
+    background: #0394CB;
+    color: #fff !important;
+    padding:2px 2px 2px 2px;
+    box-shadow: 2px 2px 0px #ccc;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+    .tags a:hover {
+        text-decoration:none;
+    }
+/*=====================Blog=====================*/
+.blog-clearfix {
+    display:block;
+}
+.blog_items {
+
+}
+.blog_header {
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    padding: 0 0 5px;
+    font-size: 24px;
+    font-weight:bold;
+    border-bottom:1px solid #888;
+}
+.article-tools {
+    display: block;
+    margin: 0 0 10px;
+    padding: 0;
+    text-transform: uppercase;
+    font-size: 92%;
+    position: relative;
+    padding: 0 10px 0 0;
+    white-space: nowrap;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    font-size:9px;
+}
+.createdate {
+    padding: 0px 5px 0px 0px;
+    color:#999999;
+}
+.createby {
+    padding: 0px 5px;
+    background: rgb(102, 102, 102);
+    color: rgb(255, 255, 255);
+}
+.blog_image {
+    width:755px;
+    border:1px solid #888;
+}
+    .blog_image img {
+        width:745px !important;
+        height:480px !important;
+        padding:5px;
+    }
+.postcontent {
+    font-size:12px;
+    padding:20px;
+}
+.readmore {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(102, 102, 102);
+    text-transform: uppercase;
+    font-weight: bold;
+    background: url(../images/arrow-readon.gif) 0% 3px no-repeat;
+    padding-left: 12px;
+}
+    .readmore:hover {
+        background-position-y:-32px;
+        border-bottom:1px solid #103B5F;
+        text-decoration:none;
+        color:#4C89BD;
+    }

@@ -33,7 +33,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
     }
     private void LoadFooter()
     {
-        string sql = "Select * From tblGroupConfig except (Select * From tblGroupConfig Where idGroup='mainpost' OR idGroup='header')";
+        string sql = "Select * From tblGroupConfig Where isShow='True' except (Select * From tblGroupConfig Where idGroup='mainpost' OR idGroup='header'AND isShow='True' )";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);

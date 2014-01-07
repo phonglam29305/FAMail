@@ -56,4 +56,3 @@ C:\Users\ADMIN\Documents\GitHub\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\Bat
 C:\Users\ADMIN\Documents\GitHub\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.csproj.GenerateResource.Cache
 C:\Users\ADMIN\Documents\GitHub\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.exe
 C:\Users\ADMIN\Documents\GitHub\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.pdb
-C:\Users\ADMIN\Documents\GitHub\FAMail\ToolSpeed\BatchSendMail\obj\x86\Debug\BatchSendMail.csprojResolveAssemblyReference.cache
