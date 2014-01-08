@@ -88,11 +88,12 @@ public class SendRegisterDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
-    public DataTable GetAll(int MailConfigID)
+    public DataTable GetAll(int UserId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegister WHERE  AccountId = @MailConfigID", ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = MailConfigID;
+        SqlCommand cmd = new SqlCommand("SP_GetSendRegister_ByUserId", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        cmd.Parameters.Add("@Status", SqlDbType.Int).Value = 1;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
@@ -171,10 +172,10 @@ public class SendRegisterDAO
     }
     public DataTable GetByStatusUser(int status, int AccountId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegister WHERE Status = @Status and AccountId = @AccountId ", ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        SqlCommand cmd = new SqlCommand("SP_GetSendRegister_ByUserId", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@Status", SqlDbType.Int).Value = status;
-        cmd.Parameters.Add("@AccountId", SqlDbType.Int).Value = AccountId;
+        cmd.Parameters.Add("@userid", SqlDbType.Int).Value = AccountId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)

@@ -195,9 +195,9 @@ public class EventDAO
     }
     public DataTable GetByUserId(int userId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblEvent WHERE UserId = @UserId",
+        SqlCommand cmd = new SqlCommand("SP_GetEvent_ByUserId",
             ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();

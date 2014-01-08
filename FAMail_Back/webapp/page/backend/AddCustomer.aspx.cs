@@ -284,13 +284,13 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 Label lblPhone = (Label)item.FindControl("lblPhone");
                 Label lblAddr = (Label)item.FindControl("lblAddr");
                 InitBUS();
-                if (chkXoa.Checked == true)
+                if (chkXoa.Checked == true && EmailTools.IsEmail(lblEmail.Text.Trim()))
                 {
                     try
                     {
                         ConnectionData.OpenMyConnection();
                         ctDTO.Name = (lblName.Text == null || lblName.Text == "") ? "Không có" : lblName.Text;
-                        ctDTO.Email = lblEmail.Text;
+                        ctDTO.Email = lblEmail.Text.Trim();
                         ctDTO.BirthDay = (lblBirthDay.Text == null || lblBirthDay.Text == "") ? DateTime.Now : DateTime.Parse(lblBirthDay.Text);
                         ctDTO.Gender = (lblGender.Text == null || lblGender.Text == "") ? "Không có" : lblGender.Text;
                         ctDTO.Phone = (lblPhone.Text == null || lblPhone.Text == "") ? "Không có" : lblPhone.Text;
@@ -451,7 +451,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
             message = "Bạn chưa nhập Email khách hàng!";
             this.txtEmail.Focus();
         }
-        else if (IsValidMail(txtEmail.Text.ToString()) == false)
+        else if (EmailTools.IsEmail(txtEmail.Text.Trim().ToString()) == false)
         {
             message = "Bạn nhập không đúng định dạng Email!";
             this.txtEmail.Focus();
@@ -537,7 +537,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                 ctDTO.City = "";
                 ctDTO.Company = "";
                 ctDTO.Country = "";
-                ctDTO.Email = txtEmail.Text;
+                ctDTO.Email = txtEmail.Text.Trim();
                 ctDTO.Fax = "";
                 ctDTO.Gender = drlGender.SelectedItem.ToString();
                 ctDTO.Name = txtName.Text;

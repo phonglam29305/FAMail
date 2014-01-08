@@ -20,8 +20,8 @@ namespace FAGateway
         private void btnEmailVerify_Click(object sender, EventArgs e)
         {
             getConfigAmazone();
-            VerifyEmail veriryEmail = new VerifyEmail(accessKey, secretKey);
-            bool status = veriryEmail.VerifyEmailAddress(txtEmail.Text.Trim());
+            //VerifyEmail veriryEmail = new VerifyEmail(accessKey, secretKey);
+            bool status = EmailTools.IsEmail(txtEmail.Text.Trim());
             MessageBox.Show(status+"");
         }
 

@@ -108,9 +108,9 @@ public class MailConfigDAO
 
     public DataTable GetByUserId(int UserId)
     {
-        cmd = new SqlCommand("SELECT * FROM tblMailConfig WHERE UserId = @UserId", 
+        cmd = new SqlCommand("[SP_GetMailConfig_ByUserId]", 
             ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();

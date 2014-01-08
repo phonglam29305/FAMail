@@ -57,14 +57,16 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 
             if (Session["us-login"] != null)
             {
-                if (getUserLogin().DepartmentId == 1)
-                {
-                    dtEvent = eventBus.GetAll();
-                }
-                else
-                {
-                    dtEvent = eventBus.GetByUserId(getUserLogin().UserId);
-                }
+                //if (getUserLogin().DepartmentId == 1)
+                //{
+                //    dtEvent = eventBus.GetAll();
+                //}
+                //else
+                //{
+                dtEvent = eventBus.GetByUserId(getUserLogin().UserId);
+                //}
+
+
 
                 if (dtEvent.Rows.Count > 0)
                 {
@@ -92,6 +94,15 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
                 this.drlNhomMail.DataTextField = "Subject";
                 this.drlNhomMail.DataValueField = "EventId";
                 this.drlNhomMail.DataBind();
+
+
+                object obj = Request.QueryString["id"];
+                int eventId = 0;
+                if (int.TryParse(obj + "", out eventId))
+                {
+                    if (group.Select("eventid=" + eventId).Count() > 0)
+                        drlNhomMail.SelectedValue = eventId+"";
+                }
             }
 
         }
@@ -124,20 +135,22 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
             UserLoginDTO userLogin = getUserLogin();
             DataTable dtGroup = new DataTable();
 
+
             int eventID = int.Parse(drlNhomMail.SelectedValue.ToString());
-            if (getUserLogin().DepartmentId == 1)
-            {
-                dtGroup = mailGroupBus.GetAllNew();
-            }
+            //if (getUserLogin().DepartmentId == 1)
+            //{
+            //    dtGroup = mailGroupBus.GetAllNew();
+            //}
 
             //if (getUserLogin().DepartmentId == 3)
             //{
             //    dtGroup = mailGroupBus.GetAllNewDepart3(getUserLogin().UserId);
             //}
-           else //if (getUserLogin().DepartmentId == 2)
-           {
-               dtGroup = mailGroupBus.GetMailGroupByUserId(getUserLogin().UserId);
-            }
+            //else 
+            //{
+            //    dtGroup = mailGroupBus.GetMailGroupByUserId(getUserLogin().UserId);
+            // }
+            dtGroup = mailGroupBus.GetMailGroupByEventId(eventID);
 
             rptGroup.DataSource = dtGroup;
             rptGroup.DataBind();

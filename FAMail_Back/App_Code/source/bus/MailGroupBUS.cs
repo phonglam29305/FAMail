@@ -100,6 +100,10 @@ public class MailGroupBUS : IMailGroup
         return mgDao.GetSubClientAll();
     }
 
+    public DataTable GetMailGroupByEventId(int EventId)
+    {
+        return mgDao.GetMailGroupByEventId(EventId);
+    }
     #endregion
 
 

@@ -166,9 +166,9 @@ public class SendRegisterBUS : ISendRegister
         return srDao.GetByStatus(status, MailConfigID);
     }
 
-    public DataTable GetAll(int MailConfigID)
+    public DataTable GetAll(int UserId)
     {
-        return srDao.GetAll(MailConfigID);
+        return srDao.GetAll(UserId);
     }
 
     #endregion

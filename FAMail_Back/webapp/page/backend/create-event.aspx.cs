@@ -33,7 +33,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 InitialBUS();
                 LoadMailGroupLists();
                 LoadMailConfigList();
-                //LoadEventList();
+                LoadEventList();
                 // Khoi tao session for store contentSendEvent
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);

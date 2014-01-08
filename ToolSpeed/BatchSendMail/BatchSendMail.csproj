@@ -89,6 +89,7 @@
     <Compile Include="ext\common\Commander.cs" />
     <Compile Include="ext\common\Common.cs" />
     <Compile Include="ext\common\ConnectionData.cs" />
+    <Compile Include="ext\common\EmailTools.cs" />
     <Compile Include="ext\common\EmailSend.cs" />
     <Compile Include="ext\common\EmailVerifier.cs" />
     <Compile Include="ext\common\MXServer.cs" />
