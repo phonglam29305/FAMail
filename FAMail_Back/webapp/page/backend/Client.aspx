@@ -147,11 +147,9 @@
                                     </td>
                                     <td style="width: 100px;">
                                         <asp:ImageButton ID="btnLock" runat="server" ImageUrl="~/webapp/resource/images/lock.png"
-                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Bình thường"?true:false %>' CommandName="Lock" OnClientClick="return confirm('Are you sure you want lock this account?');" />
+                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Bình thường"?true:false %>' CommandName="Lock" />
                                         <asp:ImageButton ID="btnUnlock" runat="server" ImageUrl="~/webapp/resource/images/unlock.png"
-                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Tạm khóa"?true:false %>'  CommandName="UnLock" OnClientClick="return confirm('Are you sure you want unlock this account?');" />
-                                        <asp:ImageButton ID="btnActive" runat="server" ImageUrl="~/webapp/resource/images/warning.png"
-                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Chưa kích hoạt"?true:false %>'  CommandName="Active" OnClientClick="return confirm('Are you sure you want active this account?');" />
+                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Tạm khóa"?true:false %>'  CommandName="UnLock"/>
                                     </td>
                                 </tr>
                             </tbody>

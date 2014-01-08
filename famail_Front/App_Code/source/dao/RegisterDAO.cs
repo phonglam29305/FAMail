@@ -62,8 +62,8 @@ public class RegisterDAO
         SqlTransaction tran = ConnectionData._MyConnection.BeginTransaction();
         try
         {
-            string sql = "insert into tblClient (clientName,address,email,phone,status)" +
-                "values(@clientName,@address,@email,@phone,@status) select @@identity";
+            string sql = "insert into tblClient (clientName,address,email,phone)" +
+                "values(@clientName,@address,@email,@phone) select @@identity";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.Transaction = tran;
             cmd.CommandType = CommandType.Text;
@@ -71,7 +71,6 @@ public class RegisterDAO
             cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = client.address;
             cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = client.email;
             cmd.Parameters.Add("@phone", SqlDbType.VarChar).Value = client.phone;
-            cmd.Parameters.Add("@status", SqlDbType.Int).Value = -1;
             object id = cmd.ExecuteScalar();
             clientRegister.clientId = Convert.ToInt32(id);
 

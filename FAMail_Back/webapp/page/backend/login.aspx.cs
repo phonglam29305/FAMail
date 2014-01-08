@@ -60,7 +60,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 userLogin.Password = tbResult.Rows[0]["Password"].ToString();
                 userLogin.DepartmentId = int.Parse(tbResult.Rows[0]["DepartmentId"].ToString());
                 userLogin.UserType = int.Parse(tbResult.Rows[0]["UserType"].ToString());
-                if (userLogin.UserType ==3)
+                if (userLogin.UserType == 3)
                 {
                     table = ulBus.GetClientIdSub(userLogin.UserId);
                     clienID = int.Parse(table.Rows[0]["clientId"].ToString());
@@ -68,19 +68,17 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     tableStatus = ulBus.GetClientId(clienID);
                     status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
                 }
-                else if (userLogin.UserType != 1 && userLogin.UserType!=3)
-                {
-                    tableStatus = ulBus.GetClientId(userLogin.UserId);
-                    if (tableStatus.Rows.Count > 0)
-                    {
-                        status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
-                    }
-                    else
-                    {
-                        status = 0;
-                    }
-                }
-                if (status == 0)
+
+
+
+
+                //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
+                //  string todays = DateTime.Now.ToString("yyyy-MM-dd");
+                //  DateTime today = Convert.ToDateTime(todays);
+                //   DateTime expireDay = Convert.ToDateTime(NgayHetHan);
+
+
+                if (status != 1)
                 {
 
                     try
@@ -119,22 +117,11 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                         Response.Redirect("mail-send.aspx", false);
 
                 }
-                else if (status == -1)
-                {
-                    pnError.Visible = true;
-                    lblMessage.Text = "Tài khoản đăng nhập chưa kích hoạt.";
-                    logs.Error("user not active: " + userLogin.Username);
-                }
-                else if (status == 1)
-                {
-                    pnError.Visible = true;
-                    lblMessage.Text = "Tài khoản đăng nhập đã hết hạn";
-                    logs.Error("user not active: " + userLogin.Username);
-                }
                 else
                 {
                     pnError.Visible = true;
                     lblMessage.Text = "Tài khoản đăng nhập đã bị khóa.";
+
                     logs.Error("user locked: " + userLogin.Username);
                 }
 
@@ -143,7 +130,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
             {
                 pnError.Visible = true;
                 lblMessage.Text = "Email hoặc mật khẩu không đúng.";
-                logs.Error("user wrong: " + txtUsername.Text);
+                logs.Error("user worng: " + txtUsername.Text);
             }
         }
         catch (ThreadAbortException ex)
