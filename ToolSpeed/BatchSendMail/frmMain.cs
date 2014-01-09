@@ -174,7 +174,7 @@ namespace BatchSendMail
                             // Send normal.
                             send = sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
                                 subject, body, recipient.Name, recipient.MailTo, sendRegisterId);
-                            logs_info.Info("sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
+                            logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
                             // Write log for history send
                             logHistoryForSend(sendRegisterId, recipient.MailTo, mailFrom, recipient.Name, send);
 
@@ -258,7 +258,7 @@ namespace BatchSendMail
                 try
                 {
                     smtp.Send(mail);
-                    logs_info.Info(mail.From + "==>" + mail.To);
+                    //logs_info.Info(mail.From + "==>" + mail.To);
                     return true;
                 }
                 catch (Exception ex)
@@ -420,6 +420,7 @@ namespace BatchSendMail
                                 // Send normal.
                                 bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
                                         subject, body, sendItem.recieveName, sendItem.mailTo, sendRegisterId);
+                                logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
 
                                 // Update tblDetailGroup.
                                 DetailGroupDTO dgDto = new DetailGroupDTO();
@@ -462,6 +463,8 @@ namespace BatchSendMail
                                     // Send normal.
                                     bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
                                             subject, body, sendItem.recieveName, sendItem.mailTo, sendRegisterId);
+
+                                    logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
                                     // Update tblDetailGroup.
                                     DetailGroupDTO dgDto = new DetailGroupDTO();
                                     dgDto.CustomerID = sendItem.customerId;
@@ -482,31 +485,14 @@ namespace BatchSendMail
                 logs.Error("timer2_tick", ex);
             }
         }
+
         private void btnStartCheckMail_Click(object sender, EventArgs e)
         {
-            btnStartCheckMail.Enabled = false;
-            btnStopCheckMail.Enabled = true;
-            int cusLastId = customerBus.GetLastId();
-            if (cusLastId > 0)
+            if (!check_worker.IsBusy)
             {
-                // Quy dinh lay 100 record cho moi lan lay danh sach
-                int countPaging = cusLastId / 100;
-                int start = 1;
-                int end = 100;
-                for (int i = 1; i <= countPaging; i++)
-                {
-                    DataTable tblCustomer = customerBus.GetBetweenById(start, end);
-                    if (tblCustomer.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in tblCustomer.Rows)
-                        {
-                            validateEmail(row);
-                        }
-                    }
-                    start = end;
-                    end = end * (i + 1);
-                    Thread.Sleep(10000);
-                }
+                btnStartCheckMail.Enabled = false;
+                btnStopCheckMail.Enabled = true;
+                check_worker.RunWorkerAsync();
             }
         }
 
@@ -520,22 +506,29 @@ namespace BatchSendMail
                 if (!m.Host.ToLower().Equals("yahoo.com")
                     && !m.Host.ToLower().Equals("yahoo.com.vn"))
                 {
-                    logs_scan.Info("Scan: "+email);
+                    string text = "Scan: " + email;
+                    logs_scan.Info(text); //lblInfo.Text = text;
                     EmailVerifier verify = new EmailVerifier(true);
                     bool rs = verify.CheckExists(email);
                     if (!rs)
                     {
                         // Xoa va sao luu khach hang nay.
                         deleteAndBackupCustomer(row);
-                        logs_scan.Info("Scan-Fail: " + email);
+                        text = "Scan-Fail: " + email;
+                        logs_scan.Info(text); //lblInfo.Text = text;
+                    }
+                    else
+                    {
+                        text = "Scan-OK: " + email;
+                        logs_scan.Info(text); //lblInfo.Text = text;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Xoa va sao luu khach hang nay.
                 deleteAndBackupCustomer(row);
-                logs_scan.Info("Scan-Fail: " + email);
+                logs_scan.Info("Scan-Error: " + email,ex);
             }
 
         }
@@ -588,6 +581,49 @@ namespace BatchSendMail
         {
             btnStartCheckMail.Enabled = true;
             btnStopCheckMail.Enabled = false;
+
+            check_worker.CancelAsync();
+        }
+
+        private void auto_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void event_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void check_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int cusLastId = customerBus.GetLastId();
+            if (cusLastId > 0)
+            {
+                // Quy dinh lay 100 record cho moi lan lay danh sach
+                int countPaging = cusLastId / 100;
+                int start = 1;
+                int end = 100;
+                for (int i = 1; i <= countPaging; i++)
+                {
+                    DataTable tblCustomer = customerBus.GetBetweenById(start, cusLastId);
+                    if (tblCustomer.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in tblCustomer.Rows)
+                        {
+                            validateEmail(row);
+                        }
+                    }
+                    start = end;
+                    end = end * (i + 1);
+                    Thread.Sleep(10000);
+                }
+            }
+        }
+
+        private void check_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //lblInfo.Text = e.UserState + "";
         }
     }
 }

@@ -49,7 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblInfo = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.btnStartEvent = new System.Windows.Forms.Button();
             this.lblStatusEvent = new System.Windows.Forms.Label();
@@ -58,6 +58,9 @@
             this.timerEvent = new System.Windows.Forms.Timer(this.components);
             this.btnStopCheckMail = new System.Windows.Forms.Button();
             this.btnStartCheckMail = new System.Windows.Forms.Button();
+            this.auto_worker = new System.ComponentModel.BackgroundWorker();
+            this.event_worker = new System.ComponentModel.BackgroundWorker();
+            this.check_worker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // skinEngine1
@@ -250,15 +253,15 @@
             this.label8.Size = new System.Drawing.Size(0, 19);
             this.label8.TabIndex = 1;
             // 
-            // label9
+            // lblInfo
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(397, 400);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(154, 15);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Copyright 2013  FPT Team";
+            this.lblInfo.AutoSize = true;
+            this.lblInfo.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInfo.Location = new System.Drawing.Point(110, 382);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(10, 15);
+            this.lblInfo.TabIndex = 5;
+            this.lblInfo.Text = " ";
             // 
             // label10
             // 
@@ -332,6 +335,20 @@
             this.btnStartCheckMail.UseVisualStyleBackColor = true;
             this.btnStartCheckMail.Click += new System.EventHandler(this.btnStartCheckMail_Click);
             // 
+            // auto_worker
+            // 
+            this.auto_worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.auto_worker_DoWork);
+            // 
+            // event_worker
+            // 
+            this.event_worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.event_worker_DoWork);
+            // 
+            // check_worker
+            // 
+            this.check_worker.WorkerSupportsCancellation = true;
+            this.check_worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.check_worker_DoWork);
+            this.check_worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.check_worker_ProgressChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
@@ -344,7 +361,7 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.btnStartEvent);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -395,7 +412,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnStartEvent;
         private System.Windows.Forms.Label lblStatusEvent;
@@ -404,6 +421,9 @@
         public System.Windows.Forms.Timer timerEvent;
         private System.Windows.Forms.Button btnStopCheckMail;
         private System.Windows.Forms.Button btnStartCheckMail;
+        private System.ComponentModel.BackgroundWorker auto_worker;
+        private System.ComponentModel.BackgroundWorker event_worker;
+        private System.ComponentModel.BackgroundWorker check_worker;
 
     }
 }
