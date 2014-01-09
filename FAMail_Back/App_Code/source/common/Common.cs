@@ -392,7 +392,7 @@ public class Common
     }
     public enum clientStatus : int
     {
-        Normal = 0, Expire = 1, Lock = 2
+        InActive=-1,Normal = 0, Expire = 1, Lock = 2
     }
     public enum registerType : int
     {
