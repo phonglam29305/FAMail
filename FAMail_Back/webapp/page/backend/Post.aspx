@@ -100,6 +100,13 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Tag:</td>
+                                <td>
+                                    Được phân cách nhau bởi dấu , ví dụ: Tag số 1,Tag số 2<br />
+                                    <asp:TextBox ID="txtTags" runat="server" Width="596px" TextMode="MultiLine" Rows="5"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>&nbsp;</td>
                                 <td>
                                     <asp:Button ID="btnSubmit" runat="server" Text="Lưu bài viết" CssClass="round blue ic-right-arrow" OnClick="btnSubmit_Click"/>

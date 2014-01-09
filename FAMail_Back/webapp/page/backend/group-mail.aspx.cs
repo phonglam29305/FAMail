@@ -12,6 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
 using log4net;
+using System.Data.SqlClient;
 
 public partial class webapp_page_backend_group_mail : System.Web.UI.Page
 {
@@ -29,7 +30,6 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         {
             LoadSubClient();
             LoadGroup();
-
         }
     }
 
@@ -88,11 +88,9 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
             logs.Error(userLogin.Username + "-Client - LoadSubClient", ex);
         }
     }
-
     private void LoadGroup()
     {
         try
@@ -118,7 +116,6 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 Label lblNo = (Label)dlGroupMail.Items[i].FindControl("lblNO");
                 lblNo.Text = (i + 1).ToString();
             }
-
         }
         catch (Exception ex)
         {
@@ -126,8 +123,6 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             logs.Error(userLogin.Username + "-Client - LoadGroup", ex);
         }
     }
-
-
     private void InitBUS()
     {
         ulBus = new UserLoginBUS();
@@ -136,61 +131,70 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         ctBUS = new CustomerBUS();
         dgBUS = new DetailGroupBUS();
     }
-
-
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
         {
             InitBUS();
             UserLoginDTO userLogin = getUserLogin();
-
             if (checkValid() == true)
             {
-                ConnectionData.OpenMyConnection();
-                MailGroupDTO mgDTO = new MailGroupDTO();
-                mgDTO.Name = txtGroupName.Text;
-                mgDTO.Description = txtDescription.Text;
-                mgDTO.UserId = userLogin.UserId;
-                mgDTO.CreatedBy = userLogin.Username;
-                if (dropSubClient.SelectedValue + "" != "" && dropSubClient.SelectedValue + "" != "-1")
+                string namecheck = txtGroupName.Text.Trim();
+                if (CheckGroupName(namecheck) <= 0)
                 {
-                    DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
-                    mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
-                    mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
+                    #region Save
+                    ConnectionData.OpenMyConnection();
+                    MailGroupDTO mgDTO = new MailGroupDTO();
+                    mgDTO.Name = txtGroupName.Text;
+                    mgDTO.Description = txtDescription.Text;
+                    mgDTO.UserId = userLogin.UserId;
+                    mgDTO.CreatedBy = userLogin.Username;
+                    if (dropSubClient.SelectedValue + "" != "" && dropSubClient.SelectedValue + "" != "-1")
+                    {
+                        DataTable dtSubUserID = mgBUS.GetSubClientBySubID(int.Parse(dropSubClient.SelectedValue.ToString()));
+                        mgDTO.AssignToUserID = int.Parse(dtSubUserID.Rows[0]["UserId"].ToString());
+                        mgDTO.AssignTo = dtSubUserID.Rows[0]["subEmail"].ToString();
+                    }
+                    else
+                    {
+                        mgDTO.AssignToUserID = -1;
+                        mgDTO.AssignTo = "";
+                    }
+                    int status = 1;
+                    if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
+                    {
+                        mgBUS.tblMailGroup_insert(mgDTO);
+                        this.txtGroupName.Text = "";
+                        this.txtDescription.Text = "";
+                        this.txtGroupName.Focus();
+                    }
+                    else
+                    {
+                        int ID = int.Parse(GroupId.Value.ToString());
+                        mgDTO.Id = ID;
+                        mgBUS.tblMailGroup_Update(mgDTO);
+                        status = 2;
+                    }
+                    LoadSubClient();
+                    pnSuccess.Visible = true;
+                    if (status == 1)
+                    {
+                        lblSuccess.Text = "Bạn vừa thêm thành công nhóm Email !";
+                    }
+                    else
+                    {
+                        lblSuccess.Text = "Thông tin của  nhóm Email đã được cập nhật !";
+                    }
+                    ConnectionData.CloseMyConnection();
+                    pnError.Visible = false;
+                    #endregion
                 }
                 else
                 {
-                    mgDTO.AssignToUserID = -1;
-                    mgDTO.AssignTo = "";
+                    pnError.Visible = true;
+                    lblError.Text = "Tên nhóm Mail đã tồn tại trong hệ thống !";
+                    pnSuccess.Visible = false;
                 }
-                int status = 1;
-                if (this.GroupId.Value.ToString() == "" || this.GroupId.Value.ToString() == null)
-                {
-                    mgBUS.tblMailGroup_insert(mgDTO);
-                    this.txtGroupName.Text = "";
-                    this.txtDescription.Text = "";
-                    this.txtGroupName.Focus();
-                }
-                else
-                {
-                    int ID = int.Parse(GroupId.Value.ToString());
-                    mgDTO.Id = ID;
-                    mgBUS.tblMailGroup_Update(mgDTO);
-                    status = 2;
-                }
-                LoadSubClient();
-                pnSuccess.Visible = true;
-                if (status == 1)
-                {
-                    lblSuccess.Text = "Bạn vừa thêm thành công nhóm Email !";
-                }
-                else
-                {
-                    lblSuccess.Text = "Thông tin của  nhóm Email đã được cập nhật !";
-                }
-                ConnectionData.CloseMyConnection();
-                pnError.Visible = false;
             }
             else
             {
@@ -198,6 +202,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
                 pnSuccess.Visible = false;
             }
+            
         }
         catch (Exception ex)
         {
@@ -205,9 +210,32 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             logs.Error(userLogin.Username + "-Client - btnSave_Click", ex);
         }
         LoadGroup();
-
     }
-
+    private int CheckGroupName(string name)
+    {
+        int count = 0;
+        UserLoginDTO userLogin = getUserLogin();
+        int clientID = getUserLogin().UserId;
+        string sql = "SELECT * FROM tblMailGroup Where UserId='" + clientID + "'";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        if (table.Rows.Count > 0)
+        {
+            foreach (DataRow dr in table.Rows)
+            {
+                string tempName = dr["Name"].ToString();
+                if (tempName == name)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
     private bool checkValid()
     {
         if (txtGroupName.Text == "" || txtGroupName.Text == null)
@@ -253,21 +281,41 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
     }
     protected void btnDelete_Click(object sender, ImageClickEventArgs e)
     {
+        int dem = 0;
+        int hcount = 0;
         try
         {
             int Id = int.Parse(((ImageButton)sender).CommandArgument.ToString());
-
             ConnectionData.OpenMyConnection();
             InitBUS();
             if (dgBUS.GetByID(Id).Rows.Count == 0)
             {
-                mgBUS.tblMailGroup_Delete(Id);
-                //Response.Redirect(Request.RawUrl);
-                dgBUS.tblDetailGroup_DeleteByGroup(Id);
-                LoadGroup();
-                visibleMessage(false);
-                pnSuccess.Visible = true;
-                lblSuccess.Text = "Bạn vừa xóa thành công nhóm mail !";
+                dem += CheckEventDate(Id);               
+                if (dem !=0 || hcount!=0)
+                {
+                    if (dem >= 1)
+                    {
+                        visibleMessage(true);
+                        pnSuccess.Visible = false;
+                        lblError.Text = "Nhóm mail đang có " + dem + " sự kiện .Xin vui lòng xóa sự kiện trước";
+                    }
+                    else if (hcount >= 1)
+                    {
+                        visibleMessage(true);
+                        pnSuccess.Visible = false;
+                        lblError.Text = "Nhóm mail vừa gửi email đi trong vòng 24 tiếng.Không thể xóa nhóm mail này";
+                    }
+                }
+                else
+                {
+                    //mgBUS.tblMailGroup_Delete(Id);
+                    //Response.Redirect(Request.RawUrl);
+                    //dgBUS.tblDetailGroup_DeleteByGroup(Id);
+                    LoadGroup();
+                    visibleMessage(false);
+                    pnSuccess.Visible = true;
+                    lblSuccess.Text = "Bạn vừa xóa thành công nhóm mail !";
+                }
             }
             else
             {
@@ -278,7 +326,6 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
             logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
             //pnError.Visible = true;
             //lblError.Text = ex.Message;
@@ -295,5 +342,63 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         txtGroupName.Enabled = true;
         txtDescription.Text = "";
         dropSubClient.SelectedIndex = 0;
+    }
+    private int CheckSendin24h(int groupId)
+    {
+        int count = 0;
+        string sql = "SELECT * FROM tblSendRegister Where GroupTo='" + groupId + "'";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        if (table.Rows.Count > 0)
+        {
+            foreach (DataRow dr in table.Rows)
+            {
+                DateTime startDate = Convert.ToDateTime(dr["StartDate"].ToString());
+                DateTime endDate = Convert.ToDateTime(dr["EndDate"].ToString());
+                DateTime today = DateTime.Now;
+                double dayleft = (startDate - today).TotalHours;
+                double dayleft2 = (endDate - today).TotalHours;
+                if (dayleft >= 24 || dayleft2 >= 24)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    private int  CheckEventDate(int groupId)
+    {
+        int count=0;
+        string sql = "SELECT * FROM tblEvent Where groupId='"+groupId+"'";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        if (table.Rows.Count > 0)
+        {
+            foreach (DataRow dr in table.Rows)
+            {
+                DateTime startDate = Convert.ToDateTime(dr["StartDate"].ToString());
+                DateTime EndDate = Convert.ToDateTime(dr["EndDate"].ToString());
+                DateTime today = DateTime.Now;
+                double dayleft = (startDate - today).TotalHours;
+                double dayleft2 = (EndDate - today).TotalHours;
+                if (dayleft >= 24 || dayleft2 >= 24)
+                {
+                    count++;
+                }
+            }
+        }
+        else
+        {
+            count=0;
+        }
+        return count;
     }
 }

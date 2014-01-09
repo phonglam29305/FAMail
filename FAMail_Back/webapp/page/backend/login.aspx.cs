@@ -68,17 +68,16 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     tableStatus = ulBus.GetClientId(clienID);
                     status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
                 }
-
-
-
-
-                //   DateTime NgayHetHan = Convert.ToDateTime(table.Rows[0]["expireDate"].ToString());
-                //  string todays = DateTime.Now.ToString("yyyy-MM-dd");
-                //  DateTime today = Convert.ToDateTime(todays);
-                //   DateTime expireDay = Convert.ToDateTime(NgayHetHan);
-
-
-                if (status != 1)
+                else if (userLogin.UserType == 0)
+                {
+                    status = 0;
+                }
+                else if (userLogin.UserType != 0 && userLogin.UserType != 3)
+                {
+                    tableStatus = ulBus.GetClientId(userLogin.UserId);
+                    status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
+                }              
+                if (status == 0)
                 {
 
                     try
@@ -117,11 +116,16 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                         Response.Redirect("mail-send.aspx", false);
 
                 }
+                else if( status == -1 )
+                {
+                    pnError.Visible = true;
+                    lblMessage.Text = "Tài khoản đăng nhập chưa kích hoạt.";
+                    logs.Error("user not active: " + userLogin.Username);
+                }
                 else
                 {
                     pnError.Visible = true;
                     lblMessage.Text = "Tài khoản đăng nhập đã bị khóa.";
-
                     logs.Error("user locked: " + userLogin.Username);
                 }
 

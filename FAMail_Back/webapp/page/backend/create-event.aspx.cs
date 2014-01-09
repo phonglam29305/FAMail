@@ -300,7 +300,6 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         try
         {
-
             InitialBUS();
             String eventId = hdfEventId.Value.ToString();
             EventDTO eventDto = getEvent();

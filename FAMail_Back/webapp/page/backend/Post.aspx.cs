@@ -79,15 +79,24 @@ public partial class webapp_Post : System.Web.UI.Page
                 string isShow = ddlIsShow.SelectedValue.ToString();
                 string today = DateTime.Now.ToShortDateString();
                 string link = txtLink.Text;
+                string tag = txtTags.Text;
                 if (link.Length <= 0)
                 {
-                    link = GenerateURL(ConvertTitle(Title), key).ToString();
+                    if (idGroup != "blog")
+                    {
+                        link = GenerateURL(ConvertTitle(Title), key).ToString();
+                    }
+                    else
+                    {
+                        link = GenerateURL(ConvertTitle(Title), key).ToString();
+                        link=link.Replace(".html",".blog-post");
+                    }
                 }
                 if (ConnectionData._MyConnection.State == ConnectionState.Closed)
                 {
                     ConnectionData._MyConnection.Open();
                 }
-                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,keyImage,value,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@keyImage,@value,@link,@idGroup,@isShow,@createDate) ";
+                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,keyImage,value,tag,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@keyImage,@value,@tag,@link,@idGroup,@isShow,@createDate) ";
                 SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
@@ -95,11 +104,13 @@ public partial class webapp_Post : System.Web.UI.Page
                 cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
                 cmd.Parameters.Add("@keyImage", SqlDbType.NVarChar).Value = "/images/" + fileName;
                 cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+                cmd.Parameters.Add("@tag",SqlDbType.NVarChar).Value=tag;
                 cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
                 cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
                 cmd.Parameters.Add("isShow", SqlDbType.Bit).Value = isShow;
                 cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
                 cmd.ExecuteNonQuery();
+                LoadDDl();
                 Success();
             }
             else
@@ -112,26 +123,37 @@ public partial class webapp_Post : System.Web.UI.Page
                 string today = DateTime.Now.ToShortDateString();
                 string isShow = ddlIsShow.SelectedValue.ToString();
                 string link = txtLink.Text;
+                string tag = txtTags.Text;
                 if (link.Length <= 0)
                 {
-                    link = GenerateURL(ConvertTitle(Title), key).ToString();
+                    if (idGroup != "blog")
+                    {
+                        link = GenerateURL(ConvertTitle(Title), key).ToString();
+                    }
+                    else
+                    {
+                        link = GenerateURL(ConvertTitle(Title), key).ToString();
+                        link = link.Replace(".html", ".blog-post");
+                    }
                 }
                 if (ConnectionData._MyConnection.State == ConnectionState.Closed)
                 {
                     ConnectionData._MyConnection.Open();
                 }
-                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,value,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@value,@link,@idGroup,@isShow,@createDate) ";
+                string sql = "Insert Into tblConfig ([key],keyName,keyDescription,value,tag,link,idGroup,isShow,createDate) values (@key,@keyName,@keyDescription,@value,@tag,@link,@idGroup,@isShow,@createDate) ";
                 SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
                 cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
                 cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
                 cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+                cmd.Parameters.Add("@tag", SqlDbType.NVarChar).Value = tag;
                 cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
                 cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
                 cmd.Parameters.Add("isShow", SqlDbType.Bit).Value = isShow;
                 cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
                 cmd.ExecuteNonQuery();
+                LoadDDl();
                 Success();
             }
             #endregion
@@ -240,6 +262,7 @@ public partial class webapp_Post : System.Web.UI.Page
             Label1.Text = table.Rows[0]["key"].ToString();
             ddlGroup.SelectedValue = table.Rows[0]["idGroup"].ToString();
             ddlIsShow.SelectedValue = table.Rows[0]["isShow"].ToString();
+            txtTags.Text = table.Rows[0]["tag"].ToString();
         }
         btnSubmit.Visible = false;
         btncapnhat.Visible = true;
@@ -288,11 +311,12 @@ public partial class webapp_Post : System.Web.UI.Page
             string today = DateTime.Now.ToShortDateString();
             string isShow = ddlIsShow.SelectedValue.ToString();
             string link = txtLink.Text;
+            string tag = txtTags.Text;
             if (link.Length <= 0)
             {
                 link = GenerateURL(ConvertTitle(Title), key).ToString();
             }
-            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
+            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,tag=@tag,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
@@ -300,11 +324,13 @@ public partial class webapp_Post : System.Web.UI.Page
             cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
             cmd.Parameters.Add("@keyImage", SqlDbType.NVarChar).Value = "/images/" + fileName;
             cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+            cmd.Parameters.Add("@tag", SqlDbType.NVarChar).Value = tag;
             cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
             cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
             cmd.Parameters.Add("@isShow", SqlDbType.Bit).Value = isShow;
             cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
             cmd.ExecuteNonQuery();
+            LoadDDl();
             Success();
         }
         else
@@ -317,22 +343,25 @@ public partial class webapp_Post : System.Web.UI.Page
             string today = DateTime.Now.ToShortDateString();
             string isShow = ddlIsShow.SelectedValue.ToString();
             string link = txtLink.Text;
+            string tag = txtTags.Text;
             if (link.Length <= 0)
             {
                 link = GenerateURL(ConvertTitle(Title), key).ToString();
             }
-            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
+            string sql = "update tblConfig set keyName=@keyName,keyDescription=@keyDescription,value=@value,tag=@tag,link=@link,idGroup=@idGroup,isShow=@isShow where [key]=@key";
             SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.Add("@key", SqlDbType.NVarChar).Value = key;
             cmd.Parameters.Add("@keyName", SqlDbType.NVarChar).Value = Title;
             cmd.Parameters.Add("@keyDescription", SqlDbType.NVarChar).Value = Desc;
             cmd.Parameters.Add("@value", SqlDbType.NVarChar).Value = Content;
+            cmd.Parameters.Add("@tag", SqlDbType.NVarChar).Value = tag;
             cmd.Parameters.Add("@link", SqlDbType.NVarChar).Value = link;
             cmd.Parameters.Add("@idGroup", SqlDbType.NVarChar).Value = idGroup;
             cmd.Parameters.Add("@isShow", SqlDbType.Bit).Value = isShow;
             cmd.Parameters.Add("@createDate", SqlDbType.Date).Value = today;
             cmd.ExecuteNonQuery();
+            LoadDDl();
             Success();
         }
     }
