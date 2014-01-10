@@ -17,4 +17,3 @@ C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.Properties.
 C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.csproj.GenerateResource.Cache
 C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.exe
 C:\Users\ADMIN\Documents\GitHub\FAMail\FAGateway\obj\Debug\FAGateway.pdb
-D:\Working\web\FAMail\FAGateway\bin\Debug\AWSSDK.dll

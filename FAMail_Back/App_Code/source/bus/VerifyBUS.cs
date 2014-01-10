@@ -25,7 +25,10 @@ public class VerifyBUS:IVerify
     {
         vDao.tblVerify_Delete(email);
     }
-
+    public void updateveryfy(string EmailVerify, bool Isdelete)
+    {
+        vDao.updateveryfy(EmailVerify, Isdelete);
+    }
     public DataTable GetAll()
     {
         return vDao.GetAll();

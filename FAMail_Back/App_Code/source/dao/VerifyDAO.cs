@@ -41,6 +41,18 @@ public class VerifyDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
+    public void updateveryfy(string EmailVerify, bool Isdelete)
+    {
+
+        string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify=@EmailVerify ";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Isdelete", SqlDbType.Bit).Value = Isdelete;
+        cmd.Parameters.Add("@EmailVerify", SqlDbType.NVarChar).Value = EmailVerify;
+        cmd.ExecuteNonQuery();
+        cmd.Dispose();
+
+    }
     public DataTable GetAll()
     {
         string sql = "SELECT * FROM tblVerify";
@@ -52,7 +64,7 @@ public class VerifyDAO
     }
     public DataTable GetByUserId(int userId)
     {
-        string sql = "SELECT * FROM tblVerify WHERE UserId = @UserId";
+        string sql = "SELECT * FROM tblVerify WHERE UserId = @UserId and isdelete='false'";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;

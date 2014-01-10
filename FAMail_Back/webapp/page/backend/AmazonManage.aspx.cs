@@ -12,6 +12,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Net.Mail;
+using Email;
+using System.Data.SqlClient;
 
 public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
 {
@@ -26,14 +28,16 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
     UserLoginDTO userLogin = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        userLogin = getUserLogin();        
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             //LoadVerifyListByUserId();
             LoadVerifyList();
+            
         }
     }
-
+ 
+   
     private void getConfigAmazone()
     {
         accessKey = ConfigurationManager.AppSettings["AccessKey"].ToString();
@@ -162,89 +166,119 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
     {
         Response.Redirect(Request.Url.AbsolutePath);
     }
+
+    
     protected void btnVerify_Click(object sender, EventArgs e)
     {
+        VerifyBUS vbs = new VerifyBUS();
+        DataTable table = vbs.GetByEmail(txtEmailVerify.Text);
+        if (table.Rows.Count > 0)
+        {
+            lbuser.Text = table.Rows[0]["EmailVerify"].ToString();
+        }
+
+
         //try
         //{
         VerifyBUS vBus = new VerifyBUS();
-            string err = ValidateNull();
-            DataTable dt = vBus.GetByUserId(getUserLogin().UserId);
-            if (dt.Rows.Count>=2)
+        string err = ValidateNull();
+        DataTable dt = vBus.GetByUserId(getUserLogin().UserId);
+        if (dt.Rows.Count >= 2)
+        {
+            pnSuccess.Visible = false;
+            pnError.Visible = true;
+            lblError.Text = "Giới hạn tối đa cho phép xác thực là 2. Vui lòng xóa mail cũ !";
+        }
+        else if (err == "")
+        {
+            // Get amazone config.
+            getConfigAmazone();
+            veriryEmail = new VerifyEmail(accessKey, secretKey);
+            bool status = veriryEmail.VerifyEmailAddress(txtEmailVerify.Text.Trim());
+            if (status == true)
             {
-                pnSuccess.Visible = false;
-                pnError.Visible = true;
-                lblError.Text = "Giới hạn tối đa cho phép xác thực là 2. Vui lòng xóa mail cũ !";
-             } 
-             else if (err=="")
-             {
-                // Get amazone config.
-                getConfigAmazone();
-                veriryEmail = new VerifyEmail(accessKey, secretKey);
-                bool status = veriryEmail.VerifyEmailAddress(txtEmailVerify.Text.Trim());
-                if (status == true)
-                {
-                    // Them vao danh sach email xac thuc thanh cong.
-                    MailConfigBUS mcBUS = new MailConfigBUS();
-                    VerifyDTO vDto = new VerifyDTO();
-                    vDto.EmailVerify = txtEmailVerify.Text.Trim();
-                    vDto.userId = getUserLogin().UserId;
-                    if (vBus.GetByEmail(vDto.EmailVerify).Rows.Count > 0)
-                    {
-                        pnSuccess.Visible = false;
-                        pnError.Visible = true;
-                        lblError.Text = "Email này đã được verify trong hệ thống";
-                        return;
-                    }
-                    else
-                    {
-                        vBus.tblVerify_insert(vDto);
-                    }
-                   
-                    // Thêm vào cấu hình mail.
-                    MailConfigDTO mcDTO = new MailConfigDTO();
-                    mcDTO.DepartmentID = getUserLogin().DepartmentId;
-                    mcDTO.userId = getUserLogin().UserId;
-                    mcDTO.Email = txtEmailVerify.Text.Trim();
-                    mcDTO.parentId = 1;
-                    mcDTO.levelId = 1;
-                    mcDTO.isSSL = true;
-                    mcDTO.Port = 25;
-                    mcDTO.Server = server;
-                    mcDTO.username = username;
-                    mcDTO.Password = password;
-                    mcDTO.Name = txtNameConfig.Text;
-                    if (mcBUS.GetByEmailAndPass(mcDTO.Email, mcDTO.Password).Rows.Count > 0)
-                    {
-                        mcDTO.Id = int.Parse(mcBUS.GetByEmailAndPass(mcDTO.Email, mcDTO.Password).Rows[0]["Id"].ToString());
-                        mcBUS.tblMailConfig_Update(mcDTO);
-                    }
-                    else
-                    {
-                        mcBUS.tblMailConfig_insert(mcDTO);
-                    }
-                    
-                    pnError.Visible = false;
-                    lblSuccess.Text = "Bạn đã xác thực thành công email: " + txtEmailVerify.Text + " Vui lòng kiểm tra email để hoàn thành việc xác thực";
-                    txtEmailVerify.Text = "";
-                    txtNameConfig.Text = "";
-                    pnSuccess.Visible = true;
-                    LoadVerifyList();
-
-                }
-                else
+                // Them vao danh sach email xac thuc thanh cong.
+                MailConfigBUS mcBUS = new MailConfigBUS();
+                VerifyDTO vDto = new VerifyDTO();
+                vDto.EmailVerify = txtEmailVerify.Text.Trim();
+                vDto.isdelete = 0;
+                vDto.userId = getUserLogin().UserId;
+                if (vBus.GetByEmail(vDto.EmailVerify).Rows.Count > 0)
                 {
                     pnSuccess.Visible = false;
                     pnError.Visible = true;
-                    lblError.Text = "Lỗi trong quá trình verify";
+                    lblError.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống. Chúng tôi gởi đến bản một Email để kích hoạt sử dụng ";
+                    SmtpClient SmtpServer = new SmtpClient();
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+                    SmtpServer.Port = 25;
+                    SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+                    SmtpServer.EnableSsl = true;
+                    MailMessage mail = new MailMessage();
+                    String[] addr = txtEmailVerify.Text.Split(' ');
+                    mail.From = new MailAddress("customersevices@fastautomaticmail.com",
+                    " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                    Byte i;
+                    for (i = 0; i < addr.Length; i++)
+                        mail.To.Add(addr[i]);
+                    mail.Subject = "Thư xác nhận";
+                    mail.IsBodyHtml = true;
+                    mail.Body = ("http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text);
+
+                    mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                    mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
+                    SmtpServer.Send(mail);
+                    return;
                 }
+                else
+                {
+                    vBus.tblVerify_insert(vDto);
+                }
+
+                // Thêm vào cấu hình mail.
+                MailConfigDTO mcDTO = new MailConfigDTO();
+                mcDTO.DepartmentID = getUserLogin().DepartmentId;
+                mcDTO.userId = getUserLogin().UserId;
+                mcDTO.Email = txtEmailVerify.Text.Trim();
+                mcDTO.parentId = 1;
+                mcDTO.levelId = 1;
+                mcDTO.isSSL = true;
+                mcDTO.Port = 25;
+                mcDTO.Server = server;
+                mcDTO.username = username;
+                mcDTO.Password = password;
+                mcDTO.Name = txtNameConfig.Text;
+                if (mcBUS.GetByEmailAndPass(mcDTO.Email, mcDTO.Password).Rows.Count > 0)
+                {
+                    mcDTO.Id = int.Parse(mcBUS.GetByEmailAndPass(mcDTO.Email, mcDTO.Password).Rows[0]["Id"].ToString());
+                    mcBUS.tblMailConfig_Update(mcDTO);
+                }
+                else
+                {
+                    mcBUS.tblMailConfig_insert(mcDTO);
+                }
+
+                pnError.Visible = false;
+                lblSuccess.Text = "Bạn đã xác thực thành công email: " + txtEmailVerify.Text + " Vui lòng kiểm tra email để hoàn thành việc xác thực";
+                txtEmailVerify.Text = "";
+                txtNameConfig.Text = "";
+                pnSuccess.Visible = true;
+                LoadVerifyList();
+
             }
             else
             {
                 pnSuccess.Visible = false;
                 pnError.Visible = true;
-                lblError.Text = err;
-                txtEmailVerify.Focus();
+                lblError.Text = "Lỗi trong quá trình verify";
             }
+        }
+        else
+        {
+            pnSuccess.Visible = false;
+            pnError.Visible = true;
+            lblError.Text = err;
+            txtEmailVerify.Focus();
+        }
         //}
         //catch (Exception)
         //{
@@ -302,25 +336,54 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         try
         {
             // Load amazone config.
-            getConfigAmazone();
+            //getConfigAmazone();
 
-            VerifyBUS vBus = new VerifyBUS();
-            string email = ((LinkButton)sender).CommandArgument.ToString();
-            veriryEmail = new VerifyEmail(accessKey, secretKey);
-            bool status = veriryEmail.DeleteEmailAddress(email);
-            if (status == true)
-            {
-                // Xoa trong db.
-                vBus.tblVerify_Delete(email);
-                string pass = password;
-                // Xóa trong mail Config
-                MailConfigBUS mcConfig = new MailConfigBUS();
-                DataTable mailconfig = mcConfig.GetByEmailAndPass(email, pass);
-                if (mailconfig.Rows.Count > 0)
+            //VerifyBUS vBus = new VerifyBUS();
+            //string email = ((LinkButton)sender).CommandArgument.ToString();
+            //veriryEmail = new VerifyEmail(accessKey, secretKey);
+            //bool status = veriryEmail.DeleteEmailAddress(email);
+            //if (status == true)
+            //{
+            //    // Xoa trong db.
+            //    vBus.tblVerify_Delete(email);
+            //    string pass = password;
+            //    // Xóa trong mail Config
+            //    MailConfigBUS mcConfig = new MailConfigBUS();
+            //    DataTable mailconfig = mcConfig.GetByEmailAndPass(email, pass);
+            //    if (mailconfig.Rows.Count > 0)
+            //    {
+            //        int id = int.Parse(mailconfig.Rows[0]["Id"].ToString());
+            //        mcConfig.tblMailConfig_Delete(id);
+            //    }
+
+
+
+                    int Isdelete = 1;
+                VerifyBUS vbs=new VerifyBUS();
+                string email = ((LinkButton)sender).CommandArgument.ToString();     
+                DataTable da = vbs.GetByEmail(email);
+                if (da.Rows.Count > 0)
                 {
-                    int id = int.Parse(mailconfig.Rows[0]["Id"].ToString());
-                    mcConfig.tblMailConfig_Delete(id);
+                    lbuser.Text = da.Rows[0]["EmailVerify"].ToString();
                 }
+           
+            if (bool.Parse(da.Rows[0]["isdelete"].ToString()) == false)
+            {
+                if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+                {
+                    ConnectionData._MyConnection.Open();
+                }
+
+                string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify='"+lbuser.Text+"' ";
+                SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+                cmd.CommandType = CommandType.Text;      
+                cmd.Parameters.Add("@Isdelete", SqlDbType.Bit).Value = Isdelete;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+     
+      
+
+
                 pnError.Visible = false;
                 lblSuccess.Text = "Bạn đã xóa thành công email: " + email;
                 pnSuccess.Visible = true;

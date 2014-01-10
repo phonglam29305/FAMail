@@ -20,5 +20,6 @@ public class VerifyDTO
 	}
     public string EmailVerify { get; set; }
     public int userId { get; set; }
+    public int isdelete { get; set; }
 
 }
