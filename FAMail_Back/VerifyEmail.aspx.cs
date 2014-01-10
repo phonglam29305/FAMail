@@ -14,7 +14,7 @@ public partial class VerifyEmail : System.Web.UI.Page
         {
             if (Request.Params["email"] != null)
                 sendmail(Request.Params["email"].ToString());
-            Response.Redirect("http://google.com.vn");
+            Response.Redirect("http://localhost:40025/FAMail_Back/webapp/page/backend/login.aspx");
         }
     }
     private void sendmail(string EmailVerify)
