@@ -264,7 +264,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 DataRow row = dtGroup.Rows[0];
                 GroupId.Value = Id.ToString();
                 txtGroupName.Text = row["Name"].ToString();
-                txtGroupName.Enabled = false;
+                //txtGroupName.Enabled = false;
                 txtDescription.Text = row["Description"].ToString();
             }
 
@@ -288,8 +288,8 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             int Id = int.Parse(((ImageButton)sender).CommandArgument.ToString());
             ConnectionData.OpenMyConnection();
             InitBUS();
-            if (dgBUS.GetByID(Id).Rows.Count == 0)
-            {
+            //if (dgBUS.GetByID(Id).Rows.Count == 0)
+            //{
                 dem += CheckEventDate(Id);               
                 if (dem !=0 || hcount!=0)
                 {
@@ -311,17 +311,19 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                     //mgBUS.tblMailGroup_Delete(Id);
                     //Response.Redirect(Request.RawUrl);
                     //dgBUS.tblDetailGroup_DeleteByGroup(Id);
+                    UpdateDelete(Id);
+                    UpdateGroupDelele(Id);
                     LoadGroup();
                     visibleMessage(false);
                     pnSuccess.Visible = true;
                     lblSuccess.Text = "Bạn vừa xóa thành công nhóm mail !";
                 }
-            }
-            else
-            {
-                pnError.Visible = true;
-                lblError.Text = "Bạn không thể xóa nhóm mail này ! ";
-            }
+            //}
+            //else
+            //{
+            //    pnError.Visible = true;
+            //    lblError.Text = "Bạn không thể xóa nhóm mail này ! ";
+            //}
             ConnectionData.CloseMyConnection();
         }
         catch (Exception ex)
@@ -400,5 +402,34 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             count=0;
         }
         return count;
+    }
+    private void UpdateDelete(int Id)
+    {
+        string sql = "Update tblMailGroup set IsDelete='1' Where Id='" + Id + "'";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.ExecuteNonQuery();
+    }
+    private void UpdateGroupDelele(int Id)
+    {
+        string sql = "Update tblCustomer set IsDelete='1' Where assignTo='" + Id + "'";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.ExecuteNonQuery();
+    }
+    protected void dlGroupMail_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        UserLoginDTO userLogin = getUserLogin();
+        int type = userLogin.UserType;
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            ImageButton imgEdit = (ImageButton)e.Item.FindControl("btnEdit");
+            ImageButton imgDelete = (ImageButton)e.Item.FindControl("btnDelete");
+            if (type == 0)
+            {
+                imgDelete.Visible = false;
+                imgEdit.Visible = false;
+            }
+        }
     }
 }

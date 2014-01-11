@@ -432,4 +432,19 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             lblError.Text = ex.Message;
         }
     }
+    protected void dtlCustomer_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        UserLoginDTO userLogin = getUserLogin();
+        int type = userLogin.UserType;
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            ImageButton imgEdit = (ImageButton)e.Item.FindControl("btnEdit");
+            ImageButton imgDelete = (ImageButton)e.Item.FindControl("btnDelete");
+            if (type == 0)
+            {
+                imgDelete.Visible = false;
+                imgEdit.Visible = false;
+            }
+        }
+    }
 }

@@ -104,7 +104,7 @@
                         </asp:Panel>
                         <table>
                             
-                            <asp:DataList ID="dtlCustomer" runat="server">
+                            <asp:DataList ID="dtlCustomer" runat="server" OnItemDataBound="dtlCustomer_ItemDataBound">
                                 <HeaderTemplate>
                                     <thead>
                                         <tr style="font-size: 0.8em;">

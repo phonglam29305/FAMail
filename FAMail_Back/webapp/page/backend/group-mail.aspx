@@ -53,7 +53,7 @@
                             </div>
                             <div class="full-width-editor">
                                 <table>
-                                    <asp:DataList ID="dlGroupMail" runat="server" RepeatColumns="1" Width="100%">
+                                    <asp:DataList ID="dlGroupMail" runat="server" RepeatColumns="1" Width="100%" OnItemDataBound="dlGroupMail_ItemDataBound">
                                         <HeaderTemplate>
                                             <thead>
                                                 <tr>
