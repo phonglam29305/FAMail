@@ -137,62 +137,9 @@ namespace BatchSendMail
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            try
-            {
-                EmailSend mailSend = new EmailSend();
-                DataTable tableSend = sendBUS.GetByTime(DateTime.Now, 0);
-                if (tableSend.Rows.Count > 0)
-                {
-                    lblStatus.Text = "Đang gửi mail....";
-                    foreach (DataRow item in tableSend.Rows)
-                    {
-                        timer1.Stop();
-                        sendRegisterId = int.Parse(item["Id"].ToString());
-                        sendContentId = int.Parse(item["SendContentId"].ToString());
-                        configId = int.Parse(item["MailConfigID"].ToString());
-                        groupId = int.Parse(item["GroupTo"].ToString());
-                        SendType = int.Parse(item["SendType"].ToString());
-                        accountId = int.Parse(item["AccountId"].ToString());
+            if (auto_worker.IsBusy) return;
 
-                        int SendRegisterId = int.Parse(item["Id"] + "");
-
-                        //Lấy thông tin cấu hình mail gửi
-                        getConfigServer(configId);
-
-                        // Lấy nội dung mail
-                        getMailContent(sendContentId);
-
-                        IList<MailToDTO> recipients = mailSend.GetMailTod(SendRegisterId, groupId, SendType);
-
-                        //IList<string> EmailS
-                        int cnt = 0;
-                        int totalCnt = recipients.Count;
-                        Parallel.ForEach(recipients.AsParallel(), new ParallelOptions { MaxDegreeOfParallelism = maxParallelEmails }, recipient =>
-                        {
-                            bool send = false;
-                            //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(accountId, groupId);
-                            // Send normal.
-                            send = sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
-                                subject, body, recipient.Name, recipient.MailTo, sendRegisterId);
-                            logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
-                            // Write log for history send
-                            logHistoryForSend(sendRegisterId, recipient.MailTo, mailFrom, recipient.Name, send);
-
-                            lock (syncRoot) cnt++;
-                        });
-
-                        // Update status for send mail campaign.
-                        sendBUS.tblSendRegister_UpdateStatus(sendRegisterId, 1, DateTime.Now);
-                    }
-                    timer1.Start();
-                    lblStatus.Text = "Đang chờ gửi mail";
-                }
-            }
-            catch (Exception ex)
-            {
-                logs.Error("timer-tick", ex);
-
-            }
+            auto_worker.RunWorkerAsync();
         }
 
         /**
@@ -224,13 +171,39 @@ namespace BatchSendMail
             }
         }
 
+
+        private void logHistoryForSendEvent(int Id, string mailTo, string mailFrom, string name, bool status)
+        {
+            try
+            {
+                SendEventDetailDTO srdDto = new SendEventDetailDTO();
+                srdDto.ContentSendEventID = Id;
+                srdDto.Email = mailTo;
+                srdDto.StartDate = DateTime.Now;
+                srdDto.EndDate = DateTime.Now;
+                srdDto.DayEnd = DateTime.Now.Day;
+                srdDto.HoursEnd = DateTime.Now.Hour;
+                srdDto.MinuteEnd = DateTime.Now.Minute;
+                srdDto.SecondEnd = DateTime.Now.Second;
+                srdDto.MailSend = mailFrom;
+                srdDto.CustomerName = name;
+                srdDto.ErrorType = "";
+                srdDto.Status = status;
+
+                sendDetailBUS.tblSendEventDetail_insert(srdDto);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         /**
          * Send mail.
          * Param: send, port, hostName,...
          **/
         private bool sendMail(bool send, int port, string hostName,
             string userNameSmtp, string passwordSmtp, string emailFrom, string nameSender,
-            string subject, string body, string name, string mailTo, int sendRegisterId)
+            string subject, string body, string name, string mailTo, int sendRegisterId, int ContentSendEventID)
         {
             if (validateEmail(mailTo.Trim()))
             {
@@ -249,7 +222,7 @@ namespace BatchSendMail
                 "<p style='text-align: center;'>" +
                 "<strong> Để ngừng nhận mail vui lòng click <a href='http://" + ConfigurationManager.AppSettings["site"] + "/UnReciveMail.aspx?sendRegisterId={0}&email={1}'>vào đây</a></strong></p>", sendRegisterId, mailTo);
                 isBody += Unreceve;
-                isBody += String.Format("<IMG height=1 src=\"http://" + ConfigurationManager.AppSettings["site"] + "/emailtrack.aspx?emailsentID={0}&email={1}\" width=1>", sendRegisterId, mailTo);
+                isBody += String.Format("<IMG height=1 src=\"http://" + ConfigurationManager.AppSettings["site"] + "/emailtrack.aspx?emailsentID={0}&email={1}&contentid={2}\" width=1>", sendRegisterId, mailTo, ContentSendEventID);
                 mail.Body = isBody;
                 mail.IsBodyHtml = true;
                 // Thực hiện gửi Email
@@ -325,7 +298,7 @@ namespace BatchSendMail
                                 subjectDetail = subjectDetail.Replace("[khachhang]", customerName).ToUpper();
                                 bool send = false;
                                 sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
-                                    subjectDetail, contentDetail, customerName, emailTo, sendRegisterId);
+                                    subjectDetail, contentDetail, customerName, emailTo, sendRegisterId,0);
 
                                 // Ghi lại nhật ký gửi mail.
                                 logHistoryForSend(sendRegisterId, mailTo, mailFrom, senderName, send);
@@ -387,103 +360,9 @@ namespace BatchSendMail
 
         private void timerEvent_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                EmailSend mailSend = new EmailSend();
-                DetailGroupBUS dgBus = new DetailGroupBUS();
-                ContentSendEventBUS cseBus = new ContentSendEventBUS();
-                SendContentBUS scBus = new SendContentBUS();
-                EventBUS eventBUS = new EventBUS();
+            if (event_worker.IsBusy) return;
 
-                DataTable tblSendList = dgBus.getGroupListByEventList();
-                if (tblSendList.Rows.Count > 0)
-                {
-
-                    List<SendMailDTO> sendList = mailSend.convetToSendMail(tblSendList);
-                    int totalCnt = sendList.Count;
-                    foreach (SendMailDTO sendItem in sendList)
-                    {
-                        int eventId = sendItem.eventId;
-                        DataTable dtContentSendEvent = cseBus.GetByEventId(eventId);
-                        if (dtContentSendEvent.Rows.Count > 0)
-                        {
-                            if (sendItem.countReceivedMail == 0
-                                && sendItem.lastReceivedMail == "") // Gui lan dau
-                            {
-                                int contentId = int.Parse(dtContentSendEvent.Rows[0]["ContentId"].ToString());
-                                int hourSend = int.Parse(dtContentSendEvent.Rows[0]["HourSend"].ToString());
-                                DataTable dtSendContent = scBus.GetByID(contentId);
-                                subject = dtSendContent.Rows[0]["Subject"].ToString();
-                                body = dtSendContent.Rows[0]["Body"].ToString();
-
-                                bool sendRs = false;
-                                // Send normal.
-                                bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
-                                        subject, body, sendItem.recieveName, sendItem.mailTo, sendRegisterId);
-                                logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
-
-                                // Update tblDetailGroup.
-                                DetailGroupDTO dgDto = new DetailGroupDTO();
-                                dgDto.CustomerID = sendItem.customerId;
-                                dgDto.GroupID = sendItem.groupId;
-                                dgDto.CountReceivedMail = sendItem.countReceivedMail + 1;
-                                dgDto.LastReceivedMail = DateTime.Now;
-                                dgBus.tblDetailGroup_Update(dgDto);
-
-                                eventBUS.tblEventCustomer_Update(eventId, sendItem.customerId, sendItem.countReceivedMail + 1);
-
-                            }
-                            else if (sendItem.countReceivedMail < dtContentSendEvent.Rows.Count)
-                            {
-                                string strReceivedMail = sendItem.lastReceivedMail;
-                                DateTime lastReceivedMail = DateTime.Now;
-                                if (strReceivedMail != "")
-                                {
-                                    lastReceivedMail = DateTime.Parse(strReceivedMail);
-                                }
-                                int hourSend = int.Parse(dtContentSendEvent.Rows[sendItem.countReceivedMail]["HourSend"].ToString());
-                                DateTime currentTime = lastReceivedMail.AddHours(hourSend);
-                                TimeSpan time = currentTime - DateTime.Now;
-                                /*if (DateTime.Now.Year == currentTime.Year
-                                    && DateTime.Now.Month == currentTime.Month
-                                    && DateTime.Now.Day == currentTime.Day
-                                    && DateTime.Now.Hour == currentTime.Hour
-                                    && DateTime.Now.Minute == currentTime.Minute)*/
-                                if (time.Days < 0 || time.Hours < 0 || time.Minutes < 0 || time.Seconds < 0)
-                                {
-                                    int contentId = int.Parse(dtContentSendEvent.Rows[sendItem.countReceivedMail]["ContentId"].ToString());
-                                    DataTable dtSendContent = scBus.GetByID(contentId);
-                                    if (dtSendContent.Rows.Count > 0)
-                                    {
-                                        subject = dtSendContent.Rows[0]["Subject"].ToString();
-                                        body = dtSendContent.Rows[0]["Body"].ToString();
-                                    }
-
-                                    bool sendRs = false;
-                                    // Send normal.
-                                    bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
-                                            subject, body, sendItem.recieveName, sendItem.mailTo, sendRegisterId);
-
-                                    logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
-                                    // Update tblDetailGroup.
-                                    DetailGroupDTO dgDto = new DetailGroupDTO();
-                                    dgDto.CustomerID = sendItem.customerId;
-                                    dgDto.GroupID = sendItem.groupId;
-                                    dgDto.CountReceivedMail = sendItem.countReceivedMail + 1;
-                                    dgDto.LastReceivedMail = DateTime.Now;
-                                    dgBus.tblDetailGroup_Update(dgDto);
-                                    eventBUS.tblEventCustomer_Update(eventId, sendItem.customerId, sendItem.countReceivedMail + 1);
-                                }
-                            }
-                        }
-                    }// End forEach.
-
-                }
-            }
-            catch (Exception ex)
-            {
-                logs.Error("timer2_tick", ex);
-            }
+            event_worker.RunWorkerAsync();
         }
 
         private void btnStartCheckMail_Click(object sender, EventArgs e)
@@ -528,7 +407,7 @@ namespace BatchSendMail
             {
                 // Xoa va sao luu khach hang nay.
                 deleteAndBackupCustomer(row);
-                logs_scan.Info("Scan-Error: " + email,ex);
+                logs_scan.Info("Scan-Error: " + email, ex);
             }
 
         }
@@ -587,12 +466,172 @@ namespace BatchSendMail
 
         private void auto_worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            try
+            {
+                EmailSend mailSend = new EmailSend();
+                DataTable tableSend = sendBUS.GetByTime(DateTime.Now, 0);
+                if (tableSend.Rows.Count > 0)
+                {
+                    //lblStatus.Text = "Đang gửi mail....";
+                    foreach (DataRow item in tableSend.Rows)
+                    {
+                        timer1.Stop();
+                        sendRegisterId = int.Parse(item["Id"].ToString());
+                        sendContentId = int.Parse(item["SendContentId"].ToString());
+                        configId = int.Parse(item["MailConfigID"].ToString());
+                        groupId = int.Parse(item["GroupTo"].ToString());
+                        SendType = int.Parse(item["SendType"].ToString());
+                        accountId = int.Parse(item["AccountId"].ToString());
 
+                        int SendRegisterId = int.Parse(item["Id"] + "");
+
+                        //Lấy thông tin cấu hình mail gửi
+                        getConfigServer(configId);
+
+                        // Lấy nội dung mail
+                        //getMailContent(sendContentId);
+                        subject = item["Subject"].ToString();
+                        body = item["Body"].ToString();
+
+                        IList<MailToDTO> recipients = mailSend.GetMailTod(SendRegisterId, groupId, SendType);
+
+                        //IList<string> EmailS
+                        int cnt = 0;
+                        int totalCnt = recipients.Count;
+                        Parallel.ForEach(recipients.AsParallel(), new ParallelOptions { MaxDegreeOfParallelism = maxParallelEmails }, recipient =>
+                        {
+                            bool send = false;
+                            //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(accountId, groupId);
+                            // Send normal.
+                            send = sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
+                                subject, body, recipient.Name, recipient.MailTo, sendRegisterId,0);
+                            logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
+                            // Write log for history send
+                            logHistoryForSend(sendRegisterId, recipient.MailTo, mailFrom, recipient.Name, send);
+
+                            lock (syncRoot) cnt++;
+                        });
+
+                        // Update status for send mail campaign.
+                        sendBUS.tblSendRegister_UpdateStatus(sendRegisterId, 1, DateTime.Now);
+                    }
+                    timer1.Start();
+                    //lblStatus.Text = "Đang chờ gửi mail";
+                }
+            }
+            catch (Exception ex)
+            {
+                logs.Error("timer-tick", ex);
+
+            }
         }
 
         private void event_worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            try
+            {
+                EmailSend mailSend = new EmailSend();
+                DetailGroupBUS dgBus = new DetailGroupBUS();
+                ContentSendEventBUS cseBus = new ContentSendEventBUS();
+                SendContentBUS scBus = new SendContentBUS();
+                EventBUS eventBUS = new EventBUS();
 
+                DataTable tblSendList = dgBus.getGroupListByEventList();
+                if (tblSendList.Rows.Count > 0)
+                {
+
+                    List<SendMailDTO> sendList = mailSend.convetToSendMail(tblSendList);
+                    int totalCnt = sendList.Count;
+                    foreach (SendMailDTO sendItem in sendList)
+                    {
+                        int eventId = sendItem.eventId;
+                        DataTable dtContentSendEvent = cseBus.GetByEventId(eventId);
+                        if (dtContentSendEvent.Rows.Count > 0)
+                        {
+                            if (sendItem.countReceivedMail == 0
+                                && sendItem.lastReceivedMail == "") // Gui lan dau
+                            {
+                                int id = int.Parse(dtContentSendEvent.Rows[0]["id"].ToString());
+                                int contentId = int.Parse(dtContentSendEvent.Rows[0]["ContentId"].ToString());
+                                int hourSend = int.Parse(dtContentSendEvent.Rows[0]["HourSend"].ToString());
+                                DataTable dtSendContent = scBus.GetByID(contentId);
+                                subject = dtContentSendEvent.Rows[0]["Subject"].ToString();
+                                body = dtContentSendEvent.Rows[0]["Body"].ToString();
+
+                                bool sendRs = false;
+                                // Send normal.
+                                bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
+                                        subject, body, sendItem.recieveName, sendItem.mailTo, 0, id);
+                                logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
+
+                                // Update tblDetailGroup.
+                                DetailGroupDTO dgDto = new DetailGroupDTO();
+                                dgDto.CustomerID = sendItem.customerId;
+                                dgDto.GroupID = sendItem.groupId;
+                                dgDto.CountReceivedMail = sendItem.countReceivedMail + 1;
+                                dgDto.LastReceivedMail = DateTime.Now;
+                                dgBus.tblDetailGroup_Update(dgDto);
+
+                                eventBUS.tblEventCustomer_Update(eventId, sendItem.customerId, sendItem.countReceivedMail + 1);
+
+                                logHistoryForSendEvent(id, sendItem.mailTo, mailFrom, sendItem.recieveName, send);
+                            }
+                            else if (sendItem.countReceivedMail < dtContentSendEvent.Rows.Count)
+                            {
+                                string strReceivedMail = sendItem.lastReceivedMail;
+                                DateTime lastReceivedMail = DateTime.Now;
+                                if (strReceivedMail != "")
+                                {
+                                    lastReceivedMail = DateTime.Parse(strReceivedMail);
+                                }
+                                int hourSend = int.Parse(dtContentSendEvent.Rows[sendItem.countReceivedMail]["HourSend"].ToString());
+                                DateTime currentTime = lastReceivedMail.AddHours(hourSend);
+                                TimeSpan time = currentTime - DateTime.Now;
+                                /*if (DateTime.Now.Year == currentTime.Year
+                                    && DateTime.Now.Month == currentTime.Month
+                                    && DateTime.Now.Day == currentTime.Day
+                                    && DateTime.Now.Hour == currentTime.Hour
+                                    && DateTime.Now.Minute == currentTime.Minute)*/
+                                if (time.Days < 0 || time.Hours < 0 || time.Minutes < 0 || time.Seconds < 0)
+                                {
+                                    int contentId = int.Parse(dtContentSendEvent.Rows[sendItem.countReceivedMail]["ContentId"].ToString());
+                                    //DataTable dtSendContent = scBus.GetByID(contentId);
+                                    //if (dtSendContent.Rows.Count > 0)
+                                    //{
+                                    //    subject = dtSendContent.Rows[0]["Subject"].ToString();
+                                    //    body = dtSendContent.Rows[0]["Body"].ToString();
+                                    //}
+                                    subject = dtContentSendEvent.Select("hoursend=" + hourSend)[0]["Subject"].ToString();
+                                    body = dtContentSendEvent.Select("hoursend=" + hourSend)[0]["Body"].ToString();
+
+                                    int id = Convert.ToInt32(dtContentSendEvent.Select("hoursend=" + hourSend)[0]["id"] + "");
+                                    bool sendRs = false;
+                                    // Send normal.
+                                    bool send = sendMail(sendRs, sendItem.port, sendItem.hostName, sendItem.userSmtp, sendItem.passSmtp, sendItem.mailFrom, sendItem.senderName,
+                                            subject, body, sendItem.recieveName, sendItem.mailTo, 0, id);
+
+
+                                    logHistoryForSendEvent(id, sendItem.mailTo, mailFrom, sendItem.recieveName, send);
+                                    logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + sendItem.mailTo + ", mailFrom: " + mailFrom + ", Name: " + sendItem.recieveName);
+                                    // Update tblDetailGroup.
+                                    DetailGroupDTO dgDto = new DetailGroupDTO();
+                                    dgDto.CustomerID = sendItem.customerId;
+                                    dgDto.GroupID = sendItem.groupId;
+                                    dgDto.CountReceivedMail = sendItem.countReceivedMail + 1;
+                                    dgDto.LastReceivedMail = DateTime.Now;
+                                    dgBus.tblDetailGroup_Update(dgDto);
+                                    eventBUS.tblEventCustomer_Update(eventId, sendItem.customerId, sendItem.countReceivedMail + 1);
+                                }
+                            }
+                        }
+                    }// End forEach.
+
+                }
+            }
+            catch (Exception ex)
+            {
+                logs.Error("timer2_tick", ex);
+            }
         }
 
         private void check_worker_DoWork(object sender, DoWorkEventArgs e)

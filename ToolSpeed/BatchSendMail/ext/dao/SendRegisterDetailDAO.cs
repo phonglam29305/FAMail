@@ -50,6 +50,41 @@ public class SendRegisterDetailDAO
             return 1;
         }
     }
+
+    public int tblSendEventDetail_insert(SendEventDetailDTO dt)
+    {
+        try
+        {
+            string sql = "INSERT INTO tblContentSendEventDetail(ContentSendEventID, Email, StartDate, EndDate, DayEnd, HoursEnd, MinuteEnd, SecondEnd, Status, ErrorType, MailSend,CustomerName) " +
+                     "VALUES(@ContentSendEventID, @Email, @StartDate, @EndDate, @DayEnd, @HoursEnd, @MinuteEnd, @SecondEnd, @Status, @ErrorType, @MailSend, @CustomerName) SELECT SCOPE_IDENTITY()";
+            SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.Add("@ContentSendEventID", SqlDbType.Int).Value = dt.ContentSendEventID;
+            cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = dt.Email;
+            cmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = dt.StartDate;
+            cmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = dt.EndDate;
+            cmd.Parameters.Add("@DayEnd", SqlDbType.Int).Value = dt.DayEnd;
+            cmd.Parameters.Add("@HoursEnd", SqlDbType.Int).Value = dt.HoursEnd;
+            cmd.Parameters.Add("@MinuteEnd", SqlDbType.Int).Value = dt.MinuteEnd;
+            cmd.Parameters.Add("@SecondEnd", SqlDbType.Int).Value = dt.SecondEnd;
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = dt.Status;
+            cmd.Parameters.Add("@ErrorType", SqlDbType.VarChar).Value = dt.ErrorType;
+            cmd.Parameters.Add("@MailSend", SqlDbType.NVarChar).Value = dt.MailSend;
+            cmd.Parameters.Add("@CustomerName", SqlDbType.NVarChar).Value = dt.CustomerName;
+
+            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+            {
+                ConnectionData._MyConnection.Open();
+            }
+            cmd.ExecuteNonQuery();
+            return 1;
+        }
+        catch (Exception)
+        {
+
+            return 1;
+        }
+    }
     public void tblSendRegisterDetail_Update(int SendRegisterDetailId, DateTime StartDate, DateTime EndDate, bool Status)
     {
         string sql = "UPDATE tblSendRegisterDetail SET "+

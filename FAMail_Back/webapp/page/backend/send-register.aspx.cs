@@ -118,7 +118,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("login.aspx",false);
+            Response.Redirect("login.aspx", false);
         }
         drlMailConfig.Items.Clear();
         drlMailConfig.DataSource = dtMailConfig.DefaultView;
@@ -138,7 +138,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         else
         {
-            tblSendContent = scBUS.GetAll(userLogin.UserId);
+            tblSendContent = scBUS.GetAllSendContent(userLogin.UserId);
         }
 
         if (tblSendContent.Rows.Count > 0)
@@ -343,7 +343,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     }
     protected void btnClose_Click(object sender, EventArgs e)
     {
-        Response.Redirect("list-content-mail.aspx",false);
+        Response.Redirect("list-content-mail.aspx", false);
     }
     protected SendRegisterDTO getSendRegister()
     {
@@ -372,7 +372,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             return null;
         }
     }
-    protected void btnSave_Click(object sender, EventArgs e)
+    protected void btnSaveAndSend_Click(object sender, EventArgs e)
     {
         try
         {
@@ -395,7 +395,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                 infoUpdate();
 
                 //checkAndInsertPartSend();
-                Insert(timeStart);
+                Insert(timeStart, true);
 
                 logs.Info(userLogin.Username + " sent " + hdfCountCustomer.Value + " emails");
             }
@@ -523,10 +523,17 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         DateTime currentTime = DateTime.Now.AddMinutes(1);
         try
         {
-            Insert(currentTime);
+
+            // Cap nhat thong tin so luong mail da gui cho user.
+            infoUpdate();
+
+            Insert(currentTime, false);
         }
         catch (Exception ex)
         {
+            pnError.Visible = true;
+            lblError.Text = "Có lỗi trong quá trình đăng ký gửi mail!";
+            logs.Error(userLogin.Username + "-Send_Register-btnSendNow_Click", ex);
         }
 
     }
@@ -535,7 +542,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         pnError.Visible = false;
         pnSuccess.Visible = false;
     }
-    private void Insert(DateTime startDate)
+    private void Insert(DateTime startDate, bool isSave)
     {
         srBUS = new SendRegisterBUS();
         scBUS = new SendContentBUS();
@@ -576,24 +583,20 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         }
         else
         {
-            int contentID;
-            //if (hdfContentID.Value == "")
-            //{
-            contentID = scBUS.tblSendContent_insert(scDTO);
-            //}
-            //else
-            //{
-            //    contentID = int.Parse(hdfContentID.Value.ToString());
-            //    scDTO.Id = contentID;
-            //    scBUS.tblSendContent_Update(scDTO);
-            //}
+            int contentID = 0;
+            if (isSave)
+            {
+                contentID = scBUS.tblSendContent_insert(scDTO);
+            }
             SendRegisterDTO srDto = getSendRegister();
             srDto.SendContentId = contentID;
             srDto.StartDate = timeStart;
+            srDto.Subject = txtSubject.Text;
+            srDto.Body = txtBody.Text;
             srBUS.tblSendRegister_insert(srDto);
         }
 
-        Response.Redirect("wait-send.aspx",false);
+        Response.Redirect("wait-send.aspx", false);
 
     }
     private SendContentDTO getContentDTO()
@@ -879,7 +882,7 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     {
         string ContentMail = this.txtBody.Text;
         Session["Content"] = ContentMail;
-        Response.Redirect("PreviewContent.aspx",false);
+        Response.Redirect("PreviewContent.aspx", false);
     }
     protected void btnRefesh_Click(object sender, EventArgs e)
     {

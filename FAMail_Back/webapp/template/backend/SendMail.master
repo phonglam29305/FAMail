@@ -20,7 +20,7 @@ CodeFile="SendMail.master.cs" Inherits="webapp_template_backend_SendMail" %>
 					            <asp:HyperLink ID="hpContentList" href="list-content-mail.aspx" roleId="6" runat="server">Danh sách nội dung</asp:HyperLink>					        
 					        </li>
 					        <li>
-                                <asp:HyperLink ID="hplSendRegister" href="send-register.aspx" roleId="7" runat="server">Đăng ký gửi</asp:HyperLink>
+                                <asp:HyperLink ID="hplSendRegister" href="send-register.aspx" roleId="7" runat="server">Gửi Broadcasting</asp:HyperLink>
 					        </li>
                             <li>
                                 <asp:HyperLink ID="hplWaitingSend" href="wait-send.aspx" roleId="23" runat="server">Danh sách chờ gửi</asp:HyperLink>

@@ -35,9 +35,9 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
                 pnError.Visible = true;
                 lblError.Text = ex.Message;
             }
-            
+
         }
-        
+
     }
 
     private UserLoginDTO getUserLogin()
@@ -68,7 +68,7 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
         try
         {
             srBUS = new SendRegisterBUS();
-            int sendRegisterId = int.Parse(((LinkButton)sender).CommandArgument.ToString());            
+            int sendRegisterId = int.Parse(((LinkButton)sender).CommandArgument.ToString());
             ConnectionData.OpenMyConnection();
             srBUS.tblSendRegister_Delete(sendRegisterId);
             ConnectionData.CloseMyConnection();
@@ -89,156 +89,160 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
     {
         try
         {
-                cateBUs= new CategoryBUS();
-        srBUS = new SendRegisterBUS();
-        srdBus = new SendRegisterDetailBUS();
-        mailConfigBus = new MailConfigBUS();
-        mailGroupBus = new MailGroupBUS();
-        sendContentBus = new SendContentBUS();
-        dsgBus = new DetailGroupBUS();
-        UserLoginDTO userLogin = getUserLogin();
-        DataTable tblSendRegister = new DataTable();
-        if (userLogin.DepartmentId == 1)
-        {
-            tblSendRegister = srBUS.GetAll();
-        }
-        else
-        {
-            tblSendRegister = srBUS.GetAll(userLogin.UserId);
-        }
-        if (tblSendRegister.Rows.Count > 0)
-        {
-            dlWaitSend.DataSource = tblSendRegister;
-            dlWaitSend.DataBind();
-            for (int i = 0; i < tblSendRegister.Rows.Count; i++)
+            cateBUs = new CategoryBUS();
+            srBUS = new SendRegisterBUS();
+            srdBus = new SendRegisterDetailBUS();
+            mailConfigBus = new MailConfigBUS();
+            mailGroupBus = new MailGroupBUS();
+            sendContentBus = new SendContentBUS();
+            dsgBus = new DetailGroupBUS();
+            UserLoginDTO userLogin = getUserLogin();
+            DataTable tblSendRegister = new DataTable();
+            if (userLogin.DepartmentId == 1)
             {
-                try
+                tblSendRegister = srBUS.GetAll();
+            }
+            else
+            {
+                tblSendRegister = srBUS.GetAll(userLogin.UserId);
+            }
+            if (tblSendRegister.Rows.Count > 0)
+            {
+                dlWaitSend.DataSource = tblSendRegister;
+                dlWaitSend.DataBind();
+                for (int i = 0; i < tblSendRegister.Rows.Count; i++)
                 {
-                   
-                    DataRow row = tblSendRegister.Rows[i];
-                    int Sendtype = int.Parse(row["Sendtype"].ToString());
-                    HiddenField hdfId = (HiddenField)dlWaitSend.Items[i].FindControl("hdfId");
-                    hdfId.Value = row["Id"].ToString();
-                    int contentId = int.Parse(row["SendContentId"].ToString());
-                    DataTable tblContent = sendContentBus.GetByID(contentId);
-                    if (tblContent.Rows.Count > 0)
+                    try
                     {
-                        Label lblSubject = (Label)dlWaitSend.Items[i].FindControl("lblSubject");
-                        lblSubject.Text = tblContent.Rows[0]["Subject"].ToString();
-                    }
-                    int mailConfig = int.Parse(row["MailConfigID"].ToString());
-                    DataTable tblMailConfig = mailConfigBus.GetByID(mailConfig);
-                    if (tblMailConfig.Rows.Count > 0)
-                    {
-                        Label lblMailConfig = (Label)dlWaitSend.Items[i].FindControl("lblMailConfig");
-                        lblMailConfig.Text = tblMailConfig.Rows[0]["Email"].ToString();
-                    }
-                    int groupTo = int.Parse(row["GroupTo"].ToString());
-                    if (groupTo == -3)
-                    {
-                        Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
-                        lblGroupTo.Text = "Tất cả khách hàng";
-                    }
-                    else if(groupTo==-2)
-                    {
-                        Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
-                        lblGroupTo.Text = "Nhóm mua nhiều lần";
-                    }
-                    else if (groupTo == -1)
-                    {
-                        Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
-                        lblGroupTo.Text = "Nhóm mua lần đầu";
-                    }
-                    else
-                    {
-                        DataTable tblGroupTo= new DataTable();
-                        if (Sendtype == 1)
-                        {
-                           tblGroupTo = mailGroupBus.GetByID(groupTo);
 
-                            if (tblGroupTo.Rows.Count > 0)
-                            {
-                                Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
-                                lblGroupTo.Text = tblGroupTo.Rows[0]["Name"].ToString();
-                            }
+                        DataRow row = tblSendRegister.Rows[i];
+                        int Sendtype = int.Parse(row["Sendtype"].ToString());
+                        HiddenField hdfId = (HiddenField)dlWaitSend.Items[i].FindControl("hdfId");
+                        hdfId.Value = row["Id"].ToString();
+                        int contentId = int.Parse(row["SendContentId"].ToString());
+                        //DataTable tblContent = sendContentBus.GetByID(contentId);
+                        Label lblSubject = (Label)dlWaitSend.Items[i].FindControl("lblSubject");
+                        //if (tblContent.Rows.Count > 0)
+                        //{
+                        //    lblSubject.Text = tblContent.Rows[0]["Subject"].ToString();
+                        //}
+                        //else 
+                        lblSubject.Text = row["Subject"] + "";
+
+                        int mailConfig = int.Parse(row["MailConfigID"].ToString());
+                        DataTable tblMailConfig = mailConfigBus.GetByID(mailConfig);
+                        if (tblMailConfig.Rows.Count > 0)
+                        {
+                            Label lblMailConfig = (Label)dlWaitSend.Items[i].FindControl("lblMailConfig");
+                            lblMailConfig.Text = tblMailConfig.Rows[0]["Email"].ToString();
+                        }
+                        int groupTo = int.Parse(row["GroupTo"].ToString());
+                        if (groupTo == -3)
+                        {
+                            Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
+                            lblGroupTo.Text = "Tất cả khách hàng";
+                        }
+                        else if (groupTo == -2)
+                        {
+                            Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
+                            lblGroupTo.Text = "Nhóm mua nhiều lần";
+                        }
+                        else if (groupTo == -1)
+                        {
+                            Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
+                            lblGroupTo.Text = "Nhóm mua lần đầu";
                         }
                         else
                         {
-                            tblGroupTo = cateBUs.GetByID(groupTo);
-                            if (tblGroupTo.Rows.Count > 0)
+                            DataTable tblGroupTo = new DataTable();
+                            if (Sendtype == 1)
                             {
-                                Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
-                                lblGroupTo.Text = tblGroupTo.Rows[0]["Title"].ToString();
+                                tblGroupTo = mailGroupBus.GetByID(groupTo);
+
+                                if (tblGroupTo.Rows.Count > 0)
+                                {
+                                    Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
+                                    lblGroupTo.Text = tblGroupTo.Rows[0]["Name"].ToString();
+                                }
                             }
+                            else
+                            {
+                                tblGroupTo = cateBUs.GetByID(groupTo);
+                                if (tblGroupTo.Rows.Count > 0)
+                                {
+                                    Label lblGroupTo = (Label)dlWaitSend.Items[i].FindControl("lblGroupTo");
+                                    lblGroupTo.Text = tblGroupTo.Rows[0]["Title"].ToString();
+                                }
+                            }
+
                         }
 
+                        Label lblStartDate = (Label)dlWaitSend.Items[i].FindControl("lblStartDate");
+                        lblStartDate.Text = row["StartDate"].ToString();
+
+
+                        Label lblEndDate = (Label)dlWaitSend.Items[i].FindControl("lblEndDate");
+
+                        int status = int.Parse(row["Status"].ToString());
+
+                        Panel panel = (Panel)dlWaitSend.Items[i].FindControl("Panel1");
+                        TextBox progressbar = (TextBox)dlWaitSend.Items[i].FindControl("progressbar");
+                        LinkButton lbtDetail = (LinkButton)dlWaitSend.Items[i].FindControl("lbtDetail");
+
+                        //get list detail
+                        DataTable listDetail = srdBus.GetByID(int.Parse(row["Id"].ToString()));
+                        int hasSend = 0, sumSend = dsgBus.GetByID(groupTo).Rows.Count;
+                        for (int k = 0; k < listDetail.Rows.Count; k++)
+                        {
+                            hasSend++;
+                        }
+
+                        //calc percent has send
+                        int percent = 0;
+                        if (sumSend != 0)
+                        {
+                            percent = (hasSend * 100) / sumSend;
+                        }
+
+                        if (status == 0)
+                        {
+                            //display process bar
+                            panel.Visible = true;
+                            progressbar.BackColor = System.Drawing.Color.Cornsilk;
+                            progressbar.Width = percent + 20;
+                            progressbar.Text = percent + "%";
+
+                            lbtDetail.Visible = false;
+                            lbtDetail.Text = "";
+                            lblEndDate.Text = "Chưa xác định ";
+                        }
+                        else
+                        {
+                            //hidden process bar
+                            panel.Visible = false;
+                            lbtDetail.Text = "Xem chi tiết";
+                            lbtDetail.PostBackUrl = "reportSend.aspx?campaign-id=" + row["Id"].ToString();
+                            lblEndDate.Text = row["EndDate"].ToString();
+                        }
+
+                        LinkButton lbtDelete = (LinkButton)dlWaitSend.Items[i].FindControl("lbtDelete");
+                        lbtDelete.CommandArgument = row["Id"].ToString();
                     }
-              
-                    Label lblStartDate = (Label)dlWaitSend.Items[i].FindControl("lblStartDate");
-                    lblStartDate.Text = row["StartDate"].ToString();
-
-                    
-                    Label lblEndDate = (Label)dlWaitSend.Items[i].FindControl("lblEndDate");                    
-
-                    int status = int.Parse(row["Status"].ToString());
-
-                    Panel panel = (Panel)dlWaitSend.Items[i].FindControl("Panel1");
-                    TextBox progressbar = (TextBox)dlWaitSend.Items[i].FindControl("progressbar"); 
-                    LinkButton lbtDetail = (LinkButton)dlWaitSend.Items[i].FindControl("lbtDetail");
-
-                    //get list detail
-                    DataTable listDetail = srdBus.GetByID(int.Parse(row["Id"].ToString()));
-                    int hasSend = 0, sumSend = dsgBus.GetByID(groupTo).Rows.Count;
-                    for (int k = 0; k < listDetail.Rows.Count; k++)
+                    catch (Exception)
                     {
-                        hasSend++;                        
+                        continue;
                     }
-
-                    //calc percent has send
-                    int percent = 0;
-                    if(sumSend!=0){
-                        percent = (hasSend * 100) / sumSend;
-                    }                    
-
-                    if (status == 0)
-                    {
-                        //display process bar
-                        panel.Visible = true;
-                        progressbar.BackColor = System.Drawing.Color.Cornsilk;
-                        progressbar.Width = percent+20;
-                        progressbar.Text = percent + "%";                                    
-                                                                
-                        lbtDetail.Visible = false;
-                        lbtDetail.Text = "";
-                        lblEndDate.Text = "Chưa xác định ";
-                    }
-                    else
-                    {
-                        //hidden process bar
-                        panel.Visible = false;                     
-                        lbtDetail.Text = "Xem chi tiết";
-                        lbtDetail.PostBackUrl = "reportSend.aspx?campaign-id=" + row["Id"].ToString();
-                        lblEndDate.Text = row["EndDate"].ToString();
-                    }
-                    
-                    LinkButton lbtDelete = (LinkButton)dlWaitSend.Items[i].FindControl("lbtDelete");
-                    lbtDelete.CommandArgument = row["Id"].ToString();
-                }
-                catch (Exception)
-                {
-                    continue;
                 }
             }
-        }
-        
+
         }
         catch (Exception)
         {
-            
-         
+
+
         }
     }
-    
+
     protected void lbtExecute_Click(object sender, EventArgs e)
     {
         try
@@ -265,7 +269,7 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
                 }
                 getRegisterSendList();
                 lblMessage.Text = countDelete.ToString();
-                
+
             }
 
         }
@@ -293,6 +297,6 @@ public partial class webapp_page_backend_wait_send : System.Web.UI.Page
         string[] thu = { " Chủ nhật", " Thứ hai", " Thứ ba", " Thứ tư", "Thứ năm", " Thứ sáu", " Thứ bảy" };
         int i = d.DayOfWeek.GetHashCode();
         string currentDate = "Hôm nay: " + thu[i] + ", ngày " + d.ToShortDateString() + ", hiện tại là: " + d.ToLongTimeString(); ;
-    
+
     }
 }

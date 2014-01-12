@@ -39,6 +39,10 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     {
         return srdDao.GetByID(SendRegisterId);
     }
+    public DataTable GetByContentID(int ContentID)
+    {
+        return srdDao.GetByContentID( ContentID);
+    }
 
     public DataTable GetBySendIdAndLimit(int SendRegisterId, int limit)
     {
@@ -108,6 +112,10 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     {
         return srdDao.GetByStatus(status, SendRegisterId);
     }
+    public DataTable GetContentSendEventDetailByStatus(bool status, int ContentSendEventID)
+    {
+        return srdDao.GetContentSendEventDetailByStatus( status,  ContentSendEventID);
+    }
 
     #endregion
 
@@ -119,6 +127,10 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
         srdDao.tblSendRegisterDetail_UpdateOpenMail(SendRegisterId, isOpenMail, DateOpen, Email);
     }
 
+    public void tblSendEventDetail_UpdateOpenMail(int ContentSendEventID, bool isOpenMail, DateTime DateOpen, string Email)
+    {
+        srdDao.tblSendEventDetail_UpdateOpenMail(ContentSendEventID, isOpenMail, DateOpen, Email);
+    }
     #endregion
 
     #region ISendRegisterDetail Members
@@ -138,7 +150,11 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     {
         return srdDao.GetByNotReceve(SendRegisterId);
     }
-
+    public DataTable GetContentSendEventDetailByNotReceve(int ContentSendEventID)
+    {
+        return srdDao.GetContentSendEventDetailByNotReceve(ContentSendEventID);
+    }
+    
     public void tblSendRegisterDetail_UpdateUnreceve(int SendRegisterId, bool isUnreceve, DateTime DateUnreceve, string Email)
     {
         srdDao.tblSendRegisterDetail_UpdateUnreceve(SendRegisterId, isUnreceve, DateUnreceve, Email);

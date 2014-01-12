@@ -17,6 +17,8 @@ public class SendRegisterDTO
 {
     public int Id { get; set; }
     public string AccountId { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public int SendContentId { get; set; }

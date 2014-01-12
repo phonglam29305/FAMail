@@ -77,10 +77,10 @@
 		<div class="page-full-width cf">
 			<ul id="tabs" class="fl">
                 <asp:Panel ID="ControlPanel" runat="server">
-                    <li> <asp:HyperLink ID="hplSendMail" NavigateUrl="~/webapp/page/backend/send-register.aspx" roleId="100" class="active-tab dashboard-tab"  runat="server">Gửi thư</asp:HyperLink></li>
+                    <li> <asp:HyperLink ID="hplSendMail" NavigateUrl="~/webapp/page/backend/send-register.aspx" roleId="100" class="active-tab dashboard-tab"  runat="server">Gửi Broadcasting</asp:HyperLink></li>
                     <li> <asp:HyperLink ID="hplReport" NavigateUrl="~/webapp/page/backend/reportSend.aspx" roleId="200" class="active-tab dashboard-tab"  runat="server">Báo cáo - Thống kê</asp:HyperLink></li>
                     <li> <asp:HyperLink ID="hplManager" NavigateUrl="~/webapp/page/backend/AmazonManage.aspx" roleId="300" class="active-tab dashboard-tab"  runat="server">Quản lý</asp:HyperLink></li>
-                    <li> <asp:HyperLink ID="hplEvent" NavigateUrl="~/webapp/page/backend/create-event.aspx" roleId="400" class="active-tab dashboard-tab"  runat="server">Sự kiện</asp:HyperLink></li>
+                    <li> <asp:HyperLink ID="hplEvent" NavigateUrl="~/webapp/page/backend/create-event.aspx" roleId="400" class="active-tab dashboard-tab"  runat="server">Gửi Autoresponders</asp:HyperLink></li>
                     <li> <asp:HyperLink ID="hplCustomerCare" NavigateUrl="~/webapp/page/backend/ListOrder.aspx" roleId="500" class="active-tab dashboard-tab"  runat="server">Chăm sóc khách hàng</asp:HyperLink></li>
                    <%-- <li> <asp:HyperLink ID="hplLimit" class="dashboard-tab"  runat="server">Hạng ngạch gửi</asp:HyperLink></li>--%>
                 </asp:Panel>
@@ -122,7 +122,7 @@
 	<div id="footer">
 
         <p>&copy; Copyright 2013 <a href="#">FASTAUTOMATICMAIL</a>. All rights reserved.</p>
-		<p><strong>Design</strong> by <a href="#">FPT Team</a></p>
+		<p><strong>Design</strong> by <a href="#"></a></p>
 	
 	</div> <!-- end footer -->   
 	

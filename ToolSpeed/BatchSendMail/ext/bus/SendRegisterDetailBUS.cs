@@ -18,7 +18,10 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     {
       return  srdDao.tblSendRegisterDetail_insert(dt);
     }
-
+    public int tblSendEventDetail_insert(SendEventDetailDTO dt)
+    {
+        return srdDao.tblSendEventDetail_insert(dt);
+    }
 
     public void tblSendRegisterDetail_Delete(int SendRegisterId)
     {

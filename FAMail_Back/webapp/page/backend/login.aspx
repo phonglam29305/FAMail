@@ -93,7 +93,7 @@
 	<!-- FOOTER -->
 	<div id="footer">
 		<p>&copy; Copyright 2013 <a href="#">FASTAUTOMATICMAIL</a>. All rights reserved.</p>
-		<p><strong>Design</strong> by <a href="#">FPT Team</a></p>	
+		<p><strong>Design</strong> by <a href="#"></a></p>	
 	</div> <!-- end footer -->
     
 </body>

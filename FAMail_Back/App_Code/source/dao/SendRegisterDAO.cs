@@ -25,8 +25,8 @@ public class SendRegisterDAO
 	}
     public void tblSendRegister_insert(SendRegisterDTO dt)
     {
-        string sql = "INSERT INTO tblSendRegister(AccountId, StartDate, EndDate, SendContentId, SendType, Status, ErrorType, MailConfigID, GroupTo) " +
-                     "VALUES(@AccountId, @StartDate, @EndDate, @SendContentId, @SendType, @Status, @ErrorType, @MailConfigID, @GroupTo)";
+        string sql = "INSERT INTO tblSendRegister(AccountId, StartDate, EndDate, SendContentId, SendType, Status, ErrorType, MailConfigID, GroupTo, subject, body) " +
+                     "VALUES(@AccountId, @StartDate, @EndDate, @SendContentId, @SendType, @Status, @ErrorType, @MailConfigID, @GroupTo, @subject, @body)";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@AccountId", SqlDbType.VarChar).Value = dt.AccountId;
@@ -38,6 +38,8 @@ public class SendRegisterDAO
         cmd.Parameters.Add("@ErrorType", SqlDbType.Int).Value = dt.ErrorType;
         cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = dt.MailConfigID;
         cmd.Parameters.Add("@GroupTo", SqlDbType.Int).Value = dt.GroupTo;
+        cmd.Parameters.Add("@subject", SqlDbType.VarChar).Value = dt.Subject;
+        cmd.Parameters.Add("@body", SqlDbType.VarChar).Value = dt.Body;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();

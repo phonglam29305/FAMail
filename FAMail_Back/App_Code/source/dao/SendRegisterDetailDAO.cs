@@ -83,6 +83,25 @@ public class SendRegisterDetailDAO
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
+    public void tblSendEventDetail_UpdateOpenMail(int ContentSendEventID, bool isOpenMail, DateTime DateOpen, string email)
+    {
+        string sql = "UPDATE tblContentSendEventDetail SET " +
+                        "isOpenMail = @isOpenMail, " +
+                        "DateOpen = @DateOpen " +
+                        " WHERE ContentSendEventID = @ContentSendEventID and Email=@Email";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@ContentSendEventID", SqlDbType.Int).Value = ContentSendEventID;
+        cmd.Parameters.Add("@isOpenMail", SqlDbType.Bit).Value = isOpenMail;
+        cmd.Parameters.Add("@DateOpen", SqlDbType.DateTime).Value = DateOpen;
+        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        cmd.ExecuteNonQuery();
+        cmd.Dispose();
+    }
     public void tblSendRegisterDetail_Delete(int SendRegisterId)
     {
         SqlCommand cmd = new SqlCommand("DELETE FROM tblSendRegisterDetail WHERE SendRegisterId = @SendRegisterId", ConnectionData._MyConnection);
@@ -127,6 +146,22 @@ public class SendRegisterDetailDAO
         SqlCommand cmd = new SqlCommand("SELECT * FROM tblSendRegisterDetail WHERE SendRegisterId = @SendRegisterId", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@SendRegisterId", SqlDbType.Int).Value = SendRegisterId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    public DataTable GetByContentID(int ContentID)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblContentSendEventDetail WHERE ContentSendEventID = @ContentID", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@ContentID", SqlDbType.Int).Value = ContentID;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
@@ -206,7 +241,24 @@ public class SendRegisterDetailDAO
         adapter.Dispose();
         return table;
     }
-
+    public DataTable GetContentSendEventDetailByStatus(bool status, int ContentSendEventID)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblContentSendEventDetail WHERE Status = @Status and [ContentSendEventID]=@ContentSendEventID", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
+        cmd.Parameters.Add("@ContentSendEventID", SqlDbType.Int).Value = ContentSendEventID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+    
     public DataTable GetBySendIdAndLimit(int SendRegisterId, int limit)
     {
         SqlCommand cmd = new SqlCommand("SELECT TOP " + limit + 
@@ -314,6 +366,22 @@ public class SendRegisterDetailDAO
         }
         cmd.ExecuteNonQuery();
         cmd.Dispose();
+    }
+    public DataTable GetContentSendEventDetailByNotReceve(int ContentSendEventID)
+    {
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblContentSendEventDetail WHERE ContentSendEventID = @ContentSendEventID and isNotRecive= 'True'", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@ContentSendEventID", SqlDbType.Int).Value = ContentSendEventID;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
     }
     public DataTable GetByNotReceve(int SendRegisterId)
     {

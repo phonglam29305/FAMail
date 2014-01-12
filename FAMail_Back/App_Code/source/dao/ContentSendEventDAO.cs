@@ -22,13 +22,15 @@ public class ContentSendEventDAO
 	}
     public void tblContentSendEvent_insert(ContentSendEventDTO dt)
     {
-        string sql = "INSERT INTO tblContentSendEvent(EventId, ContentId, HourSend) " +
-                     "VALUES(@EventId, @ContentId, @HourSend)";
+        string sql = "INSERT INTO tblContentSendEvent(EventId, ContentId, HourSend, subject, body) " +
+                     "VALUES(@EventId, @ContentId, @HourSend, @subject, @body)";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = dt.EventId;
         cmd.Parameters.Add("@ContentId", SqlDbType.NVarChar).Value = dt.ContentId;
-        cmd.Parameters.Add("@HourSend", SqlDbType.NVarChar).Value = dt.HourSend;        
+        cmd.Parameters.Add("@HourSend", SqlDbType.NVarChar).Value = dt.HourSend;
+        cmd.Parameters.Add("@subject", SqlDbType.NVarChar).Value = dt.Subject;
+        cmd.Parameters.Add("@body", SqlDbType.NVarChar).Value = dt.Body;       
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }
@@ -37,7 +39,9 @@ public class ContentSendEventDAO
         string sql = "UPDATE tblContentSendEvent SET " +
                     "EventId = @EventId, " +
                     "ContentId = @ContentId, " +
-                    "HourSend = @HourSend " +
+                    "HourSend = @HourSend, " +
+                    "subject = @subject, " +
+                    "body = @body " +
                     " WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -45,6 +49,8 @@ public class ContentSendEventDAO
         cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = dt.EventId;
         cmd.Parameters.Add("@ContentId", SqlDbType.NVarChar).Value = dt.ContentId;
         cmd.Parameters.Add("@HourSend", SqlDbType.NVarChar).Value = dt.HourSend;
+        cmd.Parameters.Add("@subject", SqlDbType.NVarChar).Value = dt.Subject;
+        cmd.Parameters.Add("@body", SqlDbType.NVarChar).Value = dt.Body;
         int rs = cmd.ExecuteNonQuery();
         cmd.Dispose();
         return rs;
@@ -82,9 +88,9 @@ public class ContentSendEventDAO
     }
     public DataTable GetByEventId(int eventId)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblContentSendEvent WHERE EventId = @EventId", 
+        SqlCommand cmd = new SqlCommand("SP_Event_ReportById", 
             ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
+        cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = eventId;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();

@@ -21,4 +21,6 @@ public class ContentSendEventDTO
     public int ContentId { get; set; }
     public int HourSend { get; set; }
     public int EventId { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
 }

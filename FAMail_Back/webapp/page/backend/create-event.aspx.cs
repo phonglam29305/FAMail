@@ -21,11 +21,12 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     EventBUS eventBus = null;
     SignatureBUS signBus = null;
     UserLoginDTO userLogin = null;
+    DataTable SignIn = null;
     log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
     log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
     protected void Page_Load(object sender, EventArgs e)
     {
-            userLogin = getUserLogin();
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -33,7 +34,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 InitialBUS();
                 LoadMailGroupLists();
                 LoadMailConfigList();
-                LoadEventList();
+                LoadEventList(); LoadSignatureList();
                 // Khoi tao session for store contentSendEvent
                 ContentSendEventBUS cseBus = new ContentSendEventBUS();
                 Session["listContentSendEvent"] = cseBus.GetById(0);
@@ -55,11 +56,11 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         try
         {
             SendContentBUS scBus = new SendContentBUS();
-            DataTable dtContent = scBus.GetAll(getUserLogin().UserId);
+            DataTable dtContent = scBus.GetAllSendContent(getUserLogin().UserId);
             if (dtContent.Rows.Count > 0)
             {
                 DataRow row = dtContent.NewRow();
-                row["Subject"] = "[Chọn nội dung]";
+                row["Subject"] = "----------Chọn nội dung gửi kèm-----------";
                 row["Id"] = "-1";
                 dtContent.Rows.InsertAt(row, 0);
                 drlContent.DataSource = dtContent;
@@ -74,6 +75,49 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
     }
 
+    private void createTableSign()
+    {
+        SignIn = new DataTable("SignIn");
+        DataColumn Id = new DataColumn("Id");
+        Id.DataType = System.Type.GetType("System.Int32");
+        DataColumn SignatureName = new DataColumn("SignatureName");
+        DataColumn[] key = { Id };
+        SignIn.Columns.Add(Id);
+        SignIn.Columns.Add(SignatureName);
+        SignIn.PrimaryKey = key;
+    }
+    private void LoadSignatureList()
+    {
+        try
+        {
+
+            signBus = new SignatureBUS();
+            UserLoginDTO userLogin = getUserLogin();
+            DataTable tblSignList = signBus.GetByUserId(userLogin.UserId);
+            createTableSign();
+            if (tblSignList.Rows.Count > 0)
+            {
+                DataRow rowE = SignIn.NewRow();
+                rowE["Id"] = 0;
+                rowE["SignatureName"] = "Chọn chữ ký";
+                SignIn.Rows.Add(rowE);
+                foreach (DataRow RowItem in tblSignList.Rows)
+                {
+                    rowE = SignIn.NewRow();
+                    rowE["Id"] = RowItem["id"];
+                    rowE["SignatureName"] = RowItem["SignatureName"];
+                    SignIn.Rows.Add(rowE);
+                }
+                drlSign.DataSource = SignIn;
+                drlSign.DataTextField = "SignatureName";
+                drlSign.DataValueField = "id";
+                drlSign.DataBind();
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
     private void LoadContentSendEventList(DataTable dataTable)
     {
         try
@@ -89,13 +133,13 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                     lblNo.Text = (i + 1).ToString();
 
                     LinkButton lbtContent = (LinkButton)dlContentSendEvent.Items[i].FindControl("lbtContent");
-                    String contentId = dataTable.Rows[i]["ContentId"].ToString();
-                    DataTable dtContent = scBus.GetByID(int.Parse(contentId));
-                    if (dtContent.Rows.Count > 0)
-                    {
-                        lbtContent.Text = dtContent.Rows[0]["Subject"].ToString();
-                    }
-
+                    //String contentId = dataTable.Rows[i]["ContentId"].ToString();
+                    //DataTable dtContent = scBus.GetByID(int.Parse(contentId));
+                    //if (dtContent.Rows.Count > 0)
+                    //{
+                    //    lbtContent.Text = dtContent.Rows[0]["Subject"].ToString();
+                    //}
+                    lbtContent.Text = dataTable.Rows[i]["Subject"].ToString();
                     Label lblHour = (Label)dlContentSendEvent.Items[i].FindControl("lblHour");
                     lblHour.Text = dataTable.Rows[i]["HourSend"].ToString() + " Giờ sau";
 
@@ -158,7 +202,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             DataTable tblSign = signBus.GetById(signId);
             if (tblSign.Rows.Count > 0)
             {
-                txtContent.Text = txtContent.Text + "\n" + tblSign.Rows[0]["SignatureContent"].ToString();
+                txtBody.Text = txtBody.Text + "\n" + tblSign.Rows[0]["SignatureContent"].ToString();
             }
         }
         catch (Exception ex)
@@ -183,13 +227,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 if (dtEvent.Rows.Count > 0)
                 {
 
-                    txtSubject.Text = dtEvent.Rows[0]["Subject"].ToString();
-                    txtVoucher.Text = dtEvent.Rows[0]["Voucher"].ToString();
+                    txtAutoName.Text = dtEvent.Rows[0]["Subject"].ToString();
                     drlMailConfig.SelectedItem.Value = dtEvent.Rows[0]["ConfigId"].ToString();
                     drlMailGroup.SelectedValue = dtEvent.Rows[0]["GroupId"].ToString();
-                    txtContent.Text = dtEvent.Rows[0]["Body"].ToString();
-                    txtStartDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["StartDate"].ToString()));
-                    txtEndDate.Text = convertDateToString(DateTime.Parse(dtEvent.Rows[0]["EndDate"].ToString()));
+                    txtBody.Text = dtEvent.Rows[0]["Body"].ToString();
                     if (dtEvent.Rows[0]["ResponeUrl"].Equals("Default"))
                     {
                         chkDefaultPage.Checked = true;
@@ -296,7 +337,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         mailGroupBus = new MailGroupBUS();
         eventBus = new EventBUS();
     }
-    protected void btnSaveEvent_Click(object sender, EventArgs e)
+    protected void btnSaveContentAndEvent_Click(object sender, EventArgs e)
     {
         try
         {
@@ -309,26 +350,6 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 pnError.Visible = true;
                 lblError.Text = checkData();
                 return;
-            }
-            //check time for event
-            if (chkRequireTime.Checked == true)
-            {
-                try
-                {
-                    string strStartDate = txtStartDate.Text;
-                    DateTime startDate = convertStringToDate(strStartDate);
-                    string strEndDate = txtEndDate.Text;
-                    DateTime endDate = convertStringToDate(strEndDate);
-                    eventDto.StartDate = startDate;
-                    eventDto.EndDate = endDate;
-                }
-                catch (Exception)
-                {
-                    pnError.Visible = true;
-                    lblError.Text = "Vui lòng kiểm tra lại định dạng ngày tháng !";
-                    return;
-                }
-
             }
 
             int status = 1;// insert
@@ -382,7 +403,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         {
             msg = "Vui lòng nhập vào tiêu đề cho sự kiện !";
         }
-        else if (txtContent.Text == "")
+        else if (txtBody.Text == "")
         {
             msg = "Vui lòng nhập vào nội dung của sự kiện này !";
         }
@@ -391,10 +412,9 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     protected EventDTO getEvent()
     {
 
-        string subject = txtSubject.Text;
-        string voucher = txtVoucher.Text;
+        string subject = txtAutoName.Text;
         string subscribe = "";
-        string body = txtContent.Text;
+        string body = txtBody.Text;
         int configId = int.Parse(drlMailConfig.SelectedValue.ToString());
         string responeUrl = "";
         if (chkDefaultPage.Checked == true)
@@ -417,7 +437,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         string confirmFlag = "t";
 
         // Initial eventDto object.
-        EventDTO eventDto = new EventDTO(subject, voucher, subscribe, body, configId,
+        EventDTO eventDto = new EventDTO(subject, "", subscribe, body, configId,
             DateTime.Now, DateTime.Now, responeUrl, confirmContent, confirmFlag, getUserLogin().UserId, groupId);
 
         return eventDto;
@@ -446,8 +466,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     protected void resetForm()
     {
         txtSubject.Text = "";
-        txtVoucher.Text = "";
-        txtContent.Text = "";
+        txtBody.Text = "";
         drlMailConfig.SelectedIndex = 0;
         drlMailGroup.SelectedIndex = 0;
     }
@@ -494,12 +513,9 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                 DataRow row = dtEvent.Rows[0];
                 hdfEventId.Value = row["EventId"].ToString();
                 txtSubject.Text = row["Subject"].ToString();
-                txtVoucher.Text = row["Voucher"].ToString();
                 drlMailConfig.SelectedValue = row["ConfigId"].ToString();
                 drlMailGroup.SelectedValue = row["GroupId"].ToString();
-                txtContent.Text = row["Body"].ToString();
-                txtStartDate.Text = convertDateToString(DateTime.Parse(row["StartDate"].ToString()));
-                txtEndDate.Text = convertDateToString(DateTime.Parse(row["EndDate"].ToString()));
+                txtBody.Text = row["Body"].ToString();
                 if (row["ResponeUrl"].Equals("Default"))
                 {
                     chkDefaultPage.Checked = true;
@@ -579,7 +595,6 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             }
             Session["eventId"] = eventId;
             Session["GroupId"] = drlMailGroup.SelectedValue;
-            Session["RequireTime"] = (chkRequireTime.Checked == true) ? "true" : "false";
             Response.Redirect("generate.aspx");
         }
         catch (Exception ex)
@@ -622,7 +637,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     //        }
     //        welcomeText += txtAfterWelcome.Text;
 
-    //        txtContent.Text = welcomeText + "</br>" + txtContent.Text;
+    //        txtBody.Text = welcomeText + "</br>" + txtBody.Text;
     //    }
     //}
     protected void btnSaveContent_Click(object sender, EventArgs e)
@@ -634,16 +649,21 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             DataTable dtContent = (DataTable)Session["listContentSendEvent"];
             int contentId = int.Parse(drlContent.SelectedValue);
             string contentSubject = drlContent.SelectedItem.ToString();
+            string subject = this.txtSubject.Text;
+            string body = this.txtBody.Text;
 
             int hour = int.Parse(txtHour.Text);
             DataRow row = dtContent.NewRow();
             row["ContentId"] = contentId;
             row["HourSend"] = hour;
             row["Id"] = DateTime.Now.Millisecond;
+            row["subject"] = subject;
+            row["body"] = body;
             dtContent.Rows.Add(row);
 
             LoadContentSendEventList(dtContent);
-            txtContent.Text = "";
+            //this.txtBody.Text = "";
+            //this.txtSubject.Text = "";
             drlContent.SelectedIndex = 0;
         }
         catch (Exception ex)
@@ -702,11 +722,17 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
                     cseDto.EventId = eventId;
                     cseDto.ContentId = int.Parse(row["ContentId"].ToString());
                     cseDto.HourSend = int.Parse(row["HourSend"].ToString());
+                    cseDto.Subject = row["Subject"] + "";
+                    cseDto.Body = row["Body"] + "";
 
                     int rsUpdate = cseBus.tblContentSendEvent_Update(cseDto);
                     if (rsUpdate <= 0)
                     {
                         cseBus.tblContentSendEvent_insert(cseDto);
+
+                        SendContentDTO scDTO = new SendContentDTO();
+                        scDTO = getContentDTO();
+                        int contentID = new SendContentBUS().tblSendContent_insert(scDTO);
                     }
                 }
             }
@@ -717,6 +743,16 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         }
     }
 
+    private SendContentDTO getContentDTO()
+    {
+        SendContentDTO scDTO = new SendContentDTO();
+        scDTO.Body = txtBody.Text;
+        scDTO.Subject = txtSubject.Text;
+        scDTO.CreateDate = DateTime.Now;
+        scDTO.userId = getUserLogin().UserId;
+
+        return scDTO;
+    }
     protected void lbtContentRefresh_Click(object sender, EventArgs e)
     {
         LoadContentList();

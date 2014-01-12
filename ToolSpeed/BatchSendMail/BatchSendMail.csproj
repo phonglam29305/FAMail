@@ -121,6 +121,7 @@
     <Compile Include="ext\dao\SurveyDetailDAO.cs" />
     <Compile Include="ext\dao\UserLoginDAO.cs" />
     <Compile Include="ext\dto\ContentSendEventDTO.cs" />
+    <Compile Include="ext\dto\SendEventDetailDTO.cs" />
     <Compile Include="ext\dto\SendMailDTO.cs" />
     <Compile Include="ext\dto\CountBuyDTO.cs" />
     <Compile Include="ext\dto\CustomerDTO.cs" />

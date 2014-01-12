@@ -22,6 +22,8 @@ public partial class emailtrack : System.Web.UI.Page
             srdBUS = new SendRegisterDetailBUS();
             if (Request.Params["emailsentID"] != null & Request.Params["email"]!=null)
                 StampSentEmail(Request.Params["emailsentID"].ToString(), Request.Params["email"].ToString());
+            if (Request.Params["contentid"] != null & Request.Params["email"] != null)
+                StampSentEvenyEmail(Request.Params["contentid"].ToString(), Request.Params["email"].ToString());
         }
         Response.Redirect("none.gif");
     }
@@ -35,6 +37,12 @@ public partial class emailtrack : System.Web.UI.Page
     {
         ConnectionData.OpenMyConnection();
         srdBUS.tblSendRegisterDetail_UpdateOpenMail(int.Parse(sReadID), true, DateTime.Now ,Email);
+        ConnectionData.CloseMyConnection();
+    }
+    private void StampSentEvenyEmail(string sReadID, string Email)
+    {
+        ConnectionData.OpenMyConnection();
+        srdBUS.tblSendEventDetail_UpdateOpenMail(int.Parse(sReadID), true, DateTime.Now, Email);
         ConnectionData.CloseMyConnection();
     }
 }

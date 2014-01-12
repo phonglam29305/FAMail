@@ -117,6 +117,109 @@
 
         </ItemTemplate>
     </asp:Repeater>
+    <asp:DataList ID="dlContentSendEvent" runat="server"
+        RepeatColumns="1">
+        <ItemTemplate>
+            <div class="side-content fr">
+
+                <div class="content-module">
+                    <div class="content-module-heading cf">
+                        <h3 class="fl">
+                            <asp:Label ID="lblGroupName" runat="server" Text="" Font-Size="11"> <%#Eval("subject") %></asp:Label></h3>
+                        <%--<asp:HiddenField ID="hdfId" runat="server" Value='<%#Eval("id") %>'></asp:HiddenField>--%>
+                        <span class="fr expand-collapse-text">Thu vào</span>
+                        <span class="fr expand-collapse-text initial-expand">Mở ra</span>
+                    </div>
+                    <!-- end content-module-heading -->
+                    <%--<label> <%#LoadChart(Eval("id")) %></label>--%>
+                    <div class="content-module-main cf">
+                        <asp:Panel ID="pnReport" runat="server">
+                            <div class="half-size-column fl">
+                                <fieldset>
+                                    <table>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Tên chiến dịch : </b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblCampianName" runat="server" Text='<%#Eval("Subject") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Email gửi :</b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblEmailSend" runat="server" Text='<%#Eval("Email") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Nhóm email nhận : </b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblGroupEmailTo" runat="server" Text='<%#Eval("Name") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Thời gian bắt đầu gửi :</b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblDateStart" runat="server" Text='<%#Eval("StartSend") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Thời gian kết thúc gửi :</b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblDateEnd" runat="server" Text='<%#Eval("EndSend") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Số mail gửi :</b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblTotalMailSend" runat="server" Text='<%#Eval("TotalSend") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Số email đã mở :</b>
+                                            </td>
+                                            <td style="text-align: left">
+                                                <asp:Label ID="lblOpened" runat="server" Text='<%#Eval("TotalOpen") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 35px">
+                                            <td style="width: 40%; text-align: left; padding-left: 10px;">
+                                                <b>Số mail chưa mở :</b>
+                                            </td>
+                                            <td style="text-align: left; border-bottom: none;">
+                                                <asp:Label ID="lblNotOpen2" runat="server" Text='<%#Eval("TotalNotOpen") %>'></asp:Label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                            </div>
+
+                            <!-- end half-size-column -->
+                            <div class="half-size-column fr">
+                                <!--
+				        	Thêm vào đây
+				        	-->
+                                <asp:Label ID="lblChart" runat="server" Text="Không có dữ liệu"></asp:Label>
+                            </div>
+                        </asp:Panel>
+                    </div>
+                </div>
+            </div>
+
+
+        </ItemTemplate>
+    </asp:DataList>
 
 </asp:Content>
 
