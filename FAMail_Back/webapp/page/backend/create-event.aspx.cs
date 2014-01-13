@@ -217,10 +217,10 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         try
         {
-            string EventId = Request.QueryString["EventId"].ToString();
+            string EventId = Request.QueryString["EventId"]+"";
             this.hdfEventId.Value = EventId + "";
             int ID = 0;
-            if (EventId != null)
+            if (EventId != "")
             {
                 ID = int.Parse(EventId);
                 DataTable dtEvent = eventBus.GetByID(ID);

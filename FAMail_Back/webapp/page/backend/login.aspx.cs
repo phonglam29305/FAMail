@@ -51,7 +51,6 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
             string en_pass = Common.GetMd5Hash(txtPassword.Text.Trim());
             ConnectionData.OpenMyConnection();
             DataTable tbResult = ulBus.GetByUsernameAndPass(user, en_pass);
-            ConnectionData.CloseMyConnection();
             if (tbResult.Rows.Count > 0)
             {
                 UserLoginDTO userLogin = new UserLoginDTO();
@@ -76,7 +75,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                 {
                     tableStatus = ulBus.GetClientId(userLogin.UserId);
                     status = int.Parse(tableStatus.Rows[0]["Status"].ToString());
-                }              
+                }
                 if (status == 0)
                 {
 
@@ -92,7 +91,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                     userLogin.hasCreatedCustomer = hasCreatedCustomer;
 
                     // Tạo session user login
-                    Session["us-login"] = userLogin;                    
+                    Session["us-login"] = userLogin;
                     Session["UserName"] = userLogin.Username;
                     Session["UserId"] = userLogin.UserId;
                     // Kiểm tra user này có thuộc phân quyền nâng cao hay không 
@@ -116,7 +115,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
                         Response.Redirect("mail-send.aspx", false);
 
                 }
-                else if( status == -1 )
+                else if (status == -1)
                 {
                     pnError.Visible = true;
                     lblMessage.Text = "Tài khoản đăng nhập chưa kích hoạt.";
@@ -143,6 +142,9 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
             lblMessage.Text = ex.Message;
             logs.Error("user login exception: " + txtUsername.Text, ex);
         }
-
+        finally
+        {
+            ConnectionData.CloseMyConnection();
+        }
     }
 }
