@@ -72,12 +72,12 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
             {
                 try
                 {
-                    temp = sendContentBus.GetByID(int.Parse(tblSendList.Rows[i]["SendContentId"].ToString()));
-                    if (temp.Rows.Count > 0)
-                    {
+                    //temp = sendContentBus.GetByID(int.Parse(tblSendList.Rows[i]["SendContentId"].ToString()));
+                    //if (temp.Rows.Count > 0)
+                    //{
                         drlCampaign.Items.Add(
-                          new ListItem(temp.Rows[0]["Subject"].ToString() + " - " + tblSendList.Rows[i]["StartDate"].ToString(), tblSendList.Rows[i]["Id"].ToString()));
-                    }
+                          new ListItem(tblSendList.Rows[i]["Subject"].ToString() + " - " + tblSendList.Rows[i]["StartDate"].ToString(), tblSendList.Rows[i]["Id"].ToString()));
+                    //}
                 }
                 catch (Exception)
                 {

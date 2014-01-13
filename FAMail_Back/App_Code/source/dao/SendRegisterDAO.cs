@@ -38,8 +38,8 @@ public class SendRegisterDAO
         cmd.Parameters.Add("@ErrorType", SqlDbType.Int).Value = dt.ErrorType;
         cmd.Parameters.Add("@MailConfigID", SqlDbType.Int).Value = dt.MailConfigID;
         cmd.Parameters.Add("@GroupTo", SqlDbType.Int).Value = dt.GroupTo;
-        cmd.Parameters.Add("@subject", SqlDbType.VarChar).Value = dt.Subject;
-        cmd.Parameters.Add("@body", SqlDbType.VarChar).Value = dt.Body;
+        cmd.Parameters.Add("@subject", SqlDbType.NVarChar).Value = dt.Subject;
+        cmd.Parameters.Add("@body", SqlDbType.NVarChar).Value = dt.Body;
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();

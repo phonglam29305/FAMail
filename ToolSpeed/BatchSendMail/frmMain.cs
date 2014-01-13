@@ -475,7 +475,6 @@ namespace BatchSendMail
                     //lblStatus.Text = "Đang gửi mail....";
                     foreach (DataRow item in tableSend.Rows)
                     {
-                        timer1.Stop();
                         sendRegisterId = int.Parse(item["Id"].ToString());
                         sendContentId = int.Parse(item["SendContentId"].ToString());
                         configId = int.Parse(item["MailConfigID"].ToString());
@@ -515,13 +514,13 @@ namespace BatchSendMail
                         // Update status for send mail campaign.
                         sendBUS.tblSendRegister_UpdateStatus(sendRegisterId, 1, DateTime.Now);
                     }
-                    timer1.Start();
+                    //timer1.Start();
                     //lblStatus.Text = "Đang chờ gửi mail";
                 }
             }
             catch (Exception ex)
             {
-                logs.Error("timer-tick", ex);
+                logs.Error("auto_worker_DoWork", ex);
 
             }
         }

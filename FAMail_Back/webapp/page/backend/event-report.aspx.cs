@@ -22,6 +22,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
     ContentSendEventBUS cseBus = null;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userLogin = getUserLogin();
         if (!IsPostBack)
         {
             try
@@ -38,25 +39,13 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
     }
     private void LoadContentList()
     {
-        cseBus = new ContentSendEventBUS();
         try
         {
             object obj = Request.QueryString["id"];
             int eventId = 0;
             if (int.TryParse(obj + "", out eventId))
             {
-                DataTable tblContent = cseBus.GetByEventId(eventId);
-                dlContentSendEvent.DataSource = tblContent;
-                dlContentSendEvent.DataBind();
-
-                for (int i = 0; i < tblContent.Rows.Count; i++)
-                {
-                    Label lblChart = (Label)dlContentSendEvent.Items[i].FindControl("lblChart");
-                    int totalSend = Convert.ToInt32(tblContent.Rows[i]["TotalSend"] + "");
-                    if (totalSend == 0) lblChart.Text = "Chưa được gửi";
-                    else 
-                    CreateChart(Convert.ToInt32(tblContent.Rows[i]["TotalSend"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalErr"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalOpen"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalNotOpen"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalNotRecieve"] + ""), tblContent.Rows[i]["Subject"] + "", lblChart);
-                }
+                LoadReport(eventId);
             }
 
         }
@@ -66,12 +55,29 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         }
     }
 
+    void LoadReport(int eventId)
+    {
+        cseBus = new ContentSendEventBUS();
+        DataTable tblContent = cseBus.GetByEventId(eventId);
+        dlContentSendEvent.DataSource = tblContent;
+        dlContentSendEvent.DataBind();
+
+        for (int i = 0; i < tblContent.Rows.Count; i++)
+        {
+            Label lblChart = (Label)dlContentSendEvent.Items[i].FindControl("lblChart");
+            int totalSend = Convert.ToInt32(tblContent.Rows[i]["TotalSend"] + "");
+            if (totalSend == 0) lblChart.Text = "Chưa được gửi";
+            else
+                CreateChart(Convert.ToInt32(tblContent.Rows[i]["TotalSend"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalErr"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalOpen"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalNotOpen"] + ""), Convert.ToInt32(tblContent.Rows[i]["TotalNotRecieve"] + ""), tblContent.Rows[i]["Subject"] + "", lblChart);
+        }
+    }
     private UserLoginDTO getUserLogin()
     {
         if (Session["us-login"] != null)
         {
             return (UserLoginDTO)Session["us-login"];
         }
+        else Response.Redirect("~");
         return null;
     }
 
@@ -212,7 +218,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
                         lblEvent.Text = rowEventDetail["EventId"].ToString();
                     }
                 }
-
+                LoadReport(eventID);
 
             }
 
@@ -312,7 +318,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
         {
             pnError.Visible = true;
             lblError.Text = ex.Message;
-            
+
         }
         return "";
     }
