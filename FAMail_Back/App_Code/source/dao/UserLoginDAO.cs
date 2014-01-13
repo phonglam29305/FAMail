@@ -431,8 +431,9 @@ public class UserLoginDAO
     }
     public DataTable GetByUsernameAndPass(string username, string password)
     {
+        SqlConnection conn = ConnectionData.GetConnection();
         string sql = "SELECT * FROM tblUserLogin WHERE Username = @Username AND Password = @Password and deleted =0";
-        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand(sql, conn);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
         cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = password;
@@ -441,6 +442,7 @@ public class UserLoginDAO
         adapter.Fill(table);
         cmd.Dispose();
         adapter.Dispose();
+        
         return table;
     }
 

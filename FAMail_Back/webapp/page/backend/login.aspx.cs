@@ -144,7 +144,7 @@ public partial class webapp_page_backend_login : System.Web.UI.Page
         }
         finally
         {
-            ConnectionData.CloseMyConnection();
+            //ConnectionData.CloseMyConnection();
         }
     }
 }

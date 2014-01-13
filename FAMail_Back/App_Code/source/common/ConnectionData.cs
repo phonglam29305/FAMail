@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Email
 {
@@ -18,7 +19,10 @@ namespace Email
         {
             _MyConnection = new System.Data.SqlClient.SqlConnection(_ConnectionString);
         }
-
+        public static SqlConnection GetConnection()
+        {
+            return new System.Data.SqlClient.SqlConnection(_ConnectionString);
+        }
         public static bool TestMyConnection()
         {
             try
@@ -65,7 +69,7 @@ namespace Email
             {
                 if ( _MyConnection.State == ConnectionState.Open)
                 {
-                    _MyConnection.Close();
+                    //_MyConnection.Close();
                 }
             }
             catch (Exception ex)
