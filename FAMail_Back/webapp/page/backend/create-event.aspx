@@ -187,7 +187,89 @@
                     <!-- start update panel -->
                     <%-- <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>--%>
-                    <asp:Label ID="lbl" runat="server" Text=""></asp:Label>
+                  
+
+                    <p>
+                        &nbsp;<asp:Panel Visible="false" ID="PanelHourError" runat="server" Style="width: 39%">
+                            <div class="error-box round">
+                                <asp:Label ID="lblHourError" runat="server" Text=""></asp:Label>
+                            </div>
+                        </asp:Panel>
+                    </p>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="simple-input" style="width: auto; font-weight: bolder; text-transform: none">
+                                    Chọn nội dung</label>
+                            </td>
+                            <td>
+
+                                <asp:DropDownList ID="drlContent" CssClass="round default-width-dropdown" runat="server"
+                                    AutoPostBack="false" onchange="templateChange()">
+                                </asp:DropDownList>
+                            </td>
+                            <td>
+                                <label for="simple-input" style="width: auto; font-weight: bolder; text-transform: none">
+                                    Thêm chữ ký</label>
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="drlSign" CssClass="round default-width-dropdown" runat="server"
+                                    AutoPostBack="false" onchange="signatureChange()">
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                    </table>                  
+                    <p>
+                        <asp:TextBox ID="txtWelcome" CssClass="round default-width-input" Width="15%" runat="server"
+                            ToolTip="Nhập lời chào cho bức thư!">Chào</asp:TextBox>
+                        <asp:RadioButton ID="rdoCustomerName" Checked="true" GroupName="groupWelcome" runat="server" />Tên
+                            khách hàng
+                            <asp:RadioButton ID="rdoCustomerEmail" GroupName="groupWelcome" runat="server" />Mail
+                            khách hàng
+                            <asp:TextBox ID="txtAfterWelcome" CssClass="round default-width-input" Width="35%"
+                                runat="server">thân mến !</asp:TextBox>
+                        <input type="button" value="Thêm lời chào" onclick="insertHello()" class="round button dark menu-user image-left" />
+                    </p>
+                    <%-- them tieu de noi dung --%>
+                     <p>
+                        <asp:HiddenField ID="hdfContentID" runat="server" />
+                        <asp:Label ID="Label1" runat="server" Text="Tiêu đề nội dung" Style="font-weight: bolder; text-transform: none; color: Black;"></asp:Label>
+                        <asp:TextBox ID="txtSubject" CssClass="round default-width-input" runat="server"
+                            Width="98.5%" ToolTip="Nhập tiêu đề bức thư của bạn"></asp:TextBox>
+                    </p>
+                    
+                    <p>
+                    </p>
+                    </p>
+                            <!-- end update panel-->
+
+                    <%--<asp:TextBox ID="txtBody" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
+
+                    <p>
+                        <asp:TextBox ID="txtBody" class="ckeditor" runat="server" TextMode="MultiLine" Width="900px" AutoPostBack="true"></asp:TextBox>
+                        <%--<asp:TextBox ID="txtBody" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
+                    </p>
+                    <table width="1000px">
+
+                        <tr>
+
+
+                            <td style="width: 330px">
+                                <label for="simple-input"
+                                    style="width: auto; font-weight: bolder; text-transform: none">
+                                    Thời gian gửi nội dung đi (tính theo hệ số giờ)</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="txtHour" runat="server" CssClass="round default-width-input"
+                                    Width="35%"></asp:TextBox>
+                                <asp:Button ID="btnSaveContent" runat="server"
+                                    CssClass="button round blue image-right ic-add text-upper"
+                                    OnClick="btnSaveContent_Click" Text="Thêm" />
+                            </td>
+                        </tr>
+
+                    </table>
+                      <asp:Label ID="lbl" runat="server" Text=""></asp:Label>
                     <label for="simple-input">Cấu hình danh sách gửi từng phần ! </label>
                     <table>
                         <asp:DataList ID="dlContentSendEvent" runat="server"
@@ -236,85 +318,6 @@
                             </FooterTemplate>
                         </asp:DataList>
                     </table>
-
-                    <p>
-                        &nbsp;<asp:Panel Visible="false" ID="PanelHourError" runat="server" Style="width: 39%">
-                            <div class="error-box round">
-                                <asp:Label ID="lblHourError" runat="server" Text=""></asp:Label>
-                            </div>
-                        </asp:Panel>
-                    </p>
-                    <p>
-                        <asp:HiddenField ID="hdfContentID" runat="server" />
-                        <asp:Label ID="Label1" runat="server" Text="Tiêu đề nội dung" Style="font-weight: bolder; text-transform: none; color: Black;"></asp:Label>
-                        <asp:TextBox ID="txtSubject" CssClass="round default-width-input" runat="server"
-                            Width="98.5%" ToolTip="Nhập tiêu đề bức thư của bạn"></asp:TextBox>
-                    </p>
-                    <p>
-                        <asp:TextBox ID="txtWelcome" CssClass="round default-width-input" Width="15%" runat="server"
-                            ToolTip="Nhập lời chào cho bức thư!">Chào</asp:TextBox>
-                        <asp:RadioButton ID="rdoCustomerName" Checked="true" GroupName="groupWelcome" runat="server" />Tên
-                            khách hàng
-                            <asp:RadioButton ID="rdoCustomerEmail" GroupName="groupWelcome" runat="server" />Mail
-                            khách hàng
-                            <asp:TextBox ID="txtAfterWelcome" CssClass="round default-width-input" Width="35%"
-                                runat="server">thân mến !</asp:TextBox>
-                        <input type="button" value="Thêm lời chào" onclick="insertHello()" class="round button dark menu-user image-left" />
-                    </p>
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="simple-input" style="width: auto; font-weight: bolder; text-transform: none">
-                                    Chọn nội dung</label>
-                            </td>
-                            <td>
-
-                                <asp:DropDownList ID="drlContent" CssClass="round default-width-dropdown" runat="server"
-                                    AutoPostBack="false" onchange="templateChange()">
-                                </asp:DropDownList>
-                            </td>
-                            <td>
-                                <label for="simple-input" style="width: auto; font-weight: bolder; text-transform: none">
-                                    Thêm chữ ký</label>
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="drlSign" CssClass="round default-width-dropdown" runat="server"
-                                    AutoPostBack="false" onchange="signatureChange()">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                    </table>
-                    <table width="1000px">
-
-                        <tr>
-
-
-                            <td style="width: 330px">
-                                <label for="simple-input"
-                                    style="width: auto; font-weight: bolder; text-transform: none">
-                                    Thời gian gửi nội dung đi (tính theo hệ số giờ)</label>
-                            </td>
-                            <td>
-                                <asp:TextBox ID="txtHour" runat="server" CssClass="round default-width-input"
-                                    Width="35%"></asp:TextBox>
-                                <asp:Button ID="btnSaveContent" runat="server"
-                                    CssClass="button round blue image-right ic-add text-upper"
-                                    OnClick="btnSaveContent_Click" Text="Thêm" />
-                            </td>
-                        </tr>
-
-                    </table>
-                    <p>
-                    </p>
-                    </p>
-                            <!-- end update panel-->
-
-                    <%--<asp:TextBox ID="txtBody" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-
-                    <p>
-                        <asp:TextBox ID="txtBody" class="ckeditor" runat="server" TextMode="MultiLine" Width="900px" AutoPostBack="true"></asp:TextBox>
-                        <%--<asp:TextBox ID="txtBody" class="ckeditor" Rows="20" Columns="20" style="width:100%" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-                    </p>
 
 
                     <%--                        </ContentTemplate>

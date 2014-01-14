@@ -427,7 +427,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
             if (responeUrl == null || responeUrl == "")
             {
-                responeUrl = "http://chomy.com.vn";
+                responeUrl =txtResponeUrl.Text;
             }
         }
 
