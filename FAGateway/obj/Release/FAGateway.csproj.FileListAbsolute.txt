@@ -3,3 +3,5 @@ D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.frmCheckMail.resources
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.frmMail.resources
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.Properties.Resources.resources
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.csproj.GenerateResource.Cache
+D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.exe
+D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.pdb

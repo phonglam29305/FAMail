@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
+using System.Configuration;
 
 public partial class Register : System.Web.UI.Page
 {
@@ -162,8 +163,9 @@ public partial class Register : System.Web.UI.Page
                 SmtpServer.EnableSsl = true;
                 MailMessage mail = new MailMessage();
                 String[] addr = txtEmail.Text.Split(' ');
-                mail.From = new MailAddress("customersevices@fastautomaticmail.com",
-                " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                //mail.From = new MailAddress("customersevices@fastautomaticmail.com",
+                //" Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                mail.From = new MailAddress(ConfigurationManager.AppSettings["SystemOutEmail"].ToString(), "Hệ Thống FA MAIL ", System.Text.Encoding.UTF8);
                 Byte i;
                 for (i = 0; i < addr.Length; i++)
                     mail.To.Add(addr[i]);

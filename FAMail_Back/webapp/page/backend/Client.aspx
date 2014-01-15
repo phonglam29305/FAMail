@@ -76,6 +76,7 @@
                             <td align="left" style="text-align: left;">
                                 <asp:Label ID="Label3" runat="server" Text="<b>Theo Email :</b>"></asp:Label>
                                 <asp:TextBox ID="txtEmail" runat="server" Width="60%" CssClass="Hung"></asp:TextBox>
+                                <asp:Label ID="Label8" runat="server" Text="Label" Visible="False"></asp:Label>
                             </td>
                             <td style="padding-left: 30px;">
                                 <asp:Button ID="btnFilter" runat="server" CssClass="button round blue image-right ic-search text-upper"
@@ -151,7 +152,7 @@
                                         <asp:ImageButton ID="btnUnlock" runat="server" ImageUrl="~/webapp/resource/images/unlock.png"
                                             CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Tạm khóa"?true:false %>'  CommandName="UnLock" OnClientClick="return confirm('Are you sure you want unlock this account ?');"/>
                                         <asp:ImageButton ID="btnActive" runat="server" ImageUrl="~/webapp/resource/images/warning.png"
-                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Chưa kích hoạt"?true:false %>'  CommandName="Active" OnClientClick="return confirm('Are you sure you want active this account ?');"/>
+                                            CommandArgument='<%#Eval("clientid") %>' Visible='<%#Eval("Sstatus") + "" == "Chưa kích hoạt"?true:false %>'  CommandName="Active" OnClientClick="return confirm('Are you sure you want active this account ?');" OnClick="btnActive_Click"/>
                                     </td>
                                 </tr>
                             </tbody>

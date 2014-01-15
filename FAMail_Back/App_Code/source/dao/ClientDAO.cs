@@ -78,6 +78,22 @@ public class ClientDAO
         adapter.Dispose();
         return table;
     }
+    public DataTable getallclient(int clientId)
+    {
+        SqlCommand cmd = new SqlCommand("Select * from tblClient where clientId=@clientId ", ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@clientId", SqlDbType.Int).Value = clientId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
 
     public DataTable GetByEmail(string Email)
     {

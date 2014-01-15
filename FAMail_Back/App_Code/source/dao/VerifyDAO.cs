@@ -22,12 +22,13 @@ public class VerifyDAO
 	}
     public void tblVerify_insert(VerifyDTO dt)
     {
-        string sql = "INSERT INTO tblVerify(EmailVerify, UserId) " +
-                     "VALUES(@EmailVerify, @UserId)";
-        SqlCommand   cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        string sql = "INSERT INTO tblVerify(EmailVerify, UserId,isdelete) " +
+                        "VALUES(@EmailVerify, @UserId,@isdelete)";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@EmailVerify", SqlDbType.VarChar).Value = dt.EmailVerify;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dt.userId;
+        cmd.Parameters.Add("@isdelete", SqlDbType.Bit).Value = dt.isdelete;
         cmd.ExecuteNonQuery();
         cmd.Dispose();
     }

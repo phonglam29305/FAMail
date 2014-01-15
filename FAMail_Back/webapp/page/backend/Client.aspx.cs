@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
+using System.Net.Mail;
 
 public partial class webapp_page_backend_Customer : System.Web.UI.Page
 {
@@ -98,5 +99,32 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
     protected void btnSearch_Click(object sender, EventArgs e)
     {
 
+    }
+    protected void btnActive_Click(object sender, ImageClickEventArgs e)
+    {
+        InitBUS();
+        int clinetId = int.Parse(((ImageButton)sender).CommandArgument.ToString());
+        DataTable data = clientBUS.getallclient(clinetId);
+        if (data.Rows.Count > 0)
+        {
+            Label8.Text = data.Rows[0]["email"].ToString();
+        }
+        SmtpClient SmtpServer = new SmtpClient();
+        SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+        SmtpServer.Port = 25;
+        SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+        SmtpServer.EnableSsl = true;
+        MailMessage mail = new MailMessage();
+        String[] addr = Label8.Text.Split(' ');
+        mail.From = new MailAddress(ConfigurationManager.AppSettings["SystemOutEmail"].ToString(), "Hệ Thống FA MAIL ", System.Text.Encoding.UTF8);
+        Byte i;
+        for (i = 0; i < addr.Length; i++)
+            mail.To.Add(addr[i]);
+        mail.Subject = "Thư xác nhận";
+        mail.IsBodyHtml = true;
+        mail.Body = "Tai khoan da active";
+        mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+        mail.ReplyTo = new MailAddress(Label8.Text);
+        SmtpServer.Send(mail);
     }
 }

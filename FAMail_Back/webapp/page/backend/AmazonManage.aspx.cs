@@ -205,31 +205,30 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                 vDto.userId = getUserLogin().UserId;
                 if (vBus.GetByEmail(vDto.EmailVerify).Rows.Count > 0)
                 {
-                    pnSuccess.Visible = false;
-                    pnError.Visible = true;
-                    lblError.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống. Chúng tôi gởi một Email vào tài khoản "+txtEmailVerify.Text+" .Bạn vui lòng mở Email để kích hoạt sử dụng ";
-                    SmtpClient SmtpServer = new SmtpClient();
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
-                    SmtpServer.Port = 25;
-                    SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
-                    SmtpServer.EnableSsl = true;
-                    MailMessage mail = new MailMessage();
-                    String[] addr = txtEmailVerify.Text.Split(' ');
-                    mail.From = new MailAddress("customersevices@fastautomaticmail.com",
-                    " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
-                    Byte i;
-                    for (i = 0; i < addr.Length; i++)
-                        mail.To.Add(addr[i]);
-                    mail.Subject = "Thư xác nhận";
-                    mail.IsBodyHtml = true;
-                    //mail.Body = ("http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text);
+                    pnSuccess.Visible =true;
+                    pnError.Visible =false;
 
-                    mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td> http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email="+txtEmailVerify.Text+" </td></tr></table></body>  ";
-                    mail.Body += "</html>";
-
-                    mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-                    mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
-                    SmtpServer.Send(mail);
+                    lblSuccess.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống. Chúng tôi gởi một Email vào tài khoản "+txtEmailVerify.Text+" .Bạn vui lòng mở Email để kích hoạt sử dụng ";
+                    //SmtpClient SmtpServer = new SmtpClient();
+                    //SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+                    //SmtpServer.Port = 25;
+                    //SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+                    //SmtpServer.EnableSsl = true;
+                    //MailMessage mail = new MailMessage();
+                    //String[] addr = txtEmailVerify.Text.Split(' ');
+                    //mail.From = new MailAddress("customersevices@fastautomaticmail.com",
+                    //" Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                    //Byte i;
+                    //for (i = 0; i < addr.Length; i++)
+                    //    mail.To.Add(addr[i]);
+                    //mail.Subject = "Thư xác nhận";
+                    //mail.IsBodyHtml = true;
+                    //string lnk = "http://emailmarketing.1onlinebusinesssystem.com/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
+                    //mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td>" + HttpUtility.HtmlEncode(lnk) + " </td></tr></table></body>  ";
+                    //mail.Body += "</html>";
+                    //mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                    //mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
+                    //SmtpServer.Send(mail);
                     return;
                 }
                 else
@@ -274,31 +273,9 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                 //pnError.Visible = true;
                 //lblError.Text = "Lỗi trong quá trình verify";
 
-                pnSuccess.Visible = false;
-                pnError.Visible = true;
-                lblError.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống. Chúng tôi gởi một Email vào tài khoản " + txtEmailVerify.Text + " .Bạn vui lòng mở Email để kích hoạt sử dụng ";
-                SmtpClient SmtpServer = new SmtpClient();
-                SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
-                SmtpServer.Port = 25;
-                SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
-                SmtpServer.EnableSsl = true;
-                MailMessage mail = new MailMessage();
-                String[] addr = txtEmailVerify.Text.Split(' ');
-                mail.From = new MailAddress("customersevices@fastautomaticmail.com",
-                " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
-                Byte i;
-                for (i = 0; i < addr.Length; i++)
-                    mail.To.Add(addr[i]);
-                mail.Subject = "Thư xác nhận";
-                mail.IsBodyHtml = true;
-                //mail.Body = ("http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text);
-
-                mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td> http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text + " </td></tr></table></body>  ";
-                mail.Body += "</html>";
-
-                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-                mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
-                SmtpServer.Send(mail);
+                pnSuccess.Visible =true;
+                pnError.Visible =false;
+                lblSuccess.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";               
                 return;
             }
         }
@@ -430,5 +407,28 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         catch (Exception)
         {
         }
+    }
+    protected void btnSaveAndSend_Click(object sender, EventArgs e)
+    {
+        SmtpClient SmtpServer = new SmtpClient();
+        SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+        SmtpServer.Port = 25;
+        SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
+        SmtpServer.EnableSsl = true;
+        MailMessage mail = new MailMessage();
+        String[] addr = txtEmailVerify.Text.Split(' ');
+        mail.From = new MailAddress("customersevices@fastautomaticmail.com",
+        " Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+        Byte i;
+        for (i = 0; i < addr.Length; i++)
+            mail.To.Add(addr[i]);
+        mail.Subject = "Thư xác nhận";
+        mail.IsBodyHtml = true;
+        string lnk = "http://emailmarketing.1onlinebusinesssystem.com/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
+        mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td>" + HttpUtility.HtmlEncode(lnk) + " </td></tr></table></body>  ";
+        mail.Body += "</html>";
+        mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+        mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
+        SmtpServer.Send(mail);
     }
 }

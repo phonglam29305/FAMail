@@ -35,6 +35,10 @@ public class ClientBUS : IClient
     {
         return ctDao.GetByID(Id);
     }
+    public DataTable getallclient(int clinetId)
+    {
+        return ctDao.getallclient(clinetId);
+    }
 
     public DataTable GetByEmail(string Email)
     {
