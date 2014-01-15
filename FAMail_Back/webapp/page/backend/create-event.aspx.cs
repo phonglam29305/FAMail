@@ -217,7 +217,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     {
         try
         {
-            string EventId = Request.QueryString["EventId"]+"";
+            string EventId = Request.QueryString["EventId"] + "";
             this.hdfEventId.Value = EventId + "";
             int ID = 0;
             if (EventId != "")
@@ -399,13 +399,20 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
     private string checkData()
     {
         string msg = "";
-        if (txtSubject.Text == "")
+        if (txtAutoName.Text == "")
         {
             msg = "Vui lòng nhập vào tiêu đề cho sự kiện !";
         }
         else if (txtBody.Text == "")
         {
             msg = "Vui lòng nhập vào nội dung của sự kiện này !";
+        }
+        else
+        {
+
+            DataTable dtContent = (DataTable)Session["listContentSendEvent"];
+            if (dtContent == null || dtContent.Rows.Count == 0)
+                msg = "Vui lòng cấu hình danh sách gửi từng phần của sự kiện này !";
         }
         return msg;
     }
@@ -427,7 +434,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
 
             if (responeUrl == null || responeUrl == "")
             {
-                responeUrl =txtResponeUrl.Text;
+                responeUrl = txtResponeUrl.Text;
             }
         }
 

@@ -20,6 +20,7 @@ public class EventDetailDTO
     public DateTime CreateDate { get; set; }
     public string FullName { get; set; }
     public string EmailID { get; set; }
+    public string Job { get; set; }
     public string Company { get; set; }
     public string Phone { get; set; }
     public string SecondPhone { get; set; }
@@ -39,6 +40,7 @@ public class EventDetailDTO
         this.EventId = 0;
         this.CreateDate = DateTime.Now;
         this.EmailID = "";
+        this.Job = "";
         this.Company = "";
         this.Phone = "";
         this.SecondPhone = "";

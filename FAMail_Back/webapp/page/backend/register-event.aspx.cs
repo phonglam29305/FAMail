@@ -28,7 +28,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
         {
             string eventId, name, email, company, phone, secondPhone, address1,
                 address2, city, province, country, zipcode, fax, groupId,
-                visibleField, gender, requireTime, UserID;
+                visibleField, gender, requireTime, UserID, Job;
 
             eventId = Request.Params["eventId"];
             name = Request.Params["Name"];
@@ -48,7 +48,11 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             {
                 gender = "Nam";
             }
-
+            Job = Request.Params["Job"];
+            if (Job == null || Job == "")
+            {
+                Job = "";
+            }
             company = Request.Params["Company"];
             if (company == null || company == "")
             {
@@ -116,6 +120,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
             eventDetailDto.EventId = int.Parse(eventId);
             eventDetailDto.FullName = name;
             eventDetailDto.EmailID = email;
+            eventDetailDto.Job = Job;
             eventDetailDto.Company = company;
             eventDetailDto.Phone = phone;
             eventDetailDto.SecondPhone = secondPhone;
@@ -194,6 +199,7 @@ public partial class webapp_page_backend_register_event : System.Web.UI.Page
                         customerDto.Address = address1;
                         customerDto.Fax = fax;
                         customerDto.Company = company;
+                        customerDto.Job = Job;
                         customerDto.City = city;
                         customerDto.Province = province;
                         customerDto.Country = country;

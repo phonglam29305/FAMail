@@ -68,7 +68,7 @@ public partial class webapp_page_backend_mail_report : System.Web.UI.Page
                 rowVisible += "</tr>";
             }
             rowVisible += "<tr align=\"center\">\n";
-            rowVisible += "<td><input name=\"btnSubmit\" id=\"btnSubmit\" type=\"submit\" value=\"Submit\" /></td>\n";
+            rowVisible += "<td><input name=\"btnSubmit\" id=\"btnSubmit\" type=\"submit\" value=\"Đăng ký\" /></td>\n";
             rowVisible += "</tr>\n";
 
             String rs = "";
@@ -98,48 +98,52 @@ public partial class webapp_page_backend_mail_report : System.Web.UI.Page
         Hashtable visibleField = new Hashtable();
         if (rdoName2.Checked == true)
         {
-            visibleField.Add("Name", "Name");
+            visibleField.Add("Name", "Họ tên");
         }
         visibleField.Add("Email", "Email");
+        if (rdoJob2.Checked == true)
+        {
+            visibleField.Add("Job", "Nghề nghiệp");
+        }
         if (rdoCampany2.Checked == true)
         {
-            visibleField.Add("Company", "Company");
+            visibleField.Add("Company", "Công ty");
         }
         if (rdoGender2.Checked == true)
         {
-            visibleField.Add("Gender", "Gender");
+            visibleField.Add("Gender", "Giới tính");
         }
         if (rdoPhone2.Checked == true)
         {
-            visibleField.Add("Phone", "Phone");
+            visibleField.Add("Phone", "Điện thoại");
         } 
         if (rdoSecondPhone2.Checked == true)
         {
-            visibleField.Add("SecondPhone", "Second phone");
+            visibleField.Add("SecondPhone", "Điện thoại khác");
         }
         if (rdoAddress2.Checked == true)
         {
-            visibleField.Add("Address1", "Address");
+            visibleField.Add("Address1", "Địa chỉ");
         }
         if (rdoAddressTwo2.Checked == true)
         {
-            visibleField.Add("Address2", "Address line 2");
+            visibleField.Add("Address2", "Địa chỉ liên lạc");
         }
         if (rdoCity2.Checked == true)
         {
-            visibleField.Add("City", "City");
+            visibleField.Add("City", "Thành phố");
         }
         if (rdoProvince2.Checked == true)
         {
-            visibleField.Add("Province", "Province");
+            visibleField.Add("Province", "Quận/Huyện");
         }
         if (rdoZipCode2.Checked == true)
         {
-            visibleField.Add("ZipCode", "ZipCode");
+            visibleField.Add("ZipCode", "Mã vùng");
         }
         if (rdoCountry2.Checked == true)
         {
-            visibleField.Add("Country", "Country");
+            visibleField.Add("Country", "Quốc gia");
         }
         if (rdoFax2.Checked == true)
         {

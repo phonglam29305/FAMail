@@ -24,8 +24,8 @@ public class CustomerDAO
 
     public int tblCustomer_insert(CustomerDTO dt)
     {
-        string sql = "INSERT INTO tblCustomer(Name, Gender, BirthDay, Email, Phone, Address, Type ,SecondPhone ,Fax ,Company ,City ,Province ,Country ,recivedEmail , countBuy,createBy,assignTo) " +
-                     "VALUES(@Name, @Gender, @BirthDay, @Email, @Phone, @Address, @Type, @SecondPhone, @Fax ,@Company ,@City ,@Province ,@Country ,@recivedEmail, @countBuy,@createBy,@assignTo)  SELECT SCOPE_IDENTITY()";
+        string sql = "INSERT INTO tblCustomer(Name, Gender, BirthDay, Email, Phone, Address, Type ,SecondPhone ,Fax ,Job ,Company ,City ,Province ,Country ,recivedEmail , countBuy,createBy,assignTo) " +
+                     "VALUES(@Name, @Gender, @BirthDay, @Email, @Phone, @Address, @Type, @SecondPhone, @Fax ,@Job ,@Company ,@City ,@Province ,@Country ,@recivedEmail, @countBuy,@createBy,@assignTo)  SELECT SCOPE_IDENTITY()";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = dt.Name;
@@ -37,6 +37,7 @@ public class CustomerDAO
         cmd.Parameters.Add("@Type", SqlDbType.NVarChar).Value = dt.Type;
         cmd.Parameters.Add("@SecondPhone", SqlDbType.NVarChar).Value = dt.SecondPhone;
         cmd.Parameters.Add("@Fax", SqlDbType.NVarChar).Value = dt.Fax;
+        cmd.Parameters.Add("@Job", SqlDbType.NVarChar).Value = dt.Job;
         cmd.Parameters.Add("@Company", SqlDbType.NVarChar).Value = dt.Company;
         cmd.Parameters.Add("@City", SqlDbType.NVarChar).Value = dt.City;
         cmd.Parameters.Add("@Province", SqlDbType.NVarChar).Value = dt.Province;

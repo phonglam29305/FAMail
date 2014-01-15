@@ -28,6 +28,7 @@ public class CustomerDTO
     public string SecondPhone { get; set; }
     public string Address { get; set; }
     public string Fax { get; set; }
+    public string Job { get; set; }
     public string Company { get; set; }
     public string City { get; set; }
     public string Province { get; set; }
