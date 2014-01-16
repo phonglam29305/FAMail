@@ -12,41 +12,41 @@ using System.Data.SqlClient;
 /// </summary>
 public class SendRegisterDetailDAO
 {
-	public SendRegisterDetailDAO()
-	{
-    
-	}
+    public SendRegisterDetailDAO()
+    {
+
+    }
     public int tblSendRegisterDetail_insert(SendRegisterDetailDTO dt)
     {
         try
         {
             string sql = "INSERT INTO tblSendRegisterDetail(SendRegisterId, Email, StartDate, EndDate, DayEnd, HoursEnd, MinuteEnd, SecondEnd, Status, ErrorType, MailSend,CustomerName) " +
                      "VALUES(@SendRegisterId, @Email, @StartDate, @EndDate, @DayEnd, @HoursEnd, @MinuteEnd, @SecondEnd, @Status, @ErrorType, @MailSend, @CustomerName) SELECT SCOPE_IDENTITY()";
-        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-        cmd.CommandType = CommandType.Text;
-        cmd.Parameters.Add("@SendRegisterId", SqlDbType.Int).Value = dt.SendRegisterId;
-        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = dt.Email;
-        cmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = dt.StartDate;
-        cmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = dt.EndDate;
-        cmd.Parameters.Add("@DayEnd", SqlDbType.Int).Value = dt.DayEnd;
-        cmd.Parameters.Add("@HoursEnd", SqlDbType.Int).Value = dt.HoursEnd;
-        cmd.Parameters.Add("@MinuteEnd", SqlDbType.Int).Value = dt.MinuteEnd;
-        cmd.Parameters.Add("@SecondEnd", SqlDbType.Int).Value = dt.SecondEnd;
-        cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = dt.Status;
-        cmd.Parameters.Add("@ErrorType", SqlDbType.VarChar).Value = dt.ErrorType;
-        cmd.Parameters.Add("@MailSend", SqlDbType.NVarChar).Value = dt.MailSend;
-        cmd.Parameters.Add("@CustomerName", SqlDbType.NVarChar).Value = dt.CustomerName;
+            SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.Add("@SendRegisterId", SqlDbType.Int).Value = dt.SendRegisterId;
+            cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = dt.Email;
+            cmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = dt.StartDate;
+            cmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = dt.EndDate;
+            cmd.Parameters.Add("@DayEnd", SqlDbType.Int).Value = dt.DayEnd;
+            cmd.Parameters.Add("@HoursEnd", SqlDbType.Int).Value = dt.HoursEnd;
+            cmd.Parameters.Add("@MinuteEnd", SqlDbType.Int).Value = dt.MinuteEnd;
+            cmd.Parameters.Add("@SecondEnd", SqlDbType.Int).Value = dt.SecondEnd;
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = dt.Status;
+            cmd.Parameters.Add("@ErrorType", SqlDbType.VarChar).Value = dt.ErrorType;
+            cmd.Parameters.Add("@MailSend", SqlDbType.NVarChar).Value = dt.MailSend;
+            cmd.Parameters.Add("@CustomerName", SqlDbType.NVarChar).Value = dt.CustomerName;
 
-        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
-        {
-            ConnectionData._MyConnection.Open();
-        }
-        cmd.ExecuteNonQuery();
-        return 1;
+            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+            {
+                ConnectionData._MyConnection.Open();
+            }
+            cmd.ExecuteNonQuery();
+            return 1;
         }
         catch (Exception)
         {
-            
+
             return 1;
         }
     }
@@ -77,6 +77,7 @@ public class SendRegisterDetailDAO
                 ConnectionData._MyConnection.Open();
             }
             cmd.ExecuteNonQuery();
+
             return 1;
         }
         catch (Exception)
@@ -85,12 +86,32 @@ public class SendRegisterDetailDAO
             return 1;
         }
     }
+    public void logsErrorEmail(string email, string Exception)
+    {
+        try
+        {
+            string sql = "SP_LogsErrorEmail";
+            SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
+            cmd.Parameters.Add("@Exception", SqlDbType.NVarChar).Value = Exception;
+
+            if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+            {
+                ConnectionData._MyConnection.Open();
+            }
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception)
+        {
+        }
+    }
     public void tblSendRegisterDetail_Update(int SendRegisterDetailId, DateTime StartDate, DateTime EndDate, bool Status)
     {
-        string sql = "UPDATE tblSendRegisterDetail SET "+
-	                    "StartDate = @StartDate, "+
-	                    "EndDate = @EndDate, "+
-	                    "Status = @Status "+
+        string sql = "UPDATE tblSendRegisterDetail SET " +
+                        "StartDate = @StartDate, " +
+                        "EndDate = @EndDate, " +
+                        "Status = @Status " +
                         "WHERE SendRegisterDetailId = @SendRegisterDetailId";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
@@ -186,7 +207,7 @@ public class SendRegisterDetailDAO
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        DataTable table = new DataTable(); 
+        DataTable table = new DataTable();
         if (ConnectionData._MyConnection.State == ConnectionState.Closed)
         {
             ConnectionData._MyConnection.Open();
@@ -216,7 +237,7 @@ public class SendRegisterDetailDAO
 
     public DataTable GetBySendIdAndLimit(int SendRegisterId, int limit)
     {
-        SqlCommand cmd = new SqlCommand("SELECT TOP " + limit + 
+        SqlCommand cmd = new SqlCommand("SELECT TOP " + limit +
             " SendRegisterId,Email,StartDate,EndDate,Status FROM tblSendRegisterDetail WHERE SendRegisterId = @SendRegisterId", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@SendRegisterId", SqlDbType.Int).Value = SendRegisterId;

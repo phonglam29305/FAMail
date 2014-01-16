@@ -26,6 +26,10 @@ namespace BatchSendMail
         private readonly static int maxParallelEmails = 196;
         private readonly static int maxParallelEvent = 1;
 
+        string lastSend = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        int sendCount = 0;
+        int maxSpeed = 0;
+
         log4net.ILog logs = log4net.LogManager.GetLogger("ErrorRollingLogFileAppender");
         log4net.ILog logs_info = log4net.LogManager.GetLogger("InfoRollingLogFileAppender");
 
@@ -71,11 +75,14 @@ namespace BatchSendMail
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            int.TryParse(ConfigurationManager.AppSettings["maxSpeed"] + "", out maxSpeed);
             InitConnectToDatabase();
             btnStop.Enabled = false;
             btnStopEvent.Enabled = false;
             lblStatus.Text = "Đang ngưng dịch vụ";
             timer2.Start();
+
+
         }
 
         /**
@@ -232,11 +239,22 @@ namespace BatchSendMail
                 {
                     smtp.Send(mail);
                     //logs_info.Info(mail.From + "==>" + mail.To);
+                    sendCount += 1;
+                    if (sendCount == maxSpeed || lastSend != DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+                    {
+                        sendCount = 0;
+                        DateTime time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                        time = time.AddSeconds(1);
+                        TimeSpan t = time - DateTime.Now;
+                        Thread.Sleep(TimeSpan.FromMilliseconds(t.Milliseconds));
+                    }
+                    lastSend = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     return true;
                 }
                 catch (Exception ex)
                 {
                     logs.Error("send:" + mail.From + "==>" + mail.To, ex);
+                    sendDetailBUS.logsErrorEmail(mail.To[0].Address, ex.Message);
                     return false;
                 }
             }
@@ -298,7 +316,7 @@ namespace BatchSendMail
                                 subjectDetail = subjectDetail.Replace("[khachhang]", customerName).ToUpper();
                                 bool send = false;
                                 sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
-                                    subjectDetail, contentDetail, customerName, emailTo, sendRegisterId,0);
+                                    subjectDetail, contentDetail, customerName, emailTo, sendRegisterId, 0);
 
                                 // Ghi lại nhật ký gửi mail.
                                 logHistoryForSend(sendRegisterId, mailTo, mailFrom, senderName, send);
@@ -503,7 +521,7 @@ namespace BatchSendMail
                             //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(accountId, groupId);
                             // Send normal.
                             send = sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
-                                subject, body, recipient.Name, recipient.MailTo, sendRegisterId,0);
+                                subject, body, recipient.Name, recipient.MailTo, sendRegisterId, 0);
                             logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
                             // Write log for history send
                             logHistoryForSend(sendRegisterId, recipient.MailTo, mailFrom, recipient.Name, send);
@@ -662,6 +680,11 @@ namespace BatchSendMail
         private void check_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //lblInfo.Text = e.UserState + "";
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (auto_worker.IsBusy || event_worker.IsBusy) e.Cancel = true;
         }
     }
 }

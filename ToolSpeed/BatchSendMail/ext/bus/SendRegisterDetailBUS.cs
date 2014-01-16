@@ -8,7 +8,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for SendRegisterDetailBUS
 /// </summary>
-public class SendRegisterDetailBUS: ISendRegisterDetail
+public class SendRegisterDetailBUS : ISendRegisterDetail
 {
     public SendRegisterDetailBUS() { }
     SendRegisterDetailDAO srdDao = new SendRegisterDetailDAO();
@@ -16,7 +16,7 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
 
     public int tblSendRegisterDetail_insert(SendRegisterDetailDTO dt)
     {
-      return  srdDao.tblSendRegisterDetail_insert(dt);
+        return srdDao.tblSendRegisterDetail_insert(dt);
     }
     public int tblSendEventDetail_insert(SendEventDetailDTO dt)
     {
@@ -26,6 +26,10 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
     public void tblSendRegisterDetail_Delete(int SendRegisterId)
     {
         srdDao.tblSendRegisterDetail_Delete(SendRegisterId);
+    }
+    public void logsErrorEmail(string email, string Exception)
+    {
+        srdDao.logsErrorEmail(email, Exception);
     }
 
     public DataTable GetAll()
@@ -60,7 +64,7 @@ public class SendRegisterDetailBUS: ISendRegisterDetail
 
     public DataTable GetBySendIdAndLimit(int SendRegisterId, int limit, string EmailSend)
     {
-      return  srdDao.GetBySendIdAndLimit(SendRegisterId, limit, EmailSend);
+        return srdDao.GetBySendIdAndLimit(SendRegisterId, limit, EmailSend);
     }
 
     public DataTable GetByStatus(bool status, string EmailSend)

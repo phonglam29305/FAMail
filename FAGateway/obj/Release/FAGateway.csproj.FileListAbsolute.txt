@@ -5,3 +5,7 @@ D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.Properties.Resources.resou
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.csproj.GenerateResource.Cache
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.exe
 D:\Working\web\FAMail\FAGateway\obj\Release\FAGateway.pdb
+D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.exe.config
+D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.exe
+D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.pdb
+D:\Working\web\FAMail\FAGateway\bin\Release\AWSSDK.dll
