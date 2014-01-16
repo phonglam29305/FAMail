@@ -2,9 +2,9 @@
 <%@ Register Assembly="MSCaptcha" Namespace="MSCaptcha" TagPrefix="cc1" %>
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
+
     <title></title>
     <link href="../css/cssform.css" rel="stylesheet" />
     <style>
@@ -269,7 +269,10 @@
                 </div>
                 <div class="clear"></div>
                 <div class="rows">
-                    <div class="leftcontent"></div>
+                    <div class="leftcontent">
+                        <asp:TextBox ID="txtmail" runat="server" Visible="False">phancaohuan456@gmail.com</asp:TextBox>
+                        <asp:Label ID="lbthoigian" runat="server" Text="Label" Visible="False"></asp:Label>
+                    </div>
                     <div class="rightcontent">
                         <div style="margin-left:35px;"><asp:Button ID="btnRegis" runat="server" Text="Đăng ký" OnClick="btnRegis_Click" /></div>
                     </div>

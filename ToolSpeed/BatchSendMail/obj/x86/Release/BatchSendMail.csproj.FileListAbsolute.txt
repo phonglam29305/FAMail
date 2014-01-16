@@ -56,7 +56,7 @@ D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Release\AWSSDK.dll
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Release\irisskin.dll
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Release\log4net.dll
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\bin\Release\log4net.xml
-D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Release\BatchSendMail.csprojResolveAssemblyReference.cache
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Release\BatchSendMail.frmMain.resources
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Release\BatchSendMail.Properties.Resources.resources
 D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Release\BatchSendMail.csproj.GenerateResource.Cache
+D:\Working\web\FAMail\ToolSpeed\BatchSendMail\obj\x86\Release\BatchSendMail.csprojResolveAssemblyReference.cache

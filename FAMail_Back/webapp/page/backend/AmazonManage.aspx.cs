@@ -205,30 +205,9 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                 vDto.userId = getUserLogin().UserId;
                 if (vBus.GetByEmail(vDto.EmailVerify).Rows.Count > 0)
                 {
-                    pnSuccess.Visible =true;
-                    pnError.Visible =false;
-
-                    lblSuccess.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống. Chúng tôi gởi một Email vào tài khoản "+txtEmailVerify.Text+" .Bạn vui lòng mở Email để kích hoạt sử dụng ";
-                    //SmtpClient SmtpServer = new SmtpClient();
-                    //SmtpServer.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
-                    //SmtpServer.Port = 25;
-                    //SmtpServer.Host = "email-smtp.us-east-1.amazonaws.com";
-                    //SmtpServer.EnableSsl = true;
-                    //MailMessage mail = new MailMessage();
-                    //String[] addr = txtEmailVerify.Text.Split(' ');
-                    //mail.From = new MailAddress("customersevices@fastautomaticmail.com",
-                    //" Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
-                    //Byte i;
-                    //for (i = 0; i < addr.Length; i++)
-                    //    mail.To.Add(addr[i]);
-                    //mail.Subject = "Thư xác nhận";
-                    //mail.IsBodyHtml = true;
-                    //string lnk = "http://emailmarketing.1onlinebusinesssystem.com/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
-                    //mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td>" + HttpUtility.HtmlEncode(lnk) + " </td></tr></table></body>  ";
-                    //mail.Body += "</html>";
-                    //mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-                    //mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
-                    //SmtpServer.Send(mail);
+                    pnSuccessverify.Visible = true;
+                    pnError.Visible = false;
+                    lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";                  
                     return;
                 }
                 else
@@ -269,14 +248,9 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             }
             else
             {
-                //pnSuccess.Visible = false;
-                //pnError.Visible = true;
-                //lblError.Text = "Lỗi trong quá trình verify";
-
-                pnSuccess.Visible =true;
-                pnError.Visible =false;
-                lblSuccess.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";               
-                return;
+                pnSuccessverify.Visible = true;
+                pnError.Visible = false;
+                lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";                  
             }
         }
         else
@@ -341,30 +315,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
     protected void lbtContentDelete_Click(object sender, EventArgs e)
     {
         try
-        {
-            // Load amazone config.
-            //getConfigAmazone();
-
-            //VerifyBUS vBus = new VerifyBUS();
-            //string email = ((LinkButton)sender).CommandArgument.ToString();
-            //veriryEmail = new VerifyEmail(accessKey, secretKey);
-            //bool status = veriryEmail.DeleteEmailAddress(email);
-            //if (status == true)
-            //{
-            //    // Xoa trong db.
-            //    vBus.tblVerify_Delete(email);
-            //    string pass = password;
-            //    // Xóa trong mail Config
-            //    MailConfigBUS mcConfig = new MailConfigBUS();
-            //    DataTable mailconfig = mcConfig.GetByEmailAndPass(email, pass);
-            //    if (mailconfig.Rows.Count > 0)
-            //    {
-            //        int id = int.Parse(mailconfig.Rows[0]["Id"].ToString());
-            //        mcConfig.tblMailConfig_Delete(id);
-            //    }
-
-
-
+        {           
                     int Isdelete = 1;
                 VerifyBUS vbs=new VerifyBUS();
                 string email = ((LinkButton)sender).CommandArgument.ToString();     
@@ -387,10 +338,6 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                 cmd.Parameters.Add("@Isdelete", SqlDbType.Bit).Value = Isdelete;
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
-     
-      
-
-
                 pnError.Visible = false;
                 lblSuccess.Text = "Bạn đã xóa thành công email: " + email;
                 pnSuccess.Visible = true;
@@ -424,11 +371,12 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             mail.To.Add(addr[i]);
         mail.Subject = "Thư xác nhận";
         mail.IsBodyHtml = true;
-        string lnk = "http://emailmarketing.1onlinebusinesssystem.com/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
+        string lnk = "http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
         mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td>" + HttpUtility.HtmlEncode(lnk) + " </td></tr></table></body>  ";
         mail.Body += "</html>";
         mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
         mail.ReplyTo = new MailAddress(txtEmailVerify.Text);
         SmtpServer.Send(mail);
+        LoadVerifyList();
     }
 }

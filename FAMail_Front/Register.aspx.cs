@@ -22,6 +22,7 @@ public partial class Register : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadData();
+            lbthoigian.Text = DateTime.Now.ToString("dd/MM/yyyy:hh:mm:ss");
         }
     }
     private void LoadData()
@@ -123,6 +124,7 @@ public partial class Register : System.Web.UI.Page
         string mess = check();
         if (mess == "")
         {
+        
             clientdto cliendto = getclient();
             ConnectionData.OpenMyConnection();
             clientRegisterdto clientRegister = new clientRegisterdto();
@@ -176,7 +178,30 @@ public partial class Register : System.Web.UI.Page
                 mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
                 mail.ReplyTo = new MailAddress(txtEmail.Text);
                 SmtpServer.Send(mail);
-                Response.Redirect("success.aspx?id=" + idpackage);
+
+
+                SmtpClient SmtpServer1 = new SmtpClient();
+                SmtpServer1.Credentials = new System.Net.NetworkCredential("AKIAIGXHHO72FHXGCPFQ", "Ara8HV/kcfjNU+rqrTpJBAAjs/OsD1xEykLsuguqpe1Z");
+                SmtpServer1.Port = 25;
+                SmtpServer1.Host = "email-smtp.us-east-1.amazonaws.com";
+                SmtpServer1.EnableSsl = true;
+                MailMessage mail1 = new MailMessage();
+                String[] addr1 = txtmail.Text.Split(' ');
+                //mail.From = new MailAddress("customersevices@fastautomaticmail.com",
+                //" Hệ Thống FA MAIL  ", System.Text.Encoding.UTF8);
+                mail1.From = new MailAddress(ConfigurationManager.AppSettings["SystemOutEmail"].ToString(), "Hệ Thống FA MAIL ", System.Text.Encoding.UTF8);
+                Byte a;
+                for (a = 0; a < addr1.Length; a++)
+                    mail1.To.Add(addr1[a]);
+                
+                mail1.Subject = "Thong tin khachs hang dang ky";
+                mail1.IsBodyHtml = true;
+                mail1.Body += "<html>  <body><table class='auto-style1'> <tr><td>Chào " + txtUserName.Text + " Thân mến! </td></tr><tr><td>Khách hàng đăng ký thành công gói " + lblTenGoi.Text + " của FA Mail </td></tr><tr><td>Thông tin tài khoản đăng nhập</td></tr><tr><td> Email đăng nhập: '" + txtEmail.Text + "'</td></tr><tr><td>Ngày đăng ký: "+ lbthoigian.Text +"</td></tr><tr> <td> Trân trọng,</td</tr> <tr> <td>Customer services</td</tr><tr><td> Email:suppor@fastautomaticmail.com</td></tr></table></body>  ";
+                mail1.Body += "</html>";
+                mail1.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                mail1.ReplyTo = new MailAddress(ConfigurationManager.AppSettings["SysteminEmail"].ToString());
+                SmtpServer1.Send(mail1);
+                //Response.Redirect("success.aspx?id=" + idpackage);
             }
         }
         else
