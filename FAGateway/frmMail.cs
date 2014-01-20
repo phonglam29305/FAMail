@@ -59,8 +59,8 @@ Microsoft đã từng nói hãng đã chi tới 2,6 tỉ USD để phát triển
 
             Amazon.SimpleNotificationService.Model.GetEndpointAttributesRequest endpointRequest = new Amazon.SimpleNotificationService.Model.GetEndpointAttributesRequest();
             Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient notifyClient = new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient();
-            string result = notifyClient.GetEndpointAttributes(notify).GetEndpointAttributesResult.ToXML();
-            MessageBox.Show(result);
+            //string result = notifyClient.GetEndpointAttributes(notify).GetEndpointAttributesResult.ToXML();
+            //MessageBox.Show(result);
 
         }
     }

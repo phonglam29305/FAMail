@@ -23,7 +23,7 @@ namespace BatchSendMail
     {
         // Parameter for multi thread send mail.
         static readonly object syncRoot = new object();
-        private readonly static int maxParallelEmails = 196;
+        private  static int maxParallelEmails = 196;
         private readonly static int maxParallelEvent = 1;
 
         string lastSend = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
@@ -82,7 +82,7 @@ namespace BatchSendMail
             lblStatus.Text = "Đang ngưng dịch vụ";
             timer2.Start();
 
-
+           // maxParallelEmails = maxSpeed;
         }
 
         /**
@@ -238,16 +238,21 @@ namespace BatchSendMail
                 try
                 {
                     smtp.Send(mail);
+                    //logs.Error("before: " + DateTime.Now);
+                    //logs.Error("sendCount: " + sendCount);
                     //logs_info.Info(mail.From + "==>" + mail.To);
                     sendCount += 1;
-                    if (sendCount == maxSpeed || lastSend != DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+                    if (sendCount == maxSpeed)
                     {
                         sendCount = 0;
                         DateTime time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                         time = time.AddSeconds(1);
                         TimeSpan t = time - DateTime.Now;
+                        //logs.Error("after: " + time);
                         Thread.Sleep(TimeSpan.FromMilliseconds(t.Milliseconds));
                     }
+                    if (lastSend != DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+                        sendCount = 0;
                     lastSend = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     return true;
                 }
@@ -260,6 +265,7 @@ namespace BatchSendMail
             }
             else return false;
         }
+
         bool validateEmail(string email)
         {
             string pattern = null;
@@ -528,6 +534,18 @@ namespace BatchSendMail
 
                             lock (syncRoot) cnt++;
                         });
+
+                        //foreach (MailToDTO recipient in recipients)
+                        //{
+                        //    bool send = false;
+                        //    //DataTable tblPartSend = psBus.GetByUserIdAndGroupId(accountId, groupId);
+                        //    // Send normal.
+                        //    send = sendMail(send, port, hostName, userSmtp, passSmtp, mailFrom, senderName,
+                        //        subject, body, recipient.Name, recipient.MailTo, sendRegisterId, 0);
+                        //    logs_info.Info("Status: " + send + ", sendRegisterId:" + sendRegisterId + ", MailTo: " + recipient.MailTo + ", mailFrom: " + mailFrom + ", Name: " + recipient.Name);
+                        //    // Write log for history send
+                        //    logHistoryForSend(sendRegisterId, recipient.MailTo, mailFrom, recipient.Name, send);
+                        //}
 
                         // Update status for send mail campaign.
                         sendBUS.tblSendRegister_UpdateStatus(sendRegisterId, 1, DateTime.Now);
