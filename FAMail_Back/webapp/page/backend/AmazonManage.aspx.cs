@@ -33,11 +33,11 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         {
             //LoadVerifyListByUserId();
             LoadVerifyList();
-            
+
         }
     }
- 
-   
+
+
     private void getConfigAmazone()
     {
         accessKey = ConfigurationManager.AppSettings["AccessKey"].ToString();
@@ -68,7 +68,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         {
             username = "AKIAJGQEDHANI2RZVAWQ";
         }
-            
+
     }
 
     private UserLoginDTO getUserLogin()
@@ -95,7 +95,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             getConfigAmazone();
             veriryEmail = new VerifyEmail(accessKey, secretKey);
             List<string> listEmail = new List<string>();
-            try { listEmail =veriryEmail.ListVerifiedEmailAddresses(); }
+            try { listEmail = veriryEmail.ListVerifiedEmailAddresses(); }
             catch (Exception ex)
             {
                 logs.Error(userLogin.Username + "-Verify", ex);
@@ -115,7 +115,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                     row["Status"] = "Chờ xác thực..";
                 }
 
-                string email= EmailItem["EmailVerify"].ToString();                
+                string email = EmailItem["EmailVerify"].ToString();
                 DataTable mailConfig = mcBUS.GetByEmailAndPass(email, password);
                 if (mailConfig.Rows.Count > 0)
                 {
@@ -133,18 +133,18 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(userLogin.Username +"-Verify",ex);
+            logs.Error(userLogin.Username + "-Verify", ex);
         }
-       
+
     }
 
     private void LoadVerifyListByUserId()
     {
         VerifyBUS vBus = new VerifyBUS();
-        DataTable dtVerifyList = vBus.GetByUserId(getUserLogin().UserId);   
+        DataTable dtVerifyList = vBus.GetByUserId(getUserLogin().UserId);
         this.dtlEmail.DataSource = dtVerifyList;
         this.dtlEmail.DataBind();
-        
+
     }
 
     public DataTable CreateListEmail()
@@ -167,7 +167,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         Response.Redirect(Request.Url.AbsolutePath);
     }
 
-    
+
     protected void btnVerify_Click(object sender, EventArgs e)
     {
         VerifyBUS vbs = new VerifyBUS();
@@ -207,7 +207,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                 {
                     pnSuccessverify.Visible = true;
                     pnError.Visible = false;
-                    lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";                  
+                    lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";
                     return;
                 }
                 else
@@ -250,7 +250,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             {
                 pnSuccessverify.Visible = true;
                 pnError.Visible = false;
-                lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";                  
+                lbverify.Text = "Email " + txtEmailVerify.Text + " này đã được verify trong hệ thống.Bạn vui lòng click vào để kích hoạt sử dụng ";
             }
         }
         else
@@ -264,25 +264,25 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
         //catch (Exception)
         //{
         //}
-        
+
     }
 
     private string ValidateNull()
     {
-        string err="";
-        if(txtEmailVerify.Text=="")
+        string err = "";
+        if (txtEmailVerify.Text == "")
         {
-            err="Bạn chưa nhập email!";
+            err = "Bạn chưa nhập email!";
             return err;
         }
-        else if(IsValidMail(txtEmailVerify.Text)== false)
+        else if (IsValidMail(txtEmailVerify.Text) == false)
         {
-            err="Bạn nhập không đúng định dạng Email!";
+            err = "Bạn nhập không đúng định dạng Email!";
             return err;
         }
-        else if(txtNameConfig.Text=="")
+        else if (txtNameConfig.Text == "")
         {
-            err="Bạn chưa nhập tên cấu hình";
+            err = "Bạn chưa nhập tên cấu hình";
             return err;
         }
         return err;
@@ -297,7 +297,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             {
                 return false;
             }
-        }       
+        }
         return true;
     }
     public bool IsValidMail(string emailaddress)
@@ -315,16 +315,16 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
     protected void lbtContentDelete_Click(object sender, EventArgs e)
     {
         try
-        {           
-                    int Isdelete = 1;
-                VerifyBUS vbs=new VerifyBUS();
-                string email = ((LinkButton)sender).CommandArgument.ToString();     
-                DataTable da = vbs.GetByEmail(email);
-                if (da.Rows.Count > 0)
-                {
-                    lbuser.Text = da.Rows[0]["EmailVerify"].ToString();
-                }
-           
+        {
+            int Isdelete = 1;
+            VerifyBUS vbs = new VerifyBUS();
+            string email = ((LinkButton)sender).CommandArgument.ToString();
+            DataTable da = vbs.GetByEmail(email);
+            if (da.Rows.Count > 0)
+            {
+                lbuser.Text = da.Rows[0]["EmailVerify"].ToString();
+            }
+
             if (bool.Parse(da.Rows[0]["isdelete"].ToString()) == false)
             {
                 if (ConnectionData._MyConnection.State == ConnectionState.Closed)
@@ -332,9 +332,9 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
                     ConnectionData._MyConnection.Open();
                 }
 
-                string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify='"+lbuser.Text+"' ";
+                string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify='" + lbuser.Text + "' ";
                 SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
-                cmd.CommandType = CommandType.Text;      
+                cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Add("@Isdelete", SqlDbType.Bit).Value = Isdelete;
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -371,7 +371,7 @@ public partial class webapp_page_backend_AmazonManage : System.Web.UI.Page
             mail.To.Add(addr[i]);
         mail.Subject = "Thư xác nhận";
         mail.IsBodyHtml = true;
-        string lnk = "http://localhost:40025/FAMail_Back/VerifyEmail.aspx?email=" + txtEmailVerify.Text;
+        string lnk = "http://emailmarketing.1onlinebusinesssystem.com/VerifyEmail.aspx?userid=" + userLogin.UserId + "&email=" + txtEmailVerify.Text;
         mail.Body += "<html>  <body><table class='auto-style1'> <tr><td>Click vào link bên dưới để kích hoạt sử dụng </td></tr><tr><td>" + HttpUtility.HtmlEncode(lnk) + " </td></tr></table></body>  ";
         mail.Body += "</html>";
         mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;

@@ -45,7 +45,7 @@ public class VerifyDAO
     public void updateveryfy(string EmailVerify, bool Isdelete)
     {
 
-        string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify=@EmailVerify ";
+        string sql = "update tblVerify set Isdelete=@Isdelete where EmailVerify=@EmailVerify";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Isdelete", SqlDbType.Bit).Value = Isdelete;
