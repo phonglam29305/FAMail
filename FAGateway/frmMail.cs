@@ -25,14 +25,16 @@ namespace FAGateway
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient mailClient = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient(System.Configuration.ConfigurationManager.AppSettings["AccessKey"], System.Configuration.ConfigurationManager.AppSettings["SecrectKey"]);
+            string AccessKey= System.Configuration.ConfigurationManager.AppSettings["AccessKey"];
+            string SecrectKey = System.Configuration.ConfigurationManager.AppSettings["SecrectKey"];
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient mailClient = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient(AccessKey,SecrectKey);
             //var obj = mailClient.GetSendQuota();
             SendEmailRequest request = new SendEmailRequest();
             List<string> toaddress = new List<string>();
-            toaddress.Add("phonglam29305@gmail.com");
+            toaddress.Add("phonglam29305xxxxx@gmail.com");
             Destination des = new Destination(toaddress);
             request.Destination = des;
-            request.Source = "phonglam29305@yahoo.com";
+            request.Source = "phonglam29305@gmail.com";
             Amazon.SimpleEmail.Model.Message mes = new Amazon.SimpleEmail.Model.Message();
             mes.Body = new Body(new Content( @"Hiện tại, Windows Phone mới hỗ trợ đến màn hình full HD, do đó để tương thích với màn hình 2K, hệ điều hành chắc chắn phải có bản cập nhật mới. Mặt khác, vi xử lý Snapdragon 805 của Qualcomm được biết sẽ phát hành đại trà vào nửa sau năm nay, nên thời điểm xuất hiện Lumia 1820 dùng vi xử lý này tại MWC 2014 vào tháng Hai sẽ là dấu hỏi lớn.
  
@@ -43,7 +45,7 @@ Microsoft đã từng nói hãng đã chi tới 2,6 tỉ USD để phát triển
 
             SendEmailResponse response = mailClient.SendEmail(request);
             var messageId = response.SendEmailResult.MessageId;
-            GetIdentityNotificationAttributesRequest notifyRequest = new GetIdentityNotificationAttributesRequest();
+            /*GetIdentityNotificationAttributesRequest notifyRequest = new GetIdentityNotificationAttributesRequest();
             List<string> iden = new List<string>();
             iden.Add("phonglam29305@gmail.com"); //iden.Add(response.ResponseMetadata.RequestId);
             notifyRequest.Identities = iden;
@@ -61,7 +63,12 @@ Microsoft đã từng nói hãng đã chi tới 2,6 tỉ USD để phát triển
             Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient notifyClient = new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient();
             //string result = notifyClient.GetEndpointAttributes(notify).GetEndpointAttributesResult.ToXML();
             //MessageBox.Show(result);
-
+            */
+            Amazon.SQS.AmazonSQSClient client = new Amazon.SQS.AmazonSQSClient(AccessKey, SecrectKey);
+            Amazon.SQS.Model.ReceiveMessageRequest SQSrequest = new Amazon.SQS.Model.ReceiveMessageRequest();
+            SQSrequest.MaxNumberOfMessages = 10;
+            SQSrequest.QueueUrl = "https://sqs.us-east-1.amazonaws.com/063719400628/bounce-queue";
+            AmazonQueues.ProcessQueuedBounce(client.ReceiveMessage(SQSrequest));
         }
     }
 }

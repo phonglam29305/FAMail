@@ -9,3 +9,5 @@ D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.exe.config
 D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.exe
 D:\Working\web\FAMail\FAGateway\bin\Release\FAGateway.pdb
 D:\Working\web\FAMail\FAGateway\bin\Release\AWSSDK.dll
+D:\Working\web\FAMail\FAGateway\bin\Release\Newtonsoft.Json.dll
+D:\Working\web\FAMail\FAGateway\bin\Release\Newtonsoft.Json.xml
