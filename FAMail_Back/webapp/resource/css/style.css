@@ -651,7 +651,9 @@ div.side-menu {
 				background-color: #f8f9fa;
 			}
 
-div.side-content { width: 83%; /* 100% - 15% for the side menu - 2% for the left margin */ }
+div.side-content { width: 83%;
+    height: 883px;
+}
 
 div.content-module {
 	background: white;
