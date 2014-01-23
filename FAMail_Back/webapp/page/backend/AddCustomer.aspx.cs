@@ -296,6 +296,7 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                         ctDTO.Phone = (lblPhone.Text == null || lblPhone.Text == "") ? "Không có" : lblPhone.Text;
                         ctDTO.Address = (lblAddr.Text == null || lblAddr.Text == "") ? "Không có" : lblAddr.Text;
                         ctDTO.City = "";
+                        ctDTO.Job = "";
                         ctDTO.Company = "";
                         ctDTO.Country = "";
                         ctDTO.Province = "";

@@ -42,10 +42,14 @@ public class VerifyBUS:IVerify
     #region IVerify Members
 
 
-    public DataTable GetByEmail(string EmailVerify)
+    public DataTable GetByEmail(string EmailVerify, int userid)
     {
-        return vDao.GetByEmail(EmailVerify);
+        return vDao.GetByEmail(EmailVerify,userid);
     }
 
+    public DataTable CheckByEmail(string EmailVerify)
+    {
+        return vDao.CheckByEmail(EmailVerify);
+    }
     #endregion
 }

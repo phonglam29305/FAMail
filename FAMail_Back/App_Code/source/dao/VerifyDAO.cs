@@ -76,9 +76,24 @@ public class VerifyDAO
         adapter.Dispose();
         return table;
     }
-    public DataTable GetByEmail(string EmailVerify)
+    public DataTable GetByEmail(string EmailVerify, int userid)
     {
-        string sql = "SELECT * FROM tblVerify WHERE EmailVerify = @EmailVerify";
+        string sql = "SELECT * FROM tblVerify WHERE EmailVerify = @EmailVerify and isDelete=0 and userid=@userid";
+        SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@EmailVerify", SqlDbType.NVarChar).Value = EmailVerify;
+        cmd.Parameters.Add("@userid", SqlDbType.Int).Value = userid;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable CheckByEmail(string EmailVerify)
+    {
+        string sql = "SELECT * FROM tblVerify WHERE EmailVerify = @EmailVerify and userid=@userid";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@EmailVerify", SqlDbType.NVarChar).Value = EmailVerify;
@@ -89,5 +104,4 @@ public class VerifyDAO
         adapter.Dispose();
         return table;
     }
-    
 }

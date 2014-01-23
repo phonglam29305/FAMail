@@ -19,5 +19,5 @@ public interface IVerify
     void tblVerify_Delete(string email);
     DataTable GetAll();
     DataTable GetByUserId(int userId);
-    DataTable GetByEmail(string EmailVerify);
+    DataTable GetByEmail(string EmailVerify, int userid);
 }

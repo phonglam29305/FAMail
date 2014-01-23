@@ -133,13 +133,14 @@ public class MailConfigDAO
         return table;
     }
 
-    public DataTable GetByEmailAndPass(string email,string pass)
+    public DataTable GetByEmailAndPass(string email,string pass, int userid)
     {
-        cmd = new SqlCommand("SELECT * FROM tblMailConfig WHERE Email = @Email AND Password = @Password", 
+        cmd = new SqlCommand("SELECT * FROM tblMailConfig WHERE Email = @Email AND Password = @Password and userid=@userid", 
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
         cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = pass;
+        cmd.Parameters.Add("@userid", SqlDbType.Int).Value = userid;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
         DataTable table = new DataTable();
         adapter.Fill(table);

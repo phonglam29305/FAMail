@@ -46,9 +46,9 @@ public class MailConfigBUS:IMailConfig
         return mcDao.GetByID(Id);
     }
 
-    public DataTable GetByEmailAndPass(string email,string pass)
+    public DataTable GetByEmailAndPass(string email,string pass, int userid)
     {
-        return mcDao.GetByEmailAndPass(email, pass);
+        return mcDao.GetByEmailAndPass(email, pass,userid);
     }
 
 

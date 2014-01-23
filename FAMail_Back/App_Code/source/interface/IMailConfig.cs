@@ -20,7 +20,7 @@ public interface IMailConfig
     void tblMailConfig_Delete(int Id);
     DataTable GetAll();
     DataTable GetByID(int Id);
-    DataTable GetByEmailAndPass(string email,string pass);
+    DataTable GetByEmailAndPass(string email,string pass, int userid);
     DataTable GetAll(int DepartmentID);
     DataTable GetByUserId(int UserId);
 }
