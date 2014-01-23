@@ -41,7 +41,7 @@
 							    <p>
 								    <label for="full-width-input">PasswordSMTP</label>
 								     <asp:TextBox ID="txtpasssmtp"  CssClass="round default-width-input" 
-                                        runat="server"></asp:TextBox>
+                                        runat="server" TextMode="Password"></asp:TextBox>
 								    								
 							    </p>
 
@@ -60,7 +60,7 @@
 				            <p>
 							    <label for="simple-input">Mật khẩu</label>								
                                 <asp:TextBox ID="txtpassword" CssClass="round default-width-input" 
-                                    runat="server"></asp:TextBox>
+                                    runat="server" TextMode="Password"></asp:TextBox>
                                
 						    </p>						
 							
@@ -106,68 +106,67 @@
 		<!--end content 01-->
 	  </div>
 	    <div class="content-module">
-				<div class="content-module-heading cf">				
-				    <h3 class="fl">Danh sách cấu hình</h3>
+				<div class="full-width-editor">
+				        <div class="content-module-heading cf">				
+				    <h3 class="fl">Danh sách mail </h3>
 				    <span class="fr expand-collapse-text">Thu vào</span>
 				    <span class="fr expand-collapse-text initial-expand">Mở ra</span>			
 			    </div> <!-- end content-module-heading -->	
-			    <div class="content-module-main" style="display:none">
-				   <table>	                
-				    <asp:DataList ID="dlMailConfig" runat="server" 
-                         RepeatColumns="1"  Width="100%">  
-                         <HeaderTemplate>
-                               <thead>            					
-		                            <tr>
-			                            <th style="width:300px; text-align:left; padding-left: 10px;">Email Name</th>
-			                            <th>Email</th>
-			                            <th>Host Name</th>
-			                            <th>Port</th>			                            
-			                            <th>Option</th>
-		                            </tr>            						
-	                            </thead>
-                         </HeaderTemplate>                      
-                         <ItemTemplate>                                      						
-						            <tbody>
-							            <tr>
-								            <td style="text-align:left; padding-left: 10px;">								            
-                                                <asp:Label ID="EmailName" runat="server" Text='<%# Eval("Name") %>' ></asp:Label>
-								            </td>
-                                            <td>								            
-                                                <asp:Label ID="Email" runat="server" Text='<%# Eval("Email") %>'></asp:Label>
-								            </td>
-								            
-								            <td>
-								                <asp:Label ID="HostName" runat="server" Text='<%# Eval("Server") %>'></asp:Label>
-								            </td>
-								            <td>
-								                <asp:Label ID="Port" runat="server" Text='<%# Eval("Port") %>'></asp:Label>
-								            </td>
-								            <td>
-								           
-								        	        <asp:ImageButton ID="btnDelete" runat="server" 
-                                                  ImageUrl="~/webapp/resource/images/Delete-icon.png" 
-                                                CommandArgument='<%# Eval("Id") %>' 
-                                                        OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa cấu hình này không ?')" 
-                                                            />
-								            </td>
-								            
-							            </tr>             						
-						            </tbody>            						
-					            
-                             
-                         </ItemTemplate>
-                         <FooterTemplate>
-                            <tfoot>
-					            <tr>
-						            <td colspan="5" class="table-footer">
-						            </td>
-    								
-					            </tr>
-				            </tfoot>                     
-                         </FooterTemplate>
-                     </asp:DataList>
-                   </table>
+				   <%--<table>	                --%>
+				  <%--  <table>--%>
+                                    <asp:DataList ID="dtsmtpaccount" runat="server" RepeatColumns="1" Width="100%">
+                                        <HeaderTemplate>
+                                            <thead>
+                                                <tr>
+                                                    
+                                                    <th>  Email </th>
+                                                    <th>  Giới hạn gởi mail/s  </th>                                           
+                                                     <th> Điều chỉnh </th>
+                                                </tr>
+                                            </thead>
+                                        </HeaderTemplate>
+                                        <FooterTemplate>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5" class="table-footer">
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </FooterTemplate>
+                                        <ItemTemplate>
+                                          <tbody>
+                                    <tr>
+                                      
+                                        <td style="text-align: left; padding-left: 10px;">
+                                            <asp:Label ID="lblmail" runat="server" Text='<%# Eval("email") %>' ></asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblgioihang" runat="server" Text='<%# Eval("limit") %>'></asp:Label>
+                                        </td>
+                                        
+                                       
+                                      
+                                      
+                                          <td>
+                                             
+                                              <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/webapp/resource/images/edit-validated-icon.png"
+                                              CommandArgument='<%# Eval("Id") %>' OnClick="btnEdit_Click" />
+                                                <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/webapp/resource/images/Delete-icon.png"
+                                                    CommandArgument='<%# Eval("id") %>'
+                                                     OnClientClick="return confirmDelete('Bạn có chắc rằng sẽ xóa thuộc tính này không ?')" OnClick="btnDelete_Click" 
+                                                     /> 
+                                                 
+                                                 
+                                        </td>
+                                    </tr>
+                                </tbody>        
+                                        </ItemTemplate>
+                                    </asp:DataList>
+                              <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SendMailVersion3;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT [functionId], [functionName], [cost], [description], [isDefault] FROM [tblFunction] ORDER BY [functionId], [functionId], [functionId]"></asp:SqlDataSource>--%>
+                                </table>
+                  
 				  </div>
+			    
 				
 			</div>
 </div>
