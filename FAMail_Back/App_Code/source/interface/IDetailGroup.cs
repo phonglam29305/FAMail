@@ -22,6 +22,7 @@ public interface IDetailGroup
     DataTable GetAll();
     DataTable GetByID(int GroupID, int CustomerID);
     DataTable GetByID(int GroupID);
+    object GetCountByGroupID(int GroupID);
     void tblDetailGroup_DeleteByCustomerID(int CustomerID);
     void tblDetailGroup_DeleteByGroup(int GroupID);
 }

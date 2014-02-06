@@ -125,6 +125,8 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             SendContentBUS scBus = new SendContentBUS();
             if (dataTable.Rows.Count > -1)
             {
+                dataTable.DefaultView.Sort="hoursend";;
+                dataTable = dataTable.DefaultView.ToTable();
                 dlContentSendEvent.DataSource = dataTable;
                 dlContentSendEvent.DataBind();
                 for (int i = 0; i < dataTable.Rows.Count; i++)
@@ -653,13 +655,17 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
         try
         {
             PanelHourError.Visible = false;
+
+            int hour = int.Parse(txtHour.Text);
             DataTable dtContent = (DataTable)Session["listContentSendEvent"];
+
+            if (dtContent.Select("hoursend=" + hour).Length != 0) { PanelHourError.Visible = true; lblHourError.Text = "Trùng giá trị giờ!"; return; }
+
             int contentId = int.Parse(drlContent.SelectedValue);
             string contentSubject = drlContent.SelectedItem.ToString();
             string subject = this.txtSubject.Text;
             string body = this.txtBody.Text;
 
-            int hour = int.Parse(txtHour.Text);
             DataRow row = dtContent.NewRow();
             row["ContentId"] = contentId;
             row["HourSend"] = hour;

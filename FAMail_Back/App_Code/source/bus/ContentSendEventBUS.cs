@@ -40,6 +40,10 @@ public class ContentSendEventBUS : IContentSendEvent
     {
         return cseDao.GetByEventId(eventId);
     }
+    public System.Data.DataTable GetReportByEventId(int eventId)
+    {
+        return cseDao.GetReportByEventId(eventId);
+    }
 
     #endregion
 }

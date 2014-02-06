@@ -343,9 +343,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
                             int numbermail = int.Parse(dtEmail.Rows[0]["numberMail"].ToString());
                             if (statusclient == 2 || expireDay < today)
                             {
-                                lblError.Text = "Không cho phép tạo Email.Liên hệ quản trị!";
+                                lblError.Text = "Thời gian đăng ký của bạn đã hết hạn, Vui lòng liên hệ quản trị hoặc vào thông tin tài khoản để gia hạn thêm!";
                                 pnSuccess.Visible = false;
                                 pnError.Visible = true;
+                                break;
                             }
                             else
                             {
@@ -387,12 +388,15 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 
                 }
             }
-            Visible(false);
-            pnSuccess.Visible = true;
-            lblSuccess.Text = "- Bạn đã thêm thành công " + count + " khách hàng vào nhóm: " + drlMailGroup.SelectedItem.ToString() + " </br> - Trùng :" + err.ToString() + " khách hàng.";
+            if (count != 0 || err != 0)
+            {
+                Visible(false);
+                pnSuccess.Visible = true;
+                lblSuccess.Text = "- Bạn đã thêm thành công " + count + " khách hàng vào nhóm: " + drlMailGroup.SelectedItem.ToString() + " </br> - Trùng :" + err.ToString() + " khách hàng.";
 
-            // Update limit send and create customer.
-            updateLimitSendAndCreate(count, 0);
+                // Update limit send and create customer.
+                updateLimitSendAndCreate(count, 0);
+            }
         }
         catch (Exception ex)
         {
@@ -585,9 +589,10 @@ public partial class webapp_page_backend_AddCustomer : System.Web.UI.Page
 
                     if (statusclient == 2 || expireDay < today)
                     {
-                        lblError.Text = "Không cho phép tạo Email.Liên hệ quản trị!";
+                        lblError.Text = "Thời gian đăng ký của bạn đã hết hạn, Vui lòng liên hệ quản trị hoặc vào thông tin tài khoản để gia hạn thêm!";
                         pnSuccess.Visible = false;
                         pnError.Visible = true;
+                        return;
                     }
                     else
                     {

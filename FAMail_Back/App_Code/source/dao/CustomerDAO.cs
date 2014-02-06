@@ -378,7 +378,7 @@ public class CustomerDAO
 
     public DataTable GetEmailByUser(int UserId, string email)
     {
-        SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE ID != @UserId AND Email = @email", ConnectionData._MyConnection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM tblCustomer WHERE ID != @UserId AND Email = @email and isDelete <> 1", ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
         cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Trim();

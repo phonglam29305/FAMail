@@ -120,6 +120,20 @@ public class DetailGroupDAO
         adapter.Dispose();
         return table;
     }
+    public object GetCountByGroupID(int GroupID)
+    {
+        string sql = "SELECT count(*) FROM tblDetailGroup g inner join tblCustomer c on c.id = g.customerid WHERE GroupID = @GroupID and recivedEmail='true'  and [isDelete]<>1 ";
+        cmd = new SqlCommand(sql, ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@GroupID", SqlDbType.Int).Value = GroupID;
+        
+        if (ConnectionData._MyConnection.State == ConnectionState.Closed)
+        {
+            ConnectionData._MyConnection.Open();
+        }
+        object obj = cmd.ExecuteScalar();
+        return obj;
+    }
     public void tblDetailGroup_DeleteByGroup(int GroupID)
     {
         string sql = "DELETE FROM tblDetailGroup WHERE GroupID = @GroupID";

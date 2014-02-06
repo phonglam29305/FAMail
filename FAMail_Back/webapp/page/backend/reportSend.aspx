@@ -167,16 +167,16 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="width: 50px;">
-                                                        <asp:Label ID="lblNo" runat="server" Text=""></asp:Label>
+                                                        <asp:Label ID="lblNo" runat="server" Text='<%#Eval("STT") %>'></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblEmail" runat="server" Text=""></asp:Label>
+                                                        <asp:Label ID="lblEmail" runat="server" Text='<%#Eval("Email") %>'></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblStartDate" runat="server" Text=""></asp:Label>
+                                                        <asp:Label ID="lblStartDate" runat="server" Text='<%#Eval("StartDate") %>'></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblOpenDate" runat="server" Text=""></asp:Label>
+                                                        <asp:Label ID="lblOpenDate" runat="server" Text='<%#Eval("DateOpen") %>'></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:ImageButton ID="ibtStatus" runat="server" ImageUrl="~/webapp/resource/images/ok.png" />

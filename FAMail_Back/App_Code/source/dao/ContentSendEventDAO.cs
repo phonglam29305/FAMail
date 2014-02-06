@@ -88,7 +88,21 @@ public class ContentSendEventDAO
     }
     public DataTable GetByEventId(int eventId)
     {
-        SqlCommand cmd = new SqlCommand("SP_Event_ReportById", 
+        SqlCommand cmd = new SqlCommand("select * from tblContentSendEvent where eventid=@eventid", 
+            ConnectionData._MyConnection);
+        cmd.CommandType = CommandType.Text;
+        cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = eventId;
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable table = new DataTable();
+        adapter.Fill(table);
+        cmd.Dispose();
+        adapter.Dispose();
+        return table;
+    }
+
+    public DataTable GetReportByEventId(int eventId)
+    {
+        SqlCommand cmd = new SqlCommand("SP_Event_ReportById",
             ConnectionData._MyConnection);
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@EventId", SqlDbType.Int).Value = eventId;

@@ -21,4 +21,5 @@ public interface IContentSendEvent
     DataTable GetAll();
     DataTable GetById(int id);
     DataTable GetByEventId(int eventId);
+    DataTable GetReportByEventId(int eventId);
 }

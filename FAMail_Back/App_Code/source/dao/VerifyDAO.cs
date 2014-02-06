@@ -93,7 +93,7 @@ public class VerifyDAO
 
     public DataTable CheckByEmail(string EmailVerify)
     {
-        string sql = "SELECT * FROM tblVerify WHERE EmailVerify = @EmailVerify and userid=@userid";
+        string sql = "SELECT * FROM tblVerify WHERE EmailVerify = @EmailVerify";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         cmd.Parameters.Add("@EmailVerify", SqlDbType.NVarChar).Value = EmailVerify;

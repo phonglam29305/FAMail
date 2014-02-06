@@ -376,28 +376,31 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
     {
         try
         {
-            string message = "";// checkLimitSendMail();
-            if (message != "")
+            if (CheckInput())
             {
-                pnError.Visible = true;
-                lblError.Text = message;
-            }
-            else
-            {
-                drlMailGroup_SelectedIndexChanged(sender, e);
-                DateTime timeStart = DateTime.Now.AddMinutes(1);
-                if (txtStartDate.Text.ToString() != "" & this.chkNow.Checked == false)
+                string message = "";// checkLimitSendMail();
+                if (message != "")
                 {
-                    timeStart = convertStringToDate(txtStartDate.Text);
+                    pnError.Visible = true;
+                    lblError.Text = message;
                 }
+                else
+                {
+                    drlMailGroup_SelectedIndexChanged(sender, e);
+                    DateTime timeStart = DateTime.Now.AddMinutes(1);
+                    if (txtStartDate.Text.ToString() != "" & this.chkNow.Checked == false)
+                    {
+                        timeStart = convertStringToDate(txtStartDate.Text);
+                    }
 
-                // Cap nhat thong tin so luong mail da gui cho user.
-                infoUpdate();
+                    // Cap nhat thong tin so luong mail da gui cho user.
+                    infoUpdate();
 
-                //checkAndInsertPartSend();
-                Insert(timeStart, true);
+                    //checkAndInsertPartSend();
+                    Insert(timeStart, true);
 
-                logs.Info(userLogin.Username + " sent " + hdfCountCustomer.Value + " emails");
+                    logs.Info(userLogin.Username + " sent " + hdfCountCustomer.Value + " emails");
+                }
             }
         }
         catch (Exception ex)
@@ -480,8 +483,8 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
                 }
                 else
                 {
-                    tblCustomer = dsgBUS.GetByID(groupID);
-                    numbermail = tblCustomer.Rows.Count;
+                    int.TryParse(dsgBUS.GetCountByGroupID(groupID) + "", out numbermail);
+                    //numbermail = tblCustomer.Rows.Count;
                 }
 
                 //string countCustomer = tblCustomer.Rows.Count.ToString();
@@ -523,11 +526,13 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
         DateTime currentTime = DateTime.Now.AddMinutes(1);
         try
         {
+            if (CheckInput())
+            {
+                // Cap nhat thong tin so luong mail da gui cho user.
+                infoUpdate();
 
-            // Cap nhat thong tin so luong mail da gui cho user.
-            infoUpdate();
-
-            Insert(currentTime, false);
+                Insert(currentTime, false);
+            }
         }
         catch (Exception ex)
         {
@@ -536,6 +541,25 @@ public partial class webapp_page_backend_send_register : System.Web.UI.Page
             logs.Error(userLogin.Username + "-Send_Register-btnSendNow_Click", ex);
         }
 
+    }
+
+    private bool CheckInput()
+    {
+        string message = "";
+        if (txtSubject.Text + "" == "")
+            message = "Vui lòng nhập tiêu đề";
+        if (txtBody.Text + "" == "")
+            message = "Vui lòng nhập nội dung";
+        int emailCount = 0; int.TryParse(hdfCountCustomer.Value + "", out emailCount);
+        if (emailCount <= 0)
+            message = "Không có danh sách mail để gửi!";
+        if (message.Length != 0)
+        {
+            pnError.Visible = true;
+            lblError.Text = message;
+            pnSuccess.Visible = false;
+        }
+        return message.Length == 0;
     }
     private void VisibleAll()
     {

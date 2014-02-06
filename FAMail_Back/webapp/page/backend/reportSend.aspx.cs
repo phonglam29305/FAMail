@@ -138,9 +138,9 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
             int err = errSend.Rows.Count;
             this.lblTotalMailSend.Text = campain.Rows.Count.ToString();
             int notreceve = unreceve.Rows.Count;
+            lblEmailSend.Text = new MailConfigBUS().GetByID(int.Parse(srBUS.GetByID(sendId).Rows[0]["mailconfigid"]+"")).Rows[0]["eMail"].ToString();
             if (campain.Rows.Count > 0)
             {
-                lblEmailSend.Text = campain.Rows[0]["MailSend"].ToString();
                 foreach (DataRow row in campain.Rows)
                 {
                     if (row["isOpenMail"].ToString() == "True")
@@ -150,6 +150,7 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
                 }
                 lblNotOpen2.Text = (campain.Rows.Count - readMail).ToString();
             }
+            lblNotOpen2.Text = "0";
             lblOpened.Text = readMail.ToString();
             DataTable sendregisteDetail = srBUS.GetByID(sendId);
             if (sendregisteDetail.Rows.Count > 0)
@@ -166,7 +167,9 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
                     lblCampianName.Text = sendContentBus.GetByID(contentID).Rows[0]["Subject"].ToString();
                 }
             }
-            CreateChart(campain.Rows.Count, err, readMail, 1, notreceve,lblCampianName.Text);
+            if (campain.Rows.Count > 0)
+                CreateChart(campain.Rows.Count, err, readMail, 1, notreceve, lblCampianName.Text);
+            else lblChart.Text = "";
             LoadOpenEmail(sendId);
         }
         catch (Exception ex)
@@ -181,38 +184,45 @@ public partial class webapp_page_backend_reportSend : System.Web.UI.Page
         srdBus = new SendRegisterDetailBUS();
         DataTable tblSendDetail = new DataTable();
         tblSendDetail = srdBus.GetByOpenMail(RegisterID);
-        if (tblSendDetail.Rows.Count > 0)
-        {
+        //if (tblSendDetail.Rows.Count > 0)
+        //{
+            DataColumn col = new DataColumn("STT", typeof(int));
+            tblSendDetail.Columns.Add(col);
+            
             dlReport.DataSource = tblSendDetail;
             dlReport.DataBind();
             int count = 0;
             for (int i = 0; i < tblSendDetail.Rows.Count; i++)
             {
                 count++;
-                DataRow row = tblSendDetail.Rows[i];
-                Label lblNo = (Label)dlReport.Items[i].FindControl("lblNo");
-                lblNo.Text = count.ToString();
-                Label lblEmail = (Label)dlReport.Items[i].FindControl("lblEmail");
-                lblEmail.Text = row["Email"].ToString();
+                tblSendDetail.Rows[i]["STT"] = i + 1;
+                //DataRow row = tblSendDetail.Rows[i];
+                //Label lblNo = (Label)dlReport.Items[i].FindControl("lblNo");
+                //lblNo.Text = count.ToString();
+                //Label lblEmail = (Label)dlReport.Items[i].FindControl("lblEmail");
+                //lblEmail.Text = row["Email"].ToString();
 
-                Label lblStartDate = (Label)dlReport.Items[i].FindControl("lblStartDate");
-                lblStartDate.Text = row["StartDate"].ToString();
+                //Label lblStartDate = (Label)dlReport.Items[i].FindControl("lblStartDate");
+                //lblStartDate.Text = row["StartDate"].ToString();
 
-                Label lblOpenDate = (Label)dlReport.Items[i].FindControl("lblOpenDate");
-                lblOpenDate.Text = row["DateOpen"].ToString();
+                //Label lblOpenDate = (Label)dlReport.Items[i].FindControl("lblOpenDate");
+                //lblOpenDate.Text = row["DateOpen"].ToString();
 
-                ImageButton ibtStatus = (ImageButton)dlReport.Items[i].FindControl("ibtStatus");
-                bool check = Boolean.Parse(row["isOpenMail"].ToString());
-                if (check == true)
-                {
-                    ibtStatus.ImageUrl = "~/webapp/resource/images/ok.png";
-                }
-                else
-                {
-                    ibtStatus.ImageUrl = "~/webapp/resource/images/warning.png";
-                }
+                //ImageButton ibtStatus = (ImageButton)dlReport.Items[i].FindControl("ibtStatus");
+                //bool check = Boolean.Parse(row["isOpenMail"].ToString());
+                //if (check == true)
+                //{
+                //    ibtStatus.ImageUrl = "~/webapp/resource/images/ok.png";
+                //}
+                //else
+                //{
+                //    ibtStatus.ImageUrl = "~/webapp/resource/images/warning.png";
+                //}
             }
-        }
+
+
+            dlReport.DataSource = tblSendDetail;
+            dlReport.DataBind();
     }
 
     private void CreateChart(int total, int err, int open, int NotOpen, int notRecive, string campainName)

@@ -47,7 +47,10 @@ public class DetailGroupBUS:IDetailGroup
     {
         return dsgDAO.GetByID(GroupID);
     }
-
+    public object GetCountByGroupID(int GroupID)
+    {
+        return dsgDAO.GetCountByGroupID(GroupID);
+    }
     public void tblDetailGroup_Update(DetailGroupDTO dt)
     {
         dsgDAO.tblDetailGroup_Update(dt);
