@@ -659,7 +659,7 @@ public partial class webapp_page_backend_create_event : System.Web.UI.Page
             int hour = int.Parse(txtHour.Text);
             DataTable dtContent = (DataTable)Session["listContentSendEvent"];
 
-            if (dtContent.Select("hoursend=" + hour).Length != 0) { PanelHourError.Visible = true; lblHourError.Text = "Trùng giá trị giờ!"; return; }
+            if (hour==0 && dtContent.Select("hoursend=" + hour).Length != 0) { PanelHourError.Visible = true; lblHourError.Text = "Trùng giá trị giờ!"; return; }
 
             int contentId = int.Parse(drlContent.SelectedValue);
             string contentSubject = drlContent.SelectedItem.ToString();
