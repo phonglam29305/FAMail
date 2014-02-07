@@ -69,7 +69,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                     DataRow r = T.NewRow();
                     r["subEmail"] = "[Chọn tài khoản con]";
                     r["subId"] = "-1";
-                    T.Rows.InsertAt(r,0);
+                    T.Rows.InsertAt(r, 0);
                     dropSubClient.DataSource = T;
                     dropSubClient.DataTextField = "subEmail";
                     dropSubClient.DataValueField = "subId";
@@ -108,7 +108,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             {
                 tblGroupMail = mgBUS.GetMailGroupByUserId(getUserLogin().UserId);
             }
-            
+
             dlGroupMail.DataSource = tblGroupMail;
             dlGroupMail.DataBind();
             for (int i = 0; i < tblGroupMail.Rows.Count; i++)
@@ -202,7 +202,7 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 lblError.Text = "Bạn chưa nhập Tên Nhóm Mail !";
                 pnSuccess.Visible = false;
             }
-            
+
         }
         catch (Exception ex)
         {
@@ -290,34 +290,35 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
             InitBUS();
             //if (dgBUS.GetByID(Id).Rows.Count == 0)
             //{
-                dem += CheckEventDate(Id);               
-                if (dem !=0 || hcount!=0)
+            hcount += CheckSendin24h(Id);
+            dem += CheckEventDate(Id);
+            if (dem != 0 || hcount != 0)
+            {
+                if (dem >= 1)
                 {
-                    if (dem >= 1)
-                    {
-                        visibleMessage(true);
-                        pnSuccess.Visible = false;
-                        lblError.Text = "Nhóm mail đang có " + dem + " sự kiện .Xin vui lòng xóa sự kiện trước";
-                    }
-                    else if (hcount >= 1)
-                    {
-                        visibleMessage(true);
-                        pnSuccess.Visible = false;
-                        lblError.Text = "Nhóm mail vừa gửi email đi trong vòng 24 tiếng.Không thể xóa nhóm mail này";
-                    }
+                    visibleMessage(true);
+                    pnSuccess.Visible = false;
+                    lblError.Text = "Nhóm mail đang có " + dem + " sự kiện .Xin vui lòng xóa sự kiện trước";
                 }
-                else
+                else if (hcount >= 1)
                 {
-                    //mgBUS.tblMailGroup_Delete(Id);
-                    //Response.Redirect(Request.RawUrl);
-                    //dgBUS.tblDetailGroup_DeleteByGroup(Id);
-                    UpdateDelete(Id);
-                    UpdateGroupDelele(Id);
-                    LoadGroup();
-                    visibleMessage(false);
-                    pnSuccess.Visible = true;
-                    lblSuccess.Text = "Bạn vừa xóa thành công nhóm mail !";
+                    visibleMessage(true);
+                    pnSuccess.Visible = false;
+                    lblError.Text = "Nhóm mail vừa gửi email đi trong vòng 24 tiếng.Không thể xóa nhóm mail này";
                 }
+            }
+            else
+            {
+                //mgBUS.tblMailGroup_Delete(Id);
+                //Response.Redirect(Request.RawUrl);
+                //dgBUS.tblDetailGroup_DeleteByGroup(Id);
+                UpdateDelete(Id);
+                UpdateGroupDelele(Id);
+                LoadGroup();
+                visibleMessage(false);
+                pnSuccess.Visible = true;
+                lblSuccess.Text = "Bạn vừa xóa thành công nhóm mail !";
+            }
             //}
             //else
             //{
@@ -328,9 +329,9 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            logs.Error(userLogin.Username + "-Client - btnDelete_Click", ex);
-            //pnError.Visible = true;
-            //lblError.Text = ex.Message;
+            logs.Error(userLogin.Username + "-Group-Mail - btnDelete_Click", ex);
+            pnError.Visible = true;
+            lblError.Text = ex.Message;
         }
     }
     protected void visibleMessage(bool vis)
@@ -362,20 +363,20 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 DateTime startDate = Convert.ToDateTime(dr["StartDate"].ToString());
                 DateTime endDate = Convert.ToDateTime(dr["EndDate"].ToString());
                 DateTime today = DateTime.Now;
-                double dayleft = (startDate - today).TotalHours;
-                double dayleft2 = (endDate - today).TotalHours;
+                double dayleft = (today - startDate).TotalHours;
+                double dayleft2 = (today - endDate).TotalHours;
                 if (dayleft >= 24 || dayleft2 >= 24)
                 {
-                    count++;
+                    count += 1;
                 }
             }
         }
         return count;
     }
-    private int  CheckEventDate(int groupId)
+    private int CheckEventDate(int groupId)
     {
-        int count=0;
-        string sql = "SELECT * FROM tblEvent Where groupId='"+groupId+"'";
+        int count = 0;
+        string sql = "SELECT * FROM tblEvent Where groupId='" + groupId + "'";
         SqlCommand cmd = new SqlCommand(sql, ConnectionData._MyConnection);
         cmd.CommandType = CommandType.Text;
         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -389,17 +390,17 @@ public partial class webapp_page_backend_group_mail : System.Web.UI.Page
                 DateTime startDate = Convert.ToDateTime(dr["StartDate"].ToString());
                 DateTime EndDate = Convert.ToDateTime(dr["EndDate"].ToString());
                 DateTime today = DateTime.Now;
-                double dayleft = (startDate - today).TotalHours;
-                double dayleft2 = (EndDate - today).TotalHours;
+                double dayleft = (today - startDate).TotalHours;
+                double dayleft2 = (today - EndDate).TotalHours;
                 if (dayleft >= 24 || dayleft2 >= 24)
                 {
-                    count++;
+                    count += 1;
                 }
             }
         }
         else
         {
-            count=0;
+            count = 0;
         }
         return count;
     }

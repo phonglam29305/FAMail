@@ -58,7 +58,7 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
     void LoadReport(int eventId)
     {
         cseBus = new ContentSendEventBUS();
-        DataTable tblContent = cseBus.GetByEventId(eventId);
+        DataTable tblContent = cseBus.GetReportByEventId(eventId);
         dlContentSendEvent.DataSource = tblContent;
         dlContentSendEvent.DataBind();
 
