@@ -173,10 +173,9 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
 
 
             int eventID = int.Parse(drlNhomMail.SelectedValue.ToString());
-            dtGroup = mailGroupBus.GetMailGroupByEventId(eventID);
-
+            dtGroup = mailGroupBus.GetMailGroupByEventId(eventID);       
             rptGroup.DataSource = dtGroup;
-            rptGroup.DataBind();
+            rptGroup.DataBind();          
             for (int i = 0; i < dtGroup.Rows.Count; i++)
             {
 
@@ -366,5 +365,29 @@ public partial class webapp_page_backend_Mail_Sended : System.Web.UI.Page
     "<tr><td colspan='2'><h2  style='font-size: 15px;font-weight:bolder; vertical-align: middle; text-transform:uppercase; height:35px; text-decoration:underline; padding-top:20px; '>Chiến dịch: " + campainName + "</h2></td></tr>" +
 "</table>";
         lblChart.Text = html;
+    }
+    protected void rptGroup_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+
+    }
+    protected void btnexport_Click(object sender, EventArgs e)
+    {
+        Response.Clear();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", "attachment;filename=EventExport.xls");
+        Response.Charset = "";
+        Response.ContentType = "application/vnd.ms-excel";
+        System.IO.StringWriter sw = new System.IO.StringWriter();
+        System.Web.UI.HtmlTextWriter hw = new HtmlTextWriter(sw);             
+        rptGroup.RenderControl(hw);         
+        Response.Write(hw.ToString());
+        Response.Write(sw.ToString());
+        Response.Flush();
+        Response.End();
+    }
+    public override void
+   VerifyRenderingInServerForm(Control control)
+    {
+        return;
     }
 }

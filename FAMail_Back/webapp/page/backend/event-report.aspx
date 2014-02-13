@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/webapp/template/backend/event.master" AutoEventWireup="true"
-    CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title="FASTAUTOMATICMAIL " ValidateRequest="false" %>
+    CodeFile="event-report.aspx.cs" Inherits="webapp_page_backend_Mail_Sended" Title="FASTAUTOMATICMAIL " ValidateRequest="false" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:Panel Visible="false" ID="pnError" runat="server">
@@ -28,7 +28,7 @@
             </table>
         </asp:Panel>
     </div>
-    <asp:Repeater ID="rptGroup" runat="server">
+    <asp:Repeater ID="rptGroup" runat="server" OnItemCommand="rptGroup_ItemCommand">
         <ItemTemplate>
 
             <div class="side-content fr">
@@ -108,8 +108,12 @@
 
                                 </FooterTemplate>
                             </asp:DataList>
-                        </table>
 
+                           <div style="float:right">
+                               <asp:Button  ID="btnexport" runat="server" Text="Export Excel" CssClass="round blue ic-right-arrow" OnClick="btnexport_Click"/> 
+                        </div>
+                        </table>
+                        
                     </div>
                     <!-- end content-module-main -->
                 </div>
@@ -220,6 +224,6 @@
 
         </ItemTemplate>
     </asp:DataList>
-
+                              
 </asp:Content>
 

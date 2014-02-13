@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/webapp/template/backend/management.master"
     AutoEventWireup="true" CodeFile="customer.aspx.cs" Inherits="webapp_page_backend_Customer"
-    Title="FASTAUTOMATICMAIL" %>
+    Title="FASTAUTOMATICMAIL" EnableEventValidation="false" %>
 
 <%@ Register assembly="CollectionPager" namespace="SiteUtils" tagprefix="cc1" %>
 
@@ -89,7 +89,8 @@
                                     </td>
                                     <td style="padding-left: 30px;">
                                         <asp:Button ID="btnFilter" runat="server" CssClass="button round blue image-right ic-search text-upper"
-                                            OnClick="btnFilter_Click" Text="Lọc dữ liệu" />
+                                            OnClick="btnFilter_Click" Text="Lọc dữ liệu" />                                       
+                                        <asp:Button  ID="btnexport" runat="server" Text="Export Excel" CssClass="round blue ic-right-arrow" OnClick="btnexport_Click"/> 
                                     </td>
                                     <td>
                                     </td>
@@ -169,8 +170,11 @@
                                                  ControlCssClass="hung" BackNextDisplay="HyperLinks" BackText="« Trước" 
                                     LabelText="Trang:" NextText="Sau »" 
                                     ResultsFormat="Hiện thị kết quả {0}-{1} ({2})" ResultsLocation="None">
-                            </cc1:CollectionPager>
+                                
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </cc1:CollectionPager>
+
                         </table>
+                        
                         <%-- </form>--%>
                     </div>
                     <!-- end content-module-main -->

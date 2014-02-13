@@ -12,6 +12,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using Email;
 using log4net;
+using System.IO;
+using System.Text;
 
 public partial class webapp_page_backend_Customer : System.Web.UI.Page
 {
@@ -187,6 +189,11 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
             dlPager.BindToControl = dtlCustomer;
             this.dtlCustomer.DataSource = dlPager.DataSourcePaged;
             this.dtlCustomer.DataBind();
+
+
+
+
+
             //dtlCustomer.DataSource = result;
             //dtlCustomer.DataBind();
         }
@@ -446,5 +453,29 @@ public partial class webapp_page_backend_Customer : System.Web.UI.Page
                 imgEdit.Visible = false;
             }
         }
+    }   
+    public override void 
+   VerifyRenderingInServerForm(Control control)
+    {
+        return;
+    }
+
+
+
+    protected void btnexport_Click(object sender, EventArgs e)
+    {
+
+        Response.Clear();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", "attachment;filename=RepeaterExport.xls");
+        Response.Charset = "";
+        Response.ContentType = "application/vnd.ms-excel";
+        System.IO.StringWriter sw = new System.IO.StringWriter();
+        System.Web.UI.HtmlTextWriter hw = new HtmlTextWriter(sw);
+        dtlCustomer.RenderControl(hw);
+        Response.Write(hw.ToString());
+        Response.Write(sw.ToString());
+        Response.Flush();
+        Response.End(); 
     }
 }
